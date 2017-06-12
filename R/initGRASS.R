@@ -203,6 +203,7 @@ initGRASS <- function(gisBase, home, SG, gisDbase, addon_base, location,
     pfile <- paste(loc_path, "PERMANENT", "DEFAULT_WIND", sep="/")
     if (!file.exists(pfile)) {
         mSG <- !missing(SG)
+        SG <- raster(SG)
         if (mSG) bb <- extent(SG)
 #        if (mSG) gt <- gridparameters(SG)
         cat("proj:       0\n", file=pfile)
