@@ -86,7 +86,10 @@ readVECT <- function(vname, layer, type=NULL, plugin=NULL,
     ogrDGRASS <- execGRASS("v.in.ogr", flags=ifelse(ignore.stderr, c("f",
                            "quiet"), "f"), intern=TRUE,
                            ignore.stderr=ignore.stderr)
-    ogrDGRASSs <- gsub(" ", "_", sapply(strsplit(ogrDGRASS, ": "), "[", 2))
+#    ogrDGRASSs <- gsub(" ", "_", sapply(strsplit(ogrDGRASS, ": "), "[", 2))
+# Markus Metz 2017-10-11
+    ogrDGRASSs <- gsub(" ", "_", trimws(sapply(strsplit(ogrDGRASS,
+      " [(]"), "[", 1)))
     candDrivers <- gsub(" ", "_", sort(intersect(ogrDGRASSs, ogrDw)))
     if (!is.null(driver)) {
         driver <- gsub(" ", "_", driver)
