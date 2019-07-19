@@ -42,6 +42,15 @@ initGRASS <- function(gisBase, home, SG, gisDbase, addon_base, location,
     stopifnot(length(remove_GISRC) == 1)
 
     if (!file.exists(gisBase)) stop(paste(gisBase, "not found"))
+    if (!file.info(gisBase)$isdir[1]) stop(gisBase, " is not a directory")
+    bin_is_dir <- file.info(file.path(gisBase, "bin"))$isdir[1]
+    if (is.na(bin_is_dir)) 
+      stop(gisBase, " does not contain bin, the directory with GRASS programs")
+    if (!bin_is_dir) stop(gisBase, "/bin is not a directory")
+    scripts_is_dir <- file.info(file.path(gisBase, "scripts"))$isdir[1]
+    if (is.na(scripts_is_dir)) 
+      stop(gisBase, " does not contain scripts, the directory with GRASS scripts")
+    if (!scripts_is_dir) stop(gisBase, "/scripts is not a directory")
 
     SYS <- get("SYS", envir=.GRASS_CACHE) 
     if (SYS == "WinNat") {
@@ -54,8 +63,14 @@ initGRASS <- function(gisBase, home, SG, gisDbase, addon_base, location,
                 "/GRASS7/addons", sep="")
         addon_res <- file.exists(addon_base, paste(addon_base, "/bin", sep=""))
         if (any(addon_res)) Sys.setenv("GRASS_ADDON_BASE"=addon_base)
-        Sys.setenv(GRASS_PROJSHARE=paste(Sys.getenv("GISBASE"),
-            "\\proj", sep=""))
+        OSGEO4W_ROOT <- Sys.getenv("OSGEO4W_ROOT")
+        if (nchar(OSGEO4W_ROOT) > 0) {
+            Sys.setenv(GRASS_PROJSHARE=paste(OSGEO4W_ROOT,
+                "\\share\\proj", sep=""))
+        } else {
+            Sys.setenv(GRASS_PROJSHARE=paste(Sys.getenv("GISBASE"),
+                "\\share\\proj", sep=""))
+        }
         Wpath <- Sys.getenv("PATH")
         if (length(grep(basename(Sys.getenv("GISBASE")), Wpath)) < 1) {
             Sys.setenv(PATH=paste(Sys.getenv("GISBASE"), "\\lib;", 
@@ -97,7 +112,13 @@ initGRASS <- function(gisBase, home, SG, gisDbase, addon_base, location,
         Sys.setenv(GISRC=paste(Sys.getenv("HOME"), "\\.grassrc7", sep=""))
         if (file.exists(Sys.getenv("GISRC")) && !override)
             stop("A GISRC file already exists; to override, set override=TRUE")
-        Sys.setenv(GISRC="junk")
+        fn_gisrc <- "junk"
+        if (isTRUE(file.access(".", 2) == 0)) {
+            Sys.setenv(GISRC=fn_gisrc)
+        } else {
+            warning("working directory not writable, using tempfile for GISRC")
+            Sys.setenv(GISRC=paste0(tempfile(), "_", fn_gisrc))
+        }
         cat("GISDBASE:", getwd(), "\n", file=Sys.getenv("GISRC"))
         cat("LOCATION_NAME: <UNKNOWN>", "\n", file=Sys.getenv("GISRC"),
             append=TRUE)
@@ -203,37 +224,36 @@ initGRASS <- function(gisBase, home, SG, gisDbase, addon_base, location,
     pfile <- paste(loc_path, "PERMANENT", "DEFAULT_WIND", sep="/")
     if (!file.exists(pfile)) {
         mSG <- !missing(SG)
-        SG <- raster(SG)
-        if (mSG) bb <- extent(SG)
-#        if (mSG) gt <- gridparameters(SG)
+        if (mSG) bb <- bbox(SG)
+        if (mSG) gt <- gridparameters(SG)
         cat("proj:       0\n", file=pfile)
         cat("zone:       0\n", file=pfile, append=TRUE)
-        cat("north:      ", ifelse(mSG, slot(bb, "ymax"), 1), "\n",
+        cat("north:      ", ifelse(mSG, bb[2, "max"], 1), "\n",
             sep="", file=pfile, append=TRUE)
-        cat("south:      ", ifelse(mSG, slot(bb, "ymin"), 0), "\n",
+        cat("south:      ", ifelse(mSG, bb[2, "min"], 0), "\n",
             sep="", file=pfile, append=TRUE)
-        cat("east:       ", ifelse(mSG, slot(bb, "xmax"), 1), "\n",
+        cat("east:       ", ifelse(mSG, bb[1, "max"], 1), "\n",
             sep="", file=pfile, append=TRUE)
-        cat("west:       ", ifelse(mSG, slot(bb, "xmin"), 0), "\n",
+        cat("west:       ", ifelse(mSG, bb[1, "min"], 0), "\n",
             sep="", file=pfile, append=TRUE)
-        cat("cols:       ", ifelse(mSG, ncol(SG), 1), "\n",
+        cat("cols:       ", ifelse(mSG, gt$cells.dim[1], 1), "\n",
             sep="", file=pfile, append=TRUE)
-        cat("rows:       ", ifelse(mSG, nrow(SG), 1), "\n",
+        cat("rows:       ", ifelse(mSG, gt$cells.dim[2], 1), "\n",
             sep="", file=pfile, append=TRUE)
-        cat("e-w resol:  ", ifelse(mSG, res(SG)[1], 1), "\n",
+        cat("e-w resol:  ", ifelse(mSG, gt$cellsize[1], 1), "\n",
             sep="", file=pfile, append=TRUE)
-        cat("n-s resol:  ", ifelse(mSG, res(SG)[2], 1), "\n",
+        cat("n-s resol:  ", ifelse(mSG, gt$cellsize[2], 1), "\n",
             sep="", file=pfile, append=TRUE)
         cat("top:        1\n", sep="", file=pfile, append=TRUE)
         cat("bottom:     0\n", sep="", file=pfile, append=TRUE)
-        cat("cols3:      ", ifelse(mSG, ncol(SG), 1), "\n",
+        cat("cols3:      ", ifelse(mSG, gt$cells.dim[1], 1), "\n",
             sep="", file=pfile, append=TRUE)
-        cat("rows3:      ", ifelse(mSG, nrow(SG), 1), "\n",
+        cat("rows3:      ", ifelse(mSG, gt$cells.dim[2], 1), "\n",
             sep="", file=pfile, append=TRUE)
         cat("depths:     1\n", sep="", file=pfile, append=TRUE)
-        cat("e-w resol3: ", ifelse(mSG, res(SG)[1], 1), "\n",
+        cat("e-w resol3: ", ifelse(mSG, gt$cellsize[1], 1), "\n",
             sep="", file=pfile, append=TRUE)
-        cat("n-s resol3: ", ifelse(mSG, res(SG)[2], 1), "\n",
+        cat("n-s resol3: ", ifelse(mSG, gt$cellsize[2], 1), "\n",
             sep="", file=pfile, append=TRUE)
         cat("t-b resol:  1\n", sep="", file=pfile, append=TRUE)
     }

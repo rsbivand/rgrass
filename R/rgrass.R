@@ -72,13 +72,11 @@ print.gmeta <- function(x, ...) {
 
 gmeta2grd <- function(ignore.stderr = FALSE) {
 	G <- gmeta(ignore.stderr=ignore.stderr)
-#	cellcentre.offset <- c(G$w+(G$ewres/2), G$s+(G$nsres/2))
-#	cellsize <- c(G$ewres, G$nsres)
-#	cells.dim <- c(G$cols, G$rows)
-#	grd <- GridTopology(cellcentre.offset=cellcentre.offset, 
-#		cellsize=cellsize, cells.dim=cells.dim)
-        grd <- raster(ncols=G$cols, nrows=G$rows, xmn=G$w, xmx=G$e,
-            ymn=G$s, ymx=G$n, crs=G$proj)
+	cellcentre.offset <- c(G$w+(G$ewres/2), G$s+(G$nsres/2))
+	cellsize <- c(G$ewres, G$nsres)
+	cells.dim <- c(G$cols, G$rows)
+	grd <- GridTopology(cellcentre.offset=cellcentre.offset, 
+		cellsize=cellsize, cells.dim=cells.dim)
 	grd
 }
 

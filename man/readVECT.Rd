@@ -13,7 +13,8 @@
   \code{readVECT} moves one GRASS 7 vector object file with attribute data through a temporary shapefile to a Spatial*DataFrame object of type determined by the GRASS 7 vector object; \code{writeVECT} moves a Spatial*DataFrame object through a temporary shapefile to a GRASS vector object file. \code{vect2neigh} returns neighbour pairs with shared boundary length as described by Markus Neteler, in \url{https://stat.ethz.ch/pipermail/r-sig-geo/2005-October/000616.html}. \code{cygwin_clean_temp} can be called to try to clean the GRASS mapset-specific temporary directory under cygwin.
 }
 \usage{
-readVECT(vname, layer, type=NULL, plugin=NULL, ignore.stderr=NULL,
+readVECT(vname, layer, type=NULL, plugin=NULL,
+ remove.duplicates = TRUE, ignore.stderr=NULL,
  with_prj=TRUE, with_c=FALSE, mapset=NULL,
  pointDropZ=FALSE, driver=NULL)
 writeVECT(SDF, vname,  v.in.ogr_flags=NULL,
@@ -31,6 +32,7 @@ vect2neigh(vname, ID=NULL, ignore.stderr = NULL, remove=TRUE, vname2=NULL,
   \item{layer}{a layer name (string); if missing set to default of \dQuote{1}}
   \item{type}{override type detection when multiple types are non-zero, passed to v.out.ogr}
   \item{plugin}{default NULL if which case it will be set to the value set by \code{set.pluginOption}; NULL for auto-detection, may be set to FALSE to avoid or TRUE if the plugin is known to be available; if the plugin is used, no further arguments other than mapset are respected}
+  \item{remove.duplicates}{In line and area vector objects, multiple geometrical features may be associated with a single cat number, leading to duplication of data rows; this argument attempts to combine the geometrical features so that they match a single data row}
   \item{ignore.stderr}{default the value set by
     \code{set.ignore.stderrOption}; NULL, taking the value set by \code{set.ignore.stderrOption}, can be set to TRUE to silence \code{system()} output to standard error; does not apply on Windows platforms}
   \item{with_prj}{default TRUE, write ESRI-style PRJ file for transfered data}
@@ -65,33 +67,33 @@ if (nchar(Sys.getenv("GISRC")) > 0 &&
   read.dcf(Sys.getenv("GISRC"))[1,"LOCATION_NAME"] == "nc_basic_spm_grass7") {
   GV <- Sys.getenv("GRASS_VERBOSE")
   Sys.setenv("GRASS_VERBOSE"=0)
+  require(rgdal)
   ois <- get.ignore.stderrOption()
   set.ignore.stderrOption(TRUE)
   execGRASS("v.info", map="schools", layer="1")
   print(vInfo("schools"))
-  schs <- readVECT("schools")
+  schs <- readVECT("schools", plugin=NULL)
   print(summary(schs))
+  schs1 <- readVECT("schools", plugin=FALSE)
+  print(summary(schs1))
   writeVECT(schs, "newsch", v.in.ogr_flags=c("o", "overwrite"))
   execGRASS("v.info", map="newsch", layer="1")
   nschs <- readVECT("newsch")
   print(summary(nschs))
-  print(all.equal(names(nschs)[-which(sapply(sapply(nschs, class),
-    function(x) {!all(is.na(match(x, "sfc")))}))],
-    as.character(vColumns("newsch")[,2])))
-  names(nschs)[-which(sapply(sapply(nschs, class),
-    function(x) {!all(is.na(match(x, "sfc")))}))] <- paste("ABCDEFGHIJKLMNO",
-    names(nschs)[-which(sapply(sapply(nschs, class),
-    function(x) {!all(is.na(match(x, "sfc")))}))], sep="")
+  print(all.equal(names(nschs), as.character(vColumns("newsch")[,2])))
+  names(nschs) <- paste("ABCDEFGHIJKLMNO", names(nschs), sep="")
   writeVECT(nschs, "newsch1", v.in.ogr_flags=c("o", "overwrite"))
-  print(all.equal(names(nschs)[-which(sapply(sapply(nschs, class),
-    function(x) {!all(is.na(match(x, "sfc")))}))],
-    as.character(vColumns("newsch1")[-1,2])))
+  print(all.equal(names(nschs), as.character(vColumns("newsch1")[-1,2])))
   nschs1 <- readVECT("newsch1")
-  print(all.equal(names(nschs)[-which(sapply(sapply(nschs, class),
-    function(x) {!all(is.na(match(x, "sfc")))}))],
-    names(nschs1)[c(-1, -which(sapply(sapply(nschs1, class),
-    function(x) {!all(is.na(match(x, "sfc")))})))]))
+  print(all.equal(names(nschs), names(nschs1)[-1]))
   print(summary(nschs1))
+  schs <- readVECT("schools", driver="ESRI Shapefile")
+  names(schs) <- paste("ABCDEFGHIJKLMNO", names(schs), sep="")
+  writeVECT(schs, "newsch", v.in.ogr_flags=c("o", "overwrite"),
+    driver="ESRI Shapefile")
+  print(all.equal(names(schs), as.character(vColumns("newsch")[-1,2])))
+  nschs <- readVECT("newsch", driver="ESRI Shapefile")
+  all.equal(names(schs), names(nschs)[-1])
   print(vInfo("roadsmajor"))
   roads <- readVECT("roadsmajor")
   print(summary(roads))

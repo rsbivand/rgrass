@@ -74,10 +74,10 @@ if (nchar(Sys.getenv("GISRC")) > 0 &&
   CRS(getLocationProj())
   grd <- gmeta2grd()
   print(grd)
-  ncells <- nrow(grd)*ncol(grd)
-  values(grd) <- rep(1, ncells)
-#  mask_SG <- SpatialGridDataFrame(grd, data=df)
-  print(summary(grd))
+  ncells <- prod(slot(grd, "cells.dim"))
+  df <- data.frame(k=rep(1, ncells))
+  mask_SG <- SpatialGridDataFrame(grd, data=df)
+  print(summary(mask_SG))
 }
 }
 \keyword{spatial}

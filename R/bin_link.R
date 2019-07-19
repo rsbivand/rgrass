@@ -1,10 +1,10 @@
 # Interpreted GRASS 7 interface functions
-# Copyright (c) 2016 Roger S. Bivand
+# Copyright (c) 2015 Roger S. Bivand
 #
 
 readRAST <- function(vname, cat=NULL, ignore.stderr = get.ignore.stderrOption(), 
 	NODATA=NULL, plugin=get.pluginOption(), mapset=NULL, useGDAL=get.useGDALOption(), close_OK=TRUE,
-        drivername="GTiff", driverFileExt=NULL, return_rS=TRUE) {
+        drivername="GTiff", driverFileExt=NULL, return_SGDF=TRUE) {
 	if (!is.null(cat))
 		if(length(vname) != length(cat)) 
 			stop("vname and cat not same length")
@@ -36,7 +36,7 @@ readRAST <- function(vname, cat=NULL, ignore.stderr = get.ignore.stderrOption(),
                     resa <- .read_rast_plugin(vname, mapset=mapset, ignore.stderr=ignore.stderr)
                 } else {
                     resa <- .read_rast_non_plugin(vname=vname, NODATA=NODATA,
-                                                  driverFileExt=driverFileExt, ignore.stderr=ignore.stderr, return_rS=return_rS, cat=cat)
+                                                  driverFileExt=driverFileExt, ignore.stderr=ignore.stderr, return_SGDF=return_SGDF, cat=cat)
                 }
             },
             finally = {
@@ -55,11 +55,10 @@ readRAST <- function(vname, cat=NULL, ignore.stderr = get.ignore.stderrOption(),
 }
 
 
-.read_rast_non_plugin <- function(vname, NODATA, driverFileExt,
-    ignore.stderr, return_rS, cat) {
-
+.read_rast_non_plugin <- function(vname, NODATA, driverFileExt, ignore.stderr, return_SGDF, cat){
+    {
 	pid <- as.integer(round(runif(1, 1, 1000)))
-	p4 <- getLocationProj()
+	p4 <- CRS(getLocationProj())
 
         reslist <- vector(mode="list", length=length(vname))
         names(reslist) <- vname
@@ -148,16 +147,33 @@ readRAST <- function(vname, cat=NULL, ignore.stderr = get.ignore.stderrOption(),
                                                          pattern=vname[i]), sep=.Platform$file.sep))
                     }
                 )
+
+#		if (i == 1) resa <- res
+#		else {
+#			grida <- getGridTopology(resa)
+#			grid <- getGridTopology(res)
+#			if (!isTRUE(all.equal(grida, grid)))
+#				stop("topology is not equal")
+#			onames <- c(names(resa@data), names(res@data))
+#			ncols <- dim(resa@data)[2]
+#			lst <- vector(mode="list", length=ncols+1)
+#			names(lst) <- onames
+#			for (i in 1:ncols) lst[[i]] <- resa@data[[i]]
+#			lst[[ncols+1]] <- res@data[[1]]
+#			df <- data.frame(lst)
+#			resa <- SpatialGridDataFrame(grid=grida, 
+#				data=df, proj4string=p4)
+#		}
+
 	}
 
 
         co <- unname(c((gdal_info[4] + (gdal_info[6]/2)),
             (gdal_info[5] + (gdal_info[7]/2))))
-	grid <- data.frame(cell_origin=co,
-            cell_size=unname(gdal_info[6:7]), 
-            cell_dims=unname(gdal_info[2:1]))
+	grid <- GridTopology(co, unname(c(gdal_info[6], gdal_info[7])),
+            unname(c(gdal_info[2], gdal_info[1])))
 
-        if (!return_rS) {
+        if (!return_SGDF) {
            res <- list(grid=grid, dataList=reslist, proj4string=p4)
            class(res) <- "gridList"
            return(res)
@@ -165,24 +181,14 @@ readRAST <- function(vname, cat=NULL, ignore.stderr = get.ignore.stderrOption(),
 
         if (length(unique(sapply(reslist, length))) != 1)
             stop ("bands differ in length")
-        r <- raster(xmn=grid$cell_origin[1]-(grid$cell_size[1]/2),
-                 xmx=grid$cell_origin[1]+(grid$cell_size[1]/2) +
-                    (grid$cell_size[1]*(grid$cell_dims[1]-1)), 
-                 ymn=grid$cell_origin[2]-(grid$cell_size[2]/2),
-                 ymx=grid$cell_origin[2]+(grid$cell_size[2]/2)+
-                     (grid$cell_size[2]*(grid$cell_dims[2]-1)),
-                 res=grid$cell_size,
-                 crs=p4)
-        rlist <- vector(mode="list", length=length(reslist))
-        names(rlist) <- make.names(vname)
-        for (i in seq(along=rlist)) {
-             rlist[[i]] <- raster(matrix(reslist[[i]], ncol=grid$cell_dims[1],
-                 nrow=grid$cell_dims[2], byrow=TRUE), template=r)
-        }
+
+        df <- as.data.frame(reslist)
+
+	resa <- SpatialGridDataFrame(grid=grid, data=df, proj4string=p4)
 
 	if (!is.null(cat)) {
 		for (i in seq(along=cat)) {
-			if (cat[i] && is.integer(values(rlist[[i]]))) {
+			if (cat[i] && is.integer(resa@data[[i]])) {
 
 				rSTATS <- execGRASS("r.stats",
 				    flags=c("l", "quiet"),
@@ -202,23 +208,13 @@ readRAST <- function(vname, cat=NULL, ignore.stderr = get.ignore.stderrOption(),
                                     catlabs <- paste(catlabs, catnos, sep="_")
                                     warning("non-unique category labels; category number appended")
                                 }
-                                rlist[[i]] <- ratify(rlist[[i]])
-                                rat <- levels(rlist[[i]])[[1]]
-                                rat$legend <- catlabs
-                                rat$code <- levels(rlist[[i]])[[1]][[1]]
-                                levels(rlist[[i]]) <- rat
-#				resa@data[[i]] <- factor(resa@data[[i]], 
-#					levels=catnos, labels=catlabs)
+				resa@data[[i]] <- factor(resa@data[[i]], 
+					levels=catnos, labels=catlabs)
 			}
 		}
-	}
-
-         resa <- stack(rlist)
-
-#        df <- as.data.frame(reslist)
-#	resa <- SpatialGridDataFrame(grid=grid, data=df, proj4string=p4)
-
-        return(resa)
+	} 
+    }
+    return(resa)
 }
 
 
@@ -280,6 +276,56 @@ readBinGridData <- function(fname, what, n, size, endian, nodata) {
 	map
 }
 
+#readBinGrid <- function(fname, colname=basename(fname), 
+#	proj4string=CRS(as.character(NA)), integer) {
+#	if (missing(integer)) stop("integer TRUE/FALSE required")
+#	if (!file.exists(fname)) stop(paste("no such file:", fname))
+#	if (!file.exists(paste(fname, "hdr", sep="."))) 
+#		stop(paste("no such file:", paste(fname, "hdr", sep=".")))
+#	if (!file.exists(paste(fname, "wld", sep="."))) 
+#		stop(paste("no such file:", paste(fname, "wld", sep=".")))
+#	con <- file(paste(fname, "hdr", sep="."), "r")
+#	l8 <- readLines(con, n=8)
+#	close(con)
+#	l8 <- read.dcf(con <- textConnection(gsub(" ", ":", l8)))
+#	close(con)
+#	lres <- as.list(l8)
+#	names(lres) <- colnames(l8)
+#	lres$nrows <- as.integer(lres$nrows)
+#	lres$ncols <- as.integer(lres$ncols)
+#	lres$nbands <- as.integer(lres$nbands)
+#	lres$nbits <- as.integer(lres$nbits)
+#	lres$skipbytes <- as.integer(lres$skipbytes)
+#	lres$nodata <- ifelse(integer, as.integer(lres$nodata), 
+#		as.numeric(lres$nodata))
+#	lres$byteorder <- as.character(lres$byteorder)
+#	endian <- .Platform$endian
+#	if ((endian == "little" && lres$byteorder == "M") ||
+#		(endian == "big" && lres$byteorder == "I")) endian <- "swap"
+#	con <- file(paste(fname, "wld", sep="."), "r")
+#	l6 <- readLines(con, n=6)
+#	close(con)
+#	lres$ewres <- abs(as.numeric(l6[1]))
+#	lres$nsres <- abs(as.numeric(l6[4]))
+#	lres$n_cc <- as.numeric(l6[6])
+#	lres$w_cc <- as.numeric(l6[5])
+#	lres$s_cc <- lres$n_cc - lres$nsres * (lres$nrows-1)
+#
+#	what <- ifelse(integer, "integer", "double")
+#	n <- lres$nrows * lres$ncols
+#	size <- lres$nbits/8
+#	map <- readBin(fname, what=what, n=n, size=size, signed=TRUE,
+#		endian=endian)
+#	is.na(map) <- map == lres$nodata
+#	grid = GridTopology(c(lres$w_cc, lres$s_cc), 
+#		c(lres$ewres, lres$nsres), c(lres$ncols,lres$nrows))
+#	df <- list(var1=map)
+#	names(df) <- colname
+#	df1 <- data.frame(df)
+#
+#	res <- SpatialGridDataFrame(grid, data = df1, proj4string=proj4string)
+#	res
+#}
 
 .read_rast_plugin <- function(vname, mapset=NULL, ignore.stderr=NULL) {
 
@@ -330,7 +376,7 @@ readBinGridData <- function(fname, what, n, size, endian, nodata) {
 }
     
 
-writeRAST <- function(x, vname, NODATA=NULL, 
+writeRAST <- function(x, vname, zcol = 1, NODATA=NULL, 
 	ignore.stderr = get.ignore.stderrOption(), useGDAL=get.useGDALOption(), overwrite=FALSE, flags=NULL,
         drivername="GTiff") {
 
@@ -354,13 +400,13 @@ writeRAST <- function(x, vname, NODATA=NULL,
                 fid <- paste("X", pid, sep="")
                 gtmpfl11 <- paste(gtmpfl1, fid, sep=.Platform$file.sep)
                 rtmpfl11 <- paste(rtmpfl1, fid, sep=.Platform$file.sep)
-                if (!is.numeric(values(x))) 
+                if (!is.numeric(x@data[[zcol]])) 
                     stop("only numeric columns may be exported")
                 if (overwrite && !("overwrite" %in% flags))
                     flags <- c(flags, "overwrite")
                 tryCatch(
                     {
-                        res <- writeBinGrid(x, rtmpfl11, na.value = NODATA)
+                        res <- writeBinGrid(x, rtmpfl11, attr = zcol, na.value = NODATA)
                         
                         flags <- c(res$flag, flags)
                         
@@ -388,18 +434,14 @@ writeRAST <- function(x, vname, NODATA=NULL,
 	invisible(res)
 }
 
-writeBinGrid <- function(x, fname, na.value = NULL) { 
-	if (!is(x, "RasterLayer"))
-		stop("can only write RasterLayer objects to binary grid")
-#	x = as(x, "SpatialGridDataFrame")
-# FIXME
-
-	gp = data.frame(cellcentre_offset=c(xmin(x)+(res(x)[1]/2),
-            ymin(x)+(res(x)[2]/2)), cell_size=res(x)[1:2],
-            cells_dim=c(nrow(x), ncol(x)))
-	if (length(gp$cells_dim) != 2)
+writeBinGrid <- function(x, fname, attr = 1, na.value = NULL) { 
+	if (!gridded(x))
+		stop("can only write SpatialGridDataFrame objects to binary grid")
+	x = as(x, "SpatialGridDataFrame")
+	gp = gridparameters(x)
+	if (length(gp$cells.dim) != 2)
 		stop("binary grid only supports 2D grids")
-	z = values(x)
+	z = x@data[[attr]]
 	if (is.factor(z)) z <- as.numeric(z)
 	if (!is.numeric(z)) stop("only numeric values may be exported")
 	if (is.null(na.value)) {
@@ -424,12 +466,12 @@ writeBinGrid <- function(x, fname, na.value = NULL) {
 	f = file(fname, open = "wb")
 	writeBin(z, con=f, size=sz)
 	close(f)
-#	grd <- slot(x, "grid")
+	grd <- slot(x, "grid")
 	f = file(paste(fname, "hdr", sep="."), open = "wt")
-	writeLines(paste("nrows", gp$cells_dim[2]), f)
-	res$rows <- formatC(gp$cells_dim[2], format="d")
-	writeLines(paste("ncols", gp$cells_dim[1]), f)
-	res$cols <- formatC(gp$cells_dim[1], format="d")
+	writeLines(paste("nrows", grd@cells.dim[2]), f)
+	res$rows <- formatC(grd@cells.dim[2], format="d")
+	writeLines(paste("ncols", grd@cells.dim[1]), f)
+	res$cols <- formatC(grd@cells.dim[1], format="d")
 	writeLines(paste("nbands 1"), f)
 	writeLines(paste("nbits", 8*sz), f)
 	writeLines(paste("byteorder", ifelse(.Platform$endian == "little", 
@@ -439,23 +481,23 @@ writeBinGrid <- function(x, fname, na.value = NULL) {
 	writeLines(paste("nodata", na.value), f)
 	close(f)
 	f = file(paste(fname, "wld", sep="."), open = "wt")
-	writeLines(formatC(gp$cell_size[1], format="f"), f)
+	writeLines(formatC(grd@cellsize[1], format="f"), f)
 	writeLines("0.0", f)
 	writeLines("0.0", f)
-	writeLines(formatC(-gp$cell_size[2], format="f"), f)
-	writeLines(formatC(gp$cellcentre_offset[1], format="f"), f)
-	writeLines(formatC((gp$cellcentre_offset[2] +
-		gp$cell_size[2]*(gp$cells_dim[2]-1)), format="f"), f)
+	writeLines(formatC(-grd@cellsize[2], format="f"), f)
+	writeLines(formatC(grd@cellcentre.offset[1], format="f"), f)
+	writeLines(formatC((grd@cellcentre.offset[2] +
+		grd@cellsize[2]*(grd@cells.dim[2]-1)), format="f"), f)
 	close(f)
-	res$north <- formatC((gp$cellcentre_offset[2] +
-		gp$cell_size[2]*(gp$cells_dim[2]-1)
-		+ 0.5*gp$cell_size[2]), format="f")
-	res$south <- formatC(gp$cellcentre_offset[2] - 0.5*gp$cell_size[2], 
+	res$north <- formatC((grd@cellcentre.offset[2] +
+		grd@cellsize[2]*(grd@cells.dim[2]-1)
+		+ 0.5*grd@cellsize[2]), format="f")
+	res$south <- formatC(grd@cellcentre.offset[2] - 0.5*grd@cellsize[2], 
 		format="f")
-	res$east <- formatC((gp$cellcentre_offset[1] + 
-		gp$cell_size[1]*(gp$cells_dim[1]-1) + 0.5*gp$cell_size[1]), 
+	res$east <- formatC((grd@cellcentre.offset[1] + 
+		grd@cellsize[1]*(grd@cells.dim[1]-1) + 0.5*grd@cellsize[1]), 
 		format="f")
-	res$west <- formatC(gp$cellcentre_offset[1] - 0.5*gp$cell_size[1], 
+	res$west <- formatC(grd@cellcentre.offset[1] - 0.5*grd@cellsize[1], 
 		format="f")
 	invisible(res)
 }
