@@ -161,3 +161,7 @@ getLocationProj <- function(ignore.stderr = FALSE) {
     }
     return(compatible)
 }
+
+.get_R_interface <- function() get("R_interface", envir=.GRASS_CACHE)
+
+use_sf <- function() assign("R_interface", "sf", envir=.GRASS_CACHE)

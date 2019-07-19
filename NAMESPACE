@@ -1,4 +1,5 @@
 import(sp)
+import(sf)
 import(XML)
 importFrom(utils, packageDescription, read.table)
 importFrom(stats, runif, na.omit)

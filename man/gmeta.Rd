@@ -23,12 +23,14 @@
 \alias{set.legacyExecOption}
 \alias{set.defaultFlagsOption}
 \alias{set.suppressEchoCmdInFuncOption}
+\alias{use_sf}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{Reads GRASS metadata from the current LOCATION}
 \description{
-  GRASS LOCATION metadata are read into a list in R; helper function getLocationProj returns an spproj-compliant PROJ.4 string of projection information. The helper function \code{gmeta2grd} creates a GridTopology object from the current GRASS mapset region definitions.
+  GRASS LOCATION metadata are read into a list in R; helper function getLocationProj returns an spproj-compliant PROJ.4 string of projection information. The helper function \code{gmeta2grd} creates a GridTopology object from the current GRASS mapset region definitions. The new \code{use_sf()} function permits the user to override the default use of \code{"sp"} classes for raster and vector objects in R; its use will be extended over time.
 }
 \usage{
+use_sf()
 gmeta(ignore.stderr = FALSE)
 getLocationProj(ignore.stderr = FALSE)
 gmeta2grd(ignore.stderr = FALSE)

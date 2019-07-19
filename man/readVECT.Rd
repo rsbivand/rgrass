@@ -42,7 +42,7 @@ vect2neigh(vname, ID=NULL, ignore.stderr = NULL, remove=TRUE, vname2=NULL,
   \item{driver}{default NULL, which will lead to the choice of the first driver found in a ordered preferred vector, currently \code{c("SQLite", "ESRI Shapefile")}; a valid OGR writable driver name to define the file format for intermediate files, one of \code{c("GML", "SQLite"), c("ESRI_Shapefile", "MapInfo_File")} is preferred as these construct the names of the intermediate files adequately}
   \item{min_area}{default 0.0001); Minimum size of area to be imported (square meters) Smaller areas and islands are ignored. Should be greater than snap^2}
   \item{snap}{default -1); Snapping threshold for boundaries (map units). '-1' for no snap}
-  \item{SDF}{A Spatial*DataFrame to be moved to GRASS 7 as a vector object, for SpatialPointsDataFrame, SpatialLinesDataFrame, and SpatialPolygonsDataFrame objects}
+  \item{SDF}{A Spatial*DataFrame to be moved to GRASS 7 as a vector object, for SpatialPointsDataFrame, SpatialLinesDataFrame, and SpatialPolygonsDataFrame objects, or an equivalent \code{"sf"} object}
   \item{v.in.ogr_flags}{Character vector containing additional optional flags and/or options for v.in.ogr, particularly "o" and "overwrite"}
   \item{ID}{A valid DB column name for unique identifiers (optional)}
   \item{remove}{default TRUE, remove copied vectors created in \code{vect2neigh}}
@@ -51,7 +51,7 @@ vect2neigh(vname, ID=NULL, ignore.stderr = NULL, remove=TRUE, vname2=NULL,
 
 }
 \value{
-   \code{readVECT} imports a GRASS 7 vector object into a Spatial*DataFrame object with the type determined by the type of the GRASS 7 vector object. \code{readVECT} and \code{writeVECT} attempt to preserve longer column/field names despite using the \dQuote{ESRI Shapefile} format for transfer.
+   \code{readVECT} imports a GRASS 7 vector object into an Spatial*DataFrame or equivalent \code{"sf"} object with the type determined by the type of the GRASS 7 vector object. \code{readVECT} and \code{writeVECT} attempt to preserve longer column/field names despite using the \dQuote{ESRI Shapefile} format for transfer.
 
 \code{vect2neigh} returns a data frame object with left and right neighbours and boundary lengths, also given class GRASSneigh and spatial.neighbour (as used in spdep). The incantation to retrieve the neighbours list is \code{sn2listw(vect2neigh())$neighbours}, and to retrieve the boundary lengths: \code{sn2listw(vect2neigh())$weights}. The GRASSneigh object has two other useful attributes: external is a vector giving the length of shared boundary between each polygon and the external area, and total giving each polygon's total boundary length.
 

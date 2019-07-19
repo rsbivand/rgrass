@@ -1,2 +1,1 @@
-The real rgrass7 is on R-Forge. Only use this version if you want to play with sf, GRASS, 
-maybe raster and eventually stars.
+Interpreted interface between GRASS 7 geographical information system and R, based on starting R from within the GRASS GIS environment, or running free-standing R in a temporary GRASS location; the package provides facilities for using all GRASS commands from the R command line.
