@@ -224,8 +224,12 @@ initGRASS <- function(gisBase, home, SG, gisDbase, addon_base, location,
     pfile <- paste(loc_path, "PERMANENT", "DEFAULT_WIND", sep="/")
     if (!file.exists(pfile)) {
         mSG <- !missing(SG)
-        if (mSG) bb <- bbox(SG)
-        if (mSG) gt <- gridparameters(SG)
+        if (mSG) {
+          R_in_sp <- isTRUE(.get_R_interface() == "sp")
+          if (!R_in_sp) stop("no stars SG yet")
+        }
+        if (mSG) bb <- sp::bbox(SG)
+        if (mSG) gt <- sp::gridparameters(SG)
         cat("proj:       0\n", file=pfile)
         cat("zone:       0\n", file=pfile, append=TRUE)
         cat("north:      ", ifelse(mSG, bb[2, "max"], 1), "\n",

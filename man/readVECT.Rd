@@ -63,45 +63,95 @@ Please note that the OGR drivers used may not handle missing data gracefully. Fr
 \author{Roger S. Bivand, e-mail: \email{Roger.Bivand@nhh.no.}}
 
 \examples{
+use_sp()
+run <- FALSE
 if (nchar(Sys.getenv("GISRC")) > 0 &&
-  read.dcf(Sys.getenv("GISRC"))[1,"LOCATION_NAME"] == "nc_basic_spm_grass7") {
-  GV <- Sys.getenv("GRASS_VERBOSE")
-  Sys.setenv("GRASS_VERBOSE"=0)
-  require(rgdal)
-  ois <- get.ignore.stderrOption()
-  set.ignore.stderrOption(TRUE)
+  read.dcf(Sys.getenv("GISRC"))[1,"LOCATION_NAME"] == "nc_basic_spm_grass7") run <- TRUE
+GV <- Sys.getenv("GRASS_VERBOSE")
+Sys.setenv("GRASS_VERBOSE"=0)
+#  require(rgdal)
+ois <- get.ignore.stderrOption()
+set.ignore.stderrOption(TRUE)
+if (run) {
   execGRASS("v.info", map="schools", layer="1")
+}
+if (run) {
   print(vInfo("schools"))
   schs <- readVECT("schools", plugin=NULL)
   print(summary(schs))
+}
+if (run) {
   schs1 <- readVECT("schools", plugin=FALSE)
   print(summary(schs1))
+}
+if (run) {
   writeVECT(schs, "newsch", v.in.ogr_flags=c("o", "overwrite"))
   execGRASS("v.info", map="newsch", layer="1")
+}
+if (run) {
   nschs <- readVECT("newsch")
   print(summary(nschs))
+}
+if (run) {
   print(all.equal(names(nschs), as.character(vColumns("newsch")[,2])))
+}
+if (run) {
   names(nschs) <- paste("ABCDEFGHIJKLMNO", names(nschs), sep="")
   writeVECT(nschs, "newsch1", v.in.ogr_flags=c("o", "overwrite"))
+}
+if (run) {
   print(all.equal(names(nschs), as.character(vColumns("newsch1")[-1,2])))
+}
+if (run) {
   nschs1 <- readVECT("newsch1")
   print(all.equal(names(nschs), names(nschs1)[-1]))
+}
+if (run) {
   print(summary(nschs1))
+}
+if (run) {
   schs <- readVECT("schools", driver="ESRI Shapefile")
   names(schs) <- paste("ABCDEFGHIJKLMNO", names(schs), sep="")
   writeVECT(schs, "newsch", v.in.ogr_flags=c("o", "overwrite"),
     driver="ESRI Shapefile")
   print(all.equal(names(schs), as.character(vColumns("newsch")[-1,2])))
+}
+if (run) {
   nschs <- readVECT("newsch", driver="ESRI Shapefile")
   all.equal(names(schs), names(nschs)[-1])
+}
+if (run) {
   print(vInfo("roadsmajor"))
+}
+if (run) {
   roads <- readVECT("roadsmajor")
   print(summary(roads))
+}
+if (run) {
   cen_neig <- vect2neigh("census")
   str(cen_neig)
-  Sys.setenv("GRASS_VERBOSE"=GV)
-  set.ignore.stderrOption(ois)
 }
+use_sf()
+if (run) {
+  print(vInfo("schools"))
+  schs <- readVECT("schools", plugin=NULL)
+  print(summary(schs))
+}
+if (run) {
+  schs1 <- readVECT("schools", plugin=FALSE)
+  print(summary(schs1))
+}
+if (run) {
+  writeVECT(schs, "newsch", v.in.ogr_flags=c("o", "overwrite"))
+  execGRASS("v.info", map="newsch", layer="1")
+}
+if (run) {
+  nschs <- readVECT("newsch")
+  print(summary(nschs))
+}
+Sys.setenv("GRASS_VERBOSE"=GV)
+set.ignore.stderrOption(ois)
+use_sp()
 }
 \keyword{spatial}
 
