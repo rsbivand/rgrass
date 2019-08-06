@@ -21,4 +21,4 @@ License: GPL (>= 2)
 URL: http://grass.osgeo.org/, https://r-forge.r-project.org/projects/spgrass/
 Collate: AAA.R options.R rgrass.R bin_link.R vect_link.R initGRASS.R
         xml1.R
-
+RoxygenNote: 6.1.1
