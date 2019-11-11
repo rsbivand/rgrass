@@ -5,7 +5,8 @@ readVECT <- function(vname, layer, type=NULL, plugin=NULL,
         remove.duplicates=TRUE, ignore.stderr = NULL,
         with_prj=TRUE,  with_c=FALSE, mapset=NULL, pointDropZ=FALSE,
         driver=NULL) {
-        if (is.null(.get_R_interface())) stop ("either sp or sf must be chosen")
+        if (is.null(.get_R_interface())) 
+       stop("use either use_sp() or use_sf() at session start to choose\n sp or sf/stars classes")
         R_in_sp <- isTRUE(.get_R_interface() == "sp")
 
         if (is.null(plugin))
