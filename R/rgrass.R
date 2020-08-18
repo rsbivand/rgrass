@@ -171,12 +171,12 @@ use_sf <- function() {
   if (requireNamespace("sf", quietly=TRUE) && 
     requireNamespace("stars", quietly=TRUE))
     assign("R_interface", "sf", envir=.GRASS_CACHE)
-  else stop("sf or stars not available")
+  else stop("sf or stars is not available. You need both packages installed.")
 }
 
 use_sp <- function() {
   if (requireNamespace("sp", quietly=TRUE) && 
      requireNamespace("rgdal", quietly=TRUE))
      assign("R_interface", "sp", envir=.GRASS_CACHE)
-  else stop("sp or rgdal not available")
+  else stop("sp or rgdal is not available. You need both packages installed.")
 }
