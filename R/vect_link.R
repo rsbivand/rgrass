@@ -491,7 +491,7 @@ writeVECT <- function(SDF, vname, #factor2char = TRUE,
                       if (R_in_sp) rgdal::writeOGR(SDF, dsn=RDSN, layer=LAYER, 
                           driver=gsub("_", " ", driver), overwrite_layer=TRUE)
                       else sf::st_write(SDF, dsn=RDSN, layer=LAYER,
-                          driver=gsub("_", " ", driver))
+                          driver=gsub("_", " ", driver), append=FALSE)
 
                     
                     execGRASS("v.in.ogr", flags=v.in.ogr_flags,
@@ -520,14 +520,15 @@ writeVECT <- function(SDF, vname, #factor2char = TRUE,
                           layer_options="LAUNDER=NO", overwrite_layer=TRUE)
                       else sf::st_write(SDF, dsn=RDSN, layer=LAYER,
                           driver=gsub("_", " ", driver),
-                          layer_options="LAUNDER=NO", quiet=ignore.stderr)
+                          layer_options="LAUNDER=NO", quiet=ignore.stderr,
+                          append=FALSE)
                     } else {
                       if (R_in_sp) rgdal::writeOGR(SDF, dsn=RDSN, layer=LAYER,
                           driver=gsub("_", " ", driver),
                           overwrite_layer=TRUE)
                       else sf::st_write(SDF, dsn=RDSN, layer=LAYER,
                           driver=gsub("_", " ", driver), quiet=ignore.stderr,
-                          layer_options="OVERWRITE=YES")
+                          layer_options="OVERWRITE=YES", append=FALSE)
                     }
                     
                     
@@ -794,7 +795,7 @@ vect2neigh <- function(vname, ID=NULL, ignore.stderr = NULL, remove=TRUE,
 #		" option=sides col=left,right layer=2", sep="")
 #	if(.Platform$OS.type == "windows") system(cmd)
 #	else system(cmd, ignore.stderr=ignore.stderr)
-        execGRASS("v.to.db", map=vname2a, option="sides",
+        execGRASS("v.to.db", flags=c("overwrite"), map=vname2a, option="sides",
                 columns="left,right", layer=as.character(2),
                 ignore.stderr=ignore.stderr)
 
@@ -803,7 +804,7 @@ vect2neigh <- function(vname, ID=NULL, ignore.stderr = NULL, remove=TRUE,
 #		" option=length col=length layer=2", sep="")
 #	if(.Platform$OS.type == "windows") system(cmd)
 #	else system(cmd, ignore.stderr=ignore.stderr)
-        execGRASS("v.to.db", map=vname2a, option="length",
+        execGRASS("v.to.db", flags=c("overwrite"), map=vname2a, option="length",
                 columns="length", layer=as.character(2), units=units,
                 ignore.stderr=ignore.stderr)
 
