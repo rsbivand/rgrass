@@ -69,7 +69,7 @@ initGRASS <- function(gisBase, home, SG, gisDbase, addon_base, location,
                 "\\share\\proj", sep=""))
         } else {
             if (length(grep("OSGEO4W", toupper(gisBase))) > 0)
-                warning("NOTE: If using OSGeo4W GRASS, start R in the OSGeo4W shell")
+                stop("NOTE: If using OSGeo4W GRASS, start R in the OSGeo4W shell")
             Sys.setenv(GRASS_PROJSHARE=paste(Sys.getenv("GISBASE"),
                 "\\share\\proj", sep=""))
         }
