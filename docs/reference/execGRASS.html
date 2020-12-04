@@ -8,21 +8,29 @@
 
 <title>Run GRASS commands — execGRASS • rgrass7</title>
 
+
 <!-- jquery -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous" />
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous" />
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
+
+<!-- bootstrap-toc -->
+<link rel="stylesheet" href="../bootstrap-toc.css">
+<script src="../bootstrap-toc.js"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script>
 
-<!-- sticky kit -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script>
+<!-- headroom.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -30,10 +38,10 @@
 
 
 
-<meta property="og:title" content="Run GRASS commands — execGRASS" />
 
+<meta property="og:title" content="Run GRASS commands — execGRASS" />
 <meta property="og:description" content="The functions provide an interface to GRASS commands run through system, based on the values returned by the --interface description flag using XML parsing. If required parameters are omitted, and have declared defaults, the defaults will be used." />
-<meta name="twitter:card" content="summary" />
+
 
 
 
@@ -47,9 +55,10 @@
 <![endif]-->
 
 
+
   </head>
 
-  <body>
+  <body data-spy="scroll" data-target="#toc">
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -63,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rgrass7</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2-3</span>
       </span>
     </div>
 
@@ -71,7 +80,7 @@
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fa fa-home fa-lg"></span>
+    <span class="fas fa fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -79,9 +88,13 @@
   <a href="../reference/index.html">Reference</a>
 </li>
       </ul>
-      
       <ul class="nav navbar-nav navbar-right">
-        
+        <li>
+  <a href="https://github.com/rsbivand/rgrass7/">
+    <span class="fab fa fab fa-github fa-lg"></span>
+     
+  </a>
+</li>
       </ul>
       
     </div><!--/.nav-collapse -->
@@ -89,6 +102,7 @@
 </div><!--/.navbar -->
 
       
+
       </header>
 
 <div class="row">
@@ -100,23 +114,21 @@
     </div>
 
     <div class="ref-description">
-    
     <p>The functions provide an interface to GRASS commands run through <code>system</code>, based on the values returned by the <code>--interface description</code> flag using XML parsing. If required parameters are omitted, and have declared defaults, the defaults will be used.</p>
-    
     </div>
 
-    <pre class="usage"><span class='fu'>execGRASS</span>(<span class='no'>cmd</span>, <span class='kw'>flags</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>...</span>, <span class='kw'>parameters</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>intern</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
- <span class='kw'>ignore.stderr</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>Sys_ignore.stdout</span><span class='kw'>=</span><span class='fl'>FALSE</span>, <span class='kw'>Sys_wait</span><span class='kw'>=</span><span class='fl'>TRUE</span>,
- <span class='kw'>Sys_input</span><span class='kw'>=</span><span class='kw'>NULL</span>, <span class='kw'>Sys_show.output.on.console</span><span class='kw'>=</span><span class='fl'>TRUE</span>, <span class='kw'>Sys_minimized</span><span class='kw'>=</span><span class='fl'>FALSE</span>,
- <span class='kw'>Sys_invisible</span><span class='kw'>=</span><span class='fl'>TRUE</span>, <span class='kw'>echoCmd</span><span class='kw'>=</span><span class='kw'>NULL</span>, <span class='kw'>redirect</span><span class='kw'>=</span><span class='fl'>FALSE</span>, <span class='kw'>legacyExec</span><span class='kw'>=</span><span class='kw'>NULL</span>)
-<span class='fu'>doGRASS</span>(<span class='no'>cmd</span>, <span class='kw'>flags</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>...</span>, <span class='kw'>parameters</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>echoCmd</span><span class='kw'>=</span><span class='kw'>NULL</span>,
- <span class='kw'>legacyExec</span><span class='kw'>=</span><span class='kw'>NULL</span>)
-<span class='fu'>parseGRASS</span>(<span class='no'>cmd</span>, <span class='kw'>legacyExec</span><span class='kw'>=</span><span class='kw'>NULL</span>)
+    <pre class="usage"><span class='fu'>execGRASS</span><span class='op'>(</span><span class='va'>cmd</span>, flags <span class='op'>=</span> <span class='cn'>NULL</span>, <span class='va'>...</span>, parameters <span class='op'>=</span> <span class='cn'>NULL</span>, intern <span class='op'>=</span> <span class='cn'>NULL</span>,
+ ignore.stderr <span class='op'>=</span> <span class='cn'>NULL</span>, Sys_ignore.stdout<span class='op'>=</span><span class='cn'>FALSE</span>, Sys_wait<span class='op'>=</span><span class='cn'>TRUE</span>,
+ Sys_input<span class='op'>=</span><span class='cn'>NULL</span>, Sys_show.output.on.console<span class='op'>=</span><span class='cn'>TRUE</span>, Sys_minimized<span class='op'>=</span><span class='cn'>FALSE</span>,
+ Sys_invisible<span class='op'>=</span><span class='cn'>TRUE</span>, echoCmd<span class='op'>=</span><span class='cn'>NULL</span>, redirect<span class='op'>=</span><span class='cn'>FALSE</span>, legacyExec<span class='op'>=</span><span class='cn'>NULL</span><span class='op'>)</span>
+<span class='fu'>doGRASS</span><span class='op'>(</span><span class='va'>cmd</span>, flags <span class='op'>=</span> <span class='cn'>NULL</span>, <span class='va'>...</span>, parameters <span class='op'>=</span> <span class='cn'>NULL</span>, echoCmd<span class='op'>=</span><span class='cn'>NULL</span>,
+ legacyExec<span class='op'>=</span><span class='cn'>NULL</span><span class='op'>)</span>
+<span class='fu'>parseGRASS</span><span class='op'>(</span><span class='va'>cmd</span>, legacyExec<span class='op'>=</span><span class='cn'>NULL</span><span class='op'>)</span>
 <span class='co'># S3 method for GRASS_interface_desc</span>
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='no'>x</span>, <span class='no'>...</span>)
-<span class='fu'>getXMLencoding</span>()
-<span class='fu'>setXMLencoding</span>(<span class='no'>enc</span>)</pre>
-    
+<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>...</span><span class='op'>)</span>
+<span class='fu'>getXMLencoding</span><span class='op'>(</span><span class='op'>)</span>
+<span class='fu'>setXMLencoding</span><span class='op'>(</span><span class='va'>enc</span><span class='op'>)</span></pre>
+
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
@@ -173,32 +185,33 @@
       <td><p>character string to replace UTF-8 in header of XML data generated by GRASS module --interface-description output when the internationalised messages are not in UTF-8 (known to apply to French, which is in latin1)</p></td>
     </tr>
     </table>
-    
+
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p><code>parseGRASS</code> checks to see whether the GRASS command has been parsed already and cached in this session; if not, it reads the interface description, parses it and caches it for future use. <code>doGRASS</code> assembles a proposed GRASS command with flags and parameters as a string, wrapping <code>parseGRASS</code>, and <code>execGRASS</code> is a wrapper for <code>doGRASS</code>, running the command through <code>system</code> (from 0.7-4, the <code>...</code> argument is not used for passing extra arguments for <code>system</code>). The command string is termed proposed, because not all of the particular needs of commands are provided by the interface description, and no check is made for the existence of input objects. Support for multiple parameter values added with help from Patrick Caldon. Support for defaults and for direct use of GRASS parameters instead of a parameter list suggested by Rainer Krug.</p>
-    
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p><code>parseGRASS</code> returns a <code>GRASS_interface_desc</code> object, <code>doGRASS</code> returns a character string with a proposed GRASS command - the expanded command name is returned as an attribute, and <code>execGRASS</code> returns what <code>system</code> or <code>system2</code> return, particularly depending on the <code>intern</code> argument when the character strings output by GRASS modules are returned. If <code>intern</code> is <code>FALSE</code>, <code>system</code> returns the module exit code, while <code>system2</code> returns the module exit code with &#8220;resOut&#8221; and &#8220;resErr&#8221; attributes.</p>
-    
     <h2 class="hasAnchor" id="note"><a class="anchor" href="#note"></a>Note</h2>
 
     <p>If any package command fails with a UTF-8 error from the XML package, try using <code>setXMLencoding</code> to work around the problem that GRASS modules declare --interface-description output as UTF-8 without ensuring that it is (French is of 6.4.0 RC5 latin1).</p>
-    
+    <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
+
+    <p>Roger S. Bivand, e-mail: <a href='mailto:Roger.Bivand@nhh.no'>Roger.Bivand@nhh.no</a></p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><code><a href='https://www.rdocumentation.org/packages/base/topics/system'>system</a></code></p></div>
-    
+    <div class='dont-index'><p><code><a href='https://rdrr.io/r/base/system.html'>system</a></code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>run</span> <span class='kw'>&lt;-</span> <span class='fl'>FALSE</span>
-<span class='kw'>if</span> (<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/nchar'>nchar</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/Sys.getenv'>Sys.getenv</a></span>(<span class='st'>"GISRC"</span>)) <span class='kw'>&gt;</span> <span class='fl'>0</span> <span class='kw'>&amp;&amp;</span>
-  <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/dcf'>read.dcf</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/Sys.getenv'>Sys.getenv</a></span>(<span class='st'>"GISRC"</span>))[<span class='fl'>1</span>,<span class='st'>"LOCATION_NAME"</span>] <span class='kw'>==</span> <span class='st'>"nc_basic_spm_grass7"</span>) <span class='no'>run</span> <span class='kw'>&lt;-</span> <span class='fl'>TRUE</span>
-  <span class='no'>oechoCmd</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='gmeta.html'>get.echoCmdOption</a></span>()
-  <span class='fu'><a href='gmeta.html'>set.echoCmdOption</a></span>(<span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; [1] FALSE</div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
-  <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='fu'>parseGRASS</span>(<span class='st'>"r.slope.aspect"</span>))
-}</div><div class='output co'>#&gt; Command: r.slope.aspect 
+    <pre class="examples"><div class='input'><span class='va'>run</span> <span class='op'>&lt;-</span> <span class='cn'>FALSE</span>
+<span class='kw'>if</span> <span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/nchar.html'>nchar</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/Sys.getenv.html'>Sys.getenv</a></span><span class='op'>(</span><span class='st'>"GISRC"</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>&gt;</span> <span class='fl'>0</span> <span class='op'>&amp;&amp;</span>
+  <span class='fu'><a href='https://rdrr.io/r/base/dcf.html'>read.dcf</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/Sys.getenv.html'>Sys.getenv</a></span><span class='op'>(</span><span class='st'>"GISRC"</span><span class='op'>)</span><span class='op'>)</span><span class='op'>[</span><span class='fl'>1</span>,<span class='st'>"LOCATION_NAME"</span><span class='op'>]</span> <span class='op'>==</span> <span class='st'>"nc_basic_spm_grass7"</span><span class='op'>)</span> <span class='va'>run</span> <span class='op'>&lt;-</span> <span class='cn'>TRUE</span>
+  <span class='va'>oechoCmd</span> <span class='op'>&lt;-</span> <span class='fu'><a href='gmeta.html'>get.echoCmdOption</a></span><span class='op'>(</span><span class='op'>)</span>
+  <span class='fu'><a href='gmeta.html'>set.echoCmdOption</a></span><span class='op'>(</span><span class='cn'>TRUE</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] FALSE</div><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='va'>run</span><span class='op'>)</span> <span class='op'>{</span>
+  <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='fu'>parseGRASS</span><span class='op'>(</span><span class='st'>"r.slope.aspect"</span><span class='op'>)</span><span class='op'>)</span>
+<span class='op'>}</span>
+</div><div class='output co'>#&gt; Command: r.slope.aspect 
 #&gt; Description: Generates raster maps of slope, aspect, curvatures and partial derivatives from an elevation raster map. 
 #&gt; Keywords: Aspect is calculated counterclockwise from east. 
 #&gt; Parameters:
@@ -251,19 +264,22 @@
 #&gt;   name: overwrite [Allow output files to overwrite existing files] {FALSE}
 #&gt;   name: help [Print usage summary] {FALSE}
 #&gt;   name: verbose [Verbose module output] {FALSE}
-#&gt;   name: quiet [Quiet module output] {FALSE}</div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
-  <span class='fu'>doGRASS</span>(<span class='st'>"r.slope.aspect"</span>, <span class='kw'>flags</span><span class='kw'>=</span><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"overwrite"</span>),
-    <span class='kw'>elevation</span><span class='kw'>=</span><span class='st'>"elevation.dem"</span>, <span class='kw'>slope</span><span class='kw'>=</span><span class='st'>"slope"</span>, <span class='kw'>aspect</span><span class='kw'>=</span><span class='st'>"aspect"</span>)
-}</div><div class='output co'>#&gt; GRASS command: r.slope.aspect --overwrite elevation=elevation.dem slope=slope aspect=aspect </div><div class='output co'>#&gt; [1] "r.slope.aspect --overwrite elevation=elevation.dem slope=slope aspect=aspect"
+#&gt;   name: quiet [Quiet module output] {FALSE}</div><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='va'>run</span><span class='op'>)</span> <span class='op'>{</span>
+  <span class='fu'>doGRASS</span><span class='op'>(</span><span class='st'>"r.slope.aspect"</span>, flags<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"overwrite"</span><span class='op'>)</span>,
+    elevation<span class='op'>=</span><span class='st'>"elevation.dem"</span>, slope<span class='op'>=</span><span class='st'>"slope"</span>, aspect<span class='op'>=</span><span class='st'>"aspect"</span><span class='op'>)</span>
+<span class='op'>}</span>
+</div><div class='output co'>#&gt; GRASS command: r.slope.aspect --overwrite elevation=elevation.dem slope=slope aspect=aspect </div><div class='output co'>#&gt; [1] "r.slope.aspect --overwrite elevation=elevation.dem slope=slope aspect=aspect"
 #&gt; attr(,"cmd")
-#&gt; [1] "r.slope.aspect"</div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
-  <span class='no'>pars</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='kw'>elevation</span><span class='kw'>=</span><span class='st'>"elevation"</span>, <span class='kw'>slope</span><span class='kw'>=</span><span class='st'>"slope"</span>, <span class='kw'>aspect</span><span class='kw'>=</span><span class='st'>"aspect"</span>)
-  <span class='fu'>doGRASS</span>(<span class='st'>"r.slope.aspect"</span>, <span class='kw'>flags</span><span class='kw'>=</span><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"overwrite"</span>), <span class='kw'>parameters</span><span class='kw'>=</span><span class='no'>pars</span>)
-}</div><div class='output co'>#&gt; GRASS command: r.slope.aspect --overwrite elevation=elevation slope=slope aspect=aspect </div><div class='output co'>#&gt; [1] "r.slope.aspect --overwrite elevation=elevation slope=slope aspect=aspect"
+#&gt; [1] "r.slope.aspect"</div><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='va'>run</span><span class='op'>)</span> <span class='op'>{</span>
+  <span class='va'>pars</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>elevation<span class='op'>=</span><span class='st'>"elevation"</span>, slope<span class='op'>=</span><span class='st'>"slope"</span>, aspect<span class='op'>=</span><span class='st'>"aspect"</span><span class='op'>)</span>
+  <span class='fu'>doGRASS</span><span class='op'>(</span><span class='st'>"r.slope.aspect"</span>, flags<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"overwrite"</span><span class='op'>)</span>, parameters<span class='op'>=</span><span class='va'>pars</span><span class='op'>)</span>
+<span class='op'>}</span>
+</div><div class='output co'>#&gt; GRASS command: r.slope.aspect --overwrite elevation=elevation slope=slope aspect=aspect </div><div class='output co'>#&gt; [1] "r.slope.aspect --overwrite elevation=elevation slope=slope aspect=aspect"
 #&gt; attr(,"cmd")
-#&gt; [1] "r.slope.aspect"</div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
-  <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='fu'>parseGRASS</span>(<span class='st'>"r.buffer"</span>))
-}</div><div class='output co'>#&gt; Command: r.buffer 
+#&gt; [1] "r.slope.aspect"</div><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='va'>run</span><span class='op'>)</span> <span class='op'>{</span>
+  <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='fu'>parseGRASS</span><span class='op'>(</span><span class='st'>"r.buffer"</span><span class='op'>)</span><span class='op'>)</span>
+<span class='op'>}</span>
+</div><div class='output co'>#&gt; Command: r.buffer 
 #&gt; Description: Creates a raster map showing buffer zones surrounding cells that contain non-NULL category values. 
 #&gt; Keywords: raster, buffer 
 #&gt; Parameters:
@@ -283,58 +299,50 @@
 #&gt;   name: overwrite [Allow output files to overwrite existing files] {FALSE}
 #&gt;   name: help [Print usage summary] {FALSE}
 #&gt;   name: verbose [Verbose module output] {FALSE}
-#&gt;   name: quiet [Quiet module output] {FALSE}</div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
-  <span class='fu'>doGRASS</span>(<span class='st'>"r.buffer"</span>, <span class='kw'>flags</span><span class='kw'>=</span><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"overwrite"</span>), <span class='kw'>input</span><span class='kw'>=</span><span class='st'>"schools"</span>, <span class='kw'>output</span><span class='kw'>=</span><span class='st'>"bmap"</span>,
-    <span class='kw'>distances</span><span class='kw'>=</span><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/seq'>seq</a></span>(<span class='fl'>1000</span>,<span class='fl'>15000</span>,<span class='fl'>1000</span>))
-}</div><div class='output co'>#&gt; GRASS command: r.buffer --overwrite input=schools output=bmap distances=1000,2000,3000,4000,5000,6000,7000,8000,9000,10000,11000,12000,13000,14000,15000 </div><div class='output co'>#&gt; [1] "r.buffer --overwrite input=schools output=bmap distances=1000,2000,3000,4000,5000,6000,7000,8000,9000,10000,11000,12000,13000,14000,15000"
+#&gt;   name: quiet [Quiet module output] {FALSE}</div><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='va'>run</span><span class='op'>)</span> <span class='op'>{</span>
+  <span class='fu'>doGRASS</span><span class='op'>(</span><span class='st'>"r.buffer"</span>, flags<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"overwrite"</span><span class='op'>)</span>, input<span class='op'>=</span><span class='st'>"schools"</span>, output<span class='op'>=</span><span class='st'>"bmap"</span>,
+    distances<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='fl'>1000</span>,<span class='fl'>15000</span>,<span class='fl'>1000</span><span class='op'>)</span><span class='op'>)</span>
+<span class='op'>}</span>
+</div><div class='output co'>#&gt; GRASS command: r.buffer --overwrite input=schools output=bmap distances=1000,2000,3000,4000,5000,6000,7000,8000,9000,10000,11000,12000,13000,14000,15000 </div><div class='output co'>#&gt; [1] "r.buffer --overwrite input=schools output=bmap distances=1000,2000,3000,4000,5000,6000,7000,8000,9000,10000,11000,12000,13000,14000,15000"
 #&gt; attr(,"cmd")
-#&gt; [1] "r.buffer"</div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
-  <span class='no'>pars</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='kw'>input</span><span class='kw'>=</span><span class='st'>"schools"</span>, <span class='kw'>output</span><span class='kw'>=</span><span class='st'>"bmap"</span>, <span class='kw'>distances</span><span class='kw'>=</span><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/seq'>seq</a></span>(<span class='fl'>1000</span>,<span class='fl'>15000</span>,<span class='fl'>1000</span>))
-  <span class='fu'>doGRASS</span>(<span class='st'>"r.buffer"</span>, <span class='kw'>flags</span><span class='kw'>=</span><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"overwrite"</span>), <span class='kw'>parameters</span><span class='kw'>=</span><span class='no'>pars</span>)
-}</div><div class='output co'>#&gt; GRASS command: r.buffer --overwrite input=schools output=bmap distances=1000,2000,3000,4000,5000,6000,7000,8000,9000,10000,11000,12000,13000,14000,15000 </div><div class='output co'>#&gt; [1] "r.buffer --overwrite input=schools output=bmap distances=1000,2000,3000,4000,5000,6000,7000,8000,9000,10000,11000,12000,13000,14000,15000"
+#&gt; [1] "r.buffer"</div><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='va'>run</span><span class='op'>)</span> <span class='op'>{</span>
+  <span class='va'>pars</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>input<span class='op'>=</span><span class='st'>"schools"</span>, output<span class='op'>=</span><span class='st'>"bmap"</span>, distances<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='fl'>1000</span>,<span class='fl'>15000</span>,<span class='fl'>1000</span><span class='op'>)</span><span class='op'>)</span>
+  <span class='fu'>doGRASS</span><span class='op'>(</span><span class='st'>"r.buffer"</span>, flags<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"overwrite"</span><span class='op'>)</span>, parameters<span class='op'>=</span><span class='va'>pars</span><span class='op'>)</span>
+<span class='op'>}</span>
+</div><div class='output co'>#&gt; GRASS command: r.buffer --overwrite input=schools output=bmap distances=1000,2000,3000,4000,5000,6000,7000,8000,9000,10000,11000,12000,13000,14000,15000 </div><div class='output co'>#&gt; [1] "r.buffer --overwrite input=schools output=bmap distances=1000,2000,3000,4000,5000,6000,7000,8000,9000,10000,11000,12000,13000,14000,15000"
 #&gt; attr(,"cmd")
-#&gt; [1] "r.buffer"</div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
-  <span class='fu'><a href='gmeta.html'>set.echoCmdOption</a></span>(<span class='no'>oechoCmd</span>)
-  <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/try'>try</a></span>(<span class='no'>res</span> <span class='kw'>&lt;-</span> <span class='fu'>execGRASS</span>(<span class='st'>"r.stats"</span>, <span class='kw'>input</span> <span class='kw'>=</span> <span class='st'>"fire_blocksgg"</span>, <span class='co'># no such file</span>
-    <span class='kw'>flags</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"C"</span>, <span class='st'>"n"</span>)), <span class='kw'>silent</span><span class='kw'>=</span><span class='fl'>FALSE</span>)
-}</div><div class='output co'>#&gt; Error in execGRASS("r.stats", input = "fire_blocksgg", flags = c("C",  : 
+#&gt; [1] "r.buffer"</div><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='va'>run</span><span class='op'>)</span> <span class='op'>{</span>
+  <span class='fu'><a href='gmeta.html'>set.echoCmdOption</a></span><span class='op'>(</span><span class='va'>oechoCmd</span><span class='op'>)</span>
+  <span class='kw'><a href='https://rdrr.io/r/base/try.html'>try</a></span><span class='op'>(</span><span class='va'>res</span> <span class='op'>&lt;-</span> <span class='fu'>execGRASS</span><span class='op'>(</span><span class='st'>"r.stats"</span>, input <span class='op'>=</span> <span class='st'>"fire_blocksgg"</span>, <span class='co'># no such file</span>
+    flags <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"C"</span>, <span class='st'>"n"</span><span class='op'>)</span><span class='op'>)</span>, silent<span class='op'>=</span><span class='cn'>FALSE</span><span class='op'>)</span>
+<span class='op'>}</span>
+</div><div class='output co'>#&gt; Error in execGRASS("r.stats", input = "fire_blocksgg", flags = c("C",  : 
 #&gt;   The command:
 #&gt; r.stats -C -n input=fire_blocksgg
 #&gt; produced an error (1) during execution:
-#&gt; ERROR: Raster map &lt;fire_blocksgg&gt; not found</div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
-  <span class='no'>res</span> <span class='kw'>&lt;-</span> <span class='fu'>execGRASS</span>(<span class='st'>"r.stats"</span>, <span class='kw'>input</span> <span class='kw'>=</span> <span class='st'>"fire_blocksgg"</span>, <span class='kw'>flags</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"C"</span>, <span class='st'>"n"</span>),
-    <span class='kw'>legacyExec</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
-  <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='no'>res</span>)
-}</div><div class='output co'>#&gt; [1] 1</div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
-  <span class='kw'>if</span> (<span class='no'>res</span> <span class='kw'>!=</span> <span class='fl'>0</span>) {
-    <span class='no'>resERR</span> <span class='kw'>&lt;-</span> <span class='fu'>execGRASS</span>(<span class='st'>"r.stats"</span>, <span class='kw'>input</span> <span class='kw'>=</span> <span class='st'>"fire_blocksgg"</span>,
-      <span class='kw'>flags</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"C"</span>, <span class='st'>"n"</span>), <span class='kw'>redirect</span><span class='kw'>=</span><span class='fl'>TRUE</span>, <span class='kw'>legacyExec</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
-    <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='no'>resERR</span>)
-  }
-}</div><div class='output co'>#&gt; <span class='warning'>Warning: running command 'r.stats -C -n input=fire_blocksgg 2&gt;&amp;1' had status 1</span></div><div class='output co'>#&gt; [1] "ERROR: Raster map &lt;fire_blocksgg&gt; not found"
+#&gt; ERROR: Raster map &lt;fire_blocksgg&gt; not found</div><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='va'>run</span><span class='op'>)</span> <span class='op'>{</span>
+  <span class='va'>res</span> <span class='op'>&lt;-</span> <span class='fu'>execGRASS</span><span class='op'>(</span><span class='st'>"r.stats"</span>, input <span class='op'>=</span> <span class='st'>"fire_blocksgg"</span>, flags <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"C"</span>, <span class='st'>"n"</span><span class='op'>)</span>,
+    legacyExec<span class='op'>=</span><span class='cn'>TRUE</span><span class='op'>)</span>
+  <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='va'>res</span><span class='op'>)</span>
+<span class='op'>}</span>
+</div><div class='output co'>#&gt; [1] 1</div><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='va'>run</span><span class='op'>)</span> <span class='op'>{</span>
+  <span class='kw'>if</span> <span class='op'>(</span><span class='va'>res</span> <span class='op'>!=</span> <span class='fl'>0</span><span class='op'>)</span> <span class='op'>{</span>
+    <span class='va'>resERR</span> <span class='op'>&lt;-</span> <span class='fu'>execGRASS</span><span class='op'>(</span><span class='st'>"r.stats"</span>, input <span class='op'>=</span> <span class='st'>"fire_blocksgg"</span>, 
+      flags <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"C"</span>, <span class='st'>"n"</span><span class='op'>)</span>, redirect<span class='op'>=</span><span class='cn'>TRUE</span>, legacyExec<span class='op'>=</span><span class='cn'>TRUE</span><span class='op'>)</span>
+    <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='va'>resERR</span><span class='op'>)</span>
+  <span class='op'>}</span>
+<span class='op'>}</span>
+</div><div class='output co'>#&gt; <span class='warning'>Warning: running command 'r.stats -C -n input=fire_blocksgg 2&gt;&amp;1' had status 1</span></div><div class='output co'>#&gt; [1] "ERROR: Raster map &lt;fire_blocksgg&gt; not found"
 #&gt; attr(,"status")
 #&gt; [1] 1</div></pre>
   </div>
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
-    <h2>Contents</h2>
-    <ul class="nav nav-pills nav-stacked">
-      <li><a href="#arguments">Arguments</a></li>
-      
-      <li><a href="#details">Details</a></li>
-
-      <li><a href="#value">Value</a></li>
-
-      <li><a href="#note">Note</a></li>
-
-      <li><a href="#see-also">See also</a></li>
-      
-      <li><a href="#examples">Examples</a></li>
-    </ul>
-
-    <h2>Author</h2>
-    <p>Roger S. Bivand, e-mail: <a href='mailto:Roger.Bivand@nhh.no'>Roger.Bivand@nhh.no</a></p>
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
+    <nav id="toc" data-toggle="toc" class="sticky-top">
+      <h2 data-toc-skip>Contents</h2>
+    </nav>
   </div>
 </div>
+
 
       <footer>
       <div class="copyright">
@@ -342,13 +350,16 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
+
       </footer>
    </div>
 
   
 
+
   </body>
 </html>
+
 

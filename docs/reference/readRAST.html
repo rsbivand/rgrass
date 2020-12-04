@@ -8,21 +8,29 @@
 
 <title>Read and write GRASS 7 raster files — readRAST • rgrass7</title>
 
+
 <!-- jquery -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous" />
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous" />
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
+
+<!-- bootstrap-toc -->
+<link rel="stylesheet" href="../bootstrap-toc.css">
+<script src="../bootstrap-toc.js"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script>
 
-<!-- sticky kit -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script>
+<!-- headroom.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -30,10 +38,10 @@
 
 
 
-<meta property="og:title" content="Read and write GRASS 7 raster files — readRAST" />
 
+<meta property="og:title" content="Read and write GRASS 7 raster files — readRAST" />
 <meta property="og:description" content="Read GRASS 7 raster files from GRASS 7 into R SpatialGridDataFrame objects, and write single columns of R SpatialGridDataFrame objects to GRASS 7. readRAST and writeRAST use temporary binary files and r.out.bin and r.in.bin for speed reasons." />
-<meta name="twitter:card" content="summary" />
+
 
 
 
@@ -47,9 +55,10 @@
 <![endif]-->
 
 
+
   </head>
 
-  <body>
+  <body data-spy="scroll" data-target="#toc">
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -63,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rgrass7</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2-3</span>
       </span>
     </div>
 
@@ -71,7 +80,7 @@
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fa fa-home fa-lg"></span>
+    <span class="fas fa fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -79,9 +88,13 @@
   <a href="../reference/index.html">Reference</a>
 </li>
       </ul>
-      
       <ul class="nav navbar-nav navbar-right">
-        
+        <li>
+  <a href="https://github.com/rsbivand/rgrass7/">
+    <span class="fab fa fab fa-github fa-lg"></span>
+     
+  </a>
+</li>
       </ul>
       
     </div><!--/.nav-collapse -->
@@ -89,6 +102,7 @@
 </div><!--/.navbar -->
 
       
+
       </header>
 
 <div class="row">
@@ -100,19 +114,17 @@
     </div>
 
     <div class="ref-description">
-    
     <p>Read GRASS 7 raster files from GRASS 7 into R SpatialGridDataFrame objects, and write single columns of R SpatialGridDataFrame objects to GRASS 7. <code>readRAST</code> and <code>writeRAST</code> use temporary binary files and r.out.bin and r.in.bin for speed reasons.</p>
-    
     </div>
 
-    <pre class="usage"><span class='fu'>readRAST</span>(<span class='no'>vname</span>, <span class='kw'>cat</span><span class='kw'>=</span><span class='kw'>NULL</span>, <span class='kw'>ignore.stderr</span> <span class='kw'>=</span> <span class='fu'><a href='gmeta.html'>get.ignore.stderrOption</a></span>(),
- <span class='kw'>NODATA</span><span class='kw'>=</span><span class='kw'>NULL</span>, <span class='kw'>plugin</span><span class='kw'>=</span><span class='fu'><a href='gmeta.html'>get.pluginOption</a></span>(), <span class='kw'>mapset</span><span class='kw'>=</span><span class='kw'>NULL</span>,
- <span class='kw'>useGDAL</span><span class='kw'>=</span><span class='fu'><a href='gmeta.html'>get.useGDALOption</a></span>(), <span class='kw'>close_OK</span><span class='kw'>=</span><span class='fl'>TRUE</span>, <span class='kw'>drivername</span><span class='kw'>=</span><span class='st'>"GTiff"</span>,
- <span class='kw'>driverFileExt</span><span class='kw'>=</span><span class='kw'>NULL</span>, <span class='kw'>return_SGDF</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
-<span class='fu'>writeRAST</span>(<span class='no'>x</span>, <span class='no'>vname</span>, <span class='kw'>zcol</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>NODATA</span><span class='kw'>=</span><span class='kw'>NULL</span>,
- <span class='kw'>ignore.stderr</span> <span class='kw'>=</span> <span class='fu'><a href='gmeta.html'>get.ignore.stderrOption</a></span>(), <span class='kw'>useGDAL</span><span class='kw'>=</span><span class='fu'><a href='gmeta.html'>get.useGDALOption</a></span>(),
- <span class='kw'>overwrite</span><span class='kw'>=</span><span class='fl'>FALSE</span>, <span class='kw'>flags</span><span class='kw'>=</span><span class='kw'>NULL</span>, <span class='kw'>drivername</span><span class='kw'>=</span><span class='st'>"GTiff"</span>)</pre>
-    
+    <pre class="usage"><span class='fu'>readRAST</span><span class='op'>(</span><span class='va'>vname</span>, cat<span class='op'>=</span><span class='cn'>NULL</span>, ignore.stderr <span class='op'>=</span> <span class='fu'><a href='gmeta.html'>get.ignore.stderrOption</a></span><span class='op'>(</span><span class='op'>)</span>,
+ NODATA<span class='op'>=</span><span class='cn'>NULL</span>, plugin<span class='op'>=</span><span class='fu'><a href='gmeta.html'>get.pluginOption</a></span><span class='op'>(</span><span class='op'>)</span>, mapset<span class='op'>=</span><span class='cn'>NULL</span>,
+ useGDAL<span class='op'>=</span><span class='fu'><a href='gmeta.html'>get.useGDALOption</a></span><span class='op'>(</span><span class='op'>)</span>, close_OK<span class='op'>=</span><span class='cn'>TRUE</span>, drivername<span class='op'>=</span><span class='st'>"GTiff"</span>,
+ driverFileExt<span class='op'>=</span><span class='cn'>NULL</span>, return_SGDF<span class='op'>=</span><span class='cn'>TRUE</span><span class='op'>)</span>
+<span class='fu'>writeRAST</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>vname</span>, zcol <span class='op'>=</span> <span class='fl'>1</span>, NODATA<span class='op'>=</span><span class='cn'>NULL</span>,
+ ignore.stderr <span class='op'>=</span> <span class='fu'><a href='gmeta.html'>get.ignore.stderrOption</a></span><span class='op'>(</span><span class='op'>)</span>, useGDAL<span class='op'>=</span><span class='fu'><a href='gmeta.html'>get.useGDALOption</a></span><span class='op'>(</span><span class='op'>)</span>,
+ overwrite<span class='op'>=</span><span class='cn'>FALSE</span>, flags<span class='op'>=</span><span class='cn'>NULL</span>, drivername<span class='op'>=</span><span class='st'>"GTiff"</span><span class='op'>)</span></pre>
+
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
@@ -126,7 +138,7 @@
     </tr>
     <tr>
       <th>ignore.stderr</th>
-      <td><p>default taking the value set by <code>set.ignore.stderrOption</code>; can be set to TRUE to silence <code><a href='https://www.rdocumentation.org/packages/base/topics/system'>system()</a></code> output to standard error; does not apply on Windows platforms</p></td>
+      <td><p>default taking the value set by <code>set.ignore.stderrOption</code>; can be set to TRUE to silence <code><a href='https://rdrr.io/r/base/system.html'>system()</a></code> output to standard error; does not apply on Windows platforms</p></td>
     </tr>
     <tr>
       <th>plugin</th>
@@ -167,7 +179,7 @@
     </tr>
     <tr>
       <th>NODATA</th>
-      <td><p>by default NULL, in which case it is set to one less than <code><a href='https://www.rdocumentation.org/packages/base/topics/Round'>floor()</a></code>of the data values, otherwise an integer NODATA value (required to be integer by GRASS r.out.bin)</p></td>
+      <td><p>by default NULL, in which case it is set to one less than <code><a href='https://rdrr.io/r/base/Round.html'>floor()</a></code>of the data values, otherwise an integer NODATA value (required to be integer by GRASS r.out.bin)</p></td>
     </tr>
     <tr>
       <th>overwrite</th>
@@ -178,34 +190,40 @@
       <td><p>default NULL, character vector, for example <code>"overwrite"</code></p></td>
     </tr>
     </table>
-    
+
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p><code>readRAST</code> returns a SpatialGridDataFrame objects with an data.frame in the data slots, and with the projection argument set. Note that the projection argument set is the the GRASS rendering of proj4, and will differ from the WKT/ESRI rendering returned by readVECT in form but not meaning. They are exchangeable but not textually identical, usually with the +ellps= term replaced by ellipsoid parameters verbatim. If return_SGDF is FALSE, a list with a <code>GridTopology</code> object, a list of bands, and a proj4string is returned, with an S3 class attribute of &#8220;gridList&#8221;.</p>
-    
+    <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
+
+    <p>Roger S. Bivand, e-mail: <a href='mailto:Roger.Bivand@nhh.no'>Roger.Bivand@nhh.no</a></p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='gmeta.html'>use_sp</a></span>()
-<span class='no'>run</span> <span class='kw'>&lt;-</span> <span class='fl'>FALSE</span>
-<span class='kw'>if</span> (<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/nchar'>nchar</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/Sys.getenv'>Sys.getenv</a></span>(<span class='st'>"GISRC"</span>)) <span class='kw'>&gt;</span> <span class='fl'>0</span> <span class='kw'>&amp;&amp;</span>
-  <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/dcf'>read.dcf</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/Sys.getenv'>Sys.getenv</a></span>(<span class='st'>"GISRC"</span>))[<span class='fl'>1</span>,<span class='st'>"LOCATION_NAME"</span>] <span class='kw'>==</span> <span class='st'>"nc_basic_spm_grass7"</span>) <span class='no'>run</span> <span class='kw'>&lt;-</span> <span class='fl'>TRUE</span>
-  <span class='no'>GV</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/Sys.getenv'>Sys.getenv</a></span>(<span class='st'>"GRASS_VERBOSE"</span>)
-  <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/Sys.setenv'>Sys.setenv</a></span>(<span class='st'>"GRASS_VERBOSE"</span><span class='kw'>=</span><span class='fl'>0</span>)
+    <pre class="examples"><div class='input'><span class='fu'><a href='gmeta.html'>use_sp</a></span><span class='op'>(</span><span class='op'>)</span>
+<span class='va'>run</span> <span class='op'>&lt;-</span> <span class='cn'>FALSE</span>
+<span class='kw'>if</span> <span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/nchar.html'>nchar</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/Sys.getenv.html'>Sys.getenv</a></span><span class='op'>(</span><span class='st'>"GISRC"</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>&gt;</span> <span class='fl'>0</span> <span class='op'>&amp;&amp;</span>
+  <span class='fu'><a href='https://rdrr.io/r/base/dcf.html'>read.dcf</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/Sys.getenv.html'>Sys.getenv</a></span><span class='op'>(</span><span class='st'>"GISRC"</span><span class='op'>)</span><span class='op'>)</span><span class='op'>[</span><span class='fl'>1</span>,<span class='st'>"LOCATION_NAME"</span><span class='op'>]</span> <span class='op'>==</span> <span class='st'>"nc_basic_spm_grass7"</span><span class='op'>)</span> <span class='va'>run</span> <span class='op'>&lt;-</span> <span class='cn'>TRUE</span>
+  <span class='va'>GV</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/Sys.getenv.html'>Sys.getenv</a></span><span class='op'>(</span><span class='st'>"GRASS_VERBOSE"</span><span class='op'>)</span>
+  <span class='fu'><a href='https://rdrr.io/r/base/Sys.setenv.html'>Sys.setenv</a></span><span class='op'>(</span><span class='st'>"GRASS_VERBOSE"</span><span class='op'>=</span><span class='fl'>0</span><span class='op'>)</span>
 <span class='co'>#  require(rgdal)</span>
-  <span class='no'>ois</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='gmeta.html'>get.ignore.stderrOption</a></span>()
-  <span class='fu'><a href='gmeta.html'>set.ignore.stderrOption</a></span>(<span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; [1] FALSE</div><div class='input'>  <span class='fu'><a href='gmeta.html'>get.useGDALOption</a></span>()</div><div class='output co'>#&gt; [1] TRUE</div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
-  <span class='no'>nc_basic</span> <span class='kw'>&lt;-</span> <span class='fu'>readRAST</span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"geology"</span>, <span class='st'>"elevation"</span>), <span class='kw'>cat</span><span class='kw'>=</span><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>TRUE</span>, <span class='fl'>FALSE</span>),
-    <span class='kw'>useGDAL</span><span class='kw'>=</span><span class='fl'>FALSE</span>)
-  <span class='no'>nc_basic</span> <span class='kw'>&lt;-</span> <span class='fu'>readRAST</span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"geology"</span>, <span class='st'>"elevation"</span>), <span class='kw'>cat</span><span class='kw'>=</span><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>TRUE</span>, <span class='fl'>FALSE</span>),
-    <span class='kw'>useGDAL</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
-  <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/table'>table</a></span>(<span class='no'>nc_basic</span>$<span class='no'>geology</span>))
-}</div><div class='output co'>#&gt; <span class='warning'>Warning: non-unique category labels; category number appended</span></div><div class='output co'>#&gt; <span class='warning'>Warning: non-unique category labels; category number appended</span></div><div class='output co'>#&gt; 
+  <span class='va'>ois</span> <span class='op'>&lt;-</span> <span class='fu'><a href='gmeta.html'>get.ignore.stderrOption</a></span><span class='op'>(</span><span class='op'>)</span>
+  <span class='fu'><a href='gmeta.html'>set.ignore.stderrOption</a></span><span class='op'>(</span><span class='cn'>TRUE</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] FALSE</div><div class='input'>  <span class='fu'><a href='gmeta.html'>get.useGDALOption</a></span><span class='op'>(</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] TRUE</div><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='va'>run</span><span class='op'>)</span> <span class='op'>{</span>
+  <span class='va'>nc_basic</span> <span class='op'>&lt;-</span> <span class='fu'>readRAST</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"geology"</span>, <span class='st'>"elevation"</span><span class='op'>)</span>, cat<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='cn'>TRUE</span>, <span class='cn'>FALSE</span><span class='op'>)</span>,
+    useGDAL<span class='op'>=</span><span class='cn'>FALSE</span><span class='op'>)</span>
+  <span class='va'>nc_basic</span> <span class='op'>&lt;-</span> <span class='fu'>readRAST</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"geology"</span>, <span class='st'>"elevation"</span><span class='op'>)</span>, cat<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='cn'>TRUE</span>, <span class='cn'>FALSE</span><span class='op'>)</span>,
+    useGDAL<span class='op'>=</span><span class='cn'>TRUE</span><span class='op'>)</span>
+  <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/table.html'>table</a></span><span class='op'>(</span><span class='va'>nc_basic</span><span class='op'>$</span><span class='va'>geology</span><span class='op'>)</span><span class='op'>)</span>
+<span class='op'>}</span>
+</div><div class='output co'>#&gt; <span class='warning'>Warning: Discarded datum NAD83 (High Accuracy Reference Network) in CRS definition</span></div><div class='output co'>#&gt; <span class='warning'>Warning: non-unique category labels; category number appended</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Discarded datum NAD83 (High Accuracy Reference Network) in CRS definition</span></div><div class='output co'>#&gt; <span class='warning'>Warning: non-unique category labels; category number appended</span></div><div class='output co'>#&gt; 
 #&gt; CZfg_217 CZlg_262 CZig_270 CZbg_405 CZve_583 CZam_720  CZg_766 CZam_862 
 #&gt;   725562   198684   689373   253710    21609     4824     7074    61722 
 #&gt; CZbg_910   Km_921 CZbg_945 CZam_946 CZam_948 
-#&gt;    44964    12528        9     4068      873 </div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
-  <span class='fu'><a href='execGRASS.html'>execGRASS</a></span>(<span class='st'>"r.stats"</span>, <span class='kw'>flags</span><span class='kw'>=</span><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"c"</span>, <span class='st'>"l"</span>, <span class='st'>"quiet"</span>), <span class='kw'>input</span><span class='kw'>=</span><span class='st'>"geology"</span>)
-}</div><div class='output co'>#&gt; 217 CZfg 725562
+#&gt;    44964    12528        9     4068      873 </div><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='va'>run</span><span class='op'>)</span> <span class='op'>{</span>
+  <span class='fu'><a href='execGRASS.html'>execGRASS</a></span><span class='op'>(</span><span class='st'>"r.stats"</span>, flags<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"c"</span>, <span class='st'>"l"</span>, <span class='st'>"quiet"</span><span class='op'>)</span>, input<span class='op'>=</span><span class='st'>"geology"</span><span class='op'>)</span>
+<span class='op'>}</span>
+</div><div class='output co'>#&gt; 217 CZfg 725562
 #&gt; 262 CZlg 198684
 #&gt; 270 CZig 689373
 #&gt; 405 CZbg 253710
@@ -217,27 +235,29 @@
 #&gt; 921 Km 12528
 #&gt; 945 CZbg 9
 #&gt; 946 CZam 4068
-#&gt; 948 CZam 873</div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
-  <span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/boxplot'>boxplot</a></span>(<span class='no'>nc_basic</span>$<span class='no'>elevation</span> ~ <span class='no'>nc_basic</span>$<span class='no'>geology</span>)
-}</div><div class='img'><img src='readRAST-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
-  <span class='no'>nc_basic</span>$<span class='no'>sqdem</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/MathFun'>sqrt</a></span>(<span class='no'>nc_basic</span>$<span class='no'>elevation</span>)
-}
-<span class='kw'>if</span> (<span class='no'>run</span>) {
-  <span class='kw'>if</span> (<span class='st'>"GRASS"</span> <span class='kw'>%in%</span> <span class='kw pkg'>rgdal</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/rgdal/topics/GDALDriver-class'>gdalDrivers</a></span>()$<span class='no'>name</span>) {
-    <span class='fu'><a href='execGRASS.html'>execGRASS</a></span>(<span class='st'>"g.region"</span>, <span class='kw'>raster</span><span class='kw'>=</span><span class='st'>"elevation"</span>)
-    <span class='no'>dem1</span> <span class='kw'>&lt;-</span> <span class='fu'>readRAST</span>(<span class='st'>"elevation"</span>, <span class='kw'>plugin</span><span class='kw'>=</span><span class='fl'>TRUE</span>, <span class='kw'>mapset</span><span class='kw'>=</span><span class='st'>"PERMANENT"</span>)
-    <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>dem1</span>))
-    <span class='fu'><a href='execGRASS.html'>execGRASS</a></span>(<span class='st'>"g.region"</span>, <span class='kw'>raster</span><span class='kw'>=</span><span class='st'>"elevation"</span>)
-  }
-}
-<span class='kw'>if</span> (<span class='no'>run</span>) {
-  <span class='fu'>writeRAST</span>(<span class='no'>nc_basic</span>, <span class='st'>"sqdemSP"</span>, <span class='kw'>zcol</span><span class='kw'>=</span><span class='st'>"sqdem"</span>, <span class='kw'>flags</span><span class='kw'>=</span><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"quiet"</span>, <span class='st'>"overwrite"</span>))
-  <span class='fu'><a href='execGRASS.html'>execGRASS</a></span>(<span class='st'>"r.info"</span>, <span class='kw'>map</span><span class='kw'>=</span><span class='st'>"sqdemSP"</span>)
-}</div><div class='output co'>#&gt;  +----------------------------------------------------------------------------+
-#&gt;  | Map:      sqdemSP                        Date: Tue Aug  6 11:02:24 2019    |
+#&gt; 948 CZam 873</div><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='va'>run</span><span class='op'>)</span> <span class='op'>{</span>
+  <span class='fu'><a href='https://rdrr.io/r/graphics/boxplot.html'>boxplot</a></span><span class='op'>(</span><span class='va'>nc_basic</span><span class='op'>$</span><span class='va'>elevation</span> <span class='op'>~</span> <span class='va'>nc_basic</span><span class='op'>$</span><span class='va'>geology</span><span class='op'>)</span>
+<span class='op'>}</span>
+</div><div class='img'><img src='readRAST-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='va'>run</span><span class='op'>)</span> <span class='op'>{</span>
+  <span class='va'>nc_basic</span><span class='op'>$</span><span class='va'>sqdem</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/MathFun.html'>sqrt</a></span><span class='op'>(</span><span class='va'>nc_basic</span><span class='op'>$</span><span class='va'>elevation</span><span class='op'>)</span>
+<span class='op'>}</span>
+<span class='kw'>if</span> <span class='op'>(</span><span class='va'>run</span><span class='op'>)</span> <span class='op'>{</span>
+  <span class='kw'>if</span> <span class='op'>(</span><span class='st'>"GRASS"</span> <span class='op'>%in%</span> <span class='fu'>rgdal</span><span class='fu'>::</span><span class='fu'><a href='http://rgdal.r-forge.r-project.org/reference/GDALDriver-class.html'>gdalDrivers</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>$</span><span class='va'>name</span><span class='op'>)</span> <span class='op'>{</span>
+    <span class='fu'><a href='execGRASS.html'>execGRASS</a></span><span class='op'>(</span><span class='st'>"g.region"</span>, raster<span class='op'>=</span><span class='st'>"elevation"</span><span class='op'>)</span>
+    <span class='va'>dem1</span> <span class='op'>&lt;-</span> <span class='fu'>readRAST</span><span class='op'>(</span><span class='st'>"elevation"</span>, plugin<span class='op'>=</span><span class='cn'>TRUE</span>, mapset<span class='op'>=</span><span class='st'>"PERMANENT"</span><span class='op'>)</span>
+    <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span><span class='op'>(</span><span class='va'>dem1</span><span class='op'>)</span><span class='op'>)</span>
+    <span class='fu'><a href='execGRASS.html'>execGRASS</a></span><span class='op'>(</span><span class='st'>"g.region"</span>, raster<span class='op'>=</span><span class='st'>"elevation"</span><span class='op'>)</span>
+  <span class='op'>}</span>
+<span class='op'>}</span>
+<span class='kw'>if</span> <span class='op'>(</span><span class='va'>run</span><span class='op'>)</span> <span class='op'>{</span>
+  <span class='fu'>writeRAST</span><span class='op'>(</span><span class='va'>nc_basic</span>, <span class='st'>"sqdemSP"</span>, zcol<span class='op'>=</span><span class='st'>"sqdem"</span>, flags<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"quiet"</span>, <span class='st'>"overwrite"</span><span class='op'>)</span><span class='op'>)</span>
+  <span class='fu'><a href='execGRASS.html'>execGRASS</a></span><span class='op'>(</span><span class='st'>"r.info"</span>, map<span class='op'>=</span><span class='st'>"sqdemSP"</span><span class='op'>)</span>
+<span class='op'>}</span>
+</div><div class='output co'>#&gt;  +----------------------------------------------------------------------------+
+#&gt;  | Map:      sqdemSP                        Date: Fri Dec  4 11:27:09 2020    |
 #&gt;  | Mapset:   rsb                            Login of Creator: rsb             |
 #&gt;  | Location: nc_basic_spm_grass7                                              |
-#&gt;  | DataBase: /home/rsb/topics/grassdata7                                      |
+#&gt;  | DataBase: /home/rsb/topics/grassdata                                       |
 #&gt;  | Title:                                                                     |
 #&gt;  | Timestamp: none                                                            |
 #&gt;  |----------------------------------------------------------------------------|
@@ -256,23 +276,24 @@
 #&gt;  |    generated by r.in.bin                                                   |
 #&gt;  |                                                                            |
 #&gt;  |   Comments:                                                                |
-#&gt;  |    r.in.bin --overwrite --quiet -d input="/home/rsb/topics/grassdata7/n\   |
-#&gt;  |    c_basic_spm_grass7/rsb/.tmp/reclus.nhh.no/X601" output="sqdemSP" byt\   |
-#&gt;  |    es=8 header=0 bands=1 order="native" north=228500 south=215000 east=\   |
-#&gt;  |    645000 west=630000 rows=1350 cols=1500 anull=6                          |
+#&gt;  |    r.in.bin --overwrite --quiet -d input="/home/rsb/topics/grassdata/nc\   |
+#&gt;  |    _basic_spm_grass7/rsb/.tmp/localhost.localdomain/X601" output="sqdem\   |
+#&gt;  |    SP" bytes=8 header=0 bands=1 order="native" north=228500 south=21500\   |
+#&gt;  |    0 east=645000 west=630000 rows=1350 cols=1500 anull=6                   |
 #&gt;  |                                                                            |
 #&gt;  +----------------------------------------------------------------------------+
-#&gt; </div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
-  <span class='fu'><a href='execGRASS.html'>execGRASS</a></span>(<span class='st'>"g.remove"</span>, <span class='kw'>flags</span><span class='kw'>=</span><span class='st'>"f"</span>, <span class='kw'>name</span><span class='kw'>=</span><span class='st'>"sqdemSP"</span>, <span class='kw'>type</span><span class='kw'>=</span><span class='st'>"raster"</span>)
-}
-<span class='kw'>if</span> (<span class='no'>run</span>) {
-  <span class='fu'>writeRAST</span>(<span class='no'>nc_basic</span>, <span class='st'>"sqdemSP"</span>, <span class='kw'>zcol</span><span class='kw'>=</span><span class='st'>"sqdem"</span>, <span class='kw'>useGDAL</span><span class='kw'>=</span><span class='fl'>TRUE</span>, <span class='kw'>flags</span><span class='kw'>=</span><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"quiet"</span>, <span class='st'>"overwrite"</span>))
-  <span class='fu'><a href='execGRASS.html'>execGRASS</a></span>(<span class='st'>"r.info"</span>, <span class='kw'>map</span><span class='kw'>=</span><span class='st'>"sqdemSP"</span>)
-}</div><div class='output co'>#&gt;  +----------------------------------------------------------------------------+
-#&gt;  | Map:      sqdemSP                        Date: Tue Aug  6 11:02:25 2019    |
+#&gt; </div><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='va'>run</span><span class='op'>)</span> <span class='op'>{</span>
+  <span class='fu'><a href='execGRASS.html'>execGRASS</a></span><span class='op'>(</span><span class='st'>"g.remove"</span>, flags<span class='op'>=</span><span class='st'>"f"</span>, name<span class='op'>=</span><span class='st'>"sqdemSP"</span>, type<span class='op'>=</span><span class='st'>"raster"</span><span class='op'>)</span>
+<span class='op'>}</span>
+<span class='kw'>if</span> <span class='op'>(</span><span class='va'>run</span><span class='op'>)</span> <span class='op'>{</span>
+  <span class='fu'>writeRAST</span><span class='op'>(</span><span class='va'>nc_basic</span>, <span class='st'>"sqdemSP"</span>, zcol<span class='op'>=</span><span class='st'>"sqdem"</span>, useGDAL<span class='op'>=</span><span class='cn'>TRUE</span>, flags<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"quiet"</span>, <span class='st'>"overwrite"</span><span class='op'>)</span><span class='op'>)</span>
+  <span class='fu'><a href='execGRASS.html'>execGRASS</a></span><span class='op'>(</span><span class='st'>"r.info"</span>, map<span class='op'>=</span><span class='st'>"sqdemSP"</span><span class='op'>)</span>
+<span class='op'>}</span>
+</div><div class='output co'>#&gt;  +----------------------------------------------------------------------------+
+#&gt;  | Map:      sqdemSP                        Date: Fri Dec  4 11:27:09 2020    |
 #&gt;  | Mapset:   rsb                            Login of Creator: rsb             |
 #&gt;  | Location: nc_basic_spm_grass7                                              |
-#&gt;  | DataBase: /home/rsb/topics/grassdata7                                      |
+#&gt;  | DataBase: /home/rsb/topics/grassdata                                       |
 #&gt;  | Title:                                                                     |
 #&gt;  | Timestamp: none                                                            |
 #&gt;  |----------------------------------------------------------------------------|
@@ -291,33 +312,38 @@
 #&gt;  |    generated by r.in.bin                                                   |
 #&gt;  |                                                                            |
 #&gt;  |   Comments:                                                                |
-#&gt;  |    r.in.bin --overwrite --quiet -d input="/home/rsb/topics/grassdata7/n\   |
-#&gt;  |    c_basic_spm_grass7/rsb/.tmp/reclus.nhh.no/X158" output="sqdemSP" byt\   |
-#&gt;  |    es=8 header=0 bands=1 order="native" north=228500 south=215000 east=\   |
-#&gt;  |    645000 west=630000 rows=1350 cols=1500 anull=6                          |
+#&gt;  |    r.in.bin --overwrite --quiet -d input="/home/rsb/topics/grassdata/nc\   |
+#&gt;  |    _basic_spm_grass7/rsb/.tmp/localhost.localdomain/X158" output="sqdem\   |
+#&gt;  |    SP" bytes=8 header=0 bands=1 order="native" north=228500 south=21500\   |
+#&gt;  |    0 east=645000 west=630000 rows=1350 cols=1500 anull=6                   |
 #&gt;  |                                                                            |
 #&gt;  +----------------------------------------------------------------------------+
-#&gt; </div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
-  <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/system.time'>system.time</a></span>(<span class='no'>sqdemSP</span> <span class='kw'>&lt;-</span> <span class='fu'>readRAST</span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"sqdemSP"</span>, <span class='st'>"elevation"</span>),
-    <span class='kw'>useGDAL</span><span class='kw'>=</span><span class='fl'>TRUE</span>, <span class='kw'>return_SGDF</span><span class='kw'>=</span><span class='fl'>FALSE</span>)))
-}</div><div class='output co'>#&gt;    user  system elapsed 
-#&gt;   0.499   0.132   0.635 </div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
-  <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/system.time'>system.time</a></span>(<span class='no'>sqdemSP</span> <span class='kw'>&lt;-</span> <span class='fu'>readRAST</span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"sqdemSP"</span>, <span class='st'>"elevation"</span>),
-    <span class='kw'>useGDAL</span><span class='kw'>=</span><span class='fl'>TRUE</span>, <span class='kw'>return_SGDF</span><span class='kw'>=</span><span class='fl'>TRUE</span>)))
-}</div><div class='output co'>#&gt;    user  system elapsed 
-#&gt;   0.508   0.135   0.644 </div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
-  <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/system.time'>system.time</a></span>(<span class='no'>sqdemSP</span> <span class='kw'>&lt;-</span> <span class='fu'>readRAST</span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"sqdemSP"</span>, <span class='st'>"elevation"</span>),
-    <span class='kw'>useGDAL</span><span class='kw'>=</span><span class='fl'>FALSE</span>, <span class='kw'>return_SGDF</span><span class='kw'>=</span><span class='fl'>TRUE</span>)))
-}</div><div class='output co'>#&gt;    user  system elapsed 
-#&gt;   0.511   0.134   0.648 </div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
-  <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/system.time'>system.time</a></span>(<span class='no'>sqdemSP</span> <span class='kw'>&lt;-</span> <span class='fu'>readRAST</span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"sqdemSP"</span>, <span class='st'>"elevation"</span>),
-    <span class='kw'>useGDAL</span><span class='kw'>=</span><span class='fl'>FALSE</span>, <span class='kw'>return_SGDF</span><span class='kw'>=</span><span class='fl'>FALSE</span>)))
-}</div><div class='output co'>#&gt;    user  system elapsed 
-#&gt;   0.507   0.127   0.637 </div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
-  <span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/str'>str</a></span>(<span class='no'>sqdemSP</span>)
-  <span class='no'>mat</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/do.call'>do.call</a></span>(<span class='st'>"cbind"</span>, <span class='no'>sqdemSP</span>$<span class='no'>dataList</span>)
-  <span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/str'>str</a></span>(<span class='no'>mat</span>)
-}</div><div class='output co'>#&gt; List of 3
+#&gt; </div><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='va'>run</span><span class='op'>)</span> <span class='op'>{</span>
+  <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/system.time.html'>system.time</a></span><span class='op'>(</span><span class='va'>sqdemSP</span> <span class='op'>&lt;-</span> <span class='fu'>readRAST</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"sqdemSP"</span>, <span class='st'>"elevation"</span><span class='op'>)</span>,
+    useGDAL<span class='op'>=</span><span class='cn'>TRUE</span>, return_SGDF<span class='op'>=</span><span class='cn'>FALSE</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>
+<span class='op'>}</span>
+</div><div class='output co'>#&gt; <span class='warning'>Warning: Discarded datum NAD83 (High Accuracy Reference Network) in CRS definition</span></div><div class='output co'>#&gt;    user  system elapsed 
+#&gt;   0.473   0.071   0.552 </div><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='va'>run</span><span class='op'>)</span> <span class='op'>{</span>
+  <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/system.time.html'>system.time</a></span><span class='op'>(</span><span class='va'>sqdemSP</span> <span class='op'>&lt;-</span> <span class='fu'>readRAST</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"sqdemSP"</span>, <span class='st'>"elevation"</span><span class='op'>)</span>,
+    useGDAL<span class='op'>=</span><span class='cn'>TRUE</span>, return_SGDF<span class='op'>=</span><span class='cn'>TRUE</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>
+<span class='op'>}</span>
+</div><div class='output co'>#&gt; <span class='warning'>Warning: Discarded datum NAD83 (High Accuracy Reference Network) in CRS definition</span></div><div class='output co'>#&gt;    user  system elapsed 
+#&gt;   0.479   0.070   0.558 </div><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='va'>run</span><span class='op'>)</span> <span class='op'>{</span>
+  <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/system.time.html'>system.time</a></span><span class='op'>(</span><span class='va'>sqdemSP</span> <span class='op'>&lt;-</span> <span class='fu'>readRAST</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"sqdemSP"</span>, <span class='st'>"elevation"</span><span class='op'>)</span>,
+    useGDAL<span class='op'>=</span><span class='cn'>FALSE</span>, return_SGDF<span class='op'>=</span><span class='cn'>TRUE</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>
+<span class='op'>}</span>
+</div><div class='output co'>#&gt; <span class='warning'>Warning: Discarded datum NAD83 (High Accuracy Reference Network) in CRS definition</span></div><div class='output co'>#&gt;    user  system elapsed 
+#&gt;   0.485   0.059   0.550 </div><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='va'>run</span><span class='op'>)</span> <span class='op'>{</span>
+  <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/system.time.html'>system.time</a></span><span class='op'>(</span><span class='va'>sqdemSP</span> <span class='op'>&lt;-</span> <span class='fu'>readRAST</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"sqdemSP"</span>, <span class='st'>"elevation"</span><span class='op'>)</span>,
+    useGDAL<span class='op'>=</span><span class='cn'>FALSE</span>, return_SGDF<span class='op'>=</span><span class='cn'>FALSE</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>
+<span class='op'>}</span>
+</div><div class='output co'>#&gt; <span class='warning'>Warning: Discarded datum NAD83 (High Accuracy Reference Network) in CRS definition</span></div><div class='output co'>#&gt;    user  system elapsed 
+#&gt;   0.480   0.059   0.545 </div><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='va'>run</span><span class='op'>)</span> <span class='op'>{</span>
+  <span class='fu'><a href='https://rdrr.io/r/utils/str.html'>str</a></span><span class='op'>(</span><span class='va'>sqdemSP</span><span class='op'>)</span>
+  <span class='va'>mat</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/do.call.html'>do.call</a></span><span class='op'>(</span><span class='st'>"cbind"</span>, <span class='va'>sqdemSP</span><span class='op'>$</span><span class='va'>dataList</span><span class='op'>)</span>
+  <span class='fu'><a href='https://rdrr.io/r/utils/str.html'>str</a></span><span class='op'>(</span><span class='va'>mat</span><span class='op'>)</span>
+<span class='op'>}</span>
+</div><div class='output co'>#&gt; List of 3
 #&gt;  $ grid       :Formal class 'GridTopology' [package "sp"] with 3 slots
 #&gt;   .. ..@ cellcentre.offset: num [1:2] 630005 215005
 #&gt;   .. ..@ cellsize         : num [1:2] 10 10
@@ -326,23 +352,26 @@
 #&gt;   ..$ sqdemSP  : num [1:2025000] 11.9 11.9 11.9 11.9 12 ...
 #&gt;   ..$ elevation: num [1:2025000] 142 141 141 142 143 ...
 #&gt;  $ proj4string:Formal class 'CRS' [package "sp"] with 1 slot
-#&gt;   .. ..@ projargs: chr "+proj=lcc +lat_1=36.16666666666666 +lat_2=34.33333333333334 +lat_0=33.75 +lon_0=-79 +x_0=609601.22 +y_0=0 +no_d"| __truncated__
+#&gt;   .. ..@ projargs: chr "+proj=lcc +lat_0=33.75 +lon_0=-79 +lat_1=36.1666666666667 +lat_2=34.3333333333333 +x_0=609601.22 +y_0=0 +ellps="| __truncated__
 #&gt;  - attr(*, "class")= chr "gridList"
 #&gt;  num [1:2025000, 1:2] 11.9 11.9 11.9 11.9 12 ...
 #&gt;  - attr(*, "dimnames")=List of 2
 #&gt;   ..$ : NULL
-#&gt;   ..$ : chr [1:2] "sqdemSP" "elevation"</div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
-  <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/system.time'>system.time</a></span>(<span class='no'>SGDF</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>sp</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/sp/topics/SpatialGridDataFrame'>SpatialGridDataFrame</a></span>(<span class='kw'>grid</span><span class='kw'>=</span><span class='no'>sqdemSP</span>$<span class='no'>grid</span>,
-    <span class='kw'>proj4string</span><span class='kw'>=</span><span class='no'>sqdemSP</span>$<span class='no'>proj4string</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/as.data.frame'>as.data.frame</a></span>(<span class='no'>sqdemSP</span>$<span class='no'>dataList</span>))))
-}</div><div class='output co'>#&gt;    user  system elapsed 
-#&gt;   0.001   0.000   0.001 </div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
-  <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>SGDF</span>)
-}</div><div class='output co'>#&gt;               Length                Class                 Mode 
-#&gt;              2025000 SpatialGridDataFrame                   S4 </div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
-  <span class='fu'><a href='execGRASS.html'>execGRASS</a></span>(<span class='st'>"g.remove"</span>, <span class='kw'>flags</span><span class='kw'>=</span><span class='st'>"f"</span>, <span class='kw'>name</span><span class='kw'>=</span><span class='st'>"sqdemSP"</span>, <span class='kw'>type</span><span class='kw'>=</span><span class='st'>"raster"</span>)
-  <span class='fu'><a href='execGRASS.html'>execGRASS</a></span>(<span class='st'>"r.mapcalc"</span>, <span class='kw'>expression</span><span class='kw'>=</span><span class='st'>"basins0 = basins - 1"</span>)
-  <span class='fu'><a href='execGRASS.html'>execGRASS</a></span>(<span class='st'>"r.stats"</span>, <span class='kw'>flags</span><span class='kw'>=</span><span class='st'>"c"</span>, <span class='kw'>input</span><span class='kw'>=</span><span class='st'>"basins0"</span>)
-}</div><div class='output co'>#&gt; 1 116975
+#&gt;   ..$ : chr [1:2] "sqdemSP" "elevation"</div><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='va'>run</span><span class='op'>)</span> <span class='op'>{</span>
+  <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/system.time.html'>system.time</a></span><span class='op'>(</span><span class='va'>SGDF</span> <span class='op'>&lt;-</span> <span class='fu'>sp</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/sp/man/SpatialGridDataFrame.html'>SpatialGridDataFrame</a></span><span class='op'>(</span>grid<span class='op'>=</span><span class='va'>sqdemSP</span><span class='op'>$</span><span class='va'>grid</span>,
+    proj4string<span class='op'>=</span><span class='va'>sqdemSP</span><span class='op'>$</span><span class='va'>proj4string</span>, data<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/as.data.frame.html'>as.data.frame</a></span><span class='op'>(</span><span class='va'>sqdemSP</span><span class='op'>$</span><span class='va'>dataList</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>
+<span class='op'>}</span>
+</div><div class='output co'>#&gt;    user  system elapsed 
+#&gt;   0.001   0.000   0.002 </div><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='va'>run</span><span class='op'>)</span> <span class='op'>{</span>
+  <span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span><span class='op'>(</span><span class='va'>SGDF</span><span class='op'>)</span>
+<span class='op'>}</span>
+</div><div class='output co'>#&gt;               Length                Class                 Mode 
+#&gt;              2025000 SpatialGridDataFrame                   S4 </div><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='va'>run</span><span class='op'>)</span> <span class='op'>{</span>
+  <span class='fu'><a href='execGRASS.html'>execGRASS</a></span><span class='op'>(</span><span class='st'>"g.remove"</span>, flags<span class='op'>=</span><span class='st'>"f"</span>, name<span class='op'>=</span><span class='st'>"sqdemSP"</span>, type<span class='op'>=</span><span class='st'>"raster"</span><span class='op'>)</span>
+  <span class='fu'><a href='execGRASS.html'>execGRASS</a></span><span class='op'>(</span><span class='st'>"r.mapcalc"</span>, expression<span class='op'>=</span><span class='st'>"basins0 = basins - 1"</span><span class='op'>)</span>
+  <span class='fu'><a href='execGRASS.html'>execGRASS</a></span><span class='op'>(</span><span class='st'>"r.stats"</span>, flags<span class='op'>=</span><span class='st'>"c"</span>, input<span class='op'>=</span><span class='st'>"basins0"</span><span class='op'>)</span>
+<span class='op'>}</span>
+</div><div class='output co'>#&gt; 1 116975
 #&gt; 3 75480
 #&gt; 5 1137
 #&gt; 7 80506
@@ -357,40 +386,36 @@
 #&gt; 25 91354
 #&gt; 27 190239
 #&gt; 29 59727
-#&gt; * 470053</div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
-  <span class='no'>basins0</span> <span class='kw'>&lt;-</span> <span class='fu'>readRAST</span>(<span class='st'>"basins0"</span>)
-  <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/table'>table</a></span>(<span class='no'>basins0</span>$<span class='no'>basins0</span>))
-}</div><div class='output co'>#&gt; 
+#&gt; * 470053</div><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='va'>run</span><span class='op'>)</span> <span class='op'>{</span>
+  <span class='va'>basins0</span> <span class='op'>&lt;-</span> <span class='fu'>readRAST</span><span class='op'>(</span><span class='st'>"basins0"</span><span class='op'>)</span>
+  <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/table.html'>table</a></span><span class='op'>(</span><span class='va'>basins0</span><span class='op'>$</span><span class='va'>basins0</span><span class='op'>)</span><span class='op'>)</span>
+<span class='op'>}</span>
+</div><div class='output co'>#&gt; <span class='warning'>Warning: Discarded datum NAD83 (High Accuracy Reference Network) in CRS definition</span></div><div class='output co'>#&gt; 
 #&gt;      1      3      5      7      9     11     13     15     17     19     21 
 #&gt; 116975  75480   1137  80506   7472 348209  51456  81959  29652 267883  89465 
 #&gt;     23     25     27     29 
-#&gt;  63433  91354 190239  59727 </div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
-  <span class='no'>basins0</span> <span class='kw'>&lt;-</span> <span class='fu'>readRAST</span>(<span class='st'>"basins0"</span>, <span class='kw'>plugin</span><span class='kw'>=</span><span class='fl'>FALSE</span>)
-  <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/table'>table</a></span>(<span class='no'>basins0</span>$<span class='no'>basins0</span>))
-}</div><div class='output co'>#&gt; 
+#&gt;  63433  91354 190239  59727 </div><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='va'>run</span><span class='op'>)</span> <span class='op'>{</span>
+  <span class='va'>basins0</span> <span class='op'>&lt;-</span> <span class='fu'>readRAST</span><span class='op'>(</span><span class='st'>"basins0"</span>, plugin<span class='op'>=</span><span class='cn'>FALSE</span><span class='op'>)</span>
+  <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/table.html'>table</a></span><span class='op'>(</span><span class='va'>basins0</span><span class='op'>$</span><span class='va'>basins0</span><span class='op'>)</span><span class='op'>)</span>
+<span class='op'>}</span>
+</div><div class='output co'>#&gt; <span class='warning'>Warning: Discarded datum NAD83 (High Accuracy Reference Network) in CRS definition</span></div><div class='output co'>#&gt; 
 #&gt;      1      3      5      7      9     11     13     15     17     19     21 
 #&gt; 116975  75480   1137  80506   7472 348209  51456  81959  29652 267883  89465 
 #&gt;     23     25     27     29 
-#&gt;  63433  91354 190239  59727 </div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
-  <span class='fu'><a href='execGRASS.html'>execGRASS</a></span>(<span class='st'>"g.remove"</span>, <span class='kw'>flags</span><span class='kw'>=</span><span class='st'>"f"</span>, <span class='kw'>name</span><span class='kw'>=</span><span class='st'>"basins0"</span>, <span class='kw'>type</span><span class='kw'>=</span><span class='st'>"raster"</span>)
-}
-  <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/Sys.setenv'>Sys.setenv</a></span>(<span class='st'>"GRASS_VERBOSE"</span><span class='kw'>=</span><span class='no'>GV</span>)
-  <span class='fu'><a href='gmeta.html'>set.ignore.stderrOption</a></span>(<span class='no'>ois</span>)</div><div class='output co'>#&gt; [1] TRUE</div></pre>
+#&gt;  63433  91354 190239  59727 </div><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='va'>run</span><span class='op'>)</span> <span class='op'>{</span>
+  <span class='fu'><a href='execGRASS.html'>execGRASS</a></span><span class='op'>(</span><span class='st'>"g.remove"</span>, flags<span class='op'>=</span><span class='st'>"f"</span>, name<span class='op'>=</span><span class='st'>"basins0"</span>, type<span class='op'>=</span><span class='st'>"raster"</span><span class='op'>)</span>
+<span class='op'>}</span>
+  <span class='fu'><a href='https://rdrr.io/r/base/Sys.setenv.html'>Sys.setenv</a></span><span class='op'>(</span><span class='st'>"GRASS_VERBOSE"</span><span class='op'>=</span><span class='va'>GV</span><span class='op'>)</span>
+  <span class='fu'><a href='gmeta.html'>set.ignore.stderrOption</a></span><span class='op'>(</span><span class='va'>ois</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] TRUE</div></pre>
   </div>
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
-    <h2>Contents</h2>
-    <ul class="nav nav-pills nav-stacked">
-      <li><a href="#arguments">Arguments</a></li>
-      
-      <li><a href="#value">Value</a></li>
-      
-      <li><a href="#examples">Examples</a></li>
-    </ul>
-
-    <h2>Author</h2>
-    <p>Roger S. Bivand, e-mail: <a href='mailto:Roger.Bivand@nhh.no'>Roger.Bivand@nhh.no</a></p>
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
+    <nav id="toc" data-toggle="toc" class="sticky-top">
+      <h2 data-toc-skip>Contents</h2>
+    </nav>
   </div>
 </div>
+
 
       <footer>
       <div class="copyright">
@@ -398,13 +423,16 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
+
       </footer>
    </div>
 
   
 
+
   </body>
 </html>
+
 

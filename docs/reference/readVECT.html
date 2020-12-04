@@ -8,21 +8,29 @@
 
 <title>Read and write GRASS 7 vector object files — readVECT • rgrass7</title>
 
+
 <!-- jquery -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous" />
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous" />
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
+
+<!-- bootstrap-toc -->
+<link rel="stylesheet" href="../bootstrap-toc.css">
+<script src="../bootstrap-toc.js"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script>
 
-<!-- sticky kit -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script>
+<!-- headroom.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -30,10 +38,10 @@
 
 
 
-<meta property="og:title" content="Read and write GRASS 7 vector object files — readVECT" />
 
+<meta property="og:title" content="Read and write GRASS 7 vector object files — readVECT" />
 <meta property="og:description" content="readVECT moves one GRASS 7 vector object file with attribute data through a temporary shapefile to a Spatial*DataFrame object of type determined by the GRASS 7 vector object; writeVECT moves a Spatial*DataFrame object through a temporary shapefile to a GRASS vector object file. vect2neigh returns neighbour pairs with shared boundary length as described by Markus Neteler, in https://stat.ethz.ch/pipermail/r-sig-geo/2005-October/000616.html. cygwin_clean_temp can be called to try to clean the GRASS mapset-specific temporary directory under cygwin." />
-<meta name="twitter:card" content="summary" />
+
 
 
 
@@ -47,9 +55,10 @@
 <![endif]-->
 
 
+
   </head>
 
-  <body>
+  <body data-spy="scroll" data-target="#toc">
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -63,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rgrass7</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2-3</span>
       </span>
     </div>
 
@@ -71,7 +80,7 @@
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fa fa-home fa-lg"></span>
+    <span class="fas fa fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -79,9 +88,13 @@
   <a href="../reference/index.html">Reference</a>
 </li>
       </ul>
-      
       <ul class="nav navbar-nav navbar-right">
-        
+        <li>
+  <a href="https://github.com/rsbivand/rgrass7/">
+    <span class="fab fa fab fa-github fa-lg"></span>
+     
+  </a>
+</li>
       </ul>
       
     </div><!--/.nav-collapse -->
@@ -89,6 +102,7 @@
 </div><!--/.navbar -->
 
       
+
       </header>
 
 <div class="row">
@@ -100,24 +114,22 @@
     </div>
 
     <div class="ref-description">
-    
     <p><code>readVECT</code> moves one GRASS 7 vector object file with attribute data through a temporary shapefile to a Spatial*DataFrame object of type determined by the GRASS 7 vector object; <code>writeVECT</code> moves a Spatial*DataFrame object through a temporary shapefile to a GRASS vector object file. <code>vect2neigh</code> returns neighbour pairs with shared boundary length as described by Markus Neteler, in <a href='https://stat.ethz.ch/pipermail/r-sig-geo/2005-October/000616.html'>https://stat.ethz.ch/pipermail/r-sig-geo/2005-October/000616.html</a>. <code>cygwin_clean_temp</code> can be called to try to clean the GRASS mapset-specific temporary directory under cygwin.</p>
-    
     </div>
 
-    <pre class="usage"><span class='fu'>readVECT</span>(<span class='no'>vname</span>, <span class='no'>layer</span>, <span class='kw'>type</span><span class='kw'>=</span><span class='kw'>NULL</span>, <span class='kw'>plugin</span><span class='kw'>=</span><span class='kw'>NULL</span>,
- <span class='kw'>remove.duplicates</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>ignore.stderr</span><span class='kw'>=</span><span class='kw'>NULL</span>,
- <span class='kw'>with_prj</span><span class='kw'>=</span><span class='fl'>TRUE</span>, <span class='kw'>with_c</span><span class='kw'>=</span><span class='fl'>FALSE</span>, <span class='kw'>mapset</span><span class='kw'>=</span><span class='kw'>NULL</span>,
- <span class='kw'>pointDropZ</span><span class='kw'>=</span><span class='fl'>FALSE</span>, <span class='kw'>driver</span><span class='kw'>=</span><span class='kw'>NULL</span>)
-<span class='fu'>writeVECT</span>(<span class='no'>SDF</span>, <span class='no'>vname</span>,  <span class='kw'>v.in.ogr_flags</span><span class='kw'>=</span><span class='kw'>NULL</span>,
- <span class='kw'>ignore.stderr</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>driver</span><span class='kw'>=</span><span class='kw'>NULL</span>,
- <span class='kw'>min_area</span><span class='kw'>=</span><span class='fl'>0.0001</span>, <span class='kw'>snap</span><span class='kw'>=</span>-<span class='fl'>1</span>)
-<span class='fu'>vInfo</span>(<span class='no'>vname</span>, <span class='no'>layer</span>, <span class='kw'>ignore.stderr</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)
-<span class='fu'>vColumns</span>(<span class='no'>vname</span>, <span class='no'>layer</span>, <span class='kw'>ignore.stderr</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)
-<span class='fu'>vDataCount</span>(<span class='no'>vname</span>, <span class='no'>layer</span>, <span class='kw'>ignore.stderr</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)
-<span class='fu'>vect2neigh</span>(<span class='no'>vname</span>, <span class='kw'>ID</span><span class='kw'>=</span><span class='kw'>NULL</span>, <span class='kw'>ignore.stderr</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>remove</span><span class='kw'>=</span><span class='fl'>TRUE</span>, <span class='kw'>vname2</span><span class='kw'>=</span><span class='kw'>NULL</span>,
- <span class='kw'>units</span><span class='kw'>=</span><span class='st'>"k"</span>)</pre>
-    
+    <pre class="usage"><span class='fu'>readVECT</span><span class='op'>(</span><span class='va'>vname</span>, <span class='va'>layer</span>, type<span class='op'>=</span><span class='cn'>NULL</span>, plugin<span class='op'>=</span><span class='cn'>NULL</span>,
+ remove.duplicates <span class='op'>=</span> <span class='cn'>TRUE</span>, ignore.stderr<span class='op'>=</span><span class='cn'>NULL</span>,
+ with_prj<span class='op'>=</span><span class='cn'>TRUE</span>, with_c<span class='op'>=</span><span class='cn'>FALSE</span>, mapset<span class='op'>=</span><span class='cn'>NULL</span>,
+ pointDropZ<span class='op'>=</span><span class='cn'>FALSE</span>, driver<span class='op'>=</span><span class='cn'>NULL</span><span class='op'>)</span>
+<span class='fu'>writeVECT</span><span class='op'>(</span><span class='va'>SDF</span>, <span class='va'>vname</span>,  v.in.ogr_flags<span class='op'>=</span><span class='cn'>NULL</span>,
+ ignore.stderr <span class='op'>=</span> <span class='cn'>NULL</span>, driver<span class='op'>=</span><span class='cn'>NULL</span>,
+ min_area<span class='op'>=</span><span class='fl'>0.0001</span>, snap<span class='op'>=</span><span class='op'>-</span><span class='fl'>1</span><span class='op'>)</span>
+<span class='fu'>vInfo</span><span class='op'>(</span><span class='va'>vname</span>, <span class='va'>layer</span>, ignore.stderr <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span>
+<span class='fu'>vColumns</span><span class='op'>(</span><span class='va'>vname</span>, <span class='va'>layer</span>, ignore.stderr <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span>
+<span class='fu'>vDataCount</span><span class='op'>(</span><span class='va'>vname</span>, <span class='va'>layer</span>, ignore.stderr <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span>
+<span class='fu'>vect2neigh</span><span class='op'>(</span><span class='va'>vname</span>, ID<span class='op'>=</span><span class='cn'>NULL</span>, ignore.stderr <span class='op'>=</span> <span class='cn'>NULL</span>, remove<span class='op'>=</span><span class='cn'>TRUE</span>, vname2<span class='op'>=</span><span class='cn'>NULL</span>,
+ units<span class='op'>=</span><span class='st'>"k"</span><span class='op'>)</span></pre>
+
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
@@ -144,7 +156,7 @@
     <tr>
       <th>ignore.stderr</th>
       <td><p>default the value set by
-    <code>set.ignore.stderrOption</code>; NULL, taking the value set by <code>set.ignore.stderrOption</code>, can be set to TRUE to silence <code><a href='https://www.rdocumentation.org/packages/base/topics/system'>system()</a></code> output to standard error; does not apply on Windows platforms</p></td>
+    <code>set.ignore.stderrOption</code>; NULL, taking the value set by <code>set.ignore.stderrOption</code>, can be set to TRUE to silence <code><a href='https://rdrr.io/r/base/system.html'>system()</a></code> output to standard error; does not apply on Windows platforms</p></td>
     </tr>
     <tr>
       <th>with_prj</th>
@@ -164,7 +176,7 @@
     </tr>
     <tr>
       <th>driver</th>
-      <td><p>default NULL, which will lead to the choice of the first driver found in a ordered preferred vector, currently <code><a href='https://www.rdocumentation.org/packages/base/topics/c'>c("SQLite", "ESRI Shapefile")</a></code>; a valid OGR writable driver name to define the file format for intermediate files, one of <code>c("GML", "SQLite"), c("ESRI_Shapefile", "MapInfo_File")</code> is preferred as these construct the names of the intermediate files adequately</p></td>
+      <td><p>default NULL, which will lead to the choice of the first driver found in a ordered preferred vector, currently <code><a href='https://rdrr.io/r/base/c.html'>c("SQLite", "ESRI Shapefile")</a></code>; a valid OGR writable driver name to define the file format for intermediate files, one of <code>c("GML", "SQLite"), c("ESRI_Shapefile", "MapInfo_File")</code> is preferred as these construct the names of the intermediate files adequately</p></td>
     </tr>
     <tr>
       <th>min_area</th>
@@ -199,33 +211,36 @@
       <td><p>default &#8220;k&#8221;; see GRASS <code>v.to.db</code> manual page for alternatives</p></td>
     </tr>
     </table>
-    
+
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p><code>readVECT</code> imports a GRASS 7 vector object into an Spatial*DataFrame or equivalent <code>"sf"</code> object with the type determined by the type of the GRASS 7 vector object. <code>readVECT</code> and <code>writeVECT</code> attempt to preserve longer column/field names despite using the &#8220;ESRI Shapefile&#8221; format for transfer.</p>
 <p><code>vect2neigh</code> returns a data frame object with left and right neighbours and boundary lengths, also given class GRASSneigh and spatial.neighbour (as used in spdep). The incantation to retrieve the neighbours list is <code>sn2listw(vect2neigh())$neighbours</code>, and to retrieve the boundary lengths: <code>sn2listw(vect2neigh())$weights</code>. The GRASSneigh object has two other useful attributes: external is a vector giving the length of shared boundary between each polygon and the external area, and total giving each polygon's total boundary length.</p>
-    
     <h2 class="hasAnchor" id="note"><a class="anchor" href="#note"></a>Note</h2>
 
     <p>Please note that the OGR drivers used may not handle missing data gracefully. From rgdal release 0.5-27, missing values are taken as unset OGR field values. If the OGR driver encodes them in this way, NAs will be moved across the interface correctly from R to GRASS, and from GRASS to R using the OGR GRASS vector plugin. Work is continuing to correct v.out.ogr so that it emits unset fields, which affects users with no OGR GRASS plugin for the present. Thanks to Dylan Beaudette for helping with missing data handling.</p>
-    
+    <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
+
+    <p>Roger S. Bivand, e-mail: <a href='mailto:Roger.Bivand@nhh.no.'>Roger.Bivand@nhh.no.</a></p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='gmeta.html'>use_sp</a></span>()
-<span class='no'>run</span> <span class='kw'>&lt;-</span> <span class='fl'>FALSE</span>
-<span class='kw'>if</span> (<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/nchar'>nchar</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/Sys.getenv'>Sys.getenv</a></span>(<span class='st'>"GISRC"</span>)) <span class='kw'>&gt;</span> <span class='fl'>0</span> <span class='kw'>&amp;&amp;</span>
-  <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/dcf'>read.dcf</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/Sys.getenv'>Sys.getenv</a></span>(<span class='st'>"GISRC"</span>))[<span class='fl'>1</span>,<span class='st'>"LOCATION_NAME"</span>] <span class='kw'>==</span> <span class='st'>"nc_basic_spm_grass7"</span>) <span class='no'>run</span> <span class='kw'>&lt;-</span> <span class='fl'>TRUE</span>
-<span class='no'>GV</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/Sys.getenv'>Sys.getenv</a></span>(<span class='st'>"GRASS_VERBOSE"</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/Sys.setenv'>Sys.setenv</a></span>(<span class='st'>"GRASS_VERBOSE"</span><span class='kw'>=</span><span class='fl'>0</span>)
+    <pre class="examples"><div class='input'><span class='fu'><a href='gmeta.html'>use_sp</a></span><span class='op'>(</span><span class='op'>)</span>
+<span class='va'>run</span> <span class='op'>&lt;-</span> <span class='cn'>FALSE</span>
+<span class='kw'>if</span> <span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/nchar.html'>nchar</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/Sys.getenv.html'>Sys.getenv</a></span><span class='op'>(</span><span class='st'>"GISRC"</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>&gt;</span> <span class='fl'>0</span> <span class='op'>&amp;&amp;</span>
+  <span class='fu'><a href='https://rdrr.io/r/base/dcf.html'>read.dcf</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/Sys.getenv.html'>Sys.getenv</a></span><span class='op'>(</span><span class='st'>"GISRC"</span><span class='op'>)</span><span class='op'>)</span><span class='op'>[</span><span class='fl'>1</span>,<span class='st'>"LOCATION_NAME"</span><span class='op'>]</span> <span class='op'>==</span> <span class='st'>"nc_basic_spm_grass7"</span><span class='op'>)</span> <span class='va'>run</span> <span class='op'>&lt;-</span> <span class='cn'>TRUE</span>
+<span class='va'>GV</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/Sys.getenv.html'>Sys.getenv</a></span><span class='op'>(</span><span class='st'>"GRASS_VERBOSE"</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/base/Sys.setenv.html'>Sys.setenv</a></span><span class='op'>(</span><span class='st'>"GRASS_VERBOSE"</span><span class='op'>=</span><span class='fl'>0</span><span class='op'>)</span>
 <span class='co'>#  require(rgdal)</span>
-<span class='no'>ois</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='gmeta.html'>get.ignore.stderrOption</a></span>()
-<span class='fu'><a href='gmeta.html'>set.ignore.stderrOption</a></span>(<span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; [1] FALSE</div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
-  <span class='fu'><a href='execGRASS.html'>execGRASS</a></span>(<span class='st'>"v.info"</span>, <span class='kw'>map</span><span class='kw'>=</span><span class='st'>"schools"</span>, <span class='kw'>layer</span><span class='kw'>=</span><span class='st'>"1"</span>)
-}</div><div class='output co'>#&gt;  +----------------------------------------------------------------------------+
+<span class='va'>ois</span> <span class='op'>&lt;-</span> <span class='fu'><a href='gmeta.html'>get.ignore.stderrOption</a></span><span class='op'>(</span><span class='op'>)</span>
+<span class='fu'><a href='gmeta.html'>set.ignore.stderrOption</a></span><span class='op'>(</span><span class='cn'>TRUE</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] FALSE</div><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='va'>run</span><span class='op'>)</span> <span class='op'>{</span>
+  <span class='fu'><a href='execGRASS.html'>execGRASS</a></span><span class='op'>(</span><span class='st'>"v.info"</span>, map<span class='op'>=</span><span class='st'>"schools"</span>, layer<span class='op'>=</span><span class='st'>"1"</span><span class='op'>)</span>
+<span class='op'>}</span>
+</div><div class='output co'>#&gt;  +----------------------------------------------------------------------------+
 #&gt;  | Name:            schools                                                   |
 #&gt;  | Mapset:          PERMANENT                                                 |
 #&gt;  | Location:        nc_basic_spm_grass7                                       |
-#&gt;  | Database:        /home/rsb/topics/grassdata7                               |
+#&gt;  | Database:        /home/rsb/topics/grassdata                                |
 #&gt;  | Title:           Wake County schools (points map)                          |
 #&gt;  | Map scale:       1:1                                                       |
 #&gt;  | Name of creator: helena                                                    |
@@ -253,33 +268,35 @@
 #&gt;  |   Comment:                                                                 |
 #&gt;  |                                                                            |
 #&gt;  +----------------------------------------------------------------------------+
-#&gt; </div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
-  <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='fu'>vInfo</span>(<span class='st'>"schools"</span>))
-  <span class='no'>schs</span> <span class='kw'>&lt;-</span> <span class='fu'>readVECT</span>(<span class='st'>"schools"</span>, <span class='kw'>plugin</span><span class='kw'>=</span><span class='kw'>NULL</span>)
-  <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>schs</span>))
-}</div><div class='output co'>#&gt;      nodes     points      lines boundaries  centroids      areas    islands 
+#&gt; </div><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='va'>run</span><span class='op'>)</span> <span class='op'>{</span>
+  <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='fu'>vInfo</span><span class='op'>(</span><span class='st'>"schools"</span><span class='op'>)</span><span class='op'>)</span>
+  <span class='va'>schs</span> <span class='op'>&lt;-</span> <span class='fu'>readVECT</span><span class='op'>(</span><span class='st'>"schools"</span>, plugin<span class='op'>=</span><span class='cn'>NULL</span><span class='op'>)</span>
+  <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span><span class='op'>(</span><span class='va'>schs</span><span class='op'>)</span><span class='op'>)</span>
+<span class='op'>}</span>
+</div><div class='output co'>#&gt;      nodes     points      lines boundaries  centroids      areas    islands 
 #&gt;          0        167          0          0          0          0          0 
 #&gt; primitives      map3d 
-#&gt;        167          0 
-#&gt;                 Length                  Class                   Mode 
-#&gt;                    167 SpatialPointsDataFrame                     S4 </div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
-  <span class='no'>schs1</span> <span class='kw'>&lt;-</span> <span class='fu'>readVECT</span>(<span class='st'>"schools"</span>, <span class='kw'>plugin</span><span class='kw'>=</span><span class='fl'>FALSE</span>)
-  <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>schs1</span>))
-}</div><div class='output co'>#&gt;                 Length                  Class                   Mode 
-#&gt;                    167 SpatialPointsDataFrame                     S4 </div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
-  <span class='fu'>writeVECT</span>(<span class='no'>schs</span>, <span class='st'>"newsch"</span>, <span class='kw'>v.in.ogr_flags</span><span class='kw'>=</span><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"o"</span>, <span class='st'>"overwrite"</span>))
-  <span class='fu'><a href='execGRASS.html'>execGRASS</a></span>(<span class='st'>"v.info"</span>, <span class='kw'>map</span><span class='kw'>=</span><span class='st'>"newsch"</span>, <span class='kw'>layer</span><span class='kw'>=</span><span class='st'>"1"</span>)
-}</div><div class='output co'>#&gt; WARNING: Vector map &lt;newsch&gt; already exists and will be overwritten
+#&gt;        167          0 </div><div class='output co'>#&gt; <span class='warning'>Warning: Discarded datum NAD83_High_Accuracy_Reference_Network in CRS definition: +proj=lcc +lat_0=33.75 +lon_0=-79 +lat_1=36.1666666666667 +lat_2=34.3333333333333 +x_0=609601.22 +y_0=0 +ellps=GRS80 +units=m +no_defs</span></div><div class='output co'>#&gt;                 Length                  Class                   Mode 
+#&gt;                    167 SpatialPointsDataFrame                     S4 </div><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='va'>run</span><span class='op'>)</span> <span class='op'>{</span>
+  <span class='va'>schs1</span> <span class='op'>&lt;-</span> <span class='fu'>readVECT</span><span class='op'>(</span><span class='st'>"schools"</span>, plugin<span class='op'>=</span><span class='cn'>FALSE</span><span class='op'>)</span>
+  <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span><span class='op'>(</span><span class='va'>schs1</span><span class='op'>)</span><span class='op'>)</span>
+<span class='op'>}</span>
+</div><div class='output co'>#&gt; <span class='warning'>Warning: Discarded datum NAD83_High_Accuracy_Reference_Network in CRS definition: +proj=lcc +lat_0=33.75 +lon_0=-79 +lat_1=36.1666666666667 +lat_2=34.3333333333333 +x_0=609601.22 +y_0=0 +ellps=GRS80 +units=m +no_defs</span></div><div class='output co'>#&gt;                 Length                  Class                   Mode 
+#&gt;                    167 SpatialPointsDataFrame                     S4 </div><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='va'>run</span><span class='op'>)</span> <span class='op'>{</span>
+  <span class='fu'>writeVECT</span><span class='op'>(</span><span class='va'>schs</span>, <span class='st'>"newsch"</span>, v.in.ogr_flags<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"o"</span>, <span class='st'>"overwrite"</span><span class='op'>)</span><span class='op'>)</span>
+  <span class='fu'><a href='execGRASS.html'>execGRASS</a></span><span class='op'>(</span><span class='st'>"v.info"</span>, map<span class='op'>=</span><span class='st'>"newsch"</span>, layer<span class='op'>=</span><span class='st'>"1"</span><span class='op'>)</span>
+<span class='op'>}</span>
+</div><div class='output co'>#&gt; WARNING: Vector map &lt;newsch&gt; already exists and will be overwritten
 #&gt;  +----------------------------------------------------------------------------+
 #&gt;  | Name:            newsch                                                    |
 #&gt;  | Mapset:          rsb                                                       |
 #&gt;  | Location:        nc_basic_spm_grass7                                       |
-#&gt;  | Database:        /home/rsb/topics/grassdata7                               |
+#&gt;  | Database:        /home/rsb/topics/grassdata                                |
 #&gt;  | Title:                                                                     |
 #&gt;  | Map scale:       1:1                                                       |
 #&gt;  | Name of creator: rsb                                                       |
 #&gt;  | Organization:                                                              |
-#&gt;  | Source date:     Tue Aug  6 11:02:31 2019                                  |
+#&gt;  | Source date:     Fri Dec  4 11:27:15 2020                                  |
 #&gt;  | Timestamp (first layer): none                                              |
 #&gt;  |----------------------------------------------------------------------------|
 #&gt;  | Map format:      native                                                    |
@@ -302,47 +319,58 @@
 #&gt;  |   Comment:                                                                 |
 #&gt;  |                                                                            |
 #&gt;  +----------------------------------------------------------------------------+
-#&gt; </div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
-  <span class='no'>nschs</span> <span class='kw'>&lt;-</span> <span class='fu'>readVECT</span>(<span class='st'>"newsch"</span>)
-  <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>nschs</span>))
-}</div><div class='output co'>#&gt;                 Length                  Class                   Mode 
-#&gt;                    167 SpatialPointsDataFrame                     S4 </div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
-  <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/all.equal'>all.equal</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/names'>names</a></span>(<span class='no'>nschs</span>), <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/character'>as.character</a></span>(<span class='fu'>vColumns</span>(<span class='st'>"newsch"</span>)[,<span class='fl'>2</span>])))
-}</div><div class='output co'>#&gt; [1] TRUE</div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
-  <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/names'>names</a></span>(<span class='no'>nschs</span>) <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/paste'>paste</a></span>(<span class='st'>"ABCDEFGHIJKLMNO"</span>, <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/names'>names</a></span>(<span class='no'>nschs</span>), <span class='kw'>sep</span><span class='kw'>=</span><span class='st'>""</span>)
-  <span class='fu'>writeVECT</span>(<span class='no'>nschs</span>, <span class='st'>"newsch1"</span>, <span class='kw'>v.in.ogr_flags</span><span class='kw'>=</span><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"o"</span>, <span class='st'>"overwrite"</span>))
-}</div><div class='output co'>#&gt; WARNING: Vector map &lt;newsch1&gt; already exists and will be overwritten</div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
-  <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/all.equal'>all.equal</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/names'>names</a></span>(<span class='no'>nschs</span>), <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/character'>as.character</a></span>(<span class='fu'>vColumns</span>(<span class='st'>"newsch1"</span>)[-<span class='fl'>1</span>,<span class='fl'>2</span>])))
-}</div><div class='output co'>#&gt; [1] TRUE</div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
-  <span class='no'>nschs1</span> <span class='kw'>&lt;-</span> <span class='fu'>readVECT</span>(<span class='st'>"newsch1"</span>)
-  <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/all.equal'>all.equal</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/names'>names</a></span>(<span class='no'>nschs</span>), <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/names'>names</a></span>(<span class='no'>nschs1</span>)[-<span class='fl'>1</span>]))
-}</div><div class='output co'>#&gt; [1] TRUE</div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
-  <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>nschs1</span>))
-}</div><div class='output co'>#&gt;                 Length                  Class                   Mode 
-#&gt;                    167 SpatialPointsDataFrame                     S4 </div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
-  <span class='no'>schs</span> <span class='kw'>&lt;-</span> <span class='fu'>readVECT</span>(<span class='st'>"schools"</span>, <span class='kw'>driver</span><span class='kw'>=</span><span class='st'>"ESRI Shapefile"</span>)
-  <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/names'>names</a></span>(<span class='no'>schs</span>) <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/paste'>paste</a></span>(<span class='st'>"ABCDEFGHIJKLMNO"</span>, <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/names'>names</a></span>(<span class='no'>schs</span>), <span class='kw'>sep</span><span class='kw'>=</span><span class='st'>""</span>)
-  <span class='fu'>writeVECT</span>(<span class='no'>schs</span>, <span class='st'>"newsch"</span>, <span class='kw'>v.in.ogr_flags</span><span class='kw'>=</span><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"o"</span>, <span class='st'>"overwrite"</span>),
-    <span class='kw'>driver</span><span class='kw'>=</span><span class='st'>"ESRI Shapefile"</span>)
-  <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/all.equal'>all.equal</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/names'>names</a></span>(<span class='no'>schs</span>), <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/character'>as.character</a></span>(<span class='fu'>vColumns</span>(<span class='st'>"newsch"</span>)[-<span class='fl'>1</span>,<span class='fl'>2</span>])))
-}</div><div class='output co'>#&gt; <span class='warning'>Warning: Field names abbreviated for ESRI Shapefile driver</span></div><div class='output co'>#&gt; <span class='warning'>Warning: field names ABCDEFGHIJKLMNOc, ABCDEFGHIJKLMNOT, ABCDEFGHIJKLMNONAMES, ABCDEFGHIJKLMNONAMEL, ABCDEFGHIJKLMNOCO, ABCDEFGHIJKLMNOMOBILEU, ABCDEFGHIJKLMNOMOBILEC, ABCDEFGHIJKLMNOG, ABCDEFGHIJKLMNOL, ABCDEFGHIJKLMNOHI, ABCDEFGHIJKLMNOCAL, ABCDEFGHIJKLMNOHA, ABCDEFGHIJKLMNOI, ABCDEFGHIJKLMNOPH, ABCDEFGHIJKLMNOADDRN, ABCDEFGHIJKLMNOADDRP, ABCDEFGHIJKLMNOADDRR, ABCDEFGHIJKLMNOADDRT, ABCDEFGHIJKLMNOADDRS, ABCDEFGHIJKLMNOADDRC, ABCDEFGHIJKLMNOADDRZ, ABCDEFGHIJKLMNOSP, ABCDEFGHIJKLMNOST, ABCDEFGHIJKLMNONOD, ABCDEFGHIJKLMNOCAP, ABCDEFGHIJKLMNOE, ABCDEFGHIJKLMNOB, ABCDEFGHIJKLMNOPR, ABCDEFGHIJKLMNONOT changed by driver to: ABCDEFGHIJ, ABCDEFGH_1, ABCDEFGH_2, ABCDEFGH_3, ABCDEFGH_4, ABCDEFGH_5, ABCDEFGH_6, ABCDEFGH_7, ABCDEFGH_8, ABCDEFGH_9, ABCDEFGH10, ABCDEFGH11, ABCDEFGH12, ABCDEFGH13, ABCDEFGH14, ABCDEFGH15, ABCDEFGH16, ABCDEFGH17, ABCDEFGH18, ABCDEFGH19, ABCDEFGH20, ABCDEFGH21, ABCDEFGH22, ABCDEFGH23, ABCDEFGH24, ABCDEFGH25, ABCDEFGH26, ABCDEFGH27, ABCDEFGH28</span></div><div class='output co'>#&gt; WARNING: Vector map &lt;newsch&gt; already exists and will be overwritten
-#&gt; [1] TRUE</div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
-  <span class='no'>nschs</span> <span class='kw'>&lt;-</span> <span class='fu'>readVECT</span>(<span class='st'>"newsch"</span>, <span class='kw'>driver</span><span class='kw'>=</span><span class='st'>"ESRI Shapefile"</span>)
-  <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/all.equal'>all.equal</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/names'>names</a></span>(<span class='no'>schs</span>), <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/names'>names</a></span>(<span class='no'>nschs</span>)[-<span class='fl'>1</span>])
-}</div><div class='output co'>#&gt; WARNING: No attribute table found -&gt; using only category numbers as
-#&gt;          attributes</div><div class='output co'>#&gt; [1] TRUE</div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
-  <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='fu'>vInfo</span>(<span class='st'>"roadsmajor"</span>))
-}</div><div class='output co'>#&gt;      nodes     points      lines boundaries  centroids      areas    islands 
+#&gt; </div><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='va'>run</span><span class='op'>)</span> <span class='op'>{</span>
+  <span class='va'>nschs</span> <span class='op'>&lt;-</span> <span class='fu'>readVECT</span><span class='op'>(</span><span class='st'>"newsch"</span><span class='op'>)</span>
+  <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span><span class='op'>(</span><span class='va'>nschs</span><span class='op'>)</span><span class='op'>)</span>
+<span class='op'>}</span>
+</div><div class='output co'>#&gt; <span class='warning'>Warning: Discarded datum NAD83_High_Accuracy_Reference_Network in CRS definition: +proj=lcc +lat_0=33.75 +lon_0=-79 +lat_1=36.1666666666667 +lat_2=34.3333333333333 +x_0=609601.22 +y_0=0 +ellps=GRS80 +units=m +no_defs</span></div><div class='output co'>#&gt;                 Length                  Class                   Mode 
+#&gt;                    167 SpatialPointsDataFrame                     S4 </div><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='va'>run</span><span class='op'>)</span> <span class='op'>{</span>
+  <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/all.equal.html'>all.equal</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/names.html'>names</a></span><span class='op'>(</span><span class='va'>nschs</span><span class='op'>)</span>, <span class='fu'><a href='https://rdrr.io/r/base/character.html'>as.character</a></span><span class='op'>(</span><span class='fu'>vColumns</span><span class='op'>(</span><span class='st'>"newsch"</span><span class='op'>)</span><span class='op'>[</span>,<span class='fl'>2</span><span class='op'>]</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>
+<span class='op'>}</span>
+</div><div class='output co'>#&gt; [1] TRUE</div><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='va'>run</span><span class='op'>)</span> <span class='op'>{</span>
+  <span class='fu'><a href='https://rdrr.io/r/base/names.html'>names</a></span><span class='op'>(</span><span class='va'>nschs</span><span class='op'>)</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste</a></span><span class='op'>(</span><span class='st'>"ABCDEFGHIJKLMNO"</span>, <span class='fu'><a href='https://rdrr.io/r/base/names.html'>names</a></span><span class='op'>(</span><span class='va'>nschs</span><span class='op'>)</span>, sep<span class='op'>=</span><span class='st'>""</span><span class='op'>)</span>
+  <span class='fu'>writeVECT</span><span class='op'>(</span><span class='va'>nschs</span>, <span class='st'>"newsch1"</span>, v.in.ogr_flags<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"o"</span>, <span class='st'>"overwrite"</span><span class='op'>)</span><span class='op'>)</span>
+<span class='op'>}</span>
+</div><div class='output co'>#&gt; WARNING: Vector map &lt;newsch1&gt; already exists and will be overwritten</div><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='va'>run</span><span class='op'>)</span> <span class='op'>{</span>
+  <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/all.equal.html'>all.equal</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/names.html'>names</a></span><span class='op'>(</span><span class='va'>nschs</span><span class='op'>)</span>, <span class='fu'><a href='https://rdrr.io/r/base/character.html'>as.character</a></span><span class='op'>(</span><span class='fu'>vColumns</span><span class='op'>(</span><span class='st'>"newsch1"</span><span class='op'>)</span><span class='op'>[</span><span class='op'>-</span><span class='fl'>1</span>,<span class='fl'>2</span><span class='op'>]</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>
+<span class='op'>}</span>
+</div><div class='output co'>#&gt; [1] TRUE</div><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='va'>run</span><span class='op'>)</span> <span class='op'>{</span>
+  <span class='va'>nschs1</span> <span class='op'>&lt;-</span> <span class='fu'>readVECT</span><span class='op'>(</span><span class='st'>"newsch1"</span><span class='op'>)</span>
+  <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/all.equal.html'>all.equal</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/names.html'>names</a></span><span class='op'>(</span><span class='va'>nschs</span><span class='op'>)</span>, <span class='fu'><a href='https://rdrr.io/r/base/names.html'>names</a></span><span class='op'>(</span><span class='va'>nschs1</span><span class='op'>)</span><span class='op'>[</span><span class='op'>-</span><span class='fl'>1</span><span class='op'>]</span><span class='op'>)</span><span class='op'>)</span>
+<span class='op'>}</span>
+</div><div class='output co'>#&gt; <span class='warning'>Warning: Discarded datum NAD83_High_Accuracy_Reference_Network in CRS definition: +proj=lcc +lat_0=33.75 +lon_0=-79 +lat_1=36.1666666666667 +lat_2=34.3333333333333 +x_0=609601.22 +y_0=0 +ellps=GRS80 +units=m +no_defs</span></div><div class='output co'>#&gt; [1] TRUE</div><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='va'>run</span><span class='op'>)</span> <span class='op'>{</span>
+  <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span><span class='op'>(</span><span class='va'>nschs1</span><span class='op'>)</span><span class='op'>)</span>
+<span class='op'>}</span>
+</div><div class='output co'>#&gt;                 Length                  Class                   Mode 
+#&gt;                    167 SpatialPointsDataFrame                     S4 </div><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='va'>run</span><span class='op'>)</span> <span class='op'>{</span>
+  <span class='va'>schs</span> <span class='op'>&lt;-</span> <span class='fu'>readVECT</span><span class='op'>(</span><span class='st'>"schools"</span>, driver<span class='op'>=</span><span class='st'>"ESRI Shapefile"</span><span class='op'>)</span>
+  <span class='fu'><a href='https://rdrr.io/r/base/names.html'>names</a></span><span class='op'>(</span><span class='va'>schs</span><span class='op'>)</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste</a></span><span class='op'>(</span><span class='st'>"ABCDEFGHIJKLMNO"</span>, <span class='fu'><a href='https://rdrr.io/r/base/names.html'>names</a></span><span class='op'>(</span><span class='va'>schs</span><span class='op'>)</span>, sep<span class='op'>=</span><span class='st'>""</span><span class='op'>)</span>
+  <span class='fu'>writeVECT</span><span class='op'>(</span><span class='va'>schs</span>, <span class='st'>"newsch"</span>, v.in.ogr_flags<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"o"</span>, <span class='st'>"overwrite"</span><span class='op'>)</span>,
+    driver<span class='op'>=</span><span class='st'>"ESRI Shapefile"</span><span class='op'>)</span>
+  <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/all.equal.html'>all.equal</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/names.html'>names</a></span><span class='op'>(</span><span class='va'>schs</span><span class='op'>)</span>, <span class='fu'><a href='https://rdrr.io/r/base/character.html'>as.character</a></span><span class='op'>(</span><span class='fu'>vColumns</span><span class='op'>(</span><span class='st'>"newsch"</span><span class='op'>)</span><span class='op'>[</span><span class='op'>-</span><span class='fl'>1</span>,<span class='fl'>2</span><span class='op'>]</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>
+<span class='op'>}</span>
+</div><div class='output co'>#&gt; <span class='warning'>Warning: Discarded datum NAD83_High_Accuracy_Reference_Network in CRS definition: +proj=lcc +lat_0=33.75 +lon_0=-79 +lat_1=36.1666666666667 +lat_2=34.3333333333333 +x_0=609601.22 +y_0=0 +ellps=GRS80 +units=m +no_defs</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Field names abbreviated for ESRI Shapefile driver</span></div><div class='output co'>#&gt; <span class='warning'>Warning: field names ABCDEFGHIJKLMNOc, ABCDEFGHIJKLMNOT, ABCDEFGHIJKLMNONAMES, ABCDEFGHIJKLMNONAMEL, ABCDEFGHIJKLMNOCO, ABCDEFGHIJKLMNOMOBILEU, ABCDEFGHIJKLMNOMOBILEC, ABCDEFGHIJKLMNOG, ABCDEFGHIJKLMNOL, ABCDEFGHIJKLMNOHI, ABCDEFGHIJKLMNOCAL, ABCDEFGHIJKLMNOHA, ABCDEFGHIJKLMNOI, ABCDEFGHIJKLMNOPH, ABCDEFGHIJKLMNOADDRN, ABCDEFGHIJKLMNOADDRP, ABCDEFGHIJKLMNOADDRR, ABCDEFGHIJKLMNOADDRT, ABCDEFGHIJKLMNOADDRS, ABCDEFGHIJKLMNOADDRC, ABCDEFGHIJKLMNOADDRZ, ABCDEFGHIJKLMNOSP, ABCDEFGHIJKLMNOST, ABCDEFGHIJKLMNONOD, ABCDEFGHIJKLMNOCAP, ABCDEFGHIJKLMNOE, ABCDEFGHIJKLMNOB, ABCDEFGHIJKLMNOPR, ABCDEFGHIJKLMNONOT changed by driver to: ABCDEFGHIJ, ABCDEFGH_1, ABCDEFGH_2, ABCDEFGH_3, ABCDEFGH_4, ABCDEFGH_5, ABCDEFGH_6, ABCDEFGH_7, ABCDEFGH_8, ABCDEFGH_9, ABCDEFGH10, ABCDEFGH11, ABCDEFGH12, ABCDEFGH13, ABCDEFGH14, ABCDEFGH15, ABCDEFGH16, ABCDEFGH17, ABCDEFGH18, ABCDEFGH19, ABCDEFGH20, ABCDEFGH21, ABCDEFGH22, ABCDEFGH23, ABCDEFGH24, ABCDEFGH25, ABCDEFGH26, ABCDEFGH27, ABCDEFGH28</span></div><div class='output co'>#&gt; WARNING: Vector map &lt;newsch&gt; already exists and will be overwritten
+#&gt; [1] TRUE</div><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='va'>run</span><span class='op'>)</span> <span class='op'>{</span>
+  <span class='va'>nschs</span> <span class='op'>&lt;-</span> <span class='fu'>readVECT</span><span class='op'>(</span><span class='st'>"newsch"</span>, driver<span class='op'>=</span><span class='st'>"ESRI Shapefile"</span><span class='op'>)</span>
+  <span class='fu'><a href='https://rdrr.io/r/base/all.equal.html'>all.equal</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/names.html'>names</a></span><span class='op'>(</span><span class='va'>schs</span><span class='op'>)</span>, <span class='fu'><a href='https://rdrr.io/r/base/names.html'>names</a></span><span class='op'>(</span><span class='va'>nschs</span><span class='op'>)</span><span class='op'>[</span><span class='op'>-</span><span class='fl'>1</span><span class='op'>]</span><span class='op'>)</span>
+<span class='op'>}</span>
+</div><div class='output co'>#&gt; WARNING: No attribute table found -&gt; using only category numbers as
+#&gt;          attributes</div><div class='output co'>#&gt; <span class='warning'>Warning: Discarded datum NAD83_High_Accuracy_Reference_Network in CRS definition: +proj=lcc +lat_0=33.75 +lon_0=-79 +lat_1=36.1666666666667 +lat_2=34.3333333333333 +x_0=609601.22 +y_0=0 +ellps=GRS80 +units=m +no_defs</span></div><div class='output co'>#&gt; [1] TRUE</div><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='va'>run</span><span class='op'>)</span> <span class='op'>{</span>
+  <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='fu'>vInfo</span><span class='op'>(</span><span class='st'>"roadsmajor"</span><span class='op'>)</span><span class='op'>)</span>
+<span class='op'>}</span>
+</div><div class='output co'>#&gt;      nodes     points      lines boundaries  centroids      areas    islands 
 #&gt;        266          0        355          0          0          0          0 
 #&gt; primitives      map3d 
-#&gt;        355          0 </div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
-  <span class='no'>roads</span> <span class='kw'>&lt;-</span> <span class='fu'>readVECT</span>(<span class='st'>"roadsmajor"</span>)
-  <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>roads</span>))
-}</div><div class='output co'>#&gt;                Length                 Class                  Mode 
-#&gt;                   355 SpatialLinesDataFrame                    S4 </div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
-  <span class='no'>cen_neig</span> <span class='kw'>&lt;-</span> <span class='fu'>vect2neigh</span>(<span class='st'>"census"</span>)
-  <span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/str'>str</a></span>(<span class='no'>cen_neig</span>)
-}</div><div class='output co'>#&gt; WARNING: Values in column &lt;cat&gt; will be overwritten
+#&gt;        355          0 </div><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='va'>run</span><span class='op'>)</span> <span class='op'>{</span>
+  <span class='va'>roads</span> <span class='op'>&lt;-</span> <span class='fu'>readVECT</span><span class='op'>(</span><span class='st'>"roadsmajor"</span><span class='op'>)</span>
+  <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span><span class='op'>(</span><span class='va'>roads</span><span class='op'>)</span><span class='op'>)</span>
+<span class='op'>}</span>
+</div><div class='output co'>#&gt; <span class='warning'>Warning: Discarded datum NAD83_High_Accuracy_Reference_Network in CRS definition: +proj=lcc +lat_0=33.75 +lon_0=-79 +lat_1=36.1666666666667 +lat_2=34.3333333333333 +x_0=609601.22 +y_0=0 +ellps=GRS80 +units=m +no_defs</span></div><div class='output co'>#&gt;                Length                 Class                  Mode 
+#&gt;                   355 SpatialLinesDataFrame                    S4 </div><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='va'>run</span><span class='op'>)</span> <span class='op'>{</span>
+  <span class='va'>cen_neig</span> <span class='op'>&lt;-</span> <span class='fu'>vect2neigh</span><span class='op'>(</span><span class='st'>"census"</span><span class='op'>)</span>
+  <span class='fu'><a href='https://rdrr.io/r/utils/str.html'>str</a></span><span class='op'>(</span><span class='va'>cen_neig</span><span class='op'>)</span>
+<span class='op'>}</span>
+</div><div class='output co'>#&gt; WARNING: Values in column &lt;cat&gt; will be overwritten
 #&gt; WARNING: Values in column &lt;left&gt; will be overwritten
 #&gt; WARNING: Values in column &lt;right&gt; will be overwritten
 #&gt; WARNING: Values in column &lt;length&gt; will be overwritten
@@ -350,129 +378,164 @@
 #&gt;  $ left  : int  1 1 1 1 2 2 2 2 2 3 ...
 #&gt;  $ right : int  2 18 176 177 1 3 20 176 182 2 ...
 #&gt;  $ length: num  0.2814 0.1166 0.0849 0.2747 0.2814 ...
-#&gt;  - attr(*, "external")= num  0 0 0 0 0.239 ...
-#&gt;  - attr(*, "total")= Named num  0.7577 0.9377 0.753 0.0995 1.7322 ...
-#&gt;   ..- attr(*, "names")= chr  "1" "2" "3" "4" ...
-#&gt;  - attr(*, "n")= int 2537</div><div class='input'><span class='fu'><a href='gmeta.html'>use_sf</a></span>()
-<span class='kw'>if</span> (<span class='no'>run</span>) {
-  <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='fu'>vInfo</span>(<span class='st'>"schools"</span>))
-  <span class='no'>schs</span> <span class='kw'>&lt;-</span> <span class='fu'>readVECT</span>(<span class='st'>"schools"</span>, <span class='kw'>plugin</span><span class='kw'>=</span><span class='kw'>NULL</span>)
-  <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>schs</span>))
-}</div><div class='output co'>#&gt;      nodes     points      lines boundaries  centroids      areas    islands 
+#&gt;  - attr(*, "external")= num [1:2537] 0 0 0 0 0.239 ...
+#&gt;  - attr(*, "total")= Named num [1:2537] 0.7577 0.9377 0.753 0.0995 1.7322 ...
+#&gt;   ..- attr(*, "names")= chr [1:2537] "1" "2" "3" "4" ...
+#&gt;  - attr(*, "n")= int 2537</div><div class='input'><span class='fu'><a href='gmeta.html'>use_sf</a></span><span class='op'>(</span><span class='op'>)</span>
+<span class='kw'>if</span> <span class='op'>(</span><span class='va'>run</span><span class='op'>)</span> <span class='op'>{</span>
+  <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='fu'>vInfo</span><span class='op'>(</span><span class='st'>"schools"</span><span class='op'>)</span><span class='op'>)</span>
+  <span class='va'>schs</span> <span class='op'>&lt;-</span> <span class='fu'>readVECT</span><span class='op'>(</span><span class='st'>"schools"</span>, plugin<span class='op'>=</span><span class='cn'>NULL</span><span class='op'>)</span>
+  <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span><span class='op'>(</span><span class='va'>schs</span><span class='op'>)</span><span class='op'>)</span>
+<span class='op'>}</span>
+</div><div class='output co'>#&gt;      nodes     points      lines boundaries  centroids      areas    islands 
 #&gt;          0        167          0          0          0          0          0 
 #&gt; primitives      map3d 
 #&gt;        167          0 
-#&gt;       cat             TAG              NAMESHORT                   NAMELONG  
-#&gt;  Min.   :  1.0   001    :  1   ADM          :  4   ADAMS ELEMENTARY    :  1  
-#&gt;  1st Qu.: 42.5   003    :  1   E WAKE       :  4   APEX ELEMENTARY     :  1  
-#&gt;  Median : 84.0   004    :  1   APEX         :  3   APEX HIGH           :  1  
-#&gt;  Mean   : 84.0   010    :  1   FUQUAY-VARINA:  3   APEX MIDDLE         :  1  
-#&gt;  3rd Qu.:125.5   011    :  1   HERITAGE     :  3   ATHENS DRIVE HIGH   :  1  
-#&gt;  Max.   :167.0   012    :  1   LEESVILLE RD :  3   AVERSBORO ELEMENTARY:  1  
-#&gt;                  (Other):161   (Other)      :147   (Other)             :161  
-#&gt;    CORECAPACI       MOBILEUNIT       MOBILECAPA   GLEVEL LOGRADE    HIGRADE   
-#&gt;  Min.   :   0.0   Min.   : 0.000   Min.   :0.00   A: 7   NA's:167   NA's:167  
-#&gt;  1st Qu.: 498.5   1st Qu.: 0.000   1st Qu.:0.75   E:95                        
-#&gt;  Median : 586.0   Median : 6.000   Median :1.50   H:22                        
-#&gt;  Mean   : 763.7   Mean   : 7.318   Mean   :1.75   M:28                        
-#&gt;  3rd Qu.: 903.0   3rd Qu.:11.000   3rd Qu.:2.50   N: 7                        
-#&gt;  Max.   :2294.0   Max.   :49.000   Max.   :4.00   S: 5                        
-#&gt;  NA's   :23       NA's   :19       NA's   :163    U: 3                        
-#&gt;  CALENDAR   HASBASE    ISMAGNET       PHONE       ADDRNUMBER  ADDRPREFIX
-#&gt;  M   :  5   NA's:167   NA's:167   3652625:  3   1000   :  4   NA's:167  
-#&gt;  T   :128                         3651567:  2   400    :  4             
-#&gt;  Y   : 23                         4603504:  2   5101   :  3             
-#&gt;  NA's: 11                         5626262:  2   700    :  3             
-#&gt;                                   8568200:  2   100    :  2             
-#&gt;                                   (Other):146   (Other):147             
-#&gt;                                   NA's   : 10   NA's   :  4             
-#&gt;              ADDRROOT   ADDRTYPE   ADDRSUFFIX        ADDRCITY    ADDRZIPCOD 
-#&gt;  Holly Springs Rd:  3   NA's:167   NA's:167   Raleigh    :85   27610  : 17  
-#&gt;  Leesville Rd    :  3                         Cary       :22   27529  :  9  
-#&gt;  New Bern Ave    :  3                         Apex       :12   27587  :  9  
-#&gt;  Rogers Rd       :  3                         Garner     : 9   27614  :  9  
-#&gt;  Rolesville Rd   :  3                         Wake Forest: 9   27511  :  8  
-#&gt;  (Other)         :150                         Wendell    : 8   27519  :  8  
-#&gt;  NA's            :  2                         (Other)    :22   (Other):107  
-#&gt;       SPED     STATUS     NODEID      CAPACITYTO       ESL        BOARDDIS2 
-#&gt;  Min.   : NA   E:94   193.0  :  4   Min.   :   0.0   N   : 55   1      :27  
-#&gt;  1st Qu.: NA   H:23   070.1  :  3   1st Qu.: 543.0   Y   :103   2      :20  
-#&gt;  Median : NA   M:30   299.0  :  3   Median : 761.0   NA's:  9   8      :20  
-#&gt;  Mean   :NaN   N: 5   319.2  :  3   Mean   : 867.0              3      :17  
-#&gt;  3rd Qu.: NA   O:15   370.2  :  3   3rd Qu.: 992.5              4      :17  
-#&gt;  Max.   : NA          379.0  :  3   Max.   :2294.0              (Other):55  
-#&gt;  NA's   :167          (Other):148   NA's   :20                  NA's   :11  
-#&gt;     PROJ_CAP          NOTES               geom    
-#&gt;  Min.   :   0.0   1      :27   POINT        :167  
-#&gt;  1st Qu.: 497.0   2      :17   epsg:NA      :  0  
-#&gt;  Median : 722.0   9      : 3   +proj=lcc ...:  0  
-#&gt;  Mean   : 793.1   15     : 2                      
-#&gt;  3rd Qu.: 975.0   16     : 2                      
-#&gt;  Max.   :2390.0   (Other):17                      
-#&gt;  NA's   :2        NA's   :99                      </div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
-  <span class='no'>schs1</span> <span class='kw'>&lt;-</span> <span class='fu'>readVECT</span>(<span class='st'>"schools"</span>, <span class='kw'>plugin</span><span class='kw'>=</span><span class='fl'>FALSE</span>)
-  <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>schs1</span>))
-}</div><div class='output co'>#&gt;       cat             TAG              NAMESHORT                   NAMELONG  
-#&gt;  Min.   :  1.0   001    :  1   ADM          :  4   ADAMS ELEMENTARY    :  1  
-#&gt;  1st Qu.: 42.5   003    :  1   E WAKE       :  4   APEX ELEMENTARY     :  1  
-#&gt;  Median : 84.0   004    :  1   APEX         :  3   APEX HIGH           :  1  
-#&gt;  Mean   : 84.0   010    :  1   FUQUAY-VARINA:  3   APEX MIDDLE         :  1  
-#&gt;  3rd Qu.:125.5   011    :  1   HERITAGE     :  3   ATHENS DRIVE HIGH   :  1  
-#&gt;  Max.   :167.0   012    :  1   LEESVILLE RD :  3   AVERSBORO ELEMENTARY:  1  
-#&gt;                  (Other):161   (Other)      :147   (Other)             :161  
-#&gt;    CORECAPACI       MOBILEUNIT       MOBILECAPA   GLEVEL LOGRADE    HIGRADE   
-#&gt;  Min.   :   0.0   Min.   : 0.000   Min.   :0.00   A: 7   NA's:167   NA's:167  
-#&gt;  1st Qu.: 498.5   1st Qu.: 0.000   1st Qu.:0.75   E:95                        
-#&gt;  Median : 586.0   Median : 6.000   Median :1.50   H:22                        
-#&gt;  Mean   : 763.7   Mean   : 7.318   Mean   :1.75   M:28                        
-#&gt;  3rd Qu.: 903.0   3rd Qu.:11.000   3rd Qu.:2.50   N: 7                        
-#&gt;  Max.   :2294.0   Max.   :49.000   Max.   :4.00   S: 5                        
-#&gt;  NA's   :23       NA's   :19       NA's   :163    U: 3                        
-#&gt;  CALENDAR   HASBASE    ISMAGNET       PHONE       ADDRNUMBER  ADDRPREFIX
-#&gt;  M   :  5   NA's:167   NA's:167   3652625:  3   1000   :  4   NA's:167  
-#&gt;  T   :128                         3651567:  2   400    :  4             
-#&gt;  Y   : 23                         4603504:  2   5101   :  3             
-#&gt;  NA's: 11                         5626262:  2   700    :  3             
-#&gt;                                   8568200:  2   100    :  2             
-#&gt;                                   (Other):146   (Other):147             
-#&gt;                                   NA's   : 10   NA's   :  4             
-#&gt;              ADDRROOT   ADDRTYPE   ADDRSUFFIX        ADDRCITY    ADDRZIPCOD 
-#&gt;  Holly Springs Rd:  3   NA's:167   NA's:167   Raleigh    :85   27610  : 17  
-#&gt;  Leesville Rd    :  3                         Cary       :22   27529  :  9  
-#&gt;  New Bern Ave    :  3                         Apex       :12   27587  :  9  
-#&gt;  Rogers Rd       :  3                         Garner     : 9   27614  :  9  
-#&gt;  Rolesville Rd   :  3                         Wake Forest: 9   27511  :  8  
-#&gt;  (Other)         :150                         Wendell    : 8   27519  :  8  
-#&gt;  NA's            :  2                         (Other)    :22   (Other):107  
-#&gt;       SPED     STATUS     NODEID      CAPACITYTO       ESL        BOARDDIS2 
-#&gt;  Min.   : NA   E:94   193.0  :  4   Min.   :   0.0   N   : 55   1      :27  
-#&gt;  1st Qu.: NA   H:23   070.1  :  3   1st Qu.: 543.0   Y   :103   2      :20  
-#&gt;  Median : NA   M:30   299.0  :  3   Median : 761.0   NA's:  9   8      :20  
-#&gt;  Mean   :NaN   N: 5   319.2  :  3   Mean   : 867.0              3      :17  
-#&gt;  3rd Qu.: NA   O:15   370.2  :  3   3rd Qu.: 992.5              4      :17  
-#&gt;  Max.   : NA          379.0  :  3   Max.   :2294.0              (Other):55  
-#&gt;  NA's   :167          (Other):148   NA's   :20                  NA's   :11  
-#&gt;     PROJ_CAP          NOTES               geom    
-#&gt;  Min.   :   0.0   1      :27   POINT        :167  
-#&gt;  1st Qu.: 497.0   2      :17   epsg:NA      :  0  
-#&gt;  Median : 722.0   9      : 3   +proj=lcc ...:  0  
-#&gt;  Mean   : 793.1   15     : 2                      
-#&gt;  3rd Qu.: 975.0   16     : 2                      
-#&gt;  Max.   :2390.0   (Other):17                      
-#&gt;  NA's   :2        NA's   :99                      </div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
-  <span class='fu'>writeVECT</span>(<span class='no'>schs</span>, <span class='st'>"newsch"</span>, <span class='kw'>v.in.ogr_flags</span><span class='kw'>=</span><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"o"</span>, <span class='st'>"overwrite"</span>))
-  <span class='fu'><a href='execGRASS.html'>execGRASS</a></span>(<span class='st'>"v.info"</span>, <span class='kw'>map</span><span class='kw'>=</span><span class='st'>"newsch"</span>, <span class='kw'>layer</span><span class='kw'>=</span><span class='st'>"1"</span>)
-}</div><div class='output co'>#&gt; WARNING: Vector map &lt;newsch&gt; already exists and will be overwritten
+#&gt;       cat            TAG             NAMESHORT           NAMELONG        
+#&gt;  Min.   :  1.0   Length:167         Length:167         Length:167        
+#&gt;  1st Qu.: 42.5   Class :character   Class :character   Class :character  
+#&gt;  Median : 84.0   Mode  :character   Mode  :character   Mode  :character  
+#&gt;  Mean   : 84.0                                                           
+#&gt;  3rd Qu.:125.5                                                           
+#&gt;  Max.   :167.0                                                           
+#&gt;                                                                          
+#&gt;    CORECAPACI       MOBILEUNIT       MOBILECAPA      GLEVEL         
+#&gt;  Min.   :   0.0   Min.   : 0.000   Min.   :0.00   Length:167        
+#&gt;  1st Qu.: 498.5   1st Qu.: 0.000   1st Qu.:0.75   Class :character  
+#&gt;  Median : 586.0   Median : 6.000   Median :1.50   Mode  :character  
+#&gt;  Mean   : 763.7   Mean   : 7.318   Mean   :1.75                     
+#&gt;  3rd Qu.: 903.0   3rd Qu.:11.000   3rd Qu.:2.50                     
+#&gt;  Max.   :2294.0   Max.   :49.000   Max.   :4.00                     
+#&gt;  NA's   :23       NA's   :19       NA's   :163                      
+#&gt;    LOGRADE            HIGRADE            CALENDAR           HASBASE         
+#&gt;  Length:167         Length:167         Length:167         Length:167        
+#&gt;  Class :character   Class :character   Class :character   Class :character  
+#&gt;  Mode  :character   Mode  :character   Mode  :character   Mode  :character  
+#&gt;                                                                             
+#&gt;                                                                             
+#&gt;                                                                             
+#&gt;                                                                             
+#&gt;    ISMAGNET            PHONE            ADDRNUMBER         ADDRPREFIX       
+#&gt;  Length:167         Length:167         Length:167         Length:167        
+#&gt;  Class :character   Class :character   Class :character   Class :character  
+#&gt;  Mode  :character   Mode  :character   Mode  :character   Mode  :character  
+#&gt;                                                                             
+#&gt;                                                                             
+#&gt;                                                                             
+#&gt;                                                                             
+#&gt;    ADDRROOT           ADDRTYPE          ADDRSUFFIX          ADDRCITY        
+#&gt;  Length:167         Length:167         Length:167         Length:167        
+#&gt;  Class :character   Class :character   Class :character   Class :character  
+#&gt;  Mode  :character   Mode  :character   Mode  :character   Mode  :character  
+#&gt;                                                                             
+#&gt;                                                                             
+#&gt;                                                                             
+#&gt;                                                                             
+#&gt;   ADDRZIPCOD             SPED        STATUS             NODEID         
+#&gt;  Length:167         Min.   : NA   Length:167         Length:167        
+#&gt;  Class :character   1st Qu.: NA   Class :character   Class :character  
+#&gt;  Mode  :character   Median : NA   Mode  :character   Mode  :character  
+#&gt;                     Mean   :NaN                                        
+#&gt;                     3rd Qu.: NA                                        
+#&gt;                     Max.   : NA                                        
+#&gt;                     NA's   :167                                        
+#&gt;    CAPACITYTO         ESL             BOARDDIS2            PROJ_CAP     
+#&gt;  Min.   :   0.0   Length:167         Length:167         Min.   :   0.0  
+#&gt;  1st Qu.: 543.0   Class :character   Class :character   1st Qu.: 497.0  
+#&gt;  Median : 761.0   Mode  :character   Mode  :character   Median : 722.0  
+#&gt;  Mean   : 867.0                                         Mean   : 793.1  
+#&gt;  3rd Qu.: 992.5                                         3rd Qu.: 975.0  
+#&gt;  Max.   :2294.0                                         Max.   :2390.0  
+#&gt;  NA's   :20                                             NA's   :2       
+#&gt;     NOTES                      geom    
+#&gt;  Length:167         POINT        :167  
+#&gt;  Class :character   epsg:3358    :  0  
+#&gt;  Mode  :character   +proj=lcc ...:  0  
+#&gt;                                        
+#&gt;                                        
+#&gt;                                        
+#&gt;                                        </div><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='va'>run</span><span class='op'>)</span> <span class='op'>{</span>
+  <span class='va'>schs1</span> <span class='op'>&lt;-</span> <span class='fu'>readVECT</span><span class='op'>(</span><span class='st'>"schools"</span>, plugin<span class='op'>=</span><span class='cn'>FALSE</span><span class='op'>)</span>
+  <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span><span class='op'>(</span><span class='va'>schs1</span><span class='op'>)</span><span class='op'>)</span>
+<span class='op'>}</span>
+</div><div class='output co'>#&gt;       cat            TAG             NAMESHORT           NAMELONG        
+#&gt;  Min.   :  1.0   Length:167         Length:167         Length:167        
+#&gt;  1st Qu.: 42.5   Class :character   Class :character   Class :character  
+#&gt;  Median : 84.0   Mode  :character   Mode  :character   Mode  :character  
+#&gt;  Mean   : 84.0                                                           
+#&gt;  3rd Qu.:125.5                                                           
+#&gt;  Max.   :167.0                                                           
+#&gt;                                                                          
+#&gt;    CORECAPACI       MOBILEUNIT       MOBILECAPA      GLEVEL         
+#&gt;  Min.   :   0.0   Min.   : 0.000   Min.   :0.00   Length:167        
+#&gt;  1st Qu.: 498.5   1st Qu.: 0.000   1st Qu.:0.75   Class :character  
+#&gt;  Median : 586.0   Median : 6.000   Median :1.50   Mode  :character  
+#&gt;  Mean   : 763.7   Mean   : 7.318   Mean   :1.75                     
+#&gt;  3rd Qu.: 903.0   3rd Qu.:11.000   3rd Qu.:2.50                     
+#&gt;  Max.   :2294.0   Max.   :49.000   Max.   :4.00                     
+#&gt;  NA's   :23       NA's   :19       NA's   :163                      
+#&gt;    LOGRADE            HIGRADE            CALENDAR           HASBASE         
+#&gt;  Length:167         Length:167         Length:167         Length:167        
+#&gt;  Class :character   Class :character   Class :character   Class :character  
+#&gt;  Mode  :character   Mode  :character   Mode  :character   Mode  :character  
+#&gt;                                                                             
+#&gt;                                                                             
+#&gt;                                                                             
+#&gt;                                                                             
+#&gt;    ISMAGNET            PHONE            ADDRNUMBER         ADDRPREFIX       
+#&gt;  Length:167         Length:167         Length:167         Length:167        
+#&gt;  Class :character   Class :character   Class :character   Class :character  
+#&gt;  Mode  :character   Mode  :character   Mode  :character   Mode  :character  
+#&gt;                                                                             
+#&gt;                                                                             
+#&gt;                                                                             
+#&gt;                                                                             
+#&gt;    ADDRROOT           ADDRTYPE          ADDRSUFFIX          ADDRCITY        
+#&gt;  Length:167         Length:167         Length:167         Length:167        
+#&gt;  Class :character   Class :character   Class :character   Class :character  
+#&gt;  Mode  :character   Mode  :character   Mode  :character   Mode  :character  
+#&gt;                                                                             
+#&gt;                                                                             
+#&gt;                                                                             
+#&gt;                                                                             
+#&gt;   ADDRZIPCOD             SPED        STATUS             NODEID         
+#&gt;  Length:167         Min.   : NA   Length:167         Length:167        
+#&gt;  Class :character   1st Qu.: NA   Class :character   Class :character  
+#&gt;  Mode  :character   Median : NA   Mode  :character   Mode  :character  
+#&gt;                     Mean   :NaN                                        
+#&gt;                     3rd Qu.: NA                                        
+#&gt;                     Max.   : NA                                        
+#&gt;                     NA's   :167                                        
+#&gt;    CAPACITYTO         ESL             BOARDDIS2            PROJ_CAP     
+#&gt;  Min.   :   0.0   Length:167         Length:167         Min.   :   0.0  
+#&gt;  1st Qu.: 543.0   Class :character   Class :character   1st Qu.: 497.0  
+#&gt;  Median : 761.0   Mode  :character   Mode  :character   Median : 722.0  
+#&gt;  Mean   : 867.0                                         Mean   : 793.1  
+#&gt;  3rd Qu.: 992.5                                         3rd Qu.: 975.0  
+#&gt;  Max.   :2294.0                                         Max.   :2390.0  
+#&gt;  NA's   :20                                             NA's   :2       
+#&gt;     NOTES                      geom    
+#&gt;  Length:167         POINT        :167  
+#&gt;  Class :character   epsg:3358    :  0  
+#&gt;  Mode  :character   +proj=lcc ...:  0  
+#&gt;                                        
+#&gt;                                        
+#&gt;                                        
+#&gt;                                        </div><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='va'>run</span><span class='op'>)</span> <span class='op'>{</span>
+  <span class='fu'>writeVECT</span><span class='op'>(</span><span class='va'>schs</span>, <span class='st'>"newsch"</span>, v.in.ogr_flags<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"o"</span>, <span class='st'>"overwrite"</span><span class='op'>)</span><span class='op'>)</span>
+  <span class='fu'><a href='execGRASS.html'>execGRASS</a></span><span class='op'>(</span><span class='st'>"v.info"</span>, map<span class='op'>=</span><span class='st'>"newsch"</span>, layer<span class='op'>=</span><span class='st'>"1"</span><span class='op'>)</span>
+<span class='op'>}</span>
+</div><div class='output co'>#&gt; WARNING: Vector map &lt;newsch&gt; already exists and will be overwritten
 #&gt;  +----------------------------------------------------------------------------+
 #&gt;  | Name:            newsch                                                    |
 #&gt;  | Mapset:          rsb                                                       |
 #&gt;  | Location:        nc_basic_spm_grass7                                       |
-#&gt;  | Database:        /home/rsb/topics/grassdata7                               |
+#&gt;  | Database:        /home/rsb/topics/grassdata                                |
 #&gt;  | Title:                                                                     |
 #&gt;  | Map scale:       1:1                                                       |
 #&gt;  | Name of creator: rsb                                                       |
 #&gt;  | Organization:                                                              |
-#&gt;  | Source date:     Tue Aug  6 11:02:42 2019                                  |
+#&gt;  | Source date:     Fri Dec  4 11:27:21 2020                                  |
 #&gt;  | Timestamp (first layer): none                                              |
 #&gt;  |----------------------------------------------------------------------------|
 #&gt;  | Map format:      native                                                    |
@@ -495,83 +558,85 @@
 #&gt;  |   Comment:                                                                 |
 #&gt;  |                                                                            |
 #&gt;  +----------------------------------------------------------------------------+
-#&gt; </div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
-  <span class='no'>nschs</span> <span class='kw'>&lt;-</span> <span class='fu'>readVECT</span>(<span class='st'>"newsch"</span>)
-  <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>nschs</span>))
-}</div><div class='output co'>#&gt;       cat             cat_            TAG              NAMESHORT  
-#&gt;  Min.   :  1.0   Min.   :  1.0   001    :  1   ADM          :  4  
-#&gt;  1st Qu.: 42.5   1st Qu.: 42.5   003    :  1   E WAKE       :  4  
-#&gt;  Median : 84.0   Median : 84.0   004    :  1   APEX         :  3  
-#&gt;  Mean   : 84.0   Mean   : 84.0   010    :  1   FUQUAY-VARINA:  3  
-#&gt;  3rd Qu.:125.5   3rd Qu.:125.5   011    :  1   HERITAGE     :  3  
-#&gt;  Max.   :167.0   Max.   :167.0   012    :  1   LEESVILLE RD :  3  
-#&gt;                                  (Other):161   (Other)      :147  
-#&gt;                  NAMELONG     CORECAPACI       MOBILEUNIT       MOBILECAPA  
-#&gt;  ADAMS ELEMENTARY    :  1   Min.   :   0.0   Min.   : 0.000   Min.   :0.00  
-#&gt;  APEX ELEMENTARY     :  1   1st Qu.: 498.5   1st Qu.: 0.000   1st Qu.:0.75  
-#&gt;  APEX HIGH           :  1   Median : 586.0   Median : 6.000   Median :1.50  
-#&gt;  APEX MIDDLE         :  1   Mean   : 763.7   Mean   : 7.318   Mean   :1.75  
-#&gt;  ATHENS DRIVE HIGH   :  1   3rd Qu.: 903.0   3rd Qu.:11.000   3rd Qu.:2.50  
-#&gt;  AVERSBORO ELEMENTARY:  1   Max.   :2294.0   Max.   :49.000   Max.   :4.00  
-#&gt;  (Other)             :161   NA's   :23       NA's   :19       NA's   :163   
-#&gt;  GLEVEL LOGRADE    HIGRADE    CALENDAR   HASBASE    ISMAGNET       PHONE    
-#&gt;  A: 7   NA's:167   NA's:167   M   :  5   NA's:167   NA's:167   3652625:  3  
-#&gt;  E:95                         T   :128                         3651567:  2  
-#&gt;  H:22                         Y   : 23                         4603504:  2  
-#&gt;  M:28                         NA's: 11                         5626262:  2  
-#&gt;  N: 7                                                          8568200:  2  
-#&gt;  S: 5                                                          (Other):146  
-#&gt;  U: 3                                                          NA's   : 10  
-#&gt;    ADDRNUMBER  ADDRPREFIX             ADDRROOT   ADDRTYPE   ADDRSUFFIX
-#&gt;  1000   :  4   NA's:167   Holly Springs Rd:  3   NA's:167   NA's:167  
-#&gt;  400    :  4              Leesville Rd    :  3                        
-#&gt;  5101   :  3              New Bern Ave    :  3                        
-#&gt;  700    :  3              Rogers Rd       :  3                        
-#&gt;  100    :  2              Rolesville Rd   :  3                        
-#&gt;  (Other):147              (Other)         :150                        
-#&gt;  NA's   :  4              NA's            :  2                        
-#&gt;         ADDRCITY    ADDRZIPCOD       SPED     STATUS     NODEID   
-#&gt;  Raleigh    :85   27610  : 17   Min.   : NA   E:94   193.0  :  4  
-#&gt;  Cary       :22   27529  :  9   1st Qu.: NA   H:23   070.1  :  3  
-#&gt;  Apex       :12   27587  :  9   Median : NA   M:30   299.0  :  3  
-#&gt;  Garner     : 9   27614  :  9   Mean   :NaN   N: 5   319.2  :  3  
-#&gt;  Wake Forest: 9   27511  :  8   3rd Qu.: NA   O:15   370.2  :  3  
-#&gt;  Wendell    : 8   27519  :  8   Max.   : NA          379.0  :  3  
-#&gt;  (Other)    :22   (Other):107   NA's   :167          (Other):148  
-#&gt;    CAPACITYTO       ESL        BOARDDIS2     PROJ_CAP          NOTES   
-#&gt;  Min.   :   0.0   N   : 55   1      :27   Min.   :   0.0   1      :27  
-#&gt;  1st Qu.: 543.0   Y   :103   2      :20   1st Qu.: 497.0   2      :17  
-#&gt;  Median : 761.0   NA's:  9   8      :20   Median : 722.0   9      : 3  
-#&gt;  Mean   : 867.0              3      :17   Mean   : 793.1   15     : 2  
-#&gt;  3rd Qu.: 992.5              4      :17   3rd Qu.: 975.0   16     : 2  
-#&gt;  Max.   :2294.0              (Other):55   Max.   :2390.0   (Other):17  
-#&gt;  NA's   :20                  NA's   :11   NA's   :2        NA's   :99  
-#&gt;             geom    
-#&gt;  POINT        :167  
-#&gt;  epsg:NA      :  0  
-#&gt;  +proj=lcc ...:  0  
-#&gt;                     
-#&gt;                     
-#&gt;                     
-#&gt;                     </div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/Sys.setenv'>Sys.setenv</a></span>(<span class='st'>"GRASS_VERBOSE"</span><span class='kw'>=</span><span class='no'>GV</span>)
-<span class='fu'><a href='gmeta.html'>set.ignore.stderrOption</a></span>(<span class='no'>ois</span>)</div><div class='output co'>#&gt; [1] TRUE</div><div class='input'><span class='fu'><a href='gmeta.html'>use_sp</a></span>()</div></pre>
+#&gt; </div><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='va'>run</span><span class='op'>)</span> <span class='op'>{</span>
+  <span class='va'>nschs</span> <span class='op'>&lt;-</span> <span class='fu'>readVECT</span><span class='op'>(</span><span class='st'>"newsch"</span><span class='op'>)</span>
+  <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span><span class='op'>(</span><span class='va'>nschs</span><span class='op'>)</span><span class='op'>)</span>
+<span class='op'>}</span>
+</div><div class='output co'>#&gt;       cat             cat_           TAG             NAMESHORT        
+#&gt;  Min.   :  1.0   Min.   :  1.0   Length:167         Length:167        
+#&gt;  1st Qu.: 42.5   1st Qu.: 42.5   Class :character   Class :character  
+#&gt;  Median : 84.0   Median : 84.0   Mode  :character   Mode  :character  
+#&gt;  Mean   : 84.0   Mean   : 84.0                                        
+#&gt;  3rd Qu.:125.5   3rd Qu.:125.5                                        
+#&gt;  Max.   :167.0   Max.   :167.0                                        
+#&gt;                                                                       
+#&gt;    NAMELONG           CORECAPACI       MOBILEUNIT       MOBILECAPA  
+#&gt;  Length:167         Min.   :   0.0   Min.   : 0.000   Min.   :0.00  
+#&gt;  Class :character   1st Qu.: 498.5   1st Qu.: 0.000   1st Qu.:0.75  
+#&gt;  Mode  :character   Median : 586.0   Median : 6.000   Median :1.50  
+#&gt;                     Mean   : 763.7   Mean   : 7.318   Mean   :1.75  
+#&gt;                     3rd Qu.: 903.0   3rd Qu.:11.000   3rd Qu.:2.50  
+#&gt;                     Max.   :2294.0   Max.   :49.000   Max.   :4.00  
+#&gt;                     NA's   :23       NA's   :19       NA's   :163   
+#&gt;     GLEVEL            LOGRADE            HIGRADE            CALENDAR        
+#&gt;  Length:167         Length:167         Length:167         Length:167        
+#&gt;  Class :character   Class :character   Class :character   Class :character  
+#&gt;  Mode  :character   Mode  :character   Mode  :character   Mode  :character  
+#&gt;                                                                             
+#&gt;                                                                             
+#&gt;                                                                             
+#&gt;                                                                             
+#&gt;    HASBASE            ISMAGNET            PHONE            ADDRNUMBER       
+#&gt;  Length:167         Length:167         Length:167         Length:167        
+#&gt;  Class :character   Class :character   Class :character   Class :character  
+#&gt;  Mode  :character   Mode  :character   Mode  :character   Mode  :character  
+#&gt;                                                                             
+#&gt;                                                                             
+#&gt;                                                                             
+#&gt;                                                                             
+#&gt;   ADDRPREFIX          ADDRROOT           ADDRTYPE          ADDRSUFFIX       
+#&gt;  Length:167         Length:167         Length:167         Length:167        
+#&gt;  Class :character   Class :character   Class :character   Class :character  
+#&gt;  Mode  :character   Mode  :character   Mode  :character   Mode  :character  
+#&gt;                                                                             
+#&gt;                                                                             
+#&gt;                                                                             
+#&gt;                                                                             
+#&gt;    ADDRCITY          ADDRZIPCOD             SPED        STATUS         
+#&gt;  Length:167         Length:167         Min.   : NA   Length:167        
+#&gt;  Class :character   Class :character   1st Qu.: NA   Class :character  
+#&gt;  Mode  :character   Mode  :character   Median : NA   Mode  :character  
+#&gt;                                        Mean   :NaN                     
+#&gt;                                        3rd Qu.: NA                     
+#&gt;                                        Max.   : NA                     
+#&gt;                                        NA's   :167                     
+#&gt;     NODEID            CAPACITYTO         ESL             BOARDDIS2        
+#&gt;  Length:167         Min.   :   0.0   Length:167         Length:167        
+#&gt;  Class :character   1st Qu.: 543.0   Class :character   Class :character  
+#&gt;  Mode  :character   Median : 761.0   Mode  :character   Mode  :character  
+#&gt;                     Mean   : 867.0                                        
+#&gt;                     3rd Qu.: 992.5                                        
+#&gt;                     Max.   :2294.0                                        
+#&gt;                     NA's   :20                                            
+#&gt;     PROJ_CAP         NOTES                      geom    
+#&gt;  Min.   :   0.0   Length:167         POINT        :167  
+#&gt;  1st Qu.: 497.0   Class :character   epsg:3358    :  0  
+#&gt;  Median : 722.0   Mode  :character   +proj=lcc ...:  0  
+#&gt;  Mean   : 793.1                                         
+#&gt;  3rd Qu.: 975.0                                         
+#&gt;  Max.   :2390.0                                         
+#&gt;  NA's   :2                                              </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/Sys.setenv.html'>Sys.setenv</a></span><span class='op'>(</span><span class='st'>"GRASS_VERBOSE"</span><span class='op'>=</span><span class='va'>GV</span><span class='op'>)</span>
+<span class='fu'><a href='gmeta.html'>set.ignore.stderrOption</a></span><span class='op'>(</span><span class='va'>ois</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] TRUE</div><div class='input'><span class='fu'><a href='gmeta.html'>use_sp</a></span><span class='op'>(</span><span class='op'>)</span>
+</div></pre>
   </div>
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
-    <h2>Contents</h2>
-    <ul class="nav nav-pills nav-stacked">
-      <li><a href="#arguments">Arguments</a></li>
-      
-      <li><a href="#value">Value</a></li>
-
-      <li><a href="#note">Note</a></li>
-      
-      <li><a href="#examples">Examples</a></li>
-    </ul>
-
-    <h2>Author</h2>
-    <p>Roger S. Bivand, e-mail: <a href='mailto:Roger.Bivand@nhh.no.'>Roger.Bivand@nhh.no.</a></p>
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
+    <nav id="toc" data-toggle="toc" class="sticky-top">
+      <h2 data-toc-skip>Contents</h2>
+    </nav>
   </div>
 </div>
+
 
       <footer>
       <div class="copyright">
@@ -579,13 +644,16 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
+
       </footer>
    </div>
 
   
 
+
   </body>
 </html>
+
 
