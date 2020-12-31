@@ -459,8 +459,8 @@ stringexecGRASS <- function(string,
                                         simple_params, 
                                         perl = TRUE))
     simple_params <- as.list(simple_params)
-    simple_params[grep("^[0-9]+$", simple_params)] <- 
-      as.numeric(simple_params[grep("^[0-9]+$", simple_params)])
+    simple_params[grep("^[+-]?(\\d*\\.)?\\d+$", simple_params)] <- 
+      as.numeric(simple_params[grep("^[+-]?(\\d*\\.)?\\d+$", simple_params)])
   }
   # combine simple and quoted parameters
   if (length(simple_params) > 0 || length(quoted_params) > 0) {
