@@ -1,3 +1,5 @@
 oChangeLog
 README
 docs
+^.*\.Rproj$
+^\.Rproj\.user$
