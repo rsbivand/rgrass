@@ -108,10 +108,15 @@ if (run) {
   }
 }
 if (run) {
-  stringexecGRASS("g.manual entry=r.stats")
-  res <- stringexecGRASS("r.stats input=fire_blocksgg -C -n",
-    legacyExec=TRUE)
+  res <- stringexecGRASS("r.stats -p -l input=geology", intern=TRUE)
   print(res)
+}
+if (run) {
+  stringexecGRASS("r.random.cells --overwrite output=samples distance=1000 ncells=100 seed=1")
+}
+if (run) {
+  execGRASS("r.random.cells", flags=("overwrite"), output="samples", distance=1000,
+    ncells=100L, seed=1L)
 }
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
