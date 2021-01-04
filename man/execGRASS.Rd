@@ -112,10 +112,11 @@ if (run) {
   print(res)
 }
 if (run) {
-  stringexecGRASS("r.random.cells --overwrite output=samples distance=1000 ncells=100 seed=1")
+  stringexecGRASS(paste("r.random.cells --overwrite --quiet output=samples",
+    "distance=1000 ncells=100 seed=1"))
 }
 if (run) {
-  execGRASS("r.random.cells", flags=("overwrite"), output="samples", distance=1000,
+  execGRASS("r.random.cells", flags=c("overwrite", "quiet"), output="samples", distance=1000,
     ncells=100L, seed=1L)
 }
 }
