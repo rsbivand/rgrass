@@ -439,7 +439,7 @@ stringexecGRASS <- function(string,
   # split remaining parts into cmd, flags and simple parameters
   components <- strsplit(gsub("\\w+=['\"].*?['\"]", "", string), "\\s+")[[1]]
   cmd <- components[1]
-  if (!grepl("^\\w{1,2}\\.\\w+\\.*\\w*\\.*\\w*\\.*\\w*$", cmd)) {
+  if (!grepl("^\\w{1,2}\\.\\w+(\\.\\w+)*$", cmd)) {
     stop("The string argument of stringexecGRASS() ",
          "must begin with a valid GRASS command name.")
   }
