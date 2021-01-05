@@ -205,6 +205,7 @@ doGRASS <- function(cmd, flags=NULL, ..., parameters=NULL, echoCmd=NULL, legacyE
         res <- paste(res, paste("-", flags, collapse=" ", sep=""))
     }
     pt <- do.call("rbind", pcmd$parameters)
+    req <- NULL
     if (!is.null(pt)) {
 # g.version no parameters exception caught by Rainer M Krug 090923
       req <- pt[pt[, "required"] != "no", "name"]
@@ -293,10 +294,12 @@ doGRASS <- function(cmd, flags=NULL, ..., parameters=NULL, echoCmd=NULL, legacyE
         }
       }
     }
-    if ((!is.null(pt) && is.null(parameters)) && is.null(flags))
+    if (length(req) > 0) {
+      if ((!is.null(pt) && is.null(parameters)) && is.null(flags))
         if (get.stop_on_no_flags_parasOption())
             stop("No flags or parameters provided")
         else warning("No flags or parameters provided")
+    }
     if (echoCmd) cat("GRASS command:", res, "\n")
     attr(res, "cmd") <- cmd
     res
@@ -408,6 +411,7 @@ execGRASS <- function(cmd, flags=NULL, ..., parameters=NULL, intern=NULL,
         attr(res, "resOut") <- resOut
         attr(res, "resErr") <- resErr
     }
+    if (cmd == "g.gui") message("WX GUI lauched - Close GUI manually when finished")
     invisible(res)
 }
 
