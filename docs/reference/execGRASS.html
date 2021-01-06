@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rgrass7</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2-3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2-4</span>
       </span>
     </div>
 
@@ -80,18 +80,21 @@
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
 <li>
   <a href="../reference/index.html">Reference</a>
 </li>
+<li>
+  <a href="../news/index.html">Changelog</a>
+</li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/rsbivand/rgrass7/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -121,6 +124,10 @@
  ignore.stderr <span class='op'>=</span> <span class='cn'>NULL</span>, Sys_ignore.stdout<span class='op'>=</span><span class='cn'>FALSE</span>, Sys_wait<span class='op'>=</span><span class='cn'>TRUE</span>,
  Sys_input<span class='op'>=</span><span class='cn'>NULL</span>, Sys_show.output.on.console<span class='op'>=</span><span class='cn'>TRUE</span>, Sys_minimized<span class='op'>=</span><span class='cn'>FALSE</span>,
  Sys_invisible<span class='op'>=</span><span class='cn'>TRUE</span>, echoCmd<span class='op'>=</span><span class='cn'>NULL</span>, redirect<span class='op'>=</span><span class='cn'>FALSE</span>, legacyExec<span class='op'>=</span><span class='cn'>NULL</span><span class='op'>)</span>
+<span class='fu'>stringexecGRASS</span><span class='op'>(</span><span class='va'>string</span>, intern <span class='op'>=</span> <span class='cn'>NULL</span>,
+ ignore.stderr <span class='op'>=</span> <span class='cn'>NULL</span>, Sys_ignore.stdout<span class='op'>=</span><span class='cn'>FALSE</span>, Sys_wait<span class='op'>=</span><span class='cn'>TRUE</span>,
+ Sys_input<span class='op'>=</span><span class='cn'>NULL</span>, Sys_show.output.on.console<span class='op'>=</span><span class='cn'>TRUE</span>, Sys_minimized<span class='op'>=</span><span class='cn'>FALSE</span>,
+ Sys_invisible<span class='op'>=</span><span class='cn'>TRUE</span>, echoCmd<span class='op'>=</span><span class='cn'>NULL</span>, redirect<span class='op'>=</span><span class='cn'>FALSE</span>, legacyExec<span class='op'>=</span><span class='cn'>NULL</span><span class='op'>)</span>
 <span class='fu'>doGRASS</span><span class='op'>(</span><span class='va'>cmd</span>, flags <span class='op'>=</span> <span class='cn'>NULL</span>, <span class='va'>...</span>, parameters <span class='op'>=</span> <span class='cn'>NULL</span>, echoCmd<span class='op'>=</span><span class='cn'>NULL</span>,
  legacyExec<span class='op'>=</span><span class='cn'>NULL</span><span class='op'>)</span>
 <span class='fu'>parseGRASS</span><span class='op'>(</span><span class='va'>cmd</span>, legacyExec<span class='op'>=</span><span class='cn'>NULL</span><span class='op'>)</span>
@@ -147,6 +154,11 @@
     <tr>
       <th>parameters</th>
       <td><p>list of GRASS command parameters, used if GRASS parameters are not given as R arguments directly; the two methods for passing GRASS parameters may not be mixed. The storage modes of values passed must match thos required in GRASS, so a single GRASS string must be a character vector of length 1, a single GRASS integer must be an integer vector of length 1 (may be an integer constant such as 10L), and a single GRASS float must be a numeric vector of length 1. For multiple values, use vectors of suitable length</p></td>
+    </tr>
+    <tr>
+      <th>string</th>
+      <td><p>a string representing <em>one</em> full GRASS statement, using shell syntax: command name, optionally followed by flags and parameters, all separated by whitespaces.
+  Parameters follow the key=value format; if 'value' contains spaces, then 'value' must be quoted</p></td>
     </tr>
     <tr>
       <th>intern</th>
@@ -188,10 +200,12 @@
 
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p><code>parseGRASS</code> checks to see whether the GRASS command has been parsed already and cached in this session; if not, it reads the interface description, parses it and caches it for future use. <code>doGRASS</code> assembles a proposed GRASS command with flags and parameters as a string, wrapping <code>parseGRASS</code>, and <code>execGRASS</code> is a wrapper for <code>doGRASS</code>, running the command through <code>system</code> (from 0.7-4, the <code>...</code> argument is not used for passing extra arguments for <code>system</code>). The command string is termed proposed, because not all of the particular needs of commands are provided by the interface description, and no check is made for the existence of input objects. Support for multiple parameter values added with help from Patrick Caldon. Support for defaults and for direct use of GRASS parameters instead of a parameter list suggested by Rainer Krug.</p>
+    <p><code>parseGRASS</code> checks to see whether the GRASS command has been parsed already and cached in this session; if not, it reads the interface description, parses it and caches it for future use. <code>doGRASS</code> assembles a proposed GRASS command with flags and parameters as a string, wrapping <code>parseGRASS</code>, and <code>execGRASS</code> is a wrapper for <code>doGRASS</code>, running the command through <code>system</code> (from 0.7-4, the <code>...</code> argument is not used for passing extra arguments for <code>system</code>). The command string is termed proposed, because not all of the particular needs of commands are provided by the interface description, and no check is made for the existence of input objects. Support for multiple parameter values added with help from Patrick Caldon. Support for defaults and for direct use of GRASS parameters instead of a parameter list suggested by Rainer Krug.</p>  
+<p><code>stringexecGRASS</code> is a wrapper around <code>execGRASS</code>, and accepts a single shell statement as a string (following GRASS's command syntax).</p>
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p><code>parseGRASS</code> returns a <code>GRASS_interface_desc</code> object, <code>doGRASS</code> returns a character string with a proposed GRASS command - the expanded command name is returned as an attribute, and <code>execGRASS</code> returns what <code>system</code> or <code>system2</code> return, particularly depending on the <code>intern</code> argument when the character strings output by GRASS modules are returned. If <code>intern</code> is <code>FALSE</code>, <code>system</code> returns the module exit code, while <code>system2</code> returns the module exit code with &#8220;resOut&#8221; and &#8220;resErr&#8221; attributes.</p>
+    <p><code>parseGRASS</code> returns a <code>GRASS_interface_desc</code> object, <code>doGRASS</code> returns a character string with a proposed GRASS command - the expanded command name is returned as an attribute, and <code>execGRASS</code> and  <code>stringexecGRASS</code> return what <code>system</code> or <code>system2</code> return, particularly depending on the <code>intern</code> argument when the character strings output by GRASS modules are returned.
+  If <code>intern</code> is <code>FALSE</code>, <code>system</code> returns the module exit code, while <code>system2</code> returns the module exit code with &#8220;resOut&#8221; and &#8220;resErr&#8221; attributes.</p>
     <h2 class="hasAnchor" id="note"><a class="anchor" href="#note"></a>Note</h2>
 
     <p>If any package command fails with a UTF-8 error from the XML package, try using <code>setXMLencoding</code> to work around the problem that GRASS modules declare --interface-description output as UTF-8 without ensuring that it is (French is of 6.4.0 RC5 latin1).</p>
@@ -334,7 +348,22 @@
 <span class='op'>}</span>
 </div><div class='output co'>#&gt; <span class='warning'>Warning: running command 'r.stats -C -n input=fire_blocksgg 2&gt;&amp;1' had status 1</span></div><div class='output co'>#&gt; [1] "ERROR: Raster map &lt;fire_blocksgg&gt; not found"
 #&gt; attr(,"status")
-#&gt; [1] 1</div></pre>
+#&gt; [1] 1</div><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='va'>run</span><span class='op'>)</span> <span class='op'>{</span>
+  <span class='va'>res</span> <span class='op'>&lt;-</span> <span class='fu'>stringexecGRASS</span><span class='op'>(</span><span class='st'>"r.stats -p -l input=geology"</span>, intern<span class='op'>=</span><span class='cn'>TRUE</span><span class='op'>)</span>
+  <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='va'>res</span><span class='op'>)</span>
+<span class='op'>}</span>
+</div><div class='output co'>#&gt;  [1] "217 CZfg 35.83%" "262 CZlg 9.81%"  "270 CZig 34.04%" "405 CZbg 12.53%"
+#&gt;  [5] "583 CZve 1.07%"  "720 CZam 0.24%"  "766 CZg 0.35%"   "862 CZam 3.05%" 
+#&gt;  [9] "910 CZbg 2.22%"  "921 Km 0.62%"    "945 CZbg 0.00%"  "946 CZam 0.20%" 
+#&gt; [13] "948 CZam 0.04%" </div><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='va'>run</span><span class='op'>)</span> <span class='op'>{</span>
+  <span class='fu'>stringexecGRASS</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste</a></span><span class='op'>(</span><span class='st'>"r.random.cells --overwrite --quiet output=samples"</span>,
+    <span class='st'>"distance=1000 ncells=100 seed=1"</span><span class='op'>)</span><span class='op'>)</span>
+<span class='op'>}</span>
+<span class='kw'>if</span> <span class='op'>(</span><span class='va'>run</span><span class='op'>)</span> <span class='op'>{</span>
+  <span class='fu'>execGRASS</span><span class='op'>(</span><span class='st'>"r.random.cells"</span>, flags<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"overwrite"</span>, <span class='st'>"quiet"</span><span class='op'>)</span>, output<span class='op'>=</span><span class='st'>"samples"</span>, distance<span class='op'>=</span><span class='fl'>1000</span>,
+    ncells<span class='op'>=</span><span class='fl'>100L</span>, seed<span class='op'>=</span><span class='fl'>1L</span><span class='op'>)</span>
+<span class='op'>}</span>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

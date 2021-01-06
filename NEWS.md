@@ -2,7 +2,7 @@
 
 * #17-19 Suggestion and PR by Floris Vanderhaege to pass an unparsed string with a GRASS command, possible flags and parameters through execGRASS(). Implemented in stringexecGRASS().
 
-* #20 to improve handling of GRASS commands with no flags or parameters, special-casing "g.gui", thanks to Floris Vanderhaege
+* #20 to improve handling of GRASS commands with no flags or parameters, special-casing "g.gui", thanks to Floris Vanderhaege.
 
 * #21 updating stale GRASS_PYTHON settings in initGRASS(); for GRASS >= 7.8, python3 is used, for earier GRASS python2.
 
