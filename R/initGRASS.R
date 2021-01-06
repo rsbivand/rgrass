@@ -144,6 +144,7 @@ initGRASS <- function(gisBase, home, SG, gisDbase, addon_base, location,
         gisDbase <- ifelse (use_g.dirseps.exe, system(paste("g.dirseps.exe -g",
             shQuote(gisDbase)), intern=TRUE), gisDbase)
     } else if (SYS == "unix") {
+        OSGEO4W_ROOT <- ""
         Sys.setenv(GISBASE=gisBase)
         if (missing(home)) home <- Sys.getenv("HOME")
         if (missing(addon_base))
