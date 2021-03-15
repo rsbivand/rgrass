@@ -66,9 +66,10 @@ print.gmeta <- function(x, ...) {
     cat("east       ", x$e, "\n")
     cat("nsres      ", x$nsres, "\n")
     cat("ewres      ", x$ewres, "\n")
-    if (substr(x$proj4, 1, 1) == "+") cat("projection ",
-        paste(strwrap(x$proj4), collapse="\n"), "\n")
-    else cat("projection:\n", x$proj4, "\n")
+    if (is.character(x$proj4[1]) && !nzchar(x$proj4[1]))
+        if (substr(x$proj4[1], 1, 1) == "+") 
+            cat("projection ", paste(strwrap(x$proj4), collapse="\n"), "\n")
+        else cat("projection:\n", x$proj4[1], "\n")
     invisible(x)
 }
 
@@ -105,7 +106,7 @@ getLocationProj <- function(ignore.stderr = FALSE, g.proj_WKT=NULL) {
             warning("Only Proj4 string representation for GRASS < 7.6")
         if (!g.proj_WKT) WKT2 <- FALSE
     }
-    if (gv >= "GRASS 7.6" && WKT2 && !old_rgdal) {
+    if (WKT2 && !old_rgdal) {
         res <- paste(execGRASS("g.proj", flags=c("w"), intern=TRUE, 
             ignore.stderr=ignore.stderr), collapse="\n")
     } else {
