@@ -1,4 +1,8 @@
-# version 0.2-5 (development)
+# version 0.2-6 (development)
+
+* #24 Trap old **rgdal** in CRS lookup, see #15
+
+# version 0.2-5 (2021-01-29)
 
 * #23 (Mira Kattwinkel) fix regression impacting **openSTARS**.
 

@@ -95,6 +95,9 @@ getLocationProj <- function(ignore.stderr = FALSE, g.proj_WKT=NULL) {
     }
     gv <- .grassVersion()
     WKT2 <- gv >= "GRASS 7.6" 
+    old_rgdal <- TRUE
+    if (requireNamespace("rgdal", quietly = TRUE)) 
+        old_rgdal <- packageVersion("rgdal") < "1.5.1"
     if (!is.null(g.proj_WKT)) {
         stopifnot(is.logical(g.proj_WKT))
         stopifnot(length(g.proj_WKT) == 1L)
@@ -102,7 +105,7 @@ getLocationProj <- function(ignore.stderr = FALSE, g.proj_WKT=NULL) {
             warning("Only Proj4 string representation for GRASS < 7.6")
         if (!g.proj_WKT) WKT2 <- FALSE
     }
-    if (gv >= "GRASS 7.6" && WKT2) {
+    if (gv >= "GRASS 7.6" && WKT2 && !old_rgdal) {
         res <- paste(execGRASS("g.proj", flags=c("w"), intern=TRUE, 
             ignore.stderr=ignore.stderr), collapse="\n")
     } else {
