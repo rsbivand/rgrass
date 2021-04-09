@@ -109,32 +109,31 @@ getLocationProj <- function(ignore.stderr = FALSE, g.proj_WKT=NULL) {
     if (WKT2 && !old_rgdal) {
         res <- paste(execGRASS("g.proj", flags=c("w"), intern=TRUE, 
             ignore.stderr=ignore.stderr), collapse="\n")
-    } else {
-        projstr <- execGRASS("g.proj", flags=c("j", "f"), intern=TRUE, 
-            ignore.stderr=ignore.stderr)
-	if (length(grep("XY location", projstr)) > 0)
-		projstr <- as.character(NA)
-	if (length(grep("latlong", projstr)) > 0)
-		projstr <- sub("latlong", "longlat", projstr)
-    	if (is.na(projstr)) uprojargs <- projstr
+        if (substr(res, 1, 5) != "ERROR") return(res)
+    }
+    projstr <- execGRASS("g.proj", flags=c("j", "f"), intern=TRUE, 
+        ignore.stderr=ignore.stderr)
+    if (length(grep("XY location", projstr)) > 0)
+	projstr <- as.character(NA)
+    if (length(grep("latlong", projstr)) > 0)
+	projstr <- sub("latlong", "longlat", projstr)
+    if (is.na(projstr)) uprojargs <- projstr
     	else uprojargs <- paste(unique(unlist(strsplit(projstr, " "))), 
 		collapse=" ")
-    	if (length(grep("= ", uprojargs)) != 0) {
-		warning(paste("No spaces permitted in PROJ4",
-			"argument-value pairs:", uprojargs))
-		uprojargs <- as.character(NA)
-	}
-    	if (length(grep(" [:alnum:]", uprojargs)) != 0) {
-		warning(paste("PROJ4 argument-value pairs",
-			"must begin with +:", uprojargs))
-		uprojargs <- as.character(NA)
-	}
-        if (get.suppressEchoCmdInFuncOption()) {
-            tull <- set.echoCmdOption(inEchoCmd)
-        }
-	res <- uprojargs
+    if (length(grep("= ", uprojargs)) != 0) {
+	warning(paste("No spaces permitted in PROJ4",
+		"argument-value pairs:", uprojargs))
+	uprojargs <- as.character(NA)
     }
-    res
+    if (length(grep(" [:alnum:]", uprojargs)) != 0) {
+	warning(paste("PROJ4 argument-value pairs",
+		"must begin with +:", uprojargs))
+	uprojargs <- as.character(NA)
+    }
+    if (get.suppressEchoCmdInFuncOption()) {
+        tull <- set.echoCmdOption(inEchoCmd)
+    }
+    uprojargs
 }
 
 .g_findfile <- function(vname, type) {

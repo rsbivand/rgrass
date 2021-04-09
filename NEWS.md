@@ -1,5 +1,7 @@
 # version 0.2-6 (development)
 
+* #27 Fall-back to Proj4 if proj.db version for CRAN binary package differs from installed GRASS proj.db
+
 * #24 Trap old **rgdal** in CRS lookup, see #15
 
 # version 0.2-5 (2021-01-29)
