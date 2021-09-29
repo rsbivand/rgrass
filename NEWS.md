@@ -1,5 +1,7 @@
 # version 0.2-6 (development)
 
+* #32 `proj.db` mismatch in Windows stand-alone GRASS 7.8.5 (9.8.6) and recent **rgdal** Windows CRAN binary (10.008), if WKT look-up fails, fallback to GRASS Proj4 string.
+
 * #27 Fall-back to Proj4 if proj.db version for CRAN binary package differs from installed GRASS proj.db
 
 * #24 Trap old **rgdal** in CRS lookup, see #15

@@ -109,7 +109,13 @@ getLocationProj <- function(ignore.stderr = FALSE, g.proj_WKT=NULL) {
     if (WKT2 && !old_rgdal) {
         res <- paste(execGRASS("g.proj", flags=c("w"), intern=TRUE, 
             ignore.stderr=ignore.stderr), collapse="\n")
-        if (substr(res, 1, 5) != "ERROR") return(res)
+        if (substr(res, 1, 5) != "ERROR") {
+            if (nchar(res) == 0L) {
+                res <- paste(execGRASS("g.proj", flags=c("j"), intern=TRUE, 
+                    ignore.stderr=ignore.stderr), collapse=" ")
+            }
+            return(res)
+        }
     }
     projstr <- execGRASS("g.proj", flags=c("j", "f"), intern=TRUE, 
         ignore.stderr=ignore.stderr)
