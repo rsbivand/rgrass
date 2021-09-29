@@ -71,7 +71,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rgrass7</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2-4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2-6</span>
       </span>
     </div>
 
@@ -114,14 +114,32 @@
       <small>Source: <a href='https://github.com/rsbivand/rgrass7/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
     </div>
 
-    <div id="version-02-4-development" class="section level1">
+    <div id="version-02-6-development" class="section level1">
+<h1 class="page-header" data-toc-text="0.2-6">
+<a href="#version-02-6-development" class="anchor"></a>version 0.2-6 (development)<small> Unreleased </small>
+</h1>
+<ul>
+<li><p><a href='https://github.com/rsbivand/rgrass7/issues/32'>#32</a> <code>proj.db</code> mismatch in Windows stand-alone GRASS 7.8.5 (9.8.6) and recent <strong>rgdal</strong> Windows CRAN binary (10.008), if WKT look-up fails, fallback to GRASS Proj4 string.</p></li>
+<li><p><a href='https://github.com/rsbivand/rgrass7/issues/27'>#27</a> Fall-back to Proj4 if proj.db version for CRAN binary package differs from installed GRASS proj.db</p></li>
+<li><p><a href='https://github.com/rsbivand/rgrass7/issues/24'>#24</a> Trap old <strong>rgdal</strong> in CRS lookup, see <a href='https://github.com/rsbivand/rgrass7/issues/15'>#15</a></p></li>
+</ul>
+</div>
+    <div id="version-02-5-2021-01-29" class="section level1">
+<h1 class="page-header" data-toc-text="0.2-5">
+<a href="#version-02-5-2021-01-29" class="anchor"></a>version 0.2-5 (2021-01-29)<small> 2021-01-29 </small>
+</h1>
+<ul>
+<li><a href='https://github.com/rsbivand/rgrass7/issues/23'>#23</a> (Mira Kattwinkel) fix regression impacting <strong>openSTARS</strong>.</li>
+</ul>
+</div>
+    <div id="version-02-4-2021-01-07" class="section level1">
 <h1 class="page-header" data-toc-text="0.2-4">
-<a href="#version-02-4-development" class="anchor"></a>Version 0.2-4 (development)<small> Unreleased </small>
+<a href="#version-02-4-2021-01-07" class="anchor"></a>Version 0.2-4 (2021-01-07)<small> 2021-01-07 </small>
 </h1>
 <ul>
 <li><p><a href='https://github.com/rsbivand/rgrass7/issues/17'>#17</a>-19 Suggestion and PR by Floris Vanderhaege to pass an unparsed string with a GRASS command, possible flags and parameters through execGRASS(). Implemented in stringexecGRASS().</p></li>
 <li><p><a href='https://github.com/rsbivand/rgrass7/issues/20'>#20</a> to improve handling of GRASS commands with no flags or parameters, special-casing “g.gui”, thanks to Floris Vanderhaege.</p></li>
-<li><p><a href='https://github.com/rsbivand/rgrass7/issues/21'>#21</a> updating stale GRASS_PYTHON settings in initGRASS(); for GRASS &gt;= 7.8, python3 is used, for earier GRASS python2.</p></li>
+<li><p><a href='https://github.com/rsbivand/rgrass7/issues/21'>#21</a>-22 updating stale GRASS_PYTHON settings in initGRASS(); for GRASS &gt;= 7.8, python3 is used, for earier GRASS python2.</p></li>
 </ul>
 </div>
     <div id="version-02-3-2020-12-07" class="section level1">

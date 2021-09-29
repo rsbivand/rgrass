@@ -74,7 +74,7 @@ The locking functions are used internally, but are exposed for experienced R/GRA
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rgrass7</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2-4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2-6</span>
       </span>
     </div>
 
@@ -145,7 +145,7 @@ The locking functions are used internally, but are exposed for experienced R/GRA
     </tr>
     <tr>
       <th>SG</th>
-      <td><p>An optional <code>SpatialGrid</code> object to define the <code>DEFAULT_WIND</code> of the temporary location</p></td>
+      <td><p>An optional <code>SpatialGrid</code> object to define the <code>DEFAULT_WIND</code> of the temporary location; if <code><a href='gmeta.html'>use_sp()</a></code> has not been called, it will be called internally if <code>SG</code> is given as an object inheriting from <code>"Spatial"</code>; if <code><a href='gmeta.html'>use_sf()</a></code> has been called, it will be overridden internally as only objects inheriting from <code>"Spatial"</code> may be given.</p></td>
     </tr>
     <tr>
       <th>gisDbase</th>

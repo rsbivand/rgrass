@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rgrass7</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2-4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2-6</span>
       </span>
     </div>
 
@@ -190,80 +190,74 @@
 </div><div class='output co'>#&gt; gisdbase    /home/rsb/topics/grassdata 
 #&gt; location    nc_basic_spm_grass7 
 #&gt; mapset      rsb 
-#&gt; rows        1350 
-#&gt; columns     1500 
-#&gt; north       228500 
-#&gt; south       215000 
-#&gt; west        630000 
-#&gt; east        645000 
+#&gt; rows        7350 
+#&gt; columns     8166 
+#&gt; north       258500 
+#&gt; south       185000 
+#&gt; west        596670 
+#&gt; east        678330 
 #&gt; nsres       10 
-#&gt; ewres       10 
-#&gt; projection:
-#&gt;  PROJCS["NAD83(HARN) / North Carolina",
-#&gt;     GEOGCS["NAD83(HARN)",
-#&gt;         DATUM["NAD83_High_Accuracy_Reference_Network",
-#&gt;             SPHEROID["GRS 1980",6378137,298.257222101,
-#&gt;                 AUTHORITY["EPSG","7019"]],
-#&gt;             AUTHORITY["EPSG","6152"]],
-#&gt;         PRIMEM["Greenwich",0,
-#&gt;             AUTHORITY["EPSG","8901"]],
-#&gt;         UNIT["degree",0.0174532925199433,
-#&gt;             AUTHORITY["EPSG","9122"]],
-#&gt;         AUTHORITY["EPSG","4152"]],
-#&gt;     PROJECTION["Lambert_Conformal_Conic_2SP"],
-#&gt;     PARAMETER["latitude_of_origin",33.75],
-#&gt;     PARAMETER["central_meridian",-79],
-#&gt;     PARAMETER["standard_parallel_1",36.1666666666667],
-#&gt;     PARAMETER["standard_parallel_2",34.3333333333333],
-#&gt;     PARAMETER["false_easting",609601.22],
-#&gt;     PARAMETER["false_northing",0],
-#&gt;     UNIT["metre",1,
-#&gt;         AUTHORITY["EPSG","9001"]],
-#&gt;     AXIS["Easting",EAST],
-#&gt;     AXIS["Northing",NORTH],
-#&gt;     AUTHORITY["EPSG","3358"]] </div><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='va'>run</span><span class='op'>)</span> <span class='op'>{</span>
+#&gt; ewres       10 </div><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='va'>run</span><span class='op'>)</span> <span class='op'>{</span>
   <span class='fu'><a href='https://rdrr.io/r/base/cat.html'>cat</a></span><span class='op'>(</span><span class='fu'>getLocationProj</span><span class='op'>(</span><span class='op'>)</span>, <span class='st'>"\n"</span><span class='op'>)</span>
 <span class='op'>}</span>
-</div><div class='output co'>#&gt; PROJCS["NAD83(HARN) / North Carolina",
-#&gt;     GEOGCS["NAD83(HARN)",
-#&gt;         DATUM["NAD83_High_Accuracy_Reference_Network",
-#&gt;             SPHEROID["GRS 1980",6378137,298.257222101,
-#&gt;                 AUTHORITY["EPSG","7019"]],
-#&gt;             AUTHORITY["EPSG","6152"]],
+</div><div class='output co'>#&gt; PROJCRS["NAD83(HARN) / North Carolina",
+#&gt;     BASEGEOGCRS["NAD83(HARN)",
+#&gt;         DATUM["NAD83 (High Accuracy Reference Network)",
+#&gt;             ELLIPSOID["GRS 1980",6378137,298.257222101,
+#&gt;                 LENGTHUNIT["metre",1]]],
 #&gt;         PRIMEM["Greenwich",0,
-#&gt;             AUTHORITY["EPSG","8901"]],
-#&gt;         UNIT["degree",0.0174532925199433,
-#&gt;             AUTHORITY["EPSG","9122"]],
-#&gt;         AUTHORITY["EPSG","4152"]],
-#&gt;     PROJECTION["Lambert_Conformal_Conic_2SP"],
-#&gt;     PARAMETER["latitude_of_origin",33.75],
-#&gt;     PARAMETER["central_meridian",-79],
-#&gt;     PARAMETER["standard_parallel_1",36.1666666666667],
-#&gt;     PARAMETER["standard_parallel_2",34.3333333333333],
-#&gt;     PARAMETER["false_easting",609601.22],
-#&gt;     PARAMETER["false_northing",0],
-#&gt;     UNIT["metre",1,
-#&gt;         AUTHORITY["EPSG","9001"]],
-#&gt;     AXIS["Easting",EAST],
-#&gt;     AXIS["Northing",NORTH],
-#&gt;     AUTHORITY["EPSG","3358"]] </div><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='va'>run</span><span class='op'>)</span> <span class='op'>{</span>
+#&gt;             ANGLEUNIT["degree",0.0174532925199433]],
+#&gt;         ID["EPSG",4152]],
+#&gt;     CONVERSION["SPCS83 North Carolina zone (meters)",
+#&gt;         METHOD["Lambert Conic Conformal (2SP)",
+#&gt;             ID["EPSG",9802]],
+#&gt;         PARAMETER["Latitude of false origin",33.75,
+#&gt;             ANGLEUNIT["degree",0.0174532925199433],
+#&gt;             ID["EPSG",8821]],
+#&gt;         PARAMETER["Longitude of false origin",-79,
+#&gt;             ANGLEUNIT["degree",0.0174532925199433],
+#&gt;             ID["EPSG",8822]],
+#&gt;         PARAMETER["Latitude of 1st standard parallel",36.1666666666667,
+#&gt;             ANGLEUNIT["degree",0.0174532925199433],
+#&gt;             ID["EPSG",8823]],
+#&gt;         PARAMETER["Latitude of 2nd standard parallel",34.3333333333333,
+#&gt;             ANGLEUNIT["degree",0.0174532925199433],
+#&gt;             ID["EPSG",8824]],
+#&gt;         PARAMETER["Easting at false origin",609601.22,
+#&gt;             LENGTHUNIT["metre",1],
+#&gt;             ID["EPSG",8826]],
+#&gt;         PARAMETER["Northing at false origin",0,
+#&gt;             LENGTHUNIT["metre",1],
+#&gt;             ID["EPSG",8827]]],
+#&gt;     CS[Cartesian,2],
+#&gt;         AXIS["easting (X)",east,
+#&gt;             ORDER[1],
+#&gt;             LENGTHUNIT["metre",1]],
+#&gt;         AXIS["northing (Y)",north,
+#&gt;             ORDER[2],
+#&gt;             LENGTHUNIT["metre",1]],
+#&gt;     USAGE[
+#&gt;         SCOPE["Engineering survey, topographic mapping."],
+#&gt;         AREA["United States (USA) - North Carolina - counties of Alamance; Alexander; Alleghany; Anson; Ashe; Avery; Beaufort; Bertie; Bladen; Brunswick; Buncombe; Burke; Cabarrus; Caldwell; Camden; Carteret; Caswell; Catawba; Chatham; Cherokee; Chowan; Clay; Cleveland; Columbus; Craven; Cumberland; Currituck; Dare; Davidson; Davie; Duplin; Durham; Edgecombe; Forsyth; Franklin; Gaston; Gates; Graham; Granville; Greene; Guilford; Halifax; Harnett; Haywood; Henderson; Hertford; Hoke; Hyde; Iredell; Jackson; Johnston; Jones; Lee; Lenoir; Lincoln; Macon; Madison; Martin; McDowell; Mecklenburg; Mitchell; Montgomery; Moore; Nash; New Hanover; Northampton; Onslow; Orange; Pamlico; Pasquotank; Pender; Perquimans; Person; Pitt; Polk; Randolph; Richmond; Robeson; Rockingham; Rowan; Rutherford; Sampson; Scotland; Stanly; Stokes; Surry; Swain; Transylvania; Tyrrell; Union; Vance; Wake; Warren; Washington; Watauga; Wayne; Wilkes; Wilson; Yadkin; Yancey."],
+#&gt;         BBOX[33.83,-84.33,36.59,-75.38]],
+#&gt;     ID["EPSG",3358]] </div><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='va'>run</span><span class='op'>)</span> <span class='op'>{</span>
   <span class='fu'><a href='https://rdrr.io/r/base/cat.html'>cat</a></span><span class='op'>(</span><span class='fu'>getLocationProj</span><span class='op'>(</span>g.proj_WKT<span class='op'>=</span><span class='cn'>FALSE</span><span class='op'>)</span>, <span class='st'>"\n"</span><span class='op'>)</span>
 <span class='op'>}</span>
-</div><div class='output co'>#&gt; +proj=lcc +lat_1=36.16666666666666 +lat_2=34.33333333333334 +lat_0=33.75 +lon_0=-79 +x_0=609601.22 +y_0=0 +no_defs +a=6378137 +rf=298.257222101 +towgs84=0.000,0.000,0.000 +type=crs  +to_meter=1 </div><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='va'>run</span><span class='op'>)</span> <span class='op'>{</span>
+</div><div class='output co'>#&gt; +proj=lcc +lat_0=33.75 +lon_0=-79 +lat_1=36.1666666666667 +lat_2=34.3333333333333 +x_0=609601.22 +y_0=0 +ellps=GRS80 +units=m +no_defs +type=crs </div><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='va'>run</span><span class='op'>)</span> <span class='op'>{</span>
   <span class='va'>grd</span> <span class='op'>&lt;-</span> <span class='fu'>gmeta2grd</span><span class='op'>(</span><span class='op'>)</span>
   <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='va'>grd</span><span class='op'>)</span>
 <span class='op'>}</span>
 </div><div class='output co'>#&gt;                       X1     X2
-#&gt; cellcentre.offset 630005 215005
+#&gt; cellcentre.offset 596675 185005
 #&gt; cellsize              10     10
-#&gt; cells.dim           1500   1350</div><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='va'>run</span><span class='op'>)</span> <span class='op'>{</span>
+#&gt; cells.dim           8166   7350</div><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='va'>run</span><span class='op'>)</span> <span class='op'>{</span>
   <span class='va'>ncells</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/prod.html'>prod</a></span><span class='op'>(</span><span class='fu'>slot</span><span class='op'>(</span><span class='va'>grd</span>, <span class='st'>"cells.dim"</span><span class='op'>)</span><span class='op'>)</span>
   <span class='va'>df</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span><span class='op'>(</span>k<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span><span class='op'>(</span><span class='fl'>1</span>, <span class='va'>ncells</span><span class='op'>)</span><span class='op'>)</span>
   <span class='va'>mask_SG</span> <span class='op'>&lt;-</span> <span class='fu'>sp</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/sp/man/SpatialGridDataFrame.html'>SpatialGridDataFrame</a></span><span class='op'>(</span><span class='va'>grd</span>, data<span class='op'>=</span><span class='va'>df</span><span class='op'>)</span>
   <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span><span class='op'>(</span><span class='va'>mask_SG</span><span class='op'>)</span><span class='op'>)</span>
 <span class='op'>}</span>
 </div><div class='output co'>#&gt;               Length                Class                 Mode 
-#&gt;              2025000 SpatialGridDataFrame                   S4 </div></pre>
+#&gt;             60020100 SpatialGridDataFrame                   S4 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
