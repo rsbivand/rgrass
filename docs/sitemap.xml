@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>/404.html</loc>
+  </url>
+  <url>
+    <loc>/authors.html</loc>
+  </url>
+  <url>
+    <loc>/index.html</loc>
+  </url>
+  <url>
+    <loc>/news/index.html</loc>
+  </url>
+  <url>
+    <loc>/reference/execGRASS.html</loc>
+  </url>
+  <url>
+    <loc>/reference/gmeta.html</loc>
+  </url>
+  <url>
+    <loc>/reference/index.html</loc>
+  </url>
+  <url>
+    <loc>/reference/initGRASS.html</loc>
+  </url>
+  <url>
+    <loc>/reference/readRAST.html</loc>
+  </url>
+  <url>
+    <loc>/reference/readVECT.html</loc>
+  </url>
+  <url>
+    <loc>/reference/rgrass.html</loc>
+  </url>
+</urlset>
