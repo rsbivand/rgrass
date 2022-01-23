@@ -12,4 +12,4 @@ To propose a change to `rgrass`, please consider the roles assigned to the diffe
 
 * The `rgrass7` branch is the "target" maintenance source for the package `rgrass7` ("old" package). 
 
-Until the `rgrass` branch is ready for release, `main` and `rgrass7` are the same (changes on `rgrass7` are merged into `main`). When `rgrass` is ready for submission to CRAN, `rgrass` is merged with `main`, and `rgrass7` will be updated to give a startup message advising users to switch to rgrass.
+Until the `rgrass` branch is ready for release, `main` and `rgrass7` are the same (changes on `rgrass7` are merged into `main`). When `rgrass` is ready for submission to CRAN, `rgrass` is merged with `main`, and `rgrass7` will be updated to give a startup message advising users to switch to `rgrass`.
