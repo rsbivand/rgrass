@@ -6,10 +6,12 @@ This outlines how to propose a change to `rgrass` as we move to support [GRASS 8
 
 To propose a change to `rgrass`, please consider the roles assigned to the different branches in this repository.
 
-* The `main` branch remains the branch for current maintenance updates (bug fixes), until support for GRASS 8.0 is achieved.
+* The `rgrass7` branch is the "target" maintenance source for the package `rgrass7` ("old" package). If you would like to contribute to `rgrass7`, please target your PRs and contributions to this branch.
 
 * The `rgrass` branch is the development branch for moving to support GRASS 8.0.
 
-* The `rgrass7` branch is the "target" maintenance source for the package `rgrass7` ("old" package). 
+* The `main` branch remains the branch for maintenance updates (bug fixes), until support for GRASS 8.0 is achieved (changes on `rgrass7` are merged into `main`). If you would like to contribute to `rgrass` ("new" package), please target your PRs and contributions to this branch.
 
-Until the `rgrass` branch is ready for release, `main` and `rgrass7` are the same (changes on `rgrass7` are merged into `main`). When `rgrass` is ready for submission to CRAN, `rgrass` is merged with `main`, and `rgrass7` will be updated to give a startup message advising users to switch to `rgrass`.
+* Until the `rgrass` branch is ready for release, `main` and `rgrass7` are the same (changes on `rgrass7` are merged into `main`).
+
+* When `rgrass` is ready for submission to CRAN, `rgrass` is merged with `main`, and `rgrass7` will be updated to give a startup message advising users to switch to `rgrass`.
