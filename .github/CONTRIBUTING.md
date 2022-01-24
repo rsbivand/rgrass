@@ -8,9 +8,9 @@ To propose a change to `rgrass`, please consider the roles assigned to the diffe
 
 * The `rgrass7` branch is the "target" maintenance source for the package `rgrass7` ("old" package). If you would like to contribute to `rgrass7`, please target your PRs and contributions to this branch.
 
-* The `rgrass` branch is the development branch for moving to support GRASS 8.0.
+* The `rgrass` branch is the development branch for moving to support GRASS 8.0. If you would like to contribute to `rgrass` ("new" package), please target your PRs and contributions to this branch.
 
-* The `main` branch remains the branch for maintenance updates (bug fixes), until support for GRASS 8.0 is achieved (changes on `rgrass7` are merged into `main`). If you would like to contribute to `rgrass` ("new" package), please target your PRs and contributions to this branch.
+* The `main` branch remains the branch for maintenance updates (bug fixes), until support for GRASS 8.0 is achieved (changes on `rgrass7` are merged into `main`).
 
 * Until the `rgrass` branch is ready for release, `main` and `rgrass7` are the same (changes on `rgrass7` are merged into `main`).
 
