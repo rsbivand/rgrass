@@ -3,3 +3,4 @@ README
 docs
 ^.*\.Rproj$
 ^\.Rproj\.user$
+^\.github$
