@@ -294,6 +294,17 @@ initGRASS <- function(gisBase, home, SG, gisDbase, addon_base, location,
     if (!file.exists(tfile)) file.copy(pfile, tfile, overwrite=TRUE)
     tfile <- paste(loc_path, mapset, "WIND", sep="/")
     if (!file.exists(tfile)) file.copy(pfile, tfile, overwrite=TRUE)
+    if (mSG) {
+        if (nzchar(wkt(SG))) {
+            tf <- tempfile()
+            writeLines(wkt(SG), con=tf)
+	    execGRASS("g.mapset", mapset="PERMANENT", flag="quiet")
+            tull <- execGRASS("g.proj", flags="c", wkt=tf, ignore.stderr=TRUE,
+                intern=TRUE)
+            execGRASS("g.mapset", mapset=mapset, flag="quiet")
+	    execGRASS("g.region", flag="d", ignore.stderr=TRUE)
+        }
+    }
     gmeta()
 }
 

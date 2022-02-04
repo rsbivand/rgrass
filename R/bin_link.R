@@ -66,7 +66,11 @@ readRAST <- function(vname, cat=NULL, ignore.stderr=get.ignore.stderrOption(),
 
 	if (!R_in_sp) stop("no stars import yet")
         
-	p4 <- sp::CRS(getLocationProj())
+	gLP <- getLocationProj()
+	if (gLP == "XY location (unprojected)")
+            p4 <- sp::CRS(as.character(NA))
+        else
+            p4 <- sp::CRS(gLP)
 
         reslist <- vector(mode="list", length=length(vname))
         names(reslist) <- vname
