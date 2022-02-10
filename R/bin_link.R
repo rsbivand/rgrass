@@ -223,6 +223,7 @@ readRAST <- function(vname, cat=NULL, ignore.stderr=get.ignore.stderrOption(),
                                     catlabs <- paste(catlabs, catnos, sep="_")
                                     warning("non-unique category labels; category number appended")
                                 }
+# https://files.nc.gov/ncdeq/Energy+Mineral+and+Land+Resources/Geological+Survey/1985_state_geologic_map_500000_scale.pdf (catnos vector polygon IDs)
 				resa@data[[i]] <- factor(resa@data[[i]], 
 					levels=catnos, labels=catlabs)
 			}
