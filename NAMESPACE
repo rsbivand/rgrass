@@ -3,8 +3,9 @@
 import(XML)
 importFrom(utils, packageDescription, read.table)
 importFrom(stats, runif, na.omit)
-importFrom(methods, slot, "slot<-", as)
+importFrom(methods, slot, "slot<-", as, "getMethod")
 importFrom("utils", "packageVersion")
+importFrom("grDevices", "rgb")
 
 export(gmeta, getLocationProj, gmeta2grd)
 export(execGRASS, stringexecGRASS, doGRASS, parseGRASS, getXMLencoding, setXMLencoding)

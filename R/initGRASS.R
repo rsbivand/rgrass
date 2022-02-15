@@ -249,13 +249,8 @@ initGRASS <- function(gisBase, home, SG, gisDbase, addon_base, location,
     if (!file.exists(pfile)) {
         mSG <- !missing(SG)
         if (mSG) {
-          if (!inherits(SG, "Spatial"))
-            stop("SG is of class", class(SG), "not inheriting from Spatial")
-          R_in_sp <- isTRUE(.get_R_interface() == "sp")
-          if (is.null(.get_R_interface()) || !R_in_sp) {
-            use_sp()
-            warning("use_sp() was set because SG was given")
-          }
+            if (!requireNamespace("sp", quietly=TRUE))
+                stop("The sp package is required for the SG argument")
         }
         if (mSG) bb <- sp::bbox(SG)
         if (mSG) gt <- sp::gridparameters(SG)
@@ -295,14 +290,14 @@ initGRASS <- function(gisBase, home, SG, gisDbase, addon_base, location,
     tfile <- paste(loc_path, mapset, "WIND", sep="/")
     if (!file.exists(tfile)) file.copy(pfile, tfile, overwrite=TRUE)
     if (mSG) {
-        if (nzchar(wkt(SG))) {
+        if (nzchar(sp::wkt(SG))) {
             tf <- tempfile()
-            writeLines(wkt(SG), con=tf)
-	    execGRASS("g.mapset", mapset="PERMANENT", flag="quiet")
+            writeLines(sp::wkt(SG), con=tf)
+	    execGRASS("g.mapset", mapset="PERMANENT", flags="quiet")
             tull <- execGRASS("g.proj", flags="c", wkt=tf, ignore.stderr=TRUE,
                 intern=TRUE)
-            execGRASS("g.mapset", mapset=mapset, flag="quiet")
-	    execGRASS("g.region", flag="d", ignore.stderr=TRUE)
+            execGRASS("g.mapset", mapset=mapset, flags="quiet")
+	    execGRASS("g.region", flags="d", ignore.stderr=TRUE)
         }
     }
     gmeta()
