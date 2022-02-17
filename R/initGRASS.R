@@ -1,3 +1,6 @@
+# Interpreted GRASS 7, 8 raster interface functions
+# Copyright (c) 2008-22 Roger S. Bivand
+#
 # GIS_LOCK 110814 RSB, suggested by Brian Oney
 get.GIS_LOCK <- function() {
     Sys.getenv("GIS_LOCK")
@@ -247,14 +250,36 @@ initGRASS <- function(gisBase, home, SG, gisDbase, addon_base, location,
     assign("GV", gv, envir=.GRASS_CACHE)
     pfile <- paste(loc_path, "PERMANENT", "DEFAULT_WIND", sep="/")
     if (!file.exists(pfile)) {
+        lonlat <- FALSE
         mSG <- !missing(SG)
         if (mSG) {
-            if (!requireNamespace("sp", quietly=TRUE))
-                stop("The sp package is required for the SG argument")
+            if (inherits(SG, "SpatialGrid")) {
+                if (!requireNamespace("sp", quietly=TRUE))
+                    stop("The sp package is required for the SG argument")
+                bb <- sp::bbox(SG)
+                gt <- sp::gridparameters(SG)
+                wkt_SG <- sp::wkt(SG)
+                lonlatSG <- sp::is.projected(SG)
+            } else if (inherits(SG, "SpatRaster")) {
+                if (!requireNamespace("terra", quietly=TRUE))
+                    stop("The terra package is required for the SG argument")
+                bb <- getMethod("ext", "SpatRaster")(SG)@ptr$vector
+                bb <- matrix(bb, 2, 2, byrow=TRUE)
+                colnames(bb) <- c("min", "max")
+                cs <- getMethod("res", "SpatRaster")(SG)
+                co <- bb[,1]+(cs/2)
+                cd <- c(getMethod("ncol", "SpatRaster")(SG), 
+                    getMethod("nrow", "SpatRaster")(SG))
+                gt <- data.frame(cellcentre.offset=co, cellsize=cs,
+                    cells.dim=cd)
+                wkt_SG <- getMethod("crs", "SpatRaster")(SG)
+                lonlatSG <- getMethod("is.lonlat", "SpatRaster")(SG)
+            } else {
+                stop ("SG must be a terra or SpatialGrid object")
+            }
+            lonlat <- !is.na(lonlatSG) && lonlatSG
         }
-        if (mSG) bb <- sp::bbox(SG)
-        if (mSG) gt <- sp::gridparameters(SG)
-        cat("proj:       0\n", file=pfile)
+        cat("proj:       ", ifelse(lonlat, 3, 99), "\n", file=pfile)
         cat("zone:       0\n", file=pfile, append=TRUE)
         cat("north:      ", ifelse(mSG, bb[2, "max"], 1), "\n",
             sep="", file=pfile, append=TRUE)
@@ -285,19 +310,22 @@ initGRASS <- function(gisBase, home, SG, gisDbase, addon_base, location,
             sep="", file=pfile, append=TRUE)
         cat("t-b resol:  1\n", sep="", file=pfile, append=TRUE)
     }
+    
     tfile <- paste(loc_path, "PERMANENT", "WIND", sep="/")
     if (!file.exists(tfile)) file.copy(pfile, tfile, overwrite=TRUE)
     tfile <- paste(loc_path, mapset, "WIND", sep="/")
     if (!file.exists(tfile)) file.copy(pfile, tfile, overwrite=TRUE)
+    execGRASS("g.region", save="input")
     if (mSG) {
-        if (nzchar(sp::wkt(SG))) {
+        if (nzchar(wkt_SG)) {
             tf <- tempfile()
-            writeLines(sp::wkt(SG), con=tf)
+            writeLines(wkt_SG, con=tf)
 	    execGRASS("g.mapset", mapset="PERMANENT", flags="quiet")
             tull <- execGRASS("g.proj", flags="c", wkt=tf, ignore.stderr=TRUE,
                 intern=TRUE)
+            execGRASS("g.region", flags="s", region=paste0("input@", mapset))
+            execGRASS("g.region", flags="d", ignore.stderr=TRUE)
             execGRASS("g.mapset", mapset=mapset, flags="quiet")
-	    execGRASS("g.region", flags="d", ignore.stderr=TRUE)
         }
     }
     gmeta()

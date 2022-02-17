@@ -318,65 +318,70 @@ read_cat_colors <- function(vname) {
 }
 
 
-write_RAST <- function(x, vname, zcol = 1, NODATA=NULL, 
-	ignore.stderr = get.ignore.stderrOption(), useGDAL=get.useGDALOption(), overwrite=FALSE, flags=NULL,
-        drivername="GTiff") {
+write_RAST <- function(x, vname, zcol = 1, NODATA=NULL, flags=NULL, 
+    ignore.stderr = get.ignore.stderrOption(), overwrite=FALSE) {
 
-        if (get.suppressEchoCmdInFuncOption()) {
-            inEchoCmd <- set.echoCmdOption(FALSE)
-        }
+    if (get.suppressEchoCmdInFuncOption()) {
+        inEchoCmd <- set.echoCmdOption(FALSE)
+    }
+    stopifnot(is.logical(ignore.stderr))
+    stopifnot(is.character(vname))
+    if (!is.null(flags)) stopifnot(is.character(flags))
 
-        R_in_sp <- isTRUE(.get_R_interface() == "sp")
-
-        if (!R_in_sp) stop("no stars support yet")
-        tryCatch(
-            {
-                stopifnot(is.logical(ignore.stderr))
-                stopifnot(is.logical(useGDAL))
-                pid <- as.integer(round(runif(1, 1, 1000)))
-                gtmpfl1 <- dirname(execGRASS("g.tempfile", pid=pid,
-                                             intern=TRUE, ignore.stderr=ignore.stderr))
+    if (inherits(x, "SpatialGridDataFrame")) {
+        if (!(requireNamespace("sp", quietly=TRUE))) 
+            stop("sp required for SGDF input")
+        stopifnot(length(vname) == 1L)
+        pid <- as.integer(round(runif(1, 1, 1000)))
+        gtmpfl1 <- dirname(execGRASS("g.tempfile", pid=pid,
+            intern=TRUE, ignore.stderr=ignore.stderr))
                 
-                rtmpfl1 <- ifelse(.Platform$OS.type == "windows" &&
-                                      (Sys.getenv("OSTYPE") == "cygwin"), 
-                                  system(paste("cygpath -w", gtmpfl1, sep=" "), intern=TRUE), 
-                                  gtmpfl1)
+        rtmpfl1 <- ifelse(.Platform$OS.type == "windows" &&
+            (Sys.getenv("OSTYPE") == "cygwin"), 
+            system(paste("cygpath -w", gtmpfl1, sep=" "), intern=TRUE), 
+            gtmpfl1)
                 
-                fid <- paste("X", pid, sep="")
-                gtmpfl11 <- paste(gtmpfl1, fid, sep=.Platform$file.sep)
-                rtmpfl11 <- paste(rtmpfl1, fid, sep=.Platform$file.sep)
-                if (!is.numeric(x@data[[zcol]])) 
-                    stop("only numeric columns may be exported")
-                if (overwrite && !("overwrite" %in% flags))
-                    flags <- c(flags, "overwrite")
-                tryCatch(
-                    {
-                        res <- writeBinGrid_ng(x, rtmpfl11, attr = zcol, na.value = NODATA)
+        fid <- paste("X", pid, sep="")
+        gtmpfl11 <- paste(gtmpfl1, fid, sep=.Platform$file.sep)
+        rtmpfl11 <- paste(rtmpfl1, fid, sep=.Platform$file.sep)
+        if (!is.numeric(x@data[[zcol]])) 
+            stop("only numeric columns may be exported")
+        if (overwrite && !("overwrite" %in% flags))
+            flags <- c(flags, "overwrite")
+        res <- writeBinGrid_ng(x, rtmpfl11, attr = zcol, na.value = NODATA)
                         
-                        flags <- c(res$flag, flags)
+        flags <- c(res$flag, flags)
                         
-                        execGRASS("r.in.bin", flags=flags,
-                                  input=gtmpfl11,
-                                  output=vname, bytes=as.integer(res$bytes), 
-                                  north=as.numeric(res$north), south=as.numeric(res$south), 
-                                  east=as.numeric(res$east), west=as.numeric(res$west), 
-                                  rows=as.integer(res$rows), cols=as.integer(res$cols), 
-                                  anull=as.numeric(res$anull), ignore.stderr=ignore.stderr)
-                    },
-                    finally = {
-                        unlink(paste(rtmpfl1, list.files(rtmpfl1, pattern=fid), 
-                                     sep=.Platform$file.sep))
-                    }
-                )
-            },
-            finally = {
-                if (get.suppressEchoCmdInFuncOption()) {
-                    tull <- set.echoCmdOption(inEchoCmd)
-                }
+        execGRASS("r.in.bin", flags=flags, input=gtmpfl11, output=vname,
+            bytes=as.integer(res$bytes), north=as.numeric(res$north), 
+            south=as.numeric(res$south), east=as.numeric(res$east), 
+            west=as.numeric(res$west), rows=as.integer(res$rows), 
+            cols=as.integer(res$cols), anull=as.numeric(res$anull), 
+            ignore.stderr=ignore.stderr)
+
+    } else if (inherits(x, "SpatRaster")){
+        if (!(requireNamespace("terra", quietly=TRUE))) 
+            stop("terra required for terra output")
+        tf <- tempfile(fileext=".grd")
+        res <- getMethod("writeRaster", c("SpatRaster", "character"))(x,
+            filename=tf, overwrite=TRUE, filetype="RRASTER")
+        execGRASS("r.in.gdal", flags=flags, input=tf, output=vname)
+        if (getMethod("nlyr", "SpatRaster")(x) == 1L) {
+            xcats <- getMethod("cats", "SpatRaster")(x)[[1]]
+            if (!is.null(xcats)) {
+                tfc <- tempfile()
+                write.table(xcats, tfc, sep=":", row.names=FALSE, 
+                    col.names=FALSE, quote=FALSE)
+                execGRASS("r.category", map=vname, rules=tfc, separator=":")
             }
-        )
-
-	invisible(res)
+        }
+    } else {
+        stop("object neither SpatialGridDataFrame nor SpatRaster")
+    }
+    if (get.suppressEchoCmdInFuncOption()) {
+        tull <- set.echoCmdOption(inEchoCmd)
+    }
+    invisible(res)
 }
 
 writeBinGrid_ng <- function(x, fname, attr = 1, na.value = NULL) { 
