@@ -39,7 +39,7 @@ read_RAST <- function(vname, cat=NULL, NODATA=NULL,
         }
     } else {
         if (!(requireNamespace("terra", quietly=TRUE))) 
-            stop("terra required for terra output")
+            stop("terra required for SpatRaster output")
         reslist <- vector(mode="list", length=length(vname))
         names(reslist) <- vname
         tmplist <- vector(mode="list", length=length(vname))
