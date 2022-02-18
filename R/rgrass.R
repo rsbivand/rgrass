@@ -66,7 +66,7 @@ print.gmeta <- function(x, ...) {
     cat("east       ", x$e, "\n")
     cat("nsres      ", x$nsres, "\n")
     cat("ewres      ", x$ewres, "\n")
-    if (is.character(x$proj4[1]) && !nzchar(x$proj4[1]))
+    if (is.character(x$proj4[1]) && nzchar(x$proj4[1]))
         if (substr(x$proj4[1], 1, 1) == "+") 
             cat("projection ", paste(strwrap(x$proj4), collapse="\n"), "\n")
         else cat("projection:\n", x$proj4[1], "\n")
