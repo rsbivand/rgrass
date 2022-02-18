@@ -22,6 +22,8 @@ export(set.ignore.stderrOption, get.ignore.stderrOption, set.useGDALOption,
  get.defaultFlagsOption, set.defaultFlagsOption,
  get.suppressEchoCmdInFuncOption, set.suppressEchoCmdInFuncOption)
 
+export(read_VECT, write_VECT, read_RAST, write_RAST)
+
 S3method(print, gmeta)
 S3method(print, GRASS_interface_desc)
 

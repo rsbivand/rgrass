@@ -4,7 +4,7 @@
 
 read_RAST <- function(vname, cat=NULL, NODATA=NULL, 
     ignore.stderr=get.ignore.stderrOption(), return_format="SGDF", 
-    close_OK=return_format=="SGDF", flgs=NULL) {
+    close_OK=return_format=="SGDF", flags=NULL) {
 
     if (!is.null(cat))
         if(length(vname) != length(cat)) 
@@ -68,10 +68,10 @@ read_RAST <- function(vname, cat=NULL, NODATA=NULL,
 	        }
             } else NODATAi <- NODATA[i]
             tmplist[[i]] <- tempfile(fileext=".grd")
-            if (is.null(flgs)) flgs <- c("overwrite", "c", "m")
-            if (!is.null(cat) && cat[i]) flgs <- c(flgs, "t")
+            if (is.null(flags)) flags <- c("overwrite", "c", "m")
+            if (!is.null(cat) && cat[i]) flags <- c(flags, "t")
             execGRASS("r.out.gdal", input=vname[i], output=tmplist[[i]],
-                format="RRASTER", nodata=NODATAi, flags=flgs,
+                format="RRASTER", nodata=NODATAi, flags=flags,
                 ignore.stderr=ignore.stderr)
             reslist[[i]] <- getMethod("rast", "character")(tmplist[[i]])
         }         
