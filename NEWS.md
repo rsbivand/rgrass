@@ -1,5 +1,13 @@
 # version 0.2-7 (development)
 
+* **rgrass7** will keep dual old/new implementations, but old implementations will be deprecated at next version: `readRAST()`, `writeRAST()`, `readVECT()` and `writeVECT()`
+
+* add partial re-implementations of `read_VECT()` and `write_VECT()` using **terra**
+
+* add partial re-implementations of `read_RAST()` and `write_RAST()` using **terra** based on discussion in #42
+
+* add **terra** to `Suggests:`
+
 * change repo name and links
 
 * use `g.remove` in `vect2neigh()` to avoid duplicate temporary files #36
