@@ -1,4 +1,4 @@
-# version 0.2-7 (development)
+# version 0.2-8 (development)
 
 * **rgrass7** will keep dual old/new implementations, but old implementations will be deprecated at next version: `readRAST()`, `writeRAST()`, `readVECT()` and `writeVECT()`
 
@@ -7,6 +7,8 @@
 * add partial re-implementations of `read_RAST()` and `write_RAST()` using **terra** based on discussion in #42
 
 * add **terra** to `Suggests:`
+
+# version 0.2-7 (2022-01-28)
 
 * change repo name and links
 
