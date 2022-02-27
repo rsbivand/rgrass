@@ -249,6 +249,7 @@ initGRASS <- function(gisBase, home, SG, gisDbase, addon_base, location,
     
     assign("GV", gv, envir=.GRASS_CACHE)
     pfile <- paste(loc_path, "PERMANENT", "DEFAULT_WIND", sep="/")
+    mSG <- FALSE
     if (!file.exists(pfile)) {
         lonlat <- FALSE
         mSG <- !missing(SG)
@@ -315,7 +316,7 @@ initGRASS <- function(gisBase, home, SG, gisDbase, addon_base, location,
     if (!file.exists(tfile)) file.copy(pfile, tfile, overwrite=TRUE)
     tfile <- paste(loc_path, mapset, "WIND", sep="/")
     if (!file.exists(tfile)) file.copy(pfile, tfile, overwrite=TRUE)
-    execGRASS("g.region", save="input")
+    execGRASS("g.region", save="input", flags="overwrite")
     if (mSG) {
         if (nzchar(wkt_SG)) {
             tf <- tempfile()
