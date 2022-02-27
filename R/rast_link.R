@@ -40,6 +40,21 @@ read_RAST <- function(vname, cat=NULL, NODATA=NULL,
     } else {
         if (!(requireNamespace("terra", quietly=TRUE))) 
             stop("terra required for SpatRaster output")
+        drv <- "RRASTER"
+        fxt <- ".grd"
+        ro <- FALSE
+        o <- execGRASS("r.out.gdal", flags="l", intern=TRUE)
+        oo <- grep("RRASTER", o)
+        if (length(oo) == 0L) ro <- TRUE
+        if (!ro) {
+            RR <- o[oo]
+            RRs <- strsplit(RR, " ")[[1]]
+            if (length(grep("\\(rw", RRs)) == 0L) ro <- TRUE
+        }
+        if (ro) {
+            drv <- "GTiff"
+            fxt <- ".tif"
+        }
         reslist <- vector(mode="list", length=length(vname))
         names(reslist) <- vname
         tmplist <- vector(mode="list", length=length(vname))
@@ -67,11 +82,11 @@ read_RAST <- function(vname, cat=NULL, NODATA=NULL,
 	            NODATAi <- floor(lres$min) - 1
 	        }
             } else NODATAi <- NODATA[i]
-            tmplist[[i]] <- tempfile(fileext=".grd")
+            tmplist[[i]] <- tempfile(fileext=fxt)
             if (is.null(flags)) flags <- c("overwrite", "c", "m")
             if (!is.null(cat) && cat[i]) flags <- c(flags, "t")
             execGRASS("r.out.gdal", input=vname[i], output=tmplist[[i]],
-                format="RRASTER", nodata=NODATAi, flags=flags,
+                format=drv, nodata=NODATAi, flags=flags,
                 ignore.stderr=ignore.stderr)
             reslist[[i]] <- getMethod("rast", "character")(tmplist[[i]])
         }         
@@ -362,9 +377,16 @@ write_RAST <- function(x, vname, zcol = 1, NODATA=NULL, flags=NULL,
     } else if (inherits(x, "SpatRaster")){
         if (!(requireNamespace("terra", quietly=TRUE))) 
             stop("terra required for terra output")
-        tf <- tempfile(fileext=".grd")
+        drv <- "RRASTER"
+        fxt <- ".grd"
+        gdalver <- gsub("[A-Za-z]", "", strsplit(terra::gdal(), "-")[[1]][1])
+        if (gdalver < "2.3.0") {
+            drv <- "GTiff"
+            fxt <- ".tif"
+        }
+        tf <- tempfile(fileext=fxt)
         res <- getMethod("writeRaster", c("SpatRaster", "character"))(x,
-            filename=tf, overwrite=TRUE, filetype="RRASTER")
+            filename=tf, overwrite=TRUE, filetype=drv)
         execGRASS("r.in.gdal", flags=flags, input=tf, output=vname)
         if (getMethod("nlyr", "SpatRaster")(x) == 1L) {
             xcats <- getMethod("cats", "SpatRaster")(x)[[1]]
