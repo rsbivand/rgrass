@@ -52,7 +52,7 @@ remove_GISRC()
 GRASS_INSTALLATION <- Sys.getenv("GRASS_INSTALLATION")
 run <- FALSE
 if (nzchar(GRASS_INSTALLATION)) run <- file.info(GRASS_INSTALLATION)$isdir
-run <- require(terra, quietly=TRUE)
+run <- run && require(terra, quietly=TRUE)
 if (run) {
 f <- system.file("ex/elev.tif", package="terra")
 r <- rast(f)
