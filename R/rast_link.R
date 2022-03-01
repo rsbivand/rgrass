@@ -334,7 +334,7 @@ read_cat_colors <- function(vname) {
 
 
 write_RAST <- function(x, vname, zcol = 1, NODATA=NULL, flags=NULL, 
-    ignore.stderr = get.ignore.stderrOption(), overwrite=FALSE) {
+    ignore.stderr = get.ignore.stderrOption(), overwrite=FALSE, verbose=TRUE) {
 
     if (get.suppressEchoCmdInFuncOption()) {
         inEchoCmd <- set.echoCmdOption(FALSE)
@@ -373,21 +373,36 @@ write_RAST <- function(x, vname, zcol = 1, NODATA=NULL, flags=NULL,
             west=as.numeric(res$west), rows=as.integer(res$rows), 
             cols=as.integer(res$cols), anull=as.numeric(res$anull), 
             ignore.stderr=ignore.stderr)
+        if (verbose) cat("SpatialGridDataFrame read into GRASS using r.in.bin\n")
 
-    } else if (inherits(x, "SpatRaster")){
+    } else if (inherits(x, "SpatRaster")) {
         if (!(requireNamespace("terra", quietly=TRUE))) 
             stop("terra required for terra output")
-        drv <- "RRASTER"
-        fxt <- ".grd"
-        gdalver <- gsub("[A-Za-z]", "", strsplit(terra::gdal(), "-")[[1]][1])
-        if (gdalver < "2.3.0") {
-            drv <- "GTiff"
-            fxt <- ".tif"
+# Suggestion https://github.com/rsbivand/rgrass/pull/45#discussion_r816113064 Floris Vanderhaeghe
+        srcs <- getMethod("sources", "SpatRaster")(x)
+        mems <- getMethod("inMemory", "SpatRaster")(x)
+        if (length(srcs) == 1L && !mems[1]) tf <- srcs[1]
+        else tf <- ""
+        if (!file.exists(tf)) {
+            drv <- "RRASTER"
+            fxt <- ".grd"
+            gdalver <- gsub("[A-Za-z]", "", strsplit(terra::gdal(), "-")[[1]][1])
+            if (gdalver < "2.3.0") {
+                drv <- "GTiff"
+                fxt <- ".tif"
+            }
+            tf <- tempfile(fileext=fxt)
+            res <- getMethod("writeRaster", c("SpatRaster", "character"))(x,
+                filename=tf, overwrite=TRUE, filetype=drv)
+            tmpfl <- TRUE
+        } else {
+            res <- x
+            tmpfl <- FALSE
         }
-        tf <- tempfile(fileext=fxt)
-        res <- getMethod("writeRaster", c("SpatRaster", "character"))(x,
-            filename=tf, overwrite=TRUE, filetype=drv)
         execGRASS("r.in.gdal", flags=flags, input=tf, output=vname)
+#        if (tmpfl) unlink(tf)
+        if (verbose) cat("SpatRaster read into GRASS using r.in.gdal from",
+            ifelse(tmpfl, "memory", "file"), "\n")
         if (getMethod("nlyr", "SpatRaster")(x) == 1L) {
             xcats <- getMethod("cats", "SpatRaster")(x)[[1]]
             if (!is.null(xcats)) {

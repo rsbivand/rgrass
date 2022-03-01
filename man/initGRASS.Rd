@@ -66,6 +66,12 @@ write_RAST(r, "elev", flags="overwrite")
 execGRASS("r.info", map="elev")
 }
 if (run) {
+s <- rast(r)
+values(s) <- values(r)
+write_RAST(s, "elev1", flags="overwrite")
+execGRASS("r.info", map="elev1")
+}
+if (run) {
 execGRASS("r.slope.aspect", flags="overwrite", elevation="elev", slope="slope", aspect="aspect")
 }
 if (run) {

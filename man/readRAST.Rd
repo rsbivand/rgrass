@@ -22,7 +22,7 @@ writeRAST(x, vname, zcol = 1, NODATA=NULL,
  ignore.stderr = get.ignore.stderrOption(), useGDAL=get.useGDALOption(),
  overwrite=FALSE, flags=NULL, drivername="GTiff")
 write_RAST(x, vname, zcol = 1, NODATA=NULL, flags=NULL, 
- ignore.stderr = get.ignore.stderrOption(), overwrite=FALSE)
+ ignore.stderr = get.ignore.stderrOption(), overwrite=FALSE, verbose=TRUE)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -43,6 +43,7 @@ write_RAST(x, vname, zcol = 1, NODATA=NULL, flags=NULL,
   \item{NODATA}{by default NULL, in which case it is set to one less than \code{floor()}of the data values, otherwise an integer NODATA value (required to be integer by GRASS r.out.bin)}
   \item{overwrite}{default FALSE, if TRUE inserts \code{"overwrite"} into the value of the \code{flags} argument if not already there to allow existing GRASS rasters to be overwritten}
   \item{flags}{default NULL, character vector, for example \code{"overwrite"}}
+  \item{verbose}{default TRUE, report how writing to GRASS is specified}
 %  \item{colname}{alternative name for data column if not file basename}
 %  \item{integer}{logical value: TRUE if the input data is integer}
 }
@@ -148,6 +149,7 @@ run <- run && require("terra", quietly=TRUE)
 if (run) {
   v1 <- read_RAST("landuse", cat=TRUE, return_format="terra")
   v1
+  inMemory(v1)
 }
 if (run) {
   write_RAST(v1, "landuse1", flags=c("o", "overwrite"))
