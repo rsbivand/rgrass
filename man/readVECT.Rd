@@ -137,6 +137,9 @@ if (run) {
   cen_neig <- vect2neigh("census")
   str(cen_neig)
 }
+if (run) {
+  execGRASS("g.remove", flags="f", name=c("newsch", "newsch1"), type="vector")
+}
 use_sf()
 if (run) {
   print(vInfo("schools"))
@@ -155,6 +158,9 @@ if (run) {
   nschs <- readVECT("newsch")
   print(summary(nschs))
 }
+if (run) {
+  execGRASS("g.remove", flags="f", name="newsch", type="vector")
+}
 run <- run && require("terra", quietly=TRUE)
 if (run) {
   v1 <- rgrass7:::read_VECT("census")
@@ -163,6 +169,9 @@ if (run) {
 if (run) {
   rgrass7:::write_VECT(v1, "census_sV")
   execGRASS("v.info", map="census_sV")
+}
+if (run) {
+  execGRASS("g.remove", flags="f", name="census_sV", type="vector")
 }
 Sys.setenv("GRASS_VERBOSE"=GV)
 set.ignore.stderrOption(ois)
