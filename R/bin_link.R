@@ -7,7 +7,7 @@ readRAST <- function(vname, cat=NULL, ignore.stderr=get.ignore.stderrOption(),
         useGDAL=get.useGDALOption(), close_OK=TRUE, drivername="GTiff",
         driverFileExt=NULL, return_SGDF=TRUE) {
     .Deprecated(new="read_RAST", package="rgrass7", old="readRAST",
-        msg="Package rgrass7 transitioning to package rgrass for GRASS 8")
+        msg="Package rgrass7 is transitioning to package rgrass for GRASS GIS 8.\n'readRAST' is deprecated. Use 'read_RAST' instead.")
 
     R_in_sp <- isTRUE(.get_R_interface() == "sp")
 
