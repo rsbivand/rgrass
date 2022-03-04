@@ -163,11 +163,11 @@ if (run) {
 }
 run <- run && require("terra", quietly=TRUE)
 if (run) {
-  v1 <- rgrass7:::read_VECT("census")
+  v1 <- read_VECT("census")
   v1
 }
 if (run) {
-  rgrass7:::write_VECT(v1, "census_sV")
+  write_VECT(v1, "census_sV")
   execGRASS("v.info", map="census_sV")
 }
 if (run) {
