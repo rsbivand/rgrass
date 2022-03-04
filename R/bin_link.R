@@ -6,6 +6,8 @@ readRAST <- function(vname, cat=NULL, ignore.stderr=get.ignore.stderrOption(),
 	NODATA=NULL, plugin=get.pluginOption(), mapset=NULL, 
         useGDAL=get.useGDALOption(), close_OK=TRUE, drivername="GTiff",
         driverFileExt=NULL, return_SGDF=TRUE) {
+    .Deprecated(new="read_RAST", package="rgrass7", old="readRAST",
+        msg="Package rgrass7 transitioning to package rgrass for GRASS 8")
 
     R_in_sp <- isTRUE(.get_R_interface() == "sp")
 
@@ -397,6 +399,8 @@ writeRAST <- function(x, vname, zcol = 1, NODATA=NULL,
 	ignore.stderr = get.ignore.stderrOption(), useGDAL=get.useGDALOption(), overwrite=FALSE, flags=NULL,
         drivername="GTiff") {
 
+        .Deprecated(new="write_RAST", package="rgrass7", old="writeRAST",
+           msg="Package rgrass7 transitioning to package rgrass for GRASS 8")
         if (get.suppressEchoCmdInFuncOption()) {
             inEchoCmd <- set.echoCmdOption(FALSE)
         }

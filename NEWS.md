@@ -1,5 +1,7 @@
 # version 0.2-8 (development)
 
+* `readRAST()`, `writeRAST()`, `readVECT()` and `writeVECT()` marked as deprecated
+
 * if a single `"SpatRaster"` not in memory is passed to write_RAST(), no temporary file is used, and the file name is passed directly to `r.in.gdal`
 
 * **rgrass7** will keep dual old/new implementations, but old implementations will be deprecated at next version: `readRAST()`, `writeRAST()`, `readVECT()` and `writeVECT()`
