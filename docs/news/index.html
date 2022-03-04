@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rgrass7</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.2-7</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.2-8</span>
       </span>
     </div>
 
@@ -48,9 +48,19 @@
     </div>
 
     <div class="section level2">
-<h2 class="page-header" data-toc-text="0.2-7" id="version-02-7-development">version 0.2-7 (development)<a class="anchor" aria-label="anchor" href="#version-02-7-development"></a></h2>
+<h2 class="page-header" data-toc-text="0.2-8" id="version-02-8-development">version 0.2-8 (development)<a class="anchor" aria-label="anchor" href="#version-02-8-development"></a></h2>
+<ul><li><p><code><a href="../reference/readRAST.html">readRAST()</a></code>, <code><a href="../reference/readRAST.html">writeRAST()</a></code>, <code><a href="../reference/readVECT.html">readVECT()</a></code> and <code><a href="../reference/readVECT.html">writeVECT()</a></code> marked as deprecated</p></li>
+<li><p>if a single <code>"SpatRaster"</code> not in memory is passed to write_RAST(), no temporary file is used, and the file name is passed directly to <code>r.in.gdal</code></p></li>
+<li><p><strong>rgrass7</strong> will keep dual old/new implementations, but old implementations will be deprecated at next version: <code><a href="../reference/readRAST.html">readRAST()</a></code>, <code><a href="../reference/readRAST.html">writeRAST()</a></code>, <code><a href="../reference/readVECT.html">readVECT()</a></code> and <code><a href="../reference/readVECT.html">writeVECT()</a></code></p></li>
+<li><p>add re-implementations of <code><a href="../reference/readVECT.html">read_VECT()</a></code> and <code><a href="../reference/readVECT.html">write_VECT()</a></code> using <strong>terra</strong></p></li>
+<li><p>add re-implementations of <code><a href="../reference/readRAST.html">read_RAST()</a></code> and <code><a href="../reference/readRAST.html">write_RAST()</a></code> using <strong>terra</strong> based on discussion in <a href="https://github.com/rsbivand/rgrass/issues/42" class="external-link">#42</a></p></li>
+<li><p>add <strong>terra</strong> to <code>Suggests:</code></p></li>
+</ul></div>
+    <div class="section level2">
+<h2 class="page-header" data-toc-text="0.2-7" id="version-02-7-2022-01-28">version 0.2-7 (2022-01-28)<small>2022-01-28</small><a class="anchor" aria-label="anchor" href="#version-02-7-2022-01-28"></a></h2>
 <ul><li><p>change repo name and links</p></li>
 <li><p>use <code>g.remove</code> in <code><a href="../reference/readVECT.html">vect2neigh()</a></code> to avoid duplicate temporary files <a href="https://github.com/rsbivand/rgrass/issues/36" class="external-link">#36</a></p></li>
+<li><p>add <code>.github/CONTRIBUTING.md</code></p></li>
 </ul></div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="0.2-6" id="version-02-6-2021-10-01">version 0.2-6 (2021-10-01)<small>2021-10-01</small><a class="anchor" aria-label="anchor" href="#version-02-6-2021-10-01"></a></h2>

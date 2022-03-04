@@ -19,7 +19,7 @@ The locking functions are used internally, but are exposed for experienced R/GRA
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rgrass7</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.2-7</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.2-8</span>
       </span>
     </div>
 
@@ -114,9 +114,34 @@ The locking functions are used internally, but are exposed for experienced R/GRA
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
-<span class="r-in"><span class="fu">initGRASS</span><span class="op">(</span><span class="st">"/usr/bin/grass-7.0.0"</span>, home<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu">initGRASS</span><span class="op">(</span><span class="st">"C:/GRASS"</span>, home<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="va">GRASS_INSTALLATION</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.getenv.html" class="external-link">Sys.getenv</a></span><span class="op">(</span><span class="st">"GRASS_INSTALLATION"</span><span class="op">)</span></span>
+<span class="r-in"><span class="va">run</span> <span class="op">&lt;-</span> <span class="cn">FALSE</span></span>
+<span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/nchar.html" class="external-link">nzchar</a></span><span class="op">(</span><span class="va">GRASS_INSTALLATION</span><span class="op">)</span><span class="op">)</span> <span class="va">run</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/file.info.html" class="external-link">file.info</a></span><span class="op">(</span><span class="va">GRASS_INSTALLATION</span><span class="op">)</span><span class="op">$</span><span class="va">isdir</span></span>
+<span class="r-in"><span class="va">run</span> <span class="op">&lt;-</span> <span class="va">run</span> <span class="op">&amp;&amp;</span> <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="va"><a href="https://rspatial.org/terra/" class="external-link">terra</a></span>, quietly<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span>
+<span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="va">run</span><span class="op">)</span> <span class="op">{</span></span>
+<span class="r-in"><span class="va">f</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"ex/elev.tif"</span>, package<span class="op">=</span><span class="st">"terra"</span><span class="op">)</span></span>
+<span class="r-in"><span class="va">r</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/terra/man/rast.html" class="external-link">rast</a></span><span class="op">(</span><span class="va">f</span><span class="op">)</span></span>
+<span class="r-in"><span class="fu"><a href="https://rdrr.io/pkg/terra/man/plot.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">r</span>, col<span class="op">=</span><span class="fu">grDevices</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/grDevices/palettes.html" class="external-link">terrain.colors</a></span><span class="op">(</span><span class="fl">50</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span class="op">}</span></span>
+<span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="va">run</span><span class="op">)</span> <span class="op">{</span></span>
+<span class="r-in"><span class="op">(</span><span class="va">loc</span> <span class="op">&lt;-</span> <span class="fu">initGRASS</span><span class="op">(</span><span class="va">GRASS_INSTALLATION</span>, home<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span>, SG<span class="op">=</span><span class="va">r</span>, override<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span class="op">}</span></span>
+<span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="va">run</span><span class="op">)</span> <span class="op">{</span></span>
+<span class="r-in"><span class="fu"><a href="readRAST.html">write_RAST</a></span><span class="op">(</span><span class="va">r</span>, <span class="st">"elev"</span>, flags<span class="op">=</span><span class="st">"overwrite"</span><span class="op">)</span></span>
+<span class="r-in"><span class="fu"><a href="execGRASS.html">execGRASS</a></span><span class="op">(</span><span class="st">"r.info"</span>, map<span class="op">=</span><span class="st">"elev"</span><span class="op">)</span></span>
+<span class="r-in"><span class="op">}</span></span>
+<span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="va">run</span><span class="op">)</span> <span class="op">{</span></span>
+<span class="r-in"><span class="va">s</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/terra/man/rast.html" class="external-link">rast</a></span><span class="op">(</span><span class="va">r</span><span class="op">)</span></span>
+<span class="r-in"><span class="fu"><a href="https://rdrr.io/pkg/terra/man/values.html" class="external-link">values</a></span><span class="op">(</span><span class="va">s</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/terra/man/values.html" class="external-link">values</a></span><span class="op">(</span><span class="va">r</span><span class="op">)</span></span>
+<span class="r-in"><span class="fu"><a href="readRAST.html">write_RAST</a></span><span class="op">(</span><span class="va">s</span>, <span class="st">"elev1"</span>, flags<span class="op">=</span><span class="st">"overwrite"</span><span class="op">)</span></span>
+<span class="r-in"><span class="fu"><a href="execGRASS.html">execGRASS</a></span><span class="op">(</span><span class="st">"r.info"</span>, map<span class="op">=</span><span class="st">"elev1"</span><span class="op">)</span></span>
+<span class="r-in"><span class="op">}</span></span>
+<span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="va">run</span><span class="op">)</span> <span class="op">{</span></span>
+<span class="r-in"><span class="fu"><a href="execGRASS.html">execGRASS</a></span><span class="op">(</span><span class="st">"r.slope.aspect"</span>, flags<span class="op">=</span><span class="st">"overwrite"</span>, elevation<span class="op">=</span><span class="st">"elev"</span>, slope<span class="op">=</span><span class="st">"slope"</span>, aspect<span class="op">=</span><span class="st">"aspect"</span><span class="op">)</span></span>
+<span class="r-in"><span class="op">}</span></span>
+<span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="va">run</span><span class="op">)</span> <span class="op">{</span></span>
+<span class="r-in"><span class="va">u1</span> <span class="op">&lt;-</span> <span class="fu"><a href="readRAST.html">read_RAST</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/terra/man/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"elev"</span>, <span class="st">"slope"</span>, <span class="st">"aspect"</span><span class="op">)</span>, return_format<span class="op">=</span><span class="st">"terra"</span><span class="op">)</span></span>
+<span class="r-in"><span class="fu"><a href="https://rdrr.io/pkg/terra/man/plot.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">u1</span><span class="op">[[</span><span class="st">"elev"</span><span class="op">]</span><span class="op">]</span>, col<span class="op">=</span><span class="fu">grDevices</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/grDevices/palettes.html" class="external-link">terrain.colors</a></span><span class="op">(</span><span class="fl">50</span><span class="op">)</span><span class="op">)</span></span>
 <span class="r-in"><span class="op">}</span></span>
 </code></pre></div>
     </div>
