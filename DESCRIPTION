@@ -16,10 +16,11 @@ Description: Interpreted interface between 'GRASS' geographical
     'spgrass6' should be used.
 Depends: R (>= 3.3.0), XML
 Imports: stats, utils, methods
-Suggests: rgdal (>= 1.0-6), RSQLite, sp (>= 0.9), sf (>= 0.7.6), stars
+Suggests: rgdal (>= 1.0-6), RSQLite, sp (>= 0.9), sf (>= 0.7.6), stars, terra
 SystemRequirements: GRASS (>= 7)
 License: GPL (>= 2)
 URL: https://grass.osgeo.org/, https://github.com/rsbivand/rgrass, https://rsbivand.github.io/rgrass/
 BugReports: https://github.com/rsbivand/rgrass/issues/
-Collate: AAA.R options.R rgrass.R bin_link.R vect_link.R initGRASS.R
-        xml1.R
+Collate: AAA.R options.R rgrass.R bin_link.R rast_link.R vect_link.R
+        vect_link_ng.R initGRASS.R xml1.R
+
