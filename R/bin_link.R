@@ -400,7 +400,7 @@ writeRAST <- function(x, vname, zcol = 1, NODATA=NULL,
         drivername="GTiff") {
 
         .Deprecated(new="write_RAST", package="rgrass7", old="writeRAST",
-           msg="Package rgrass7 transitioning to package rgrass for GRASS 8")
+           msg="Package rgrass7 transitioning to package rgrass for GRASS 8.\n'writeRAST' is deprecated. Use 'write_RAST' instead.")
         if (get.suppressEchoCmdInFuncOption()) {
             inEchoCmd <- set.echoCmdOption(FALSE)
         }

@@ -6,7 +6,7 @@ readVECT <- function(vname, layer, type=NULL, plugin=NULL,
         with_prj=TRUE,  with_c=FALSE, mapset=NULL, pointDropZ=FALSE,
         driver=NULL) {
         .Deprecated(new="read_VECT", package="rgrass7", old="readVECT",
-            msg="Package rgrass7 transitioning to package rgrass for GRASS 8")
+            msg="Package rgrass7 transitioning to package rgrass for GRASS 8.\n'readVECT' is deprecated. Use 'read_VECT' instead.")
         if (is.null(.get_R_interface())) 
        stop("use either use_sp() or use_sf() at session start to choose\n sp or sf/stars classes")
         R_in_sp <- isTRUE(.get_R_interface() == "sp")
@@ -393,7 +393,7 @@ writeVECT <- function(SDF, vname, #factor2char = TRUE,
     driver=NULL, min_area=0.0001, snap=-1) {
 
     .Deprecated(new="write_VECT", package="rgrass7", old="writeVECT",
-       msg="Package rgrass7 transitioning to package rgrass for GRASS 8")
+       msg="Package rgrass7 transitioning to package rgrass for GRASS 8.\n'writeVECT is deprecated. Use 'write_VECT' instead.")
     R_in_sp <- isTRUE(.get_R_interface() == "sp")
 
     if (is.null(ignore.stderr))
