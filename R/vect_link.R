@@ -442,9 +442,9 @@ writeVECT <- function(SDF, vname, #factor2char = TRUE,
             if (gsub(" ", "_", driver) %in% fDrivers) is_dDriver <- FALSE
             type <- NULL
             if (R_in_sp) {
-              if (class(SDF) == "SpatialPointsDataFrame") type <- "point"
-              if (class(SDF) == "SpatialLinesDataFrame") type <- "line"
-              if (class(SDF) == "SpatialPolygonsDataFrame") type <- "boundary"
+              if (inherits(SDF, "SpatialPointsDataFrame")) type <- "point"
+              if (inherits(SDF, "SpatialLinesDataFrame")) type <- "line"
+              if (inherits(SDF, "SpatialPolygonsDataFrame")) type <- "boundary"
             } else {
               type0 <- sub("sfc_", "", class(sf::st_geometry(SDF))[1])
               if (type0 == "POINT") type <- "point"
