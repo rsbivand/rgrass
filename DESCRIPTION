@@ -23,4 +23,4 @@ URL: https://grass.osgeo.org/, https://github.com/rsbivand/rgrass, https://rsbiv
 BugReports: https://github.com/rsbivand/rgrass/issues/
 Collate: AAA.R options.R rgrass.R bin_link.R rast_link.R vect_link.R
         vect_link_ng.R initGRASS.R xml1.R
-RoxygenNote: 6.1.1
+
