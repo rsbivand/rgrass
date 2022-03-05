@@ -1,5 +1,5 @@
-Package: rgrass7
-Version: 0.2-8
+Package: rgrass
+Version: 0.3-1
 Date: 2022-03-04
 Title: Interface Between GRASS Geographical Information System and R
 Authors@R: c(
@@ -23,4 +23,4 @@ URL: https://grass.osgeo.org/, https://github.com/rsbivand/rgrass, https://rsbiv
 BugReports: https://github.com/rsbivand/rgrass/issues/
 Collate: AAA.R options.R rgrass.R bin_link.R rast_link.R vect_link.R
         vect_link_ng.R initGRASS.R xml1.R
-RoxygenNote: 6.1.1
+
