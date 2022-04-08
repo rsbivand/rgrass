@@ -323,15 +323,19 @@ initGRASS <- function(gisBase, home, SG, gisDbase, addon_base, location,
         if (nzchar(wkt_SG)) {
             tf <- tempfile()
             writeLines(wkt_SG, con=tf)
-	    execGRASS("g.mapset", mapset="PERMANENT", flags="quiet",
+            MS <- execGRASS("g.mapset", flags="p", intern=TRUE,
                 ignore.stderr=ignore.stderr)
+	    if (MS != "PERMANENT") 
+                execGRASS("g.mapset", mapset="PERMANENT", flags="quiet",
+                    ignore.stderr=ignore.stderr)
             tull <- execGRASS("g.proj", flags="c", wkt=tf,
                 ignore.stderr=ignore.stderr, intern=TRUE)
             execGRASS("g.region", flags="s", region=paste0("input@", mapset),
                 ignore.stderr=ignore.stderr)
             execGRASS("g.region", flags="d", ignore.stderr=ignore.stderr)
-            execGRASS("g.mapset", mapset=mapset, flags="quiet",
-                ignore.stderr=ignore.stderr)
+	    if (MS != "PERMANENT") 
+                execGRASS("g.mapset", mapset=mapset, flags="quiet",
+                    ignore.stderr=ignore.stderr)
         }
     }
     gmeta(ignore.stderr=ignore.stderr)
