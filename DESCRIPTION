@@ -1,5 +1,5 @@
-Package: rgrass7
-Version: 0.2-9
+Package: rgrass
+Version: 0.3-1
 Date: 2022-04-08
 Title: Interface Between GRASS Geographical Information System and R
 Authors@R: c(
