@@ -261,7 +261,7 @@ initGRASS <- function(gisBase, home, SG, gisDbase, addon_base, location,
                 bb <- sp::bbox(SG)
                 gt <- sp::gridparameters(SG)
                 wkt_SG <- sp::wkt(SG)
-                lonlatSG <- sp::is.projected(SG)
+                lonlatSG <- !sp::is.projected(SG)
             } else if (inherits(SG, "SpatRaster")) {
                 if (!requireNamespace("terra", quietly=TRUE))
                     stop("The terra package is required for the SG argument")
