@@ -1,4 +1,8 @@
-# version 0.2-8 (development)
+# version 0.2-9 (development)
+
+* resolve issue #53 - logic problems in `initGRASS()` when no CRS given
+
+# version 0.2-8 (2022-03-05)
 
 * `readRAST()`, `writeRAST()`, `readVECT()` and `writeVECT()` marked as deprecated
 
