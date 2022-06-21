@@ -28,9 +28,7 @@ if(!exists("Sys.setenv", envir = baseenv())) Sys.setenv <- Sys.putenv
   assign("WN_bat", "", envir=.GRASS_CACHE)
 
   assign("ignore.stderr", FALSE, envir=.GRASS_CACHE)
-  assign("useGDAL", TRUE, envir=.GRASS_CACHE)
   assign("stop_on_no_flags_paras", TRUE, envir=.GRASS_CACHE)
-  assign("plugin", NULL, envir=.GRASS_CACHE)
   assign("echoCmd", FALSE, envir=.GRASS_CACHE)
   assign("GV", "", envir=.GRASS_CACHE)
   assign("useIntern", FALSE, envir=.GRASS_CACHE)

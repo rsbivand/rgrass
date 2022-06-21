@@ -1,7 +1,7 @@
 # Interpreted GRASS 7 interface functions
 # Copyright (c) 2015 Roger S. Bivand
 #
-
+# needed
 set.ignore.stderrOption <- function(value) {
 	if (!is.logical(value)) stop ("logical argument required")
 	res <- get("ignore.stderr", envir = .GRASS_CACHE)
@@ -12,7 +12,7 @@ set.ignore.stderrOption <- function(value) {
 get.ignore.stderrOption <- function() {
 	get("ignore.stderr", envir = .GRASS_CACHE)
 }
-
+# needed
 set.stop_on_no_flags_parasOption <- function(value) {
 	if (!is.logical(value)) stop ("logical argument required")
 	res <- get("stop_on_no_flags_paras", envir = .GRASS_CACHE)
@@ -22,39 +22,6 @@ set.stop_on_no_flags_parasOption <- function(value) {
 
 get.stop_on_no_flags_parasOption <- function() {
 	get("stop_on_no_flags_paras", envir = .GRASS_CACHE)
-}
-
-set.useGDALOption <- function(value) {
-	if (!is.logical(value)) stop ("logical argument required")
-	res <- get("useGDAL", envir = .GRASS_CACHE)
-	assign("useGDAL", value, envir = .GRASS_CACHE)
-        if (value) {
-          if (requireNamespace("rgdal", quietly = TRUE)) {
-	    assign("useGDAL", value, envir = .GRASS_CACHE)
-          } else {
-            warning("rgdal not available")
-          }
-        }
-# require(rgdal)
-	res
-}
-
-get.useGDALOption <- function() {
-	get("useGDAL", envir = .GRASS_CACHE)
-}
-
-set.pluginOption <- function(value) {
-	res <- get("plugin", envir = .GRASS_CACHE)
-        if (is.null(value)) {
-	    assign("plugin", value, envir = .GRASS_CACHE)
-        } else if (is.logical(value)) {
-	    assign("plugin", value, envir = .GRASS_CACHE)
-        } else stop ("logical or NULL argument required")
-	res
-}
-
-get.pluginOption <- function() {
-	get("plugin", envir = .GRASS_CACHE)
 }
 
 set.echoCmdOption <- function(value) {

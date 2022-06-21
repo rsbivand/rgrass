@@ -1,4 +1,6 @@
-# version 0.2-10 (development)
+# **rgrass** version 0.3-1 (development)
+
+# version 0.2-10 (deprecated development)
 
 * resolve tidy HTML markup failure
 

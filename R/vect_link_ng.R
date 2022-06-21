@@ -1,4 +1,4 @@
-# Interpreted GRASS 7, 8 interface functions
+# Interpreted GRASS interface functions
 # Copyright (c) 2022 Roger S. Bivand
 #
 read_VECT <- function(vname, layer, type=NULL, flags="overwrite",
