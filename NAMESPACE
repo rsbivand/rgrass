@@ -1,8 +1,7 @@
 import(XML)
-importFrom(utils, packageDescription, read.table)
-importFrom(stats, runif, na.omit)
-importFrom(methods, slot, "slot<-", as, "getMethod")
-importFrom("utils", "packageVersion", "write.table")
+importFrom(stats, "runif", "na.omit")
+importFrom(methods, "slot", "slot<-", "as", "getMethod")
+importFrom("utils", "packageVersion", "packageDescription", "read.table", "write.table")
 importFrom("grDevices", "rgb")
 
 export(gmeta, getLocationProj, gmeta2grd)

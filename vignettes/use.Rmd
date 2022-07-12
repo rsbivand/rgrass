@@ -1,0 +1,34 @@
+---
+title: "Use of GRASS interface"
+author: "Roger Bivand"
+output:
+  html_document:
+    toc: true
+    toc_float:
+      collapsed: false
+      smooth_scroll: false
+    toc_depth: 2
+bibliography: refs.bib
+vignette: >
+  %\VignetteIndexEntry{Use of GRASS interface}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(message = FALSE, warning = FALSE)
+```
+
+## Introduction
+
+
+## Starting R inside GRASS
+
+## Starting GRASS inside R
+
+### Existing GRASS location
+
+### Temporary GRASS location
+
+
+

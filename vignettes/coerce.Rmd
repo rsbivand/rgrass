@@ -1,0 +1,151 @@
+---
+title: "Coercion between object formats"
+author: "Roger Bivand"
+output:
+  html_document:
+    toc: true
+    toc_float:
+      collapsed: false
+      smooth_scroll: false
+    toc_depth: 2
+bibliography: refs.bib
+vignette: >
+  %\VignetteIndexEntry{Coercion between object formats}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, paged.print=FALSE)
+```
+
+## Introduction
+
+The original R-GRASS interface [@bivand:00; @neteler+mitasova:08] was designed to move raster and later vector data between R and GRASS GIS. To do this, use was made of intermediate files, often using the external GDAL library on both sides. On the R side, the **rgdal** package was used, interfacing GDAL and PROJ as GRASS GIS also did. The GRASS commands `r.in.gdal`, `r.out.gdal`, `v.in.ogr` and `v.out.ogr` were matched by **rgdal** functions using the same underlying external libraries:
+
+
+```{r}
+knitr::include_graphics("fig1.png")
+```
+
+GDAL was supplemented for raster data by simply reading and writing uncompressed binary files using `r.in.bin` and `r.out.bin`, with custom functions on the R side. As then written, the R-GRASS interface used **sp** classes for both raster and vector data, supplemented more recently with **sf** classes for vector data only.
+
+The current version of the R-GRASS interface has been simplified to use the **terra** package because it, like **sf** and **rgdal** before it, links to the important external libraries. The workhorse driver is known as `RRASTER`, and has been widely used in **raster** and **terra** (see also (https://rspatial.org)). It uses GDAL but writes a flat uncompressed binary file. Using `terra::rast()` also appears to preserve category names and colour tables, but needs further testing (see (https://github.com/rsbivand/rgrass/issues/42)).
+
+```{r}
+knitr::include_graphics("fig2_p7_RRASTER_GRASS.png")
+```
+From GDAL 3.5.0, the `RRASTER` driver also supports WKT2_2019 CRS representations; in earlier versions of GDAL, the driver only supported the proj-string representation (https://github.com/rsbivand/rgrass/issues/51).
+
+These changes mean that users transferring data between R and GRASS will need to coerce between **terra** classes `SpatVector` and `SpatRaster` and the class system of choice. In addition, `SpatRaster` is only read into memory from file when this is required, so requiring some care.
+
+On loading and attaching, **terra** displays its version:
+
+```{r}
+run <- require("terra", quietly=TRUE)
+```
+
+This description is constructed conditioning on the availability of suggested packages. `terra::gdal()` tells us the versions of the external libraries being used by **terra**:
+
+```{r, eval=run}
+gdal(lib="all")
+```
+
+On Windows and macOS, and using CRAN binary packages, 
+
+
+
+## `"SpatVector"` coercion
+
+
+```{r}
+fv <- system.file("ex/lux.shp", package="terra")
+(v <- vect(fv))
+```
+
+```{r, eval=run}
+try(inMemory(v))
+```
+
+```{r, eval=run}
+cat(crs(v), "\n")
+```
+
+### `"sf"`
+
+```{r, eval=run}
+try(require("sf"))
+```
+
+
+```{r, eval=(run && is.loaded("sf"))}
+(v_sf <- st_as_sf(v))
+```
+
+```{r, eval=(run && is.loaded("sf"))}
+print(st_crs(v_sf))
+```
+
+### `"Spatial"`
+
+
+```{r, eval=run}
+Sys.setenv("_SP_EVOLUTION_STATUS_"="2")
+if (require("sp", quietly=TRUE)) {
+  if (require("raster", quietly=TRUE)) {
+    v_sp <- as(v, "Spatial")
+    print(summary(v_sp))
+  }
+}
+```
+
+```{r, eval=(run && is.loaded("sp"))}
+cat(wkt(v_sp), "\n")
+```
+
+## `"SpatRaster"` coercion
+
+```{r, eval=run}
+fr <- system.file("ex/elev.tif", package="terra")
+(r <- rast(fr))
+```
+
+
+```{r, eval=run}
+try(inMemory(r))
+```
+
+### `"stars"`
+
+
+```{r, eval=run}
+if (require("stars", quietly=TRUE)) {
+    r_stars <- st_as_stars(r)
+    print(r_stars)
+}
+```
+
+```{r, eval=run}
+if (require("stars", quietly=TRUE)) {
+    r_stars_p <- st_as_stars(r, proxy=TRUE)
+    print(r_stars_p)
+}
+```
+
+
+### `"Spatial"`
+
+
+```{r, eval=(run && is.loaded("sp") && is.loaded("stars"))}
+r_sp <- as(r_stars, "Spatial")
+summary(r_sp)
+```
+
+### `"RasterLayer"`
+
+```{r, eval=(run && is.loaded("sp"))}
+if (require("raster", quietly=TRUE)) {
+  rr <- raster(r_sp)
+  print(rr)
+}
+```
