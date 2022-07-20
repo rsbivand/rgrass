@@ -24,7 +24,7 @@ knitr::opts_chunk$set(echo = TRUE, paged.print=FALSE)
 The original R-GRASS interface [@bivand:00; @neteler+mitasova:08] was designed to move raster and later vector data between R and GRASS GIS. To do this, use was made of intermediate files, often using the external GDAL library on both sides. On the R side, the **rgdal** package was used, interfacing GDAL and PROJ as GRASS GIS also did. The GRASS commands `r.in.gdal`, `r.out.gdal`, `v.in.ogr` and `v.out.ogr` were matched by **rgdal** functions using the same underlying external libraries:
 
 
-```{r, out.width=500}
+```{r, out.width=500, echo=FALSE}
 knitr::include_graphics("fig1.png")
 ```
 
@@ -32,7 +32,7 @@ GDAL was supplemented for raster data by simply reading and writing uncompressed
 
 The current version of the R-GRASS interface has been simplified to use the **terra** package because it, like **sf** and **rgdal** before it, links to the important external libraries. The workhorse driver is known as `RRASTER`, and has been widely used in **raster** and **terra** (see also (https://rspatial.org)). It uses GDAL but writes a flat uncompressed binary file. Using `terra::rast()` also appears to preserve category names and colour tables, but needs further testing (see (https://github.com/rsbivand/rgrass/issues/42)).
 
-```{r, out.width=500}
+```{r, out.width=500, echo=FALSE}
 knitr::include_graphics("fig2_p7_RRASTER_GRASS.png")
 ```
 
@@ -58,7 +58,7 @@ When using CRAN binary packages built static for Windows and macOS, the R packag
 
 ## `"SpatVector"` coercion
 
-In the **terra** package, vector data are held in `"SpatVector"` objects. This means that when `read_VECT()` is used, a `"SpatVector"` object is returned, and the same class of object is needed for `write_VECT()` for writing to GRASS.
+In the **terra** package [@terra], vector data are held in `"SpatVector"` objects. This means that when `read_VECT()` is used, a `"SpatVector"` object is returned, and the same class of object is needed for `write_VECT()` for writing to GRASS.
 
 
 ```{r}
@@ -80,7 +80,7 @@ cat(crs(v), "\n")
 
 ### `"sf"`
 
-Most new work should use vector classes defined in the **sf** package:
+Most new work should use vector classes defined in the **sf** package [@sf; @sf-rj]:
 
 ```{r, eval=run}
 no_sf <- inherits(try(require("sf")), "try-error")
@@ -106,7 +106,7 @@ all.equal(v_sf_rt, v, check.attributes=FALSE)
 
 ### `"Spatial"`
 
-To coerce to and from vector classes defined in the **sp** package, use the classes defined in **sf** as an intermediate step:
+To coerce to and from vector classes defined in the **sp** package [@asdar], use the classes defined in **sf** as an intermediate step:
 
 ```{r, eval=(run && !no_sf)}
 Sys.setenv("_SP_EVOLUTION_STATUS_"="2")
@@ -139,7 +139,7 @@ try(inMemory(r))
 
 ### `"stars"`
 
-The **stars** package uses GDAL through **sf**:
+The **stars** package [@stars] uses GDAL through **sf**:
 
 ```{r, eval=run}
 no_stars <- inherits(try(require("stars", quietly=TRUE)), "try-error")
@@ -185,7 +185,7 @@ and can be round-tripped:
 
 ### `"RasterLayer"`
 
-As **rgdal** will retire soon, using **rgdal** in the **raster** package is not a feasible way to coerce a `"SpatRaster"` object to a `"RasterLayer"` object. 
+As **rgdal** will retire soon, using **rgdal** in the **raster** package [@raster] is not a feasible way to coerce a `"SpatRaster"` object to a `"RasterLayer"` object. 
 
 ```{r, eval=run}
 tf <- tempfile(fileext=".grd")
