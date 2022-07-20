@@ -1,9 +1,9 @@
-# Interpreted GRASS 7, 8 raster interface functions
+# Interpreted GRASS raster interface functions
 # Copyright (c) 2022 Roger S. Bivand
 #
 
 read_RAST <- function(vname, cat=NULL, NODATA=NULL, 
-    ignore.stderr=get.ignore.stderrOption(), return_format="SGDF", 
+    ignore.stderr=get.ignore.stderrOption(), return_format="terra", 
     close_OK=return_format=="SGDF", flags=NULL) {
 
     if (!is.null(cat))

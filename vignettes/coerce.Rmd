@@ -1,0 +1,210 @@
+---
+title: "Coercion between object formats"
+author: "Roger Bivand"
+output:
+  html_document:
+    toc: true
+    toc_float:
+      collapsed: false
+      smooth_scroll: false
+    toc_depth: 2
+bibliography: refs.bib
+vignette: >
+  %\VignetteIndexEntry{Coercion between object formats}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, paged.print=FALSE)
+```
+
+## Introduction
+
+The original R-GRASS interface [@bivand:00; @neteler+mitasova:08] was designed to move raster and later vector data between R and GRASS GIS. To do this, use was made of intermediate files, often using the external GDAL library on both sides. On the R side, the **rgdal** package was used, interfacing GDAL and PROJ as GRASS GIS also did. The GRASS commands `r.in.gdal`, `r.out.gdal`, `v.in.ogr` and `v.out.ogr` were matched by **rgdal** functions using the same underlying external libraries:
+
+
+```{r, out.width=500, echo=FALSE}
+knitr::include_graphics("fig1.png")
+```
+
+GDAL was supplemented for raster data by simply reading and writing uncompressed binary files using `r.in.bin` and `r.out.bin`, with custom functions on the R side. As then written, the R-GRASS interface used **sp** classes for both raster and vector data, supplemented more recently with **sf** classes for vector data only.
+
+The current version of the R-GRASS interface has been simplified to use the **terra** package because it, like **sf** and **rgdal** before it, links to the important external libraries. The workhorse driver is known as `RRASTER`, and has been widely used in **raster** and **terra** (see also (https://rspatial.org)). It uses GDAL but writes a flat uncompressed binary file. Using `terra::rast()` also appears to preserve category names and colour tables, but needs further testing (see (https://github.com/rsbivand/rgrass/issues/42)).
+
+```{r, out.width=500, echo=FALSE}
+knitr::include_graphics("fig2_p7_RRASTER_GRASS.png")
+```
+
+From GDAL 3.5.0, the `RRASTER` driver also supports WKT2_2019 CRS representations; in earlier versions of GDAL, the driver only supported the proj-string representation (https://github.com/rsbivand/rgrass/issues/51).
+
+These changes mean that users transferring data between R and GRASS will need to coerce between **terra** classes `SpatVector` and `SpatRaster` and the class system of choice. In addition, `SpatRaster` is only read into memory from file when this is required, so requiring some care.
+
+On loading and attaching, **terra** displays its version:
+
+```{r}
+run <- require("terra", quietly=TRUE)
+```
+
+This description is constructed conditioning on the availability of suggested packages. `terra::gdal()` tells us the versions of the external libraries being used by **terra**:
+
+```{r, eval=run}
+gdal(lib="all")
+```
+
+When using CRAN binary packages built static for Windows and macOS, the R packages will use the same versions of the external libraries, but not necessarily the same versions as those against which GRASS was installed.
+
+
+
+## `"SpatVector"` coercion
+
+In the **terra** package [@terra], vector data are held in `"SpatVector"` objects. This means that when `read_VECT()` is used, a `"SpatVector"` object is returned, and the same class of object is needed for `write_VECT()` for writing to GRASS.
+
+
+```{r}
+fv <- system.file("ex/lux.shp", package="terra")
+(v <- vect(fv))
+```
+
+These objects are always held in memory, so there is no `inMemory()` method:
+
+```{r, eval=run}
+try(inMemory(v))
+```
+
+The coordinate reference system is expressed in WKT2-2019 form:
+
+```{r, eval=run}
+cat(crs(v), "\n")
+```
+
+### `"sf"`
+
+Most new work should use vector classes defined in the **sf** package [@sf; @sf-rj]:
+
+```{r, eval=run}
+no_sf <- inherits(try(require("sf")), "try-error")
+```
+
+In this case, coercion uses `st_as_sf()`:
+
+```{r, eval=(run && !no_sf)}
+v_sf <- st_as_sf(v)
+v_sf
+```
+
+and the `vect()` method to get from **sf** to **terra**:
+
+```{r, eval=(run && !no_sf)}
+v_sf_rt <- vect(v_sf)
+v_sf_rt
+```
+
+```{r, eval=(run && !no_sf)}
+all.equal(v_sf_rt, v, check.attributes=FALSE)
+```
+
+### `"Spatial"`
+
+To coerce to and from vector classes defined in the **sp** package [@asdar], use the classes defined in **sf** as an intermediate step:
+
+```{r, eval=(run && !no_sf)}
+Sys.setenv("_SP_EVOLUTION_STATUS_"="2")
+no_sp <- inherits(try(require("sp", quietly=TRUE)), "try-error")
+```
+```{r, eval=(run && !no_sf && !no_sp)}
+v_sp <- as(v_sf, "Spatial")
+print(summary(v_sp))
+```
+
+```{r, eval=(run && !no_sf && !no_sp)}
+v_sp_rt <- vect(st_as_sf(v_sp))
+all.equal(v_sp_rt, v, check.attributes=FALSE)
+```
+
+## `"SpatRaster"` coercion
+
+In the **terra** package, raster data are held in `"SpatRaster"` objects. This means that when `read_RAST()` is used, a `"SpatRaster"` object is returned, and the same class of object is needed for `write_RAST()` for writing to GRASS.
+
+```{r, eval=run}
+fr <- system.file("ex/elev.tif", package="terra")
+(r <- rast(fr))
+```
+
+In general, `"SpatRaster"` objects are files, rather than data held in memory:
+
+```{r, eval=run}
+try(inMemory(r))
+```
+
+### `"stars"`
+
+The **stars** package [@stars] uses GDAL through **sf**:
+
+```{r, eval=run}
+no_stars <- inherits(try(require("stars", quietly=TRUE)), "try-error")
+```
+
+A coercion method is provided from `"SpatRaster"` to `"stars"`:
+
+```{r, eval=(run && !no_stars)}
+r_stars <- st_as_stars(r)
+print(r_stars)
+```
+which round-trips in memory. 
+
+```{r, eval=(run && !no_stars)}
+(r_stars_rt <- rast(r_stars))
+```
+
+When coercing to `"stars_proxy"` the same applies:
+
+```{r, eval=(run && !no_stars)}
+(r_stars_p <- st_as_stars(r, proxy=TRUE))
+```
+with coercion from `"stars_proxy"` also not reading data into memory:
+
+```{r, eval=(run && !no_stars)}
+(r_stars_p_rt <- rast(r_stars_p))
+```
+
+### `"Spatial"`
+
+Coercion to the **sp** `"SpatialGridDataFrame"` representation is provided by **stars**:
+
+```{r, eval=(run && !no_sp && !no_stars)}
+r_sp <- as(r_stars, "Spatial")
+summary(r_sp)
+```
+
+and can be round-tripped:
+
+```{r, eval=(run && !no_sp && !no_stars)}
+(r_sp_rt <- rast(st_as_stars(r_sp)))
+```
+
+### `"RasterLayer"`
+
+As **rgdal** will retire soon, using **rgdal** in the **raster** package [@raster] is not a feasible way to coerce a `"SpatRaster"` object to a `"RasterLayer"` object. 
+
+```{r, eval=run}
+tf <- tempfile(fileext=".grd")
+terra::writeRaster(r, filename=tf, filetype="RRASTER")
+```
+
+We can use a temporary file in the `"RRASTER"` format that `terra::writeRaster()` can write using GDAL, and `raster::raster()` can read using R code rather than GDAL:
+
+```{r, eval=run}
+no_raster <- inherits(try(require("raster", quietly=TRUE)), "try-error")
+```
+
+```{r, eval=(run && !no_raster)}
+(r_RL <- raster(tf))
+```
+This object (held on file rather than in memory) can be round-tripped:
+
+```{r, eval=(run && !no_raster)}
+(r_RL_rt <- rast(r_RL))
+```
+
+## References

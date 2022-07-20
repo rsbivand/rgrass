@@ -99,9 +99,9 @@ getLocationProj <- function(ignore.stderr = FALSE, g.proj_WKT=NULL) {
     }
     gv <- .grassVersion()
     WKT2 <- gv >= "GRASS 7.6" 
-    old_rgdal <- TRUE
-    if (requireNamespace("rgdal", quietly = TRUE)) 
-        old_rgdal <- packageVersion("rgdal") < "1.5.1"
+    old_proj <- TRUE
+    if (requireNamespace("terra", quietly = TRUE)) 
+        old_proj <- as.integer(substring(terra::gdal(lib="proj"), 1, 1)) <= 5L
     if (!is.null(g.proj_WKT)) {
         stopifnot(is.logical(g.proj_WKT))
         stopifnot(length(g.proj_WKT) == 1L)
@@ -109,7 +109,7 @@ getLocationProj <- function(ignore.stderr = FALSE, g.proj_WKT=NULL) {
             warning("Only Proj4 string representation for GRASS < 7.6")
         if (!g.proj_WKT) WKT2 <- FALSE
     }
-    if (WKT2 && !old_rgdal) {
+    if (WKT2 && !old_proj) {
         res <- paste(execGRASS("g.proj", flags=c("w"), intern=TRUE, 
             ignore.stderr=ignore.stderr), collapse="\n")
         if (substr(res, 1, 5) != "ERROR") {
@@ -204,16 +204,4 @@ getLocationProj <- function(ignore.stderr = FALSE, g.proj_WKT=NULL) {
 
 .get_R_interface <- function() get("R_interface", envir=.GRASS_CACHE)
 
-use_sf <- function() {
-  if (requireNamespace("sf", quietly=TRUE) && 
-    requireNamespace("stars", quietly=TRUE))
-    assign("R_interface", "sf", envir=.GRASS_CACHE)
-  else stop("sf or stars is not available. You need both packages installed.")
-}
 
-use_sp <- function() {
-  if (requireNamespace("sp", quietly=TRUE) && 
-     requireNamespace("rgdal", quietly=TRUE))
-     assign("R_interface", "sp", envir=.GRASS_CACHE)
-  else stop("sp or rgdal is not available. You need both packages installed.")
-}

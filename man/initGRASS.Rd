@@ -28,7 +28,7 @@ remove_GISRC()
 \arguments{
   \item{gisBase}{The directory path to GRASS binaries and libraries, containing bin and lib subdirectories among others}
   \item{home}{The directory in which to create the .gisrc file; defaults to \code{$HOME} on Unix systems and to \code{USERPROFILE} on Windows systems; can usually be set to \code{tempdir()}}
-  \item{SG}{An optional \code{SpatialGrid} object to define the \code{DEFAULT_WIND} of the temporary location; if \code{use_sp()} has not been called, it will be called internally if \code{SG} is given as an object inheriting from \code{"Spatial"}; if \code{use_sf()} has been called, it will be overridden internally as only objects inheriting from \code{"Spatial"} may be given.}
+  \item{SG}{An optional \code{SpatRaster} or \code{SpatialGrid} object to define the \code{DEFAULT_WIND} of the temporary location.}
   \item{gisDbase}{if missing, \code{tempdir()} will be used; GRASS GISDBASE directory for the working session}
   \item{addon_base}{if missing, assumed to be \dQuote{$HOME/.grass7/addons} on Unix-like platforms, on MS Windows \dQuote{\%APPDATA\%\\GRASS7\\addons}, and checked for existence}
   \item{location}{if missing, \code{basename(tempfile())} will be used; GRASS location directory for the working session}
@@ -40,12 +40,12 @@ remove_GISRC()
   \item{ignore.stderr}{default taking the value set by \code{set.ignore.stderrOption}; can be set to TRUE to silence \code{system()} output to standard error; does not apply on Windows platforms}
 }
 \details{
-  The function establishes an out-of-GRASS working environment providing GRASS commands with the environment variable support required, and may also provide a temporary location for use until the end of the running R session if the \code{home} argument is set to \code{tempdir()}, and the \code{gisDbase} argument is not given. Running \code{gmeta6} shows where the location is, should it be desired to archive it before leaving R.
+  The function establishes an out-of-GRASS working environment providing GRASS commands with the environment variable support required, and may also provide a temporary location for use until the end of the running R session if the \code{home} argument is set to \code{tempdir()}, and the \code{gisDbase} argument is not given. Running \code{gmeta} shows where the location is, should it be desired to archive it before leaving R.
 }
 \value{
   The function runs \code{gmeta6} before returning the current values of the running GRASS session that it provides.
 }
-\note{If any package command fails with a UTF-8 error from the XML package, try using \code{setXMLencoding} to work around the problem that GRASS modules declare --interface-description output as UTF-8 without ensuring that it is (French is of 6.4.0 RC5 latin1).}
+\note{If any package command fails with a UTF-8 error from the XML package, try using \code{setXMLencoding} to work around the problem that GRASS modules declare --interface-description output as UTF-8 without ensuring that it is.}
 
 \author{Roger S. Bivand, e-mail: \email{Roger.Bivand@nhh.no}}
 

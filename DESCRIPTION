@@ -1,6 +1,6 @@
-Package: rgrass7
-Version: 0.2-10
-Date: 2022-05-02
+Package: rgrass
+Version: 0.3-1
+Date: 2022-07-20
 Title: Interface Between GRASS Geographical Information System and R
 Authors@R: c(
 	person("Roger", "Bivand", role = c("cre", "aut"), email = "Roger.Bivand@nhh.no", comment=c(ORCID="0000-0003-2392-6140")),
@@ -12,15 +12,14 @@ Description: Interpreted interface between 'GRASS' geographical
     information system and R, based on starting R from within the 'GRASS' 'GIS'
     environment, or running free-standing R in a temporary 'GRASS' location;
     the package provides facilities for using all 'GRASS' commands from the 
-    R command line. This package may not be used for 'GRASS' 6, for which
-    'spgrass6' should be used.
+    R command line.
 Depends: R (>= 3.3.0), XML
 Imports: stats, utils, methods
-Suggests: rgdal (>= 1.0-6), RSQLite, sp (>= 0.9), sf (>= 0.7.6), stars, terra
+Suggests: terra, sp (>= 0.9), knitr, rmarkdown, sf, stars, raster
+VignetteBuilder: knitr
 SystemRequirements: GRASS (>= 7)
 License: GPL (>= 2)
 URL: https://grass.osgeo.org/, https://github.com/rsbivand/rgrass, https://rsbivand.github.io/rgrass/
 BugReports: https://github.com/rsbivand/rgrass/issues/
-Collate: AAA.R options.R rgrass.R bin_link.R rast_link.R vect_link.R
-        vect_link_ng.R initGRASS.R xml1.R
+Collate: AAA.R options.R rgrass.R rast_link.R vect_link.R vect_link_ng.R initGRASS.R xml1.R
 

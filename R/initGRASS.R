@@ -56,6 +56,9 @@ initGRASS <- function(gisBase, home, SG, gisDbase, addon_base, location,
       stop(gisBase, " does not contain scripts, the directory with GRASS scripts")
     if (!scripts_is_dir) stop(gisBase, "/scripts is not a directory")
 
+    gv <- readLines(file.path(gisBase, "etc/VERSIONNUMBER"))
+    gv <- substring(gv, 1, 1)
+
     SYS <- get("SYS", envir=.GRASS_CACHE) 
     if (SYS == "WinNat") {
 # grass63.bat
@@ -64,7 +67,7 @@ initGRASS <- function(gisBase, home, SG, gisDbase, addon_base, location,
         Sys.setenv(HOME=home)
         if (missing(addon_base))
             addon_base <- paste(Sys.getenv("APPDATA"),
-                "/GRASS7/addons", sep="")
+                "/GRASS", gv, "/addons", sep="")
         addon_res <- file.exists(addon_base, paste(addon_base, "/bin", sep=""))
         if (any(addon_res)) Sys.setenv("GRASS_ADDON_BASE"=addon_base)
         OSGEO4W_ROOT <- Sys.getenv("OSGEO4W_ROOT")
@@ -120,7 +123,7 @@ initGRASS <- function(gisBase, home, SG, gisDbase, addon_base, location,
 #            names(pyScripts) <- sub("\\.py", "", pyScripts)
 #            assign("pyScripts", pyScripts, envir=.GRASS_CACHE)
         }
-        Sys.setenv(GISRC=paste(Sys.getenv("HOME"), "\\.grassrc7", sep=""))
+        Sys.setenv(GISRC=paste(Sys.getenv("HOME"), "\\.grassrc", gv, sep=""))
         if (file.exists(Sys.getenv("GISRC")) && !override)
             stop("A GISRC file already exists; to override, set override=TRUE")
         fn_gisrc <- "junk"
@@ -152,7 +155,7 @@ initGRASS <- function(gisBase, home, SG, gisDbase, addon_base, location,
         Sys.setenv(GISBASE=gisBase)
         if (missing(home)) home <- Sys.getenv("HOME")
         if (missing(addon_base))
-            addon_base <- paste(Sys.getenv("HOME"), "/.grass7/addons", sep="")
+            addon_base <- paste(Sys.getenv("HOME"), "/.grass", gv, "/addons", sep="")
         addon_res <- file.exists(addon_base, paste(addon_base, "/bin", sep=""),
             paste(addon_base, "/scripts", sep=""))
         if (any(addon_res)) Sys.setenv("GRASS_ADDON_BASE"=addon_base)
@@ -173,7 +176,7 @@ initGRASS <- function(gisBase, home, SG, gisDbase, addon_base, location,
             ifelse(nchar(eLDPATH) == 0, "", ":"), eLDPATH, sep=""))
         }
 #FIXME Sys.info()["sysname"] == "Darwin"
-        Sys.setenv(GISRC=paste(home, "/.grassrc7", sep=""))
+        Sys.setenv(GISRC=paste(home, "/.grassrc", gv, sep=""))
 #FIXME
         if (file.exists(Sys.getenv("GISRC")) && !override)
             stop("A GISRC file already exists; to override, set override=TRUE")
@@ -277,7 +280,7 @@ initGRASS <- function(gisBase, home, SG, gisDbase, addon_base, location,
                 wkt_SG <- getMethod("crs", "SpatRaster")(SG)
                 lonlatSG <- getMethod("is.lonlat", "SpatRaster")(SG)
             } else {
-                stop ("SG must be a terra or SpatialGrid object")
+                stop ("SG must be a SpatRaster or SpatialGrid object")
             }
             lonlat <- !is.na(lonlatSG) && lonlatSG
         }
