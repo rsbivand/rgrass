@@ -1,4 +1,4 @@
-# **rgrass** version 0.3-1 (development)
+# **rgrass** version 0.3-2 (development)
 
 - first release to replace deprecated **rgrass7**
 
