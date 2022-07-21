@@ -195,8 +195,7 @@ doGRASS <- function(cmd, flags=NULL, ..., parameters=NULL, echoCmd=NULL, legacyE
     if (!is.null(flags)) {
         fm <- match(flags, pcmd$fnames)
         if (any(is.na(fm))) {
-            print(pcmd)
-            stop(paste("Invalid flag value:", flags[is.na(fm)]))
+            stop(paste(pcmd, "\nInvalid flag value:", flags[is.na(fm)]))
         }
         suppr_req <- as.logical(sapply(pcmd$flags, "[", "suppr_req"))
         if (!suppress_required && any(suppr_req[fm])) suppress_required <- TRUE
@@ -219,21 +218,18 @@ doGRASS <- function(cmd, flags=NULL, ..., parameters=NULL, echoCmd=NULL, legacyE
       parameters <- insert_required(pcmd=pcmd, parameters=parameters,
           pt=pt, req=req, suppress_required=suppress_required)
       if (!suppress_required && length(req) > 0 && is.null(parameters)) {
-        print(pcmd)
-        stop("No parameters given where some are required with defaults declared")
+        stop(paste(pcmd, "\nNo parameters given where some are required with defaults declared"))
       }
       if (!is.null(parameters)) {
         parnms <- names(parameters)
         pm <- match(parnms, pcmd$pnames)
         if (any(is.na(pm))) {
-            print(pcmd)
-            stop(paste("Invalid parameter name:", parnms[is.na(pm)]))
+            stop(paste(pcmd, "\nInvalid parameter name:", parnms[is.na(pm)]))
         }
         if (!suppress_required && length(req) > 0) {
             pmr <- match(req, parnms)
             if (any(is.na(pmr))) {
-                print(pcmd)
-                stop(paste("Missing required parameter:", req[is.na(pmr)]))
+                stop(paste(pcmd, "\nMissing required parameter:", req[is.na(pmr)]))
             }
         }
         pmv <- pt[pm, "type"]
@@ -314,8 +310,7 @@ insert_required <- function(pcmd, parameters, pt, req, suppress_required) {
     pnms <- names(parameters)
     nadefnms1 <- nadefnms[is.na(match(nadefnms, pnms))]
     if (!suppress_required && length(nadefnms1) > 0) {
-        print(pcmd)
-        stop(paste("required parameters with no defaults missing:",
+        stop(paste(pcmd, "\nrequired parameters with no defaults missing:",
         paste(nadefnms1, collapse=" ")))
     }
     types <- pt[match(req, pt[, "name"]), "type"]

@@ -373,7 +373,7 @@ write_RAST <- function(x, vname, zcol = 1, NODATA=NULL, flags=NULL,
             west=as.numeric(res$west), rows=as.integer(res$rows), 
             cols=as.integer(res$cols), anull=as.numeric(res$anull), 
             ignore.stderr=ignore.stderr)
-        if (verbose) cat("SpatialGridDataFrame read into GRASS using r.in.bin\n")
+        if (verbose) message("SpatialGridDataFrame read into GRASS using r.in.bin")
 
     } else if (inherits(x, "SpatRaster")) {
         if (!(requireNamespace("terra", quietly=TRUE))) 
@@ -401,8 +401,8 @@ write_RAST <- function(x, vname, zcol = 1, NODATA=NULL, flags=NULL,
         }
         execGRASS("r.in.gdal", flags=flags, input=tf, output=vname)
 #        if (tmpfl) unlink(tf)
-        if (verbose) cat("SpatRaster read into GRASS using r.in.gdal from",
-            ifelse(tmpfl, "memory", "file"), "\n")
+        if (verbose) message("SpatRaster read into GRASS using r.in.gdal from ",
+            ifelse(tmpfl, "memory", "file"))
         if (getMethod("nlyr", "SpatRaster")(x) == 1L) {
             xcats <- getMethod("cats", "SpatRaster")(x)[[1]]
             if (!is.null(xcats)) {

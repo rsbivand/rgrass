@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rgrass</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.3-1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.3-2</span>
       </span>
     </div>
 
@@ -108,6 +108,10 @@
 <dd><p>default TRUE, report how writing to GRASS is specified</p></dd>
 
 </dl></div>
+    <div id="value">
+    <h2>Value</h2>
+    <p><code>read_RAST</code> by default returns a SpatRaster object, but may return a legacy SpatialGridDataFrame object if <code>return_format="SGDF"</code>. <code>write_RAST</code> silently returns the object being written to GRASS.</p>
+    </div>
     <div id="author">
     <h2>Author</h2>
     <p>Roger S. Bivand, e-mail: <a href="mailto:Roger.Bivand@nhh.no">Roger.Bivand@nhh.no</a></p>

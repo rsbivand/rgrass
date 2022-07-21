@@ -12,11 +12,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
 <!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="pkgdown.css" rel="stylesheet">
 <script src="pkgdown.js"></script><meta property="og:title" content="Interface Between GRASS Geographical Information System and R">
-<meta property="og:description" content="Interpreted interface between GRASS geographical 
-    information system and R, based on starting R from within the GRASS GIS
-    environment, or running free-standing R in a temporary GRASS location;
-    the package provides facilities for using all GRASS commands from the 
-    R command line.">
+<meta property="og:description" content="An interface between the GRASS geographical information system (GIS) and R, based on starting R from within the GRASS GIS environment, or running a free-standing R session in a temporary GRASS location; the package provides facilities for using all GRASS commands from the R command line. The original interface package for GRASS 5 (2000-2010) is described in Bivand (2000) &lt;doi:10.1016/S0098-3004(00)00057-1&gt; and Bivand (2001) &lt;https://www.r-project.org/conferences/DSC-2001/Proceedings/Bivand.pdf&gt;. This was succeeded by spgrass6 for GRASS 6 (2006-2016) and rgrass7 for GRASS 7 (2015-present). The rgrass package modernizes the interface for GRASS 8 while still permitting the use of GRASS 7.">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
@@ -37,7 +33,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">rgrass</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.3-1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.3-2</span>
       </span>
     </div>
 
@@ -84,11 +80,7 @@
 
       </header><div class="row">
   <div class="contents col-md-9">
-Interpreted interface between 'GRASS' geographical 
-    information system and R, based on starting R from within the 'GRASS' 'GIS'
-    environment, or running free-standing R in a temporary 'GRASS' location;
-    the package provides facilities for using all 'GRASS' commands from the 
-    R command line.
+An interface between the 'GRASS' geographical information system ('GIS') and 'R', based on starting 'R' from within the 'GRASS' 'GIS' environment, or running a free-standing 'R' session in a temporary 'GRASS' location; the package provides facilities for using all 'GRASS' commands from the 'R' command line. The original interface package for 'GRASS 5' (2000-2010) is described in Bivand (2000) &lt;<a href="https://doi.org/10.1016/S0098-3004(00)00057-1" class="external-link">doi:10.1016/S0098-3004(00)00057-1</a>&gt; and Bivand (2001) &lt;<a href="https://www.r-project.org/conferences/DSC-2001/Proceedings/Bivand.pdf" class="external-link">https://www.r-project.org/conferences/DSC-2001/Proceedings/Bivand.pdf</a>&gt;. This was succeeded by 'spgrass6' for 'GRASS 6' (2006-2016) and 'rgrass7' for 'GRASS 7' (2015-present). The 'rgrass' package modernizes the interface for 'GRASS 8' while still permitting the use of 'GRASS 7'.
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

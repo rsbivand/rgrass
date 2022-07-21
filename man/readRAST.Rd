@@ -30,6 +30,7 @@ write_RAST(x, vname, zcol = 1, NODATA=NULL, flags=NULL,
   \item{verbose}{default TRUE, report how writing to GRASS is specified}
 }
 
+\value{\code{read_RAST} by default returns a SpatRaster object, but may return a legacy SpatialGridDataFrame object if \code{return_format="SGDF"}. \code{write_RAST} silently returns the object being written to GRASS.}
 
 \author{Roger S. Bivand, e-mail: \email{Roger.Bivand@nhh.no}}
 
