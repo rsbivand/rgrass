@@ -1,5 +1,5 @@
 oChangeLog
-README
+README.md
 docs
 ^.*\.Rproj$
 ^\.Rproj\.user$
