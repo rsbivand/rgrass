@@ -43,12 +43,17 @@ These changes mean that users transferring data between R and GRASS will need to
 On loading and attaching, **terra** displays its version:
 
 ```{r}
-run <- require("terra", quietly=TRUE)
+terra_available <- require("terra", quietly=TRUE)
+sf_available <- require("sf", quietly=TRUE)
+Sys.setenv("_SP_EVOLUTION_STATUS_"="2")
+sp_available <- require("sp", quietly=TRUE)
+stars_available <- require("stars", quietly=TRUE)
+raster_available <- require("raster", quietly=TRUE)
 ```
 
 This description is constructed conditioning on the availability of suggested packages. `terra::gdal()` tells us the versions of the external libraries being used by **terra**:
 
-```{r, eval=run}
+```{r, eval=terra_available}
 gdal(lib="all")
 ```
 
@@ -61,46 +66,40 @@ When using CRAN binary packages built static for Windows and macOS, the R packag
 In the **terra** package [@terra], vector data are held in `"SpatVector"` objects. This means that when `read_VECT()` is used, a `"SpatVector"` object is returned, and the same class of object is needed for `write_VECT()` for writing to GRASS.
 
 
-```{r}
+```{r, eval=terra_available}
 fv <- system.file("ex/lux.shp", package="terra")
 (v <- vect(fv))
 ```
 
 These objects are always held in memory, so there is no `inMemory()` method:
 
-```{r, eval=run}
+```{r, , eval=terra_available}
 try(inMemory(v))
 ```
 
 The coordinate reference system is expressed in WKT2-2019 form:
 
-```{r, eval=run}
+```{r, , eval=terra_available}
 cat(crs(v), "\n")
 ```
 
 ### `"sf"`
 
-Most new work should use vector classes defined in the **sf** package [@sf; @sf-rj]:
+Most new work should use vector classes defined in the **sf** package [@sf; @sf-rj]. In this case, coercion uses `st_as_sf()`:
 
-```{r, eval=run}
-no_sf <- inherits(try(require("sf")), "try-error")
-```
-
-In this case, coercion uses `st_as_sf()`:
-
-```{r, eval=(run && !no_sf)}
+```{r, eval=(terra_available && sf_available)}
 v_sf <- st_as_sf(v)
 v_sf
 ```
 
 and the `vect()` method to get from **sf** to **terra**:
 
-```{r, eval=(run && !no_sf)}
+```{r, eval=(terra_available && sf_available)}
 v_sf_rt <- vect(v_sf)
 v_sf_rt
 ```
 
-```{r, eval=(run && !no_sf)}
+```{r, eval=(terra_available && sf_available)}
 all.equal(v_sf_rt, v, check.attributes=FALSE)
 ```
 
@@ -108,16 +107,12 @@ all.equal(v_sf_rt, v, check.attributes=FALSE)
 
 To coerce to and from vector classes defined in the **sp** package [@asdar], use the classes defined in **sf** as an intermediate step:
 
-```{r, eval=(run && !no_sf)}
-Sys.setenv("_SP_EVOLUTION_STATUS_"="2")
-no_sp <- inherits(try(require("sp", quietly=TRUE)), "try-error")
-```
-```{r, eval=(run && !no_sf && !no_sp)}
+```{r, eval=(terra_available && sf_available && sp_available)}
 v_sp <- as(v_sf, "Spatial")
 print(summary(v_sp))
 ```
 
-```{r, eval=(run && !no_sf && !no_sp)}
+```{r, eval=(terra_available && sf_available && sp_available)}
 v_sp_rt <- vect(st_as_sf(v_sp))
 all.equal(v_sp_rt, v, check.attributes=FALSE)
 ```
@@ -126,45 +121,39 @@ all.equal(v_sp_rt, v, check.attributes=FALSE)
 
 In the **terra** package, raster data are held in `"SpatRaster"` objects. This means that when `read_RAST()` is used, a `"SpatRaster"` object is returned, and the same class of object is needed for `write_RAST()` for writing to GRASS.
 
-```{r, eval=run}
+```{r, eval=terra_available}
 fr <- system.file("ex/elev.tif", package="terra")
 (r <- rast(fr))
 ```
 
 In general, `"SpatRaster"` objects are files, rather than data held in memory:
 
-```{r, eval=run}
+```{r, eval=terra_available}
 try(inMemory(r))
 ```
 
 ### `"stars"`
 
-The **stars** package [@stars] uses GDAL through **sf**:
+The **stars** package [@stars] uses GDAL through **sf**. A coercion method is provided from `"SpatRaster"` to `"stars"`:
 
-```{r, eval=run}
-no_stars <- inherits(try(require("stars", quietly=TRUE)), "try-error")
-```
-
-A coercion method is provided from `"SpatRaster"` to `"stars"`:
-
-```{r, eval=(run && !no_stars)}
+```{r, eval=(terra_available && stars_available)}
 r_stars <- st_as_stars(r)
 print(r_stars)
 ```
 which round-trips in memory. 
 
-```{r, eval=(run && !no_stars)}
+```{r, eval=(terra_available && stars_available)}
 (r_stars_rt <- rast(r_stars))
 ```
 
 When coercing to `"stars_proxy"` the same applies:
 
-```{r, eval=(run && !no_stars)}
+```{r, eval=(terra_available && stars_available)}
 (r_stars_p <- st_as_stars(r, proxy=TRUE))
 ```
 with coercion from `"stars_proxy"` also not reading data into memory:
 
-```{r, eval=(run && !no_stars)}
+```{r, eval=(terra_available && stars_available)}
 (r_stars_p_rt <- rast(r_stars_p))
 ```
 
@@ -172,14 +161,14 @@ with coercion from `"stars_proxy"` also not reading data into memory:
 
 Coercion to the **sp** `"SpatialGridDataFrame"` representation is provided by **stars**:
 
-```{r, eval=(run && !no_sp && !no_stars)}
+```{r, eval=(terra_available && stars_available && sp_available)}
 r_sp <- as(r_stars, "Spatial")
 summary(r_sp)
 ```
 
 and can be round-tripped:
 
-```{r, eval=(run && !no_sp && !no_stars)}
+```{r, eval=(terra_available && stars_available && sp_available)}
 (r_sp_rt <- rast(st_as_stars(r_sp)))
 ```
 
@@ -187,23 +176,20 @@ and can be round-tripped:
 
 As **rgdal** will retire soon, using **rgdal** in the **raster** package [@raster] is not a feasible way to coerce a `"SpatRaster"` object to a `"RasterLayer"` object. 
 
-```{r, eval=run}
+```{r, eval=terra_available}
 tf <- tempfile(fileext=".grd")
 terra::writeRaster(r, filename=tf, filetype="RRASTER")
 ```
 
 We can use a temporary file in the `"RRASTER"` format that `terra::writeRaster()` can write using GDAL, and `raster::raster()` can read using R code rather than GDAL:
 
-```{r, eval=run}
-no_raster <- inherits(try(require("raster", quietly=TRUE)), "try-error")
-```
 
-```{r, eval=(run && !no_raster)}
+```{r, eval=(terra_available && raster_available)}
 (r_RL <- raster(tf))
 ```
 This object (held on file rather than in memory) can be round-tripped:
 
-```{r, eval=(run && !no_raster)}
+```{r, eval=(terra_available && raster_available)}
 (r_RL_rt <- rast(r_RL))
 ```
 

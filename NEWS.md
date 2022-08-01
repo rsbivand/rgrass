@@ -1,4 +1,8 @@
-# **rgrass** version 0.3-2 (development)
+# **rgrass** version 0.3-3 (development)
+
+- correct vignette error on M1
+
+# **rgrass** version 0.3-2 (2022-07-21)
 
 - first release to replace deprecated **rgrass7**
 
