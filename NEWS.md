@@ -1,6 +1,6 @@
 # **rgrass** version 0.3-3 (development)
 
-- correct vignette error on M1
+- correct vignette logic error triggered on M1 when stars not installed
 
 # **rgrass** version 0.3-2 (2022-07-21)
 
