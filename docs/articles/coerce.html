@@ -33,7 +33,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rgrass</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.3-2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.3-3</span>
       </span>
     </div>
 
@@ -104,10 +104,18 @@
 <p>These changes mean that users transferring data between R and GRASS will need to coerce between <strong>terra</strong> classes <code>SpatVector</code> and <code>SpatRaster</code> and the class system of choice. In addition, <code>SpatRaster</code> is only read into memory from file when this is required, so requiring some care.</p>
 <p>On loading and attaching, <strong>terra</strong> displays its version:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">run</span> <span class="op">&lt;-</span> <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="st"><a href="https://rspatial.org/terra/" class="external-link">"terra"</a></span>, quietly<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## terra 1.6.0</span></span></code></pre>
-<p>This description is constructed conditioning on the availability of suggested packages. <code><a href="https://rdrr.io/pkg/terra/man/gdal.html" class="external-link">terra::gdal()</a></code> tells us the versions of the external libraries being used by <strong>terra</strong>:</p>
+<code class="sourceCode R"><span><span class="va">terra_available</span> <span class="op">&lt;-</span> <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="st"><a href="https://rspatial.org/terra/" class="external-link">"terra"</a></span>, quietly<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## terra 1.6.7</span></span></code></pre>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">sf_available</span> <span class="op">&lt;-</span> <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="st"><a href="https://r-spatial.github.io/sf/" class="external-link">"sf"</a></span>, quietly<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## Linking to GEOS 3.11.0, GDAL 3.5.1, PROJ 9.0.1; sf_use_s2() is TRUE</span></span></code></pre>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Sys.setenv.html" class="external-link">Sys.setenv</a></span><span class="op">(</span><span class="st">"_SP_EVOLUTION_STATUS_"</span><span class="op">=</span><span class="st">"2"</span><span class="op">)</span></span>
+<span><span class="va">sp_available</span> <span class="op">&lt;-</span> <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="st"><a href="https://github.com/edzer/sp/" class="external-link">"sp"</a></span>, quietly<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="va">stars_available</span> <span class="op">&lt;-</span> <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="st"><a href="https://r-spatial.github.io/stars/" class="external-link">"stars"</a></span>, quietly<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="va">raster_available</span> <span class="op">&lt;-</span> <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="st"><a href="https://rspatial.org/raster" class="external-link">"raster"</a></span>, quietly<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+<p>This description is constructed conditioning on the availability of suggested packages. <code><a href="https://rdrr.io/pkg/terra/man/gdal.html" class="external-link">terra::gdal()</a></code> tells us the versions of the external libraries being used by <strong>terra</strong>:</p>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/terra/man/gdal.html" class="external-link">gdal</a></span><span class="op">(</span>lib<span class="op">=</span><span class="st">"all"</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##     gdal     proj     geos </span></span>
 <span><span class="co">##  "3.5.1"  "9.0.1" "3.11.0"</span></span></code></pre>
@@ -118,7 +126,7 @@
 <code>"SpatVector"</code> coercion<a class="anchor" aria-label="anchor" href="#spatvector-coercion"></a>
 </h2>
 <p>In the <strong>terra</strong> package <span class="citation">(Hijmans 2022b)</span>, vector data are held in <code>"SpatVector"</code> objects. This means that when <code><a href="../reference/readVECT.html">read_VECT()</a></code> is used, a <code>"SpatVector"</code> object is returned, and the same class of object is needed for <code><a href="../reference/readVECT.html">write_VECT()</a></code> for writing to GRASS.</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">fv</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"ex/lux.shp"</span>, package<span class="op">=</span><span class="st">"terra"</span><span class="op">)</span></span>
 <span><span class="op">(</span><span class="va">v</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/terra/man/vect.html" class="external-link">vect</a></span><span class="op">(</span><span class="va">fv</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##  class       : SpatVector </span></span>
@@ -133,12 +141,12 @@
 <span><span class="co">##                    1 Diekirch     2 Diekirch   218 32543</span></span>
 <span><span class="co">##                    1 Diekirch     3  Redange   259 18664</span></span></code></pre>
 <p>These objects are always held in memory, so there is no <code><a href="https://rdrr.io/pkg/terra/man/sources.html" class="external-link">inMemory()</a></code> method:</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/try.html" class="external-link">try</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/terra/man/sources.html" class="external-link">inMemory</a></span><span class="op">(</span><span class="va">v</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## Error in (function (classes, fdef, mtable)  : </span></span>
 <span><span class="co">##   unable to find an inherited method for function 'inMemory' for signature '"SpatVector"'</span></span></code></pre>
 <p>The coordinate reference system is expressed in WKT2-2019 form:</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/terra/man/crs.html" class="external-link">crs</a></span><span class="op">(</span><span class="va">v</span><span class="op">)</span>, <span class="st">"\n"</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## GEOGCRS["WGS 84",</span></span>
 <span><span class="co">##     DATUM["World Geodetic System 1984",</span></span>
@@ -158,12 +166,7 @@
 <h3 id="sf">
 <code>"sf"</code><a class="anchor" aria-label="anchor" href="#sf"></a>
 </h3>
-<p>Most new work should use vector classes defined in the <strong>sf</strong> package <span class="citation">(Pebesma 2022, 2018)</span>:</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">no_sf</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/class.html" class="external-link">inherits</a></span><span class="op">(</span><span class="kw"><a href="https://rdrr.io/r/base/try.html" class="external-link">try</a></span><span class="op">(</span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="st"><a href="https://r-spatial.github.io/sf/" class="external-link">"sf"</a></span><span class="op">)</span><span class="op">)</span>, <span class="st">"try-error"</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## Loading required package: sf</span></span></code></pre>
-<pre><code><span><span class="co">## Linking to GEOS 3.11.0, GDAL 3.5.1, PROJ 9.0.1; sf_use_s2() is TRUE</span></span></code></pre>
-<p>In this case, coercion uses <code><a href="https://r-spatial.github.io/sf/reference/st_as_sf.html" class="external-link">st_as_sf()</a></code>:</p>
+<p>Most new work should use vector classes defined in the <strong>sf</strong> package <span class="citation">(Pebesma 2022, 2018)</span>. In this case, coercion uses <code><a href="https://r-spatial.github.io/sf/reference/st_as_sf.html" class="external-link">st_as_sf()</a></code>:</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">v_sf</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_as_sf.html" class="external-link">st_as_sf</a></span><span class="op">(</span><span class="va">v</span><span class="op">)</span></span>
 <span><span class="va">v_sf</span></span></code></pre></div>
@@ -219,9 +222,6 @@
 </h3>
 <p>To coerce to and from vector classes defined in the <strong>sp</strong> package <span class="citation">(Roger S. Bivand, Pebesma, and Gomez-Rubio 2013)</span>, use the classes defined in <strong>sf</strong> as an intermediate step:</p>
 <div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Sys.setenv.html" class="external-link">Sys.setenv</a></span><span class="op">(</span><span class="st">"_SP_EVOLUTION_STATUS_"</span><span class="op">=</span><span class="st">"2"</span><span class="op">)</span></span>
-<span><span class="va">no_sp</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/class.html" class="external-link">inherits</a></span><span class="op">(</span><span class="kw"><a href="https://rdrr.io/r/base/try.html" class="external-link">try</a></span><span class="op">(</span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="st"><a href="https://github.com/edzer/sp/" class="external-link">"sp"</a></span>, quietly<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span>, <span class="st">"try-error"</span><span class="op">)</span></span></code></pre></div>
-<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">v_sp</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/methods/as.html" class="external-link">as</a></span><span class="op">(</span><span class="va">v_sf</span>, <span class="st">"Spatial"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/terra/man/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">v_sp</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## Object of class SpatialPolygonsDataFrame</span></span>
@@ -246,7 +246,7 @@
 <span><span class="co">##  Mean   :213.4   Mean   : 50167  </span></span>
 <span><span class="co">##  3rd Qu.:253.0   3rd Qu.: 36454  </span></span>
 <span><span class="co">##  Max.   :312.0   Max.   :182607</span></span></code></pre>
-<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">v_sp_rt</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/terra/man/vect.html" class="external-link">vect</a></span><span class="op">(</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_as_sf.html" class="external-link">st_as_sf</a></span><span class="op">(</span><span class="va">v_sp</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/pkg/terra/man/all.equal.html" class="external-link">all.equal</a></span><span class="op">(</span><span class="va">v_sp_rt</span>, <span class="va">v</span>, check.attributes<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## [1] TRUE</span></span></code></pre>
@@ -257,7 +257,7 @@
 <code>"SpatRaster"</code> coercion<a class="anchor" aria-label="anchor" href="#spatraster-coercion"></a>
 </h2>
 <p>In the <strong>terra</strong> package, raster data are held in <code>"SpatRaster"</code> objects. This means that when <code><a href="../reference/readRAST.html">read_RAST()</a></code> is used, a <code>"SpatRaster"</code> object is returned, and the same class of object is needed for <code><a href="../reference/readRAST.html">write_RAST()</a></code> for writing to GRASS.</p>
-<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">fr</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"ex/elev.tif"</span>, package<span class="op">=</span><span class="st">"terra"</span><span class="op">)</span></span>
 <span><span class="op">(</span><span class="va">r</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/terra/man/rast.html" class="external-link">rast</a></span><span class="op">(</span><span class="va">fr</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## class       : SpatRaster </span></span>
@@ -270,18 +270,15 @@
 <span><span class="co">## min value   :       141 </span></span>
 <span><span class="co">## max value   :       547</span></span></code></pre>
 <p>In general, <code>"SpatRaster"</code> objects are files, rather than data held in memory:</p>
-<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/try.html" class="external-link">try</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/terra/man/sources.html" class="external-link">inMemory</a></span><span class="op">(</span><span class="va">r</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## [1] FALSE</span></span></code></pre>
 <div class="section level3">
 <h3 id="stars">
 <code>"stars"</code><a class="anchor" aria-label="anchor" href="#stars"></a>
 </h3>
-<p>The <strong>stars</strong> package <span class="citation">(Pebesma 2021)</span> uses GDAL through <strong>sf</strong>:</p>
-<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">no_stars</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/class.html" class="external-link">inherits</a></span><span class="op">(</span><span class="kw"><a href="https://rdrr.io/r/base/try.html" class="external-link">try</a></span><span class="op">(</span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="st"><a href="https://r-spatial.github.io/stars/" class="external-link">"stars"</a></span>, quietly<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span>, <span class="st">"try-error"</span><span class="op">)</span></span></code></pre></div>
-<p>A coercion method is provided from <code>"SpatRaster"</code> to <code>"stars"</code>:</p>
-<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
+<p>The <strong>stars</strong> package <span class="citation">(Pebesma 2021)</span> uses GDAL through <strong>sf</strong>. A coercion method is provided from <code>"SpatRaster"</code> to <code>"stars"</code>:</p>
+<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">r_stars</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://r-spatial.github.io/stars/reference/st_as_stars.html" class="external-link">st_as_stars</a></span><span class="op">(</span><span class="va">r</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">r_stars</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## stars object with 2 dimensions and 1 attribute</span></span>
@@ -293,7 +290,7 @@
 <span><span class="co">## x    1 95 5.74167  0.00833333 WGS 84 FALSE   NULL [x]</span></span>
 <span><span class="co">## y    1 90 50.1917 -0.00833333 WGS 84 FALSE   NULL [y]</span></span></code></pre>
 <p>which round-trips in memory.</p>
-<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="op">(</span><span class="va">r_stars_rt</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/terra/man/rast.html" class="external-link">rast</a></span><span class="op">(</span><span class="va">r_stars</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## class       : SpatRaster </span></span>
 <span><span class="co">## dimensions  : 90, 95, 1  (nrow, ncol, nlyr)</span></span>
@@ -305,7 +302,7 @@
 <span><span class="co">## min value   :   141 </span></span>
 <span><span class="co">## max value   :   547</span></span></code></pre>
 <p>When coercing to <code>"stars_proxy"</code> the same applies:</p>
-<div class="sourceCode" id="cb34"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="op">(</span><span class="va">r_stars_p</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://r-spatial.github.io/stars/reference/st_as_stars.html" class="external-link">st_as_stars</a></span><span class="op">(</span><span class="va">r</span>, proxy<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## stars_proxy object with 1 attribute in 1 file(s):</span></span>
 <span><span class="co">## $elev.tif</span></span>
@@ -316,7 +313,7 @@
 <span><span class="co">## x    1 95 5.74167  0.00833333 WGS 84 FALSE   NULL [x]</span></span>
 <span><span class="co">## y    1 90 50.1917 -0.00833333 WGS 84 FALSE   NULL [y]</span></span></code></pre>
 <p>with coercion from <code>"stars_proxy"</code> also not reading data into memory:</p>
-<div class="sourceCode" id="cb36"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb34"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="op">(</span><span class="va">r_stars_p_rt</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/terra/man/rast.html" class="external-link">rast</a></span><span class="op">(</span><span class="va">r_stars_p</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## class       : SpatRaster </span></span>
 <span><span class="co">## dimensions  : 90, 95, 1  (nrow, ncol, nlyr)</span></span>
@@ -333,7 +330,7 @@
 <code>"Spatial"</code><a class="anchor" aria-label="anchor" href="#spatial-1"></a>
 </h3>
 <p>Coercion to the <strong>sp</strong> <code>"SpatialGridDataFrame"</code> representation is provided by <strong>stars</strong>:</p>
-<div class="sourceCode" id="cb38"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb36"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">r_sp</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/methods/as.html" class="external-link">as</a></span><span class="op">(</span><span class="va">r_stars</span>, <span class="st">"Spatial"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/pkg/terra/man/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">r_sp</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## Object of class SpatialGridDataFrame</span></span>
@@ -357,7 +354,7 @@
 <span><span class="co">##  Max.   :547.0  </span></span>
 <span><span class="co">##  NA's   :3942</span></span></code></pre>
 <p>and can be round-tripped:</p>
-<div class="sourceCode" id="cb40"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb38"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="op">(</span><span class="va">r_sp_rt</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/terra/man/rast.html" class="external-link">rast</a></span><span class="op">(</span><span class="fu"><a href="https://r-spatial.github.io/stars/reference/st_as_stars.html" class="external-link">st_as_stars</a></span><span class="op">(</span><span class="va">r_sp</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## class       : SpatRaster </span></span>
 <span><span class="co">## dimensions  : 90, 95, 1  (nrow, ncol, nlyr)</span></span>
@@ -374,31 +371,29 @@
 <code>"RasterLayer"</code><a class="anchor" aria-label="anchor" href="#rasterlayer"></a>
 </h3>
 <p>As <strong>rgdal</strong> will retire soon, using <strong>rgdal</strong> in the <strong>raster</strong> package <span class="citation">(Hijmans 2022a)</span> is not a feasible way to coerce a <code>"SpatRaster"</code> object to a <code>"RasterLayer"</code> object.</p>
-<div class="sourceCode" id="cb42"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb40"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">tf</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempfile</a></span><span class="op">(</span>fileext<span class="op">=</span><span class="st">".grd"</span><span class="op">)</span></span>
 <span><span class="fu">terra</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/terra/man/writeRaster.html" class="external-link">writeRaster</a></span><span class="op">(</span><span class="va">r</span>, filename<span class="op">=</span><span class="va">tf</span>, filetype<span class="op">=</span><span class="st">"RRASTER"</span><span class="op">)</span></span></code></pre></div>
 <p>We can use a temporary file in the <code>"RRASTER"</code> format that <code><a href="https://rdrr.io/pkg/terra/man/writeRaster.html" class="external-link">terra::writeRaster()</a></code> can write using GDAL, and <code><a href="https://rdrr.io/pkg/raster/man/raster.html" class="external-link">raster::raster()</a></code> can read using R code rather than GDAL:</p>
-<div class="sourceCode" id="cb43"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">no_raster</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/class.html" class="external-link">inherits</a></span><span class="op">(</span><span class="kw"><a href="https://rdrr.io/r/base/try.html" class="external-link">try</a></span><span class="op">(</span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="st"><a href="https://rspatial.org/raster" class="external-link">"raster"</a></span>, quietly<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span>, <span class="st">"try-error"</span><span class="op">)</span></span></code></pre></div>
-<div class="sourceCode" id="cb44"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb41"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="op">(</span><span class="va">r_RL</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/raster/man/raster.html" class="external-link">raster</a></span><span class="op">(</span><span class="va">tf</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## class      : RasterLayer </span></span>
 <span><span class="co">## dimensions : 90, 95, 8550  (nrow, ncol, ncell)</span></span>
 <span><span class="co">## resolution : 0.008333333, 0.008333333  (x, y)</span></span>
 <span><span class="co">## extent     : 5.741667, 6.533333, 49.44167, 50.19167  (xmin, xmax, ymin, ymax)</span></span>
 <span><span class="co">## crs        : +proj=longlat +datum=WGS84 +no_defs </span></span>
-<span><span class="co">## source     : file168a55e3525a7.grd </span></span>
+<span><span class="co">## source     : file25c2f302a4ab.grd </span></span>
 <span><span class="co">## names      : elevation </span></span>
 <span><span class="co">## values     : 0, 547  (min, max)</span></span></code></pre>
 <p>This object (held on file rather than in memory) can be round-tripped:</p>
-<div class="sourceCode" id="cb46"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb43"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="op">(</span><span class="va">r_RL_rt</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/terra/man/rast.html" class="external-link">rast</a></span><span class="op">(</span><span class="va">r_RL</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## class       : SpatRaster </span></span>
 <span><span class="co">## dimensions  : 90, 95, 1  (nrow, ncol, nlyr)</span></span>
 <span><span class="co">## resolution  : 0.008333333, 0.008333333  (x, y)</span></span>
 <span><span class="co">## extent      : 5.741667, 6.533333, 49.44167, 50.19167  (xmin, xmax, ymin, ymax)</span></span>
 <span><span class="co">## coord. ref. : +proj=longlat +datum=WGS84 +no_defs </span></span>
-<span><span class="co">## source      : file168a55e3525a7.grd </span></span>
+<span><span class="co">## source      : file25c2f302a4ab.grd </span></span>
 <span><span class="co">## name        : elevation </span></span>
 <span><span class="co">## min value   :         0 </span></span>
 <span><span class="co">## max value   :       547</span></span></code></pre>

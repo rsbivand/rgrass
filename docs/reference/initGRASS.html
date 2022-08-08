@@ -19,7 +19,7 @@ The locking functions are used internally, but are exposed for experienced R/GRA
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rgrass</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.3-2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.3-3</span>
       </span>
     </div>
 
@@ -148,7 +148,7 @@ The locking functions are used internally, but are exposed for experienced R/GRA
 <span class="r-in"><span><span class="va">run</span> <span class="op">&lt;-</span> <span class="cn">FALSE</span></span></span>
 <span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/nchar.html" class="external-link">nzchar</a></span><span class="op">(</span><span class="va">GRASS_INSTALLATION</span><span class="op">)</span><span class="op">)</span> <span class="va">run</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/file.info.html" class="external-link">file.info</a></span><span class="op">(</span><span class="va">GRASS_INSTALLATION</span><span class="op">)</span><span class="op">$</span><span class="va">isdir</span></span></span>
 <span class="r-in"><span><span class="va">run</span> <span class="op">&lt;-</span> <span class="va">run</span> <span class="op">&amp;&amp;</span> <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="va"><a href="https://rspatial.org/terra/" class="external-link">terra</a></span>, quietly<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> terra 1.6.0</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> terra 1.6.7</span>
 <span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="va">run</span><span class="op">)</span> <span class="op">{</span></span></span>
 <span class="r-in"><span><span class="va">f</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"ex/elev.tif"</span>, package<span class="op">=</span><span class="st">"terra"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">r</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/terra/man/rast.html" class="external-link">rast</a></span><span class="op">(</span><span class="va">f</span><span class="op">)</span></span></span>
@@ -158,9 +158,9 @@ The locking functions are used internally, but are exposed for experienced R/GRA
 <span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="va">run</span><span class="op">)</span> <span class="op">{</span></span></span>
 <span class="r-in"><span><span class="op">(</span><span class="va">loc</span> <span class="op">&lt;-</span> <span class="fu">initGRASS</span><span class="op">(</span><span class="va">GRASS_INSTALLATION</span>, home<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span>, SG<span class="op">=</span><span class="va">r</span>, override<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">}</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> gisdbase    /tmp/grass8-rsb-80456/Rtmp9YggT5 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> location    file1677da78ff39 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> mapset      file1677d7f6e7e1a </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> gisdbase    /tmp/grass8-rsb-153235/RtmpqwHJzg </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> location    file25b0a636a833 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> mapset      file25b0a204e67 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> rows        90 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> columns     95 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> north       50.19167 </span>
@@ -204,10 +204,10 @@ The locking functions are used internally, but are exposed for experienced R/GRA
 <span class="r-out co"><span class="r-pr">#&gt;</span>    0%   3%   6%  10%  13%  16%  20%  23%  26%  30%  33%  36%  40%  43%  46%  50%  53%  56%  60%  63%  66%  70%  73%  76%  80%  83%  86%  90%  93%  96% 100%</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> SpatRaster read into GRASS using r.in.gdal from file</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  +----------------------------------------------------------------------------+</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  | Map:      elev                           Date: Thu Jul 21 11:23:02 2022    |</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  | Mapset:   file1677d7f6e7e1a              Login of Creator: rsb             |</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  | Location: file1677da78ff39                                                 |</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  | DataBase: /tmp/grass8-rsb-80456/Rtmp9YggT5                                 |</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  | Map:      elev                           Date: Mon Aug  8 15:53:11 2022    |</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  | Mapset:   file25b0a204e67                Login of Creator: rsb             |</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  | Location: file25b0a636a833                                                 |</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  | DataBase: /tmp/grass8-rsb-153235/RtmpqwHJzg                                |</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  | Title:                                                                     |</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  | Timestamp: none                                                            |</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  |----------------------------------------------------------------------------|</span>
@@ -241,10 +241,10 @@ The locking functions are used internally, but are exposed for experienced R/GRA
 <span class="r-out co"><span class="r-pr">#&gt;</span>    0%   3%   6%  10%  13%  16%  20%  23%  26%  30%  33%  36%  40%  43%  46%  50%  53%  56%  60%  63%  66%  70%  73%  76%  80%  83%  86%  90%  93%  96% 100%</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> SpatRaster read into GRASS using r.in.gdal from memory</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  +----------------------------------------------------------------------------+</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  | Map:      elev1                          Date: Thu Jul 21 11:23:02 2022    |</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  | Mapset:   file1677d7f6e7e1a              Login of Creator: rsb             |</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  | Location: file1677da78ff39                                                 |</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  | DataBase: /tmp/grass8-rsb-80456/Rtmp9YggT5                                 |</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  | Map:      elev1                          Date: Mon Aug  8 15:53:11 2022    |</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  | Mapset:   file25b0a204e67                Login of Creator: rsb             |</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  | Location: file25b0a636a833                                                 |</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  | DataBase: /tmp/grass8-rsb-153235/RtmpqwHJzg                                |</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  | Title:                                                                     |</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  | Timestamp: none                                                            |</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  |----------------------------------------------------------------------------|</span>
@@ -263,8 +263,8 @@ The locking functions are used internally, but are exposed for experienced R/GRA
 <span class="r-out co"><span class="r-pr">#&gt;</span>  |    generated by r.in.gdal                                                  |</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  |                                                                            |</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  |   Comments:                                                                |</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  |    r.in.gdal --overwrite input="/tmp/grass8-rsb-80456/Rtmp9YggT5/file16\   |</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  |    77d1e603e74.grd" output="elev1" memory=300 offset=0 num_digits=0        |</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  |    r.in.gdal --overwrite input="/tmp/grass8-rsb-153235/RtmpqwHJzg/file2\   |</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  |    5b0a589d746b.grd" output="elev1" memory=300 offset=0 num_digits=0       |</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  |                                                                            |</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  +----------------------------------------------------------------------------+</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
@@ -284,21 +284,21 @@ The locking functions are used internally, but are exposed for experienced R/GRA
 <span class="r-out co"><span class="r-pr">#&gt;</span> Exporting raster data to RRASTER format...</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    2%   5%   8%  11%  14%  17%  20%  23%  26%  30%  33%  36%  40%  43%  46%  50%  53%  56%  60%  63%  66%  70%  73%  76%  80%  83%  86%  90%  93%  96% 100%</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> r.out.gdal complete. File</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;/tmp/grass8-rsb-80456/Rtmp9YggT5/file1677d3387a554.grd&gt; created.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;/tmp/grass8-rsb-153235/RtmpqwHJzg/file25b0a1cbd6138.grd&gt; created.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Checking GDAL data type and nodata value...</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    2%   5%   8%  11%  14%  17%  20%  23%  26%  30%  33%  36%  40%  43%  46%  50%  53%  56%  60%  63%  66%  70%  73%  76%  80%  83%  86%  90%  93%  96% 100%</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Using GDAL data type &lt;Float32&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Exporting raster data to RRASTER format...</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    2%   5%   8%  11%  14%  17%  20%  23%  26%  30%  33%  36%  40%  43%  46%  50%  53%  56%  60%  63%  66%  70%  73%  76%  80%  83%  86%  90%  93%  96% 100%</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> r.out.gdal complete. File</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;/tmp/grass8-rsb-80456/Rtmp9YggT5/file1677d4568b904.grd&gt; created.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;/tmp/grass8-rsb-153235/RtmpqwHJzg/file25b0a67a17837.grd&gt; created.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Checking GDAL data type and nodata value...</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    2%   5%   8%  11%  14%  17%  20%  23%  26%  30%  33%  36%  40%  43%  46%  50%  53%  56%  60%  63%  66%  70%  73%  76%  80%  83%  86%  90%  93%  96% 100%</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Using GDAL data type &lt;Float32&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Exporting raster data to RRASTER format...</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    2%   5%   8%  11%  14%  17%  20%  23%  26%  30%  33%  36%  40%  43%  46%  50%  53%  56%  60%  63%  66%  70%  73%  76%  80%  83%  86%  90%  93%  96% 100%</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> r.out.gdal complete. File</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;/tmp/grass8-rsb-80456/Rtmp9YggT5/file1677d59fb82f5.grd&gt; created.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;/tmp/grass8-rsb-153235/RtmpqwHJzg/file25b0a39f82ef6.grd&gt; created.</span>
 <span class="r-plt img"><img src="initGRASS-2.png" alt="" width="700" height="433"></span>
 </code></pre></div>
     </div>

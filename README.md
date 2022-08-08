@@ -12,6 +12,8 @@ If you use OSGeo4W on Windows, remember that you must start RStudio, Rgui or con
 
 If you would like to contribute, please see the CONTRIBUTING file in the .github folder.
 
+For detailed notes, see https://rsbivand.github.io/foss4g_2022/modernizing_220822.html.
+
 
 
 
