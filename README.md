@@ -8,7 +8,12 @@ Interpreted interface between GRASS geographical information system and R, based
 
 The original interface **GRASS** package for `GRASS 5` (2000-2010) is described in Bivand (2000) (https://doi.org/10.1016/S0098-3004(00)00057-1) and Bivand (2001) (https://www.r-project.org/conferences/DSC-2001/Proceedings/Bivand.pdf). This was succeeded by **spgrass6** for `GRASS 6` (2006-2016) and **rgrass7** for `GRASS 7` (2015-2023). The **rgrass** package modernizes the interface for `GRASS 8` while still permitting the use of `GRASS 7`.
 
-If you use OSGeo4W on Windows, remember that you must start RStudio, Rgui or console R from within the OSGeo4W shell.
+### Installation
+
+This package depends on [GRASS](https://grass.osgeo.org/) version 8 or above.
+
+If you use OSGeo4W on Windows (recommended), remember that you must start RStudio, Rgui or console R from within the OSGeo4W shell.
+See the [workshop on **rgrass** at FOSS4G 2022](https://rsbivand.github.io/foss4g_2022/modernizing_220822.html) for a detailed introduction with reproducible examples.
 
 If you would like to contribute, please see the CONTRIBUTING file in the .github folder.
 
