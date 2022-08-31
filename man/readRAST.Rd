@@ -24,7 +24,7 @@ write_RAST(x, vname, zcol = 1, NODATA=NULL, flags=NULL,
   \item{close_OK}{default TRUE - clean up possible open connections used for reading metadata; may be set to FALSE to avoid the side-effect of other user-opened connections being broken}
   \item{x}{A \pkg{terra} \code{"SpatRaster"} or \pkg{sp} \code{"SpatialGridDataFrame"} object}
   \item{zcol}{Attribute column number or name}
-  \item{NODATA}{by default NULL, in which case it is set to one less than \code{floor()}of the data values, otherwise an integer NODATA value (required to be integer by GRASS r.out.bin)}
+  \item{NODATA}{by default NULL, in which case it is set to one less than \code{floor()} of the data values for FCELL rasters or the range maximum for CELL rasters with no negative values, otherwise an integer NODATA value (required to be integer by GRASS r.out.bin)}
   \item{overwrite}{default FALSE, if TRUE inserts \code{"overwrite"} into the value of the \code{flags} argument if not already there to allow existing GRASS rasters to be overwritten}
   \item{flags}{default NULL, character vector, for example \code{"overwrite"}}
   \item{verbose}{default TRUE, report how writing to GRASS is specified}
