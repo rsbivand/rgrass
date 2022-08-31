@@ -1,3 +1,7 @@
+# **rgrass** version 0.3-4 (development)
+
+- correct NODATA logic in `read_RAST()` for unsigned rasters #66
+
 # **rgrass** version 0.3-3 (2022-08-08)
 
 - correct vignette logic error triggered on M1 when **stars** not installed

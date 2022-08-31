@@ -74,12 +74,28 @@ read_RAST <- function(vname, cat=NULL, NODATA=NULL,
 	        names(lres) <- colnames(res)
 	        lres <- lapply(lres, function(x)
                 ifelse(x == "NULL", as.numeric(NA), as.numeric(x)))
+	        tx <- execGRASS("r.info", flags="g", map=vname[i], intern=TRUE, 
+	            ignore.stderr=ignore.stderr)
+	        tx <- gsub("=", ":", tx)
+	        con <- textConnection(tx)
+                res <- read.dcf(con)
+	        close(con)
+	        l1res <- as.list(res)
+	        names(l1res) <- colnames(res)
+		CELL <- l1res$datatype == "CELL"
 	        if (!is.numeric(lres$min) || 
 	           !is.finite(as.double(lres$min))) 
                      NODATAi <- as.integer(999)
 	        else {
 	            lres$min <- floor(as.double(lres$min))
-	            NODATAi <- floor(lres$min) - 1
+		    may_be_u <- all(c(lres$min, lres$max) >= 0)
+                    if (may_be_u && CELL) {
+                        if (lres$max < 4294967295) NODATAi <- 4294967295
+                        if (lres$max < 65535) NODATAi <- 65535
+                        if (lres$max < 255) NODATAi <- 255
+                    } else {
+	                NODATAi <- floor(lres$min) - 1
+                    }
 	        }
             } else NODATAi <- NODATA[i]
             tmplist[[i]] <- tempfile(fileext=fxt)
