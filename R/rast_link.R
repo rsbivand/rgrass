@@ -83,6 +83,7 @@ read_RAST <- function(vname, cat=NULL, NODATA=NULL,
 	        l1res <- as.list(res)
 	        names(l1res) <- colnames(res)
 		CELL <- l1res$datatype == "CELL"
+                NODATAi <- NULL
 	        if (!is.numeric(lres$min) || 
 	           !is.finite(as.double(lres$min))) 
                      NODATAi <- as.integer(999)
@@ -93,6 +94,16 @@ read_RAST <- function(vname, cat=NULL, NODATA=NULL,
                         if (lres$max < 4294967295) NODATAi <- 4294967295
                         if (lres$max < 65535) NODATAi <- 65535
                         if (lres$max < 255) NODATAi <- 255
+                    } else if (!may_be_u && CELL) {
+                        if (lres$min == -2147483648) {
+                            if (lres$max < 2147483647) NODATAi <- 2147483647
+                            else stop("set NODATA manually to a feasible value")
+                        }    
+                        if (lres$min == -32768) {
+                            if (lres$max < 32767) NODATAi <- 32767
+                            else stop("set NODATA manually to a feasible value")
+                        }
+                        if (is.null(NODATAi)) NODATAi <- floor(lres$min) - 1
                     } else {
 	                NODATAi <- floor(lres$min) - 1
                     }
