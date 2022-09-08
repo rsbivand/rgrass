@@ -1,6 +1,8 @@
 # **rgrass** version 0.3-4 (development)
 
-- correct NODATA logic in `read_RAST()` for unsigned rasters #66
+- #63 and #64, detection of GRASS path for `initGRASS()` semi-automated if `grass --config path` works or if environment variable `GRASS_INSTALLATION` set to path, thanks to Robin Lovelace
+
+- correct NODATA logic in `read_RAST()` for unsigned rasters #66 thanks to Laura Poggio
 
 # **rgrass** version 0.3-3 (2022-08-08)
 

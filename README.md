@@ -13,6 +13,7 @@ The original interface **GRASS** package for `GRASS 5` (2000-2010) is described 
 This package depends on [GRASS](https://grass.osgeo.org/) version 8 or above.
 
 If you use OSGeo4W on Windows (recommended), remember that you must start RStudio, Rgui or console R from within the OSGeo4W shell.
+
 See the [workshop on **rgrass** at FOSS4G 2022](https://rsbivand.github.io/foss4g_2022/modernizing_220822.html) for a detailed introduction with reproducible examples.
 
 If you would like to contribute, please see the CONTRIBUTING file in the .github folder.
