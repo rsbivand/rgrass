@@ -20,7 +20,7 @@ to hold spatial data."><!-- mathjax --><script src="https://cdnjs.cloudflare.com
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rgrass</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.3-3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.3-5</span>
       </span>
     </div>
 
@@ -104,6 +104,10 @@ vect2neigh             return area neighbours with shared boundary length
 <span class="r-in"><span>  <span class="va">grd</span> <span class="op">&lt;-</span> <span class="fu"><a href="gmeta.html">gmeta2grd</a></span><span class="op">(</span>ignore.stderr<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-in"><span>  <span class="va">grd</span></span></span>
 <span class="r-in"><span><span class="op">}</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                       X1     X2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> cellcentre.offset 630005 215005</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> cellsize              10     10</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> cells.dim           1500   1350</span>
 <span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="va">run</span><span class="op">)</span> <span class="op">{</span></span></span>
 <span class="r-in"><span>  <span class="va">elevation</span> <span class="op">&lt;-</span> <span class="fu"><a href="readRAST.html">read_RAST</a></span><span class="op">(</span><span class="st">"elevation"</span>, ignore.stderr<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">}</span></span></span>
@@ -111,29 +115,152 @@ vect2neigh             return area neighbours with shared boundary length
 <span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span></span></span>
 <span class="r-in"><span>  <span class="va">smple</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/terra/man/sample.html" class="external-link">spatSample</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/terra/man/ext.html" class="external-link">ext</a></span><span class="op">(</span><span class="va">elevation</span><span class="op">)</span>, lonlat<span class="op">=</span><span class="fu"><a href="https://rdrr.io/pkg/terra/man/is.lonlat.html" class="external-link">is.lonlat</a></span><span class="op">(</span><span class="va">elevation</span><span class="op">)</span>, size<span class="op">=</span><span class="fl">200</span>,</span></span>
 <span class="r-in"><span>    method<span class="op">=</span><span class="st">"random"</span>, as.points<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></span>
-<span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/pkg/terra/man/values.html" class="external-link">values</a></span><span class="op">(</span><span class="va">smple</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">elevation</span><span class="op">[</span><span class="va">smple</span><span class="op">]</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/pkg/terra/man/values.html" class="external-link">values</a></span><span class="op">(</span><span class="va">smple</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/terra/man/extract.html" class="external-link">extract</a></span><span class="op">(</span><span class="va">elevation</span>, <span class="va">smple</span><span class="op">)</span><span class="op">[</span>,<span class="fl">2</span><span class="op">]</span></span></span>
 <span class="r-in"><span>  <span class="va">smple</span></span></span>
 <span class="r-in"><span> <span class="op">}</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  class       : SpatVector </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  geometry    : points </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  dimensions  : 200, 1  (geometries, attributes)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  extent      : 630018.8, 644843.7, 215167.3, 228487.3  (xmin, xmax, ymin, ymax)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  coord. ref. :  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  names       : value</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  type        : &lt;num&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  values      : 107.2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                129.3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                118.3</span>
 <span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="va">run</span><span class="op">)</span> <span class="op">{</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="readVECT.html">write_VECT</a></span><span class="op">(</span><span class="va">smple</span>, <span class="st">"sp_dem"</span>, flags<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"overwrite"</span>, <span class="st">"o"</span><span class="op">)</span>, ignore.stderr<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">}</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> WARNING: Vector map &lt;sp_dem&gt; already exists and will be overwritten</span>
 <span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="va">run</span><span class="op">)</span> <span class="op">{</span></span></span>
 <span class="r-in"><span>  <span class="va">schoolsDF</span> <span class="op">&lt;-</span> <span class="fu"><a href="readVECT.html">read_VECT</a></span><span class="op">(</span><span class="st">"schools"</span>, ignore.stderr<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/pkg/terra/man/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">schoolsDF</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">}</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       cat            TAG             NAMESHORT           NAMELONG        </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  Min.   :  1.0   Length:167         Length:167         Length:167        </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  1st Qu.: 42.5   Class :character   Class :character   Class :character  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  Median : 84.0   Mode  :character   Mode  :character   Mode  :character  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  Mean   : 84.0                                                           </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  3rd Qu.:125.5                                                           </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  Max.   :167.0                                                           </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                                                          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    CORECAPACI       MOBILEUNIT       MOBILECAPA      GLEVEL         </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  Min.   :   0.0   Min.   : 0.000   Min.   :0.00   Length:167        </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  1st Qu.: 498.5   1st Qu.: 0.000   1st Qu.:0.75   Class :character  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  Median : 586.0   Median : 6.000   Median :1.50   Mode  :character  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  Mean   : 763.7   Mean   : 7.318   Mean   :1.75                     </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  3rd Qu.: 903.0   3rd Qu.:11.000   3rd Qu.:2.50                     </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  Max.   :2294.0   Max.   :49.000   Max.   :4.00                     </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  NA's   :23       NA's   :19       NA's   :163                      </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    LOGRADE            HIGRADE            CALENDAR           HASBASE         </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  Length:167         Length:167         Length:167         Length:167        </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  Class :character   Class :character   Class :character   Class :character  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  Mode  :character   Mode  :character   Mode  :character   Mode  :character  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                                                             </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                                                             </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                                                             </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                                                             </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    ISMAGNET            PHONE            ADDRNUMBER         ADDRPREFIX       </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  Length:167         Length:167         Length:167         Length:167        </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  Class :character   Class :character   Class :character   Class :character  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  Mode  :character   Mode  :character   Mode  :character   Mode  :character  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                                                             </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                                                             </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                                                             </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                                                             </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    ADDRROOT           ADDRTYPE          ADDRSUFFIX          ADDRCITY        </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  Length:167         Length:167         Length:167         Length:167        </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  Class :character   Class :character   Class :character   Class :character  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  Mode  :character   Mode  :character   Mode  :character   Mode  :character  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                                                             </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                                                             </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                                                             </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                                                             </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   ADDRZIPCOD             SPED        STATUS             NODEID         </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  Length:167         Min.   : NA   Length:167         Length:167        </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  Class :character   1st Qu.: NA   Class :character   Class :character  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  Mode  :character   Median : NA   Mode  :character   Mode  :character  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                     Mean   :NaN                                        </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                     3rd Qu.: NA                                        </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                     Max.   : NA                                        </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                     NA's   :167                                        </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    CAPACITYTO         ESL             BOARDDIS2            PROJ_CAP     </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  Min.   :   0.0   Length:167         Length:167         Min.   :   0.0  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  1st Qu.: 543.0   Class :character   Class :character   1st Qu.: 497.0  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  Median : 761.0   Mode  :character   Mode  :character   Median : 722.0  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  Mean   : 867.0                                         Mean   : 793.1  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  3rd Qu.: 992.5                                         3rd Qu.: 975.0  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  Max.   :2294.0                                         Max.   :2390.0  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  NA's   :20                                             NA's   :2       </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     NOTES          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  Length:167        </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  Class :character  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  Mode  :character  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                    </span>
 <span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="va">run</span><span class="op">)</span> <span class="op">{</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="readVECT.html">vInfo</a></span><span class="op">(</span><span class="st">"streams"</span>, ignore.stderr<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">}</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      nodes     points      lines boundaries  centroids      areas    islands </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       8645          0       8554          0          0          0          0 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> primitives      map3d </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       8554          0 </span>
 <span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="va">run</span><span class="op">)</span> <span class="op">{</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="readVECT.html">vColumns</a></span><span class="op">(</span><span class="st">"streams"</span>, ignore.stderr<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">}</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         storageType       name</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1           INTEGER        cat</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2  DOUBLE PRECISION     FNODE_</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3  DOUBLE PRECISION     TNODE_</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4  DOUBLE PRECISION     LPOLY_</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5  DOUBLE PRECISION     RPOLY_</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6  DOUBLE PRECISION     LENGTH</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 7  DOUBLE PRECISION FULL_HYDRO</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 8  DOUBLE PRECISION FULL_HYD_1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 9         CHARACTER      FTYPE</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 10          INTEGER      FCODE</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 11        CHARACTER       NAME</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 12        CHARACTER   RCH_CODE</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 13        CHARACTER     I_vs_P</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 14        CHARACTER   USGSstrm</span>
 <span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="va">run</span><span class="op">)</span> <span class="op">{</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="readVECT.html">vDataCount</a></span><span class="op">(</span><span class="st">"streams"</span>, ignore.stderr<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">}</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 8554</span>
 <span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="va">run</span><span class="op">)</span> <span class="op">{</span></span></span>
 <span class="r-in"><span>  <span class="va">streams</span> <span class="op">&lt;-</span> <span class="fu"><a href="readVECT.html">read_VECT</a></span><span class="op">(</span><span class="st">"streams"</span>, type<span class="op">=</span><span class="st">"line"</span>, ignore.stderr<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/pkg/terra/man/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">streams</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">}</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       cat             FNODE_           TNODE_           LPOLY_      </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  Min.   : 40102   Min.   : 42043   Min.   : 42046   Min.   :0.0000  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  1st Qu.: 75598   1st Qu.: 79168   1st Qu.: 79172   1st Qu.:0.0000  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  Median : 83078   Median : 86896   Median : 86888   Median :0.0000  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  Mean   : 77835   Mean   : 81394   Mean   : 81395   Mean   :0.6937  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  3rd Qu.: 95135   3rd Qu.: 99410   3rd Qu.: 99410   3rd Qu.:2.0000  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  Max.   :101347   Max.   :105801   Max.   :105800   Max.   :2.0000  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      RPOLY_           LENGTH           FULL_HYDRO       FULL_HYD_1    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  Min.   :0.0000   Min.   :   0.001   Min.   : 40102   Min.   : 84728  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  1st Qu.:0.0000   1st Qu.:  60.370   1st Qu.: 75598   1st Qu.:163202  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  Median :0.0000   Median : 171.338   Median : 83078   Median :211732  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  Mean   :0.6937   Mean   : 293.022   Mean   : 77835   Mean   :186607  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  3rd Qu.:2.0000   3rd Qu.: 395.517   3rd Qu.: 95135   3rd Qu.:228227  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  Max.   :2.0000   Max.   :3966.165   Max.   :101347   Max.   :234417  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     FTYPE               FCODE           NAME             RCH_CODE        </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  Length:8554        Min.   :33400   Length:8554        Length:8554       </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  Class :character   1st Qu.:33600   Class :character   Class :character  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  Mode  :character   Median :46000   Mode  :character   Mode  :character  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                     Mean   :43347                                        </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                     3rd Qu.:46000                                        </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                     Max.   :55800                                        </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     I_vs_P            USGSstrm        </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  Length:8554        Length:8554       </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  Class :character   Class :character  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  Mode  :character   Mode  :character  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                       </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                       </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                       </span>
 </code></pre></div>
     </div>
   </div>

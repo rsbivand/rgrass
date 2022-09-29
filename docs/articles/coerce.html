@@ -33,7 +33,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rgrass</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.3-3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.3-5</span>
       </span>
     </div>
 
@@ -105,10 +105,10 @@
 <p>On loading and attaching, <strong>terra</strong> displays its version:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">terra_available</span> <span class="op">&lt;-</span> <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="st"><a href="https://rspatial.org/terra/" class="external-link">"terra"</a></span>, quietly<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## terra 1.6.7</span></span></code></pre>
+<pre><code><span><span class="co">## terra 1.6.24</span></span></code></pre>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">sf_available</span> <span class="op">&lt;-</span> <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="st"><a href="https://r-spatial.github.io/sf/" class="external-link">"sf"</a></span>, quietly<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## Linking to GEOS 3.11.0, GDAL 3.5.1, PROJ 9.0.1; sf_use_s2() is TRUE</span></span></code></pre>
+<pre><code><span><span class="co">## Linking to GEOS 3.11.0, GDAL 3.5.2, PROJ 9.1.0; sf_use_s2() is TRUE</span></span></code></pre>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Sys.setenv.html" class="external-link">Sys.setenv</a></span><span class="op">(</span><span class="st">"_SP_EVOLUTION_STATUS_"</span><span class="op">=</span><span class="st">"2"</span><span class="op">)</span></span>
 <span><span class="va">sp_available</span> <span class="op">&lt;-</span> <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="st"><a href="https://github.com/edzer/sp/" class="external-link">"sp"</a></span>, quietly<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span>
@@ -118,7 +118,7 @@
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/terra/man/gdal.html" class="external-link">gdal</a></span><span class="op">(</span>lib<span class="op">=</span><span class="st">"all"</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##     gdal     proj     geos </span></span>
-<span><span class="co">##  "3.5.1"  "9.0.1" "3.11.0"</span></span></code></pre>
+<span><span class="co">##  "3.5.2"  "9.1.0" "3.11.0"</span></span></code></pre>
 <p>When using CRAN binary packages built static for Windows and macOS, the R packages will use the same versions of the external libraries, but not necessarily the same versions as those against which GRASS was installed.</p>
 </div>
 <div class="section level2">
@@ -286,9 +286,9 @@
 <span><span class="co">##           Min. 1st Qu. Median     Mean 3rd Qu. Max. NA's</span></span>
 <span><span class="co">## elev.tif   141     291    333 348.3366     406  547 3942</span></span>
 <span><span class="co">## dimension(s):</span></span>
-<span><span class="co">##   from to  offset       delta refsys point values x/y</span></span>
-<span><span class="co">## x    1 95 5.74167  0.00833333 WGS 84 FALSE   NULL [x]</span></span>
-<span><span class="co">## y    1 90 50.1917 -0.00833333 WGS 84 FALSE   NULL [y]</span></span></code></pre>
+<span><span class="co">##   from to  offset       delta refsys point x/y</span></span>
+<span><span class="co">## x    1 95 5.74167  0.00833333 WGS 84 FALSE [x]</span></span>
+<span><span class="co">## y    1 90 50.1917 -0.00833333 WGS 84 FALSE [y]</span></span></code></pre>
 <p>which round-trips in memory.</p>
 <div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="op">(</span><span class="va">r_stars_rt</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/terra/man/rast.html" class="external-link">rast</a></span><span class="op">(</span><span class="va">r_stars</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
@@ -309,9 +309,9 @@
 <span><span class="co">## [1] "[...]/elev.tif"</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## dimension(s):</span></span>
-<span><span class="co">##   from to  offset       delta refsys point values x/y</span></span>
-<span><span class="co">## x    1 95 5.74167  0.00833333 WGS 84 FALSE   NULL [x]</span></span>
-<span><span class="co">## y    1 90 50.1917 -0.00833333 WGS 84 FALSE   NULL [y]</span></span></code></pre>
+<span><span class="co">##   from to  offset       delta refsys point x/y</span></span>
+<span><span class="co">## x    1 95 5.74167  0.00833333 WGS 84 FALSE [x]</span></span>
+<span><span class="co">## y    1 90 50.1917 -0.00833333 WGS 84 FALSE [y]</span></span></code></pre>
 <p>with coercion from <code>"stars_proxy"</code> also not reading data into memory:</p>
 <div class="sourceCode" id="cb34"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="op">(</span><span class="va">r_stars_p_rt</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/terra/man/rast.html" class="external-link">rast</a></span><span class="op">(</span><span class="va">r_stars_p</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
@@ -382,7 +382,7 @@
 <span><span class="co">## resolution : 0.008333333, 0.008333333  (x, y)</span></span>
 <span><span class="co">## extent     : 5.741667, 6.533333, 49.44167, 50.19167  (xmin, xmax, ymin, ymax)</span></span>
 <span><span class="co">## crs        : +proj=longlat +datum=WGS84 +no_defs </span></span>
-<span><span class="co">## source     : file25c2f302a4ab.grd </span></span>
+<span><span class="co">## source     : file2aca52f90d7f8.grd </span></span>
 <span><span class="co">## names      : elevation </span></span>
 <span><span class="co">## values     : 0, 547  (min, max)</span></span></code></pre>
 <p>This object (held on file rather than in memory) can be round-tripped:</p>
@@ -393,7 +393,7 @@
 <span><span class="co">## resolution  : 0.008333333, 0.008333333  (x, y)</span></span>
 <span><span class="co">## extent      : 5.741667, 6.533333, 49.44167, 50.19167  (xmin, xmax, ymin, ymax)</span></span>
 <span><span class="co">## coord. ref. : +proj=longlat +datum=WGS84 +no_defs </span></span>
-<span><span class="co">## source      : file25c2f302a4ab.grd </span></span>
+<span><span class="co">## source      : file2aca52f90d7f8.grd </span></span>
 <span><span class="co">## name        : elevation </span></span>
 <span><span class="co">## min value   :         0 </span></span>
 <span><span class="co">## max value   :       547</span></span></code></pre>

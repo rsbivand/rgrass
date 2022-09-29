@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">rgrass</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.3-3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.3-5</span>
       </span>
     </div>
 
@@ -62,16 +62,14 @@
 
 <div class="section level3">
 <h3 id="contributing-to-rgrass">Contributing to rgrass<a class="anchor" aria-label="anchor" href="#contributing-to-rgrass"></a></h3>
-<p>This outlines how to propose a change to <code>rgrass</code> as we move to support <a href="https://github.com/OSGeo/grass" class="external-link">GRASS 8.0</a>. The <code>rgrass</code> package is the successor to the <code>rgrass7</code> package. The current plan is for <code>rgrass</code> to support both GRASS 7 and 8, but for <code>rgrass7</code> to be retired.</p>
+<p>This outlines how to propose a change to <code>rgrass</code> as we move to support <a href="https://github.com/OSGeo/grass" class="external-link">GRASS 8.0</a>. The <code>rgrass</code> package is the successor to the <code>rgrass7</code> package. <code>rgrass</code> supports both GRASS 7 and 8 and is available from CRAN; <code>rgrass7</code> will be retired at the latest at the end of 2023 when <code>rgdal</code> retires.</p>
 </div>
 <div class="section level3">
 <h3 id="how-to-propose-a-change-to-rgrass">How to propose a change to rgrass<a class="anchor" aria-label="anchor" href="#how-to-propose-a-change-to-rgrass"></a></h3>
 <p>To propose a change to <code>rgrass</code>, please consider the roles assigned to the different branches in this repository.</p>
-<ul><li><p>The <code>rgrass7</code> branch is the “target” maintenance source for the package <code>rgrass7</code> (“old” package). If you would like to contribute to <code>rgrass7</code>, please target your PRs and contributions to this branch.</p></li>
-<li><p>The <code>rgrass</code> branch is the development branch for moving to support GRASS 8.0. If you would like to contribute to <code>rgrass</code> (“new” package), please target your PRs and contributions to this branch.</p></li>
-<li><p>The <code>main</code> branch remains the branch for maintenance updates (bug fixes), until support for GRASS 8.0 is achieved (changes on <code>rgrass7</code> are merged into <code>main</code>).</p></li>
-<li><p>Until the <code>rgrass</code> branch is ready for release, <code>main</code> and <code>rgrass7</code> are the same (changes on <code>rgrass7</code> are merged into <code>main</code>).</p></li>
-<li><p>When <code>rgrass</code> is ready for submission to CRAN, <code>rgrass</code> is merged with <code>main</code>, and <code>rgrass7</code> will be updated to give a startup message advising users to switch to <code>rgrass</code>.</p></li>
+<ul><li><p>The <code>main</code> branch is the development branch for <code>rgrass</code>. If you would like to contribute to <code>rgrass</code> (“new” package), please target your PRs and contributions to this branch.</p></li>
+<li><p>The <code>rgrass7</code> branch is the “target” maintenance source for the package <code>rgrass7</code> (“old” package). If you would like to contribute to <code>rgrass7</code>, please target your PRs and contributions to this branch, but note that the package will largely be unusable for file interchange when</p></li>
+<li><p>The next release of <code>rgrass7</code> will be updated to give a startup message advising users to switch to <code>rgrass</code> and to deprecate all file interchange functionality.</p></li>
 </ul></div>
 
 

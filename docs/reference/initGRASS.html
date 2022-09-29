@@ -19,7 +19,7 @@ The locking functions are used internally, but are exposed for experienced R/GRA
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rgrass</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.3-3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.3-5</span>
       </span>
     </div>
 
@@ -70,7 +70,7 @@ The locking functions are used internally, but are exposed for experienced R/GRA
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">initGRASS</span><span class="op">(</span><span class="va">gisBase</span>, <span class="va">home</span>, <span class="va">SG</span>, <span class="va">gisDbase</span>, <span class="va">addon_base</span>, <span class="va">location</span>, <span class="va">mapset</span>,</span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">initGRASS</span><span class="op">(</span>gisBase<span class="op">=</span><span class="cn">NULL</span>, <span class="va">home</span>, <span class="va">SG</span>, <span class="va">gisDbase</span>, <span class="va">addon_base</span>, <span class="va">location</span>, <span class="va">mapset</span>,</span>
 <span>  override <span class="op">=</span> <span class="cn">FALSE</span>, use_g.dirseps.exe <span class="op">=</span> <span class="cn">TRUE</span>, <span class="va">pid</span>, remove_GISRC<span class="op">=</span><span class="cn">FALSE</span>,</span>
 <span>  ignore.stderr<span class="op">=</span><span class="fu"><a href="gmeta.html">get.ignore.stderrOption</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu">get.GIS_LOCK</span><span class="op">(</span><span class="op">)</span></span>
@@ -83,7 +83,7 @@ The locking functions are used internally, but are exposed for experienced R/GRA
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>gisBase</dt>
-<dd><p>The directory path to GRASS binaries and libraries, containing bin and lib subdirectories among others</p></dd>
+<dd><p>The directory path to GRASS binaries and libraries, containing bin and lib subdirectories among others; if NULL, set from environment variable GRASS_INSTALLATION if found, if not found, <code>system("grass --config path")</code> is tried</p></dd>
 
   <dt>home</dt>
 <dd><p>The directory in which to create the .gisrc file; defaults to <code>$HOME</code> on Unix systems and to <code>USERPROFILE</code> on Windows systems; can usually be set to <code><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir()</a></code></p></dd>
@@ -148,158 +148,31 @@ The locking functions are used internally, but are exposed for experienced R/GRA
 <span class="r-in"><span><span class="va">run</span> <span class="op">&lt;-</span> <span class="cn">FALSE</span></span></span>
 <span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/nchar.html" class="external-link">nzchar</a></span><span class="op">(</span><span class="va">GRASS_INSTALLATION</span><span class="op">)</span><span class="op">)</span> <span class="va">run</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/file.info.html" class="external-link">file.info</a></span><span class="op">(</span><span class="va">GRASS_INSTALLATION</span><span class="op">)</span><span class="op">$</span><span class="va">isdir</span></span></span>
 <span class="r-in"><span><span class="va">run</span> <span class="op">&lt;-</span> <span class="va">run</span> <span class="op">&amp;&amp;</span> <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="va"><a href="https://rspatial.org/terra/" class="external-link">terra</a></span>, quietly<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> terra 1.6.7</span>
 <span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="va">run</span><span class="op">)</span> <span class="op">{</span></span></span>
 <span class="r-in"><span><span class="va">f</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"ex/elev.tif"</span>, package<span class="op">=</span><span class="st">"terra"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">r</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/terra/man/rast.html" class="external-link">rast</a></span><span class="op">(</span><span class="va">f</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/pkg/terra/man/plot.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">r</span>, col<span class="op">=</span><span class="fu">grDevices</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/grDevices/palettes.html" class="external-link">terrain.colors</a></span><span class="op">(</span><span class="fl">50</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">}</span></span></span>
-<span class="r-plt img"><img src="initGRASS-1.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="va">run</span><span class="op">)</span> <span class="op">{</span></span></span>
 <span class="r-in"><span><span class="op">(</span><span class="va">loc</span> <span class="op">&lt;-</span> <span class="fu">initGRASS</span><span class="op">(</span><span class="va">GRASS_INSTALLATION</span>, home<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span>, SG<span class="op">=</span><span class="va">r</span>, override<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">}</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> gisdbase    /tmp/grass8-rsb-153235/RtmpqwHJzg </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> location    file25b0a636a833 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> mapset      file25b0a204e67 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> rows        90 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> columns     95 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> north       50.19167 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> south       49.44167 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> west        5.741667 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> east        6.533333 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> nsres       0.008333333 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ewres       0.008333326 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> projection:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  GEOGCRS["WGS 84",</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     ENSEMBLE["World Geodetic System 1984 ensemble",</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>         MEMBER["World Geodetic System 1984 (Transit)"],</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>         MEMBER["World Geodetic System 1984 (G730)"],</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>         MEMBER["World Geodetic System 1984 (G873)"],</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>         MEMBER["World Geodetic System 1984 (G1150)"],</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>         MEMBER["World Geodetic System 1984 (G1674)"],</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>         MEMBER["World Geodetic System 1984 (G1762)"],</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>         MEMBER["World Geodetic System 1984 (G2139)"],</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>         ELLIPSOID["WGS 84",6378137,298.257223563,</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>             LENGTHUNIT["metre",1]],</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>         ENSEMBLEACCURACY[2.0]],</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     PRIMEM["Greenwich",0,</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>         ANGLEUNIT["degree",0.0174532925199433]],</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     CS[ellipsoidal,2],</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>         AXIS["geodetic latitude (Lat)",north,</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>             ORDER[1],</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>             ANGLEUNIT["degree",0.0174532925199433]],</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>         AXIS["geodetic longitude (Lon)",east,</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>             ORDER[2],</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>             ANGLEUNIT["degree",0.0174532925199433]],</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     USAGE[</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>         SCOPE["Horizontal component of 3D system."],</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>         AREA["World."],</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>         BBOX[-90,-180,90,180]],</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     ID["EPSG",4326]] </span>
 <span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="va">run</span><span class="op">)</span> <span class="op">{</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="readRAST.html">write_RAST</a></span><span class="op">(</span><span class="va">r</span>, <span class="st">"elev"</span>, flags<span class="op">=</span><span class="st">"overwrite"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="execGRASS.html">execGRASS</a></span><span class="op">(</span><span class="st">"r.info"</span>, map<span class="op">=</span><span class="st">"elev"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">}</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Importing raster map &lt;elev&gt;...</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    0%   3%   6%  10%  13%  16%  20%  23%  26%  30%  33%  36%  40%  43%  46%  50%  53%  56%  60%  63%  66%  70%  73%  76%  80%  83%  86%  90%  93%  96% 100%</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> SpatRaster read into GRASS using r.in.gdal from file</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  +----------------------------------------------------------------------------+</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  | Map:      elev                           Date: Mon Aug  8 15:53:11 2022    |</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  | Mapset:   file25b0a204e67                Login of Creator: rsb             |</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  | Location: file25b0a636a833                                                 |</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  | DataBase: /tmp/grass8-rsb-153235/RtmpqwHJzg                                |</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  | Title:                                                                     |</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  | Timestamp: none                                                            |</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  |----------------------------------------------------------------------------|</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  |                                                                            |</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  |   Type of Map:  raster               Number of Categories: 0               |</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  |   Data Type:    CELL                 Semantic label: (none)                |</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  |   Rows:         90                                                         |</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  |   Columns:      95                                                         |</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  |   Total Cells:  8550                                                       |</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  |        Projection: Latitude-Longitude                                      |</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  |            N:  50:11:30N    S:  49:26:30N   Res: 0:00:30                   |</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  |            E:      6:32E    W:   5:44:30E   Res: 0:00:30                   |</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  |   Range of data:    min = 141  max = 547                                   |</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  |                                                                            |</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  |   Data Description:                                                        |</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  |    generated by r.in.gdal                                                  |</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  |                                                                            |</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  |   Comments:                                                                |</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  |    r.in.gdal --overwrite input="/home/rsb/lib/r_libs/terra/ex/elev.tif"\   |</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  |     output="elev" memory=300 offset=0 num_digits=0                         |</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  |                                                                            |</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  +----------------------------------------------------------------------------+</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="va">run</span><span class="op">)</span> <span class="op">{</span></span></span>
 <span class="r-in"><span><span class="va">s</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/terra/man/rast.html" class="external-link">rast</a></span><span class="op">(</span><span class="va">r</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/pkg/terra/man/values.html" class="external-link">values</a></span><span class="op">(</span><span class="va">s</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/terra/man/values.html" class="external-link">values</a></span><span class="op">(</span><span class="va">r</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="readRAST.html">write_RAST</a></span><span class="op">(</span><span class="va">s</span>, <span class="st">"elev1"</span>, flags<span class="op">=</span><span class="st">"overwrite"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="execGRASS.html">execGRASS</a></span><span class="op">(</span><span class="st">"r.info"</span>, map<span class="op">=</span><span class="st">"elev1"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">}</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Importing raster map &lt;elev1&gt;...</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    0%   3%   6%  10%  13%  16%  20%  23%  26%  30%  33%  36%  40%  43%  46%  50%  53%  56%  60%  63%  66%  70%  73%  76%  80%  83%  86%  90%  93%  96% 100%</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> SpatRaster read into GRASS using r.in.gdal from memory</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  +----------------------------------------------------------------------------+</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  | Map:      elev1                          Date: Mon Aug  8 15:53:11 2022    |</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  | Mapset:   file25b0a204e67                Login of Creator: rsb             |</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  | Location: file25b0a636a833                                                 |</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  | DataBase: /tmp/grass8-rsb-153235/RtmpqwHJzg                                |</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  | Title:                                                                     |</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  | Timestamp: none                                                            |</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  |----------------------------------------------------------------------------|</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  |                                                                            |</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  |   Type of Map:  raster               Number of Categories: 0               |</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  |   Data Type:    FCELL                Semantic label: (none)                |</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  |   Rows:         90                                                         |</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  |   Columns:      95                                                         |</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  |   Total Cells:  8550                                                       |</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  |        Projection: Latitude-Longitude                                      |</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  |            N:  50:11:30N    S:  49:26:30N   Res: 0:00:30                   |</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  |            E:      6:32E    W:   5:44:30E   Res: 0:00:30                   |</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  |   Range of data:    min = 141  max = 547                                   |</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  |                                                                            |</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  |   Data Description:                                                        |</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  |    generated by r.in.gdal                                                  |</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  |                                                                            |</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  |   Comments:                                                                |</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  |    r.in.gdal --overwrite input="/tmp/grass8-rsb-153235/RtmpqwHJzg/file2\   |</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  |    5b0a589d746b.grd" output="elev1" memory=300 offset=0 num_digits=0       |</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  |                                                                            |</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  +----------------------------------------------------------------------------+</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="va">run</span><span class="op">)</span> <span class="op">{</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="execGRASS.html">execGRASS</a></span><span class="op">(</span><span class="st">"r.slope.aspect"</span>, flags<span class="op">=</span><span class="st">"overwrite"</span>, elevation<span class="op">=</span><span class="st">"elev"</span>, slope<span class="op">=</span><span class="st">"slope"</span>, aspect<span class="op">=</span><span class="st">"aspect"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">}</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    0%   3%   6%   9%  12%  15%  18%  21%  24%  27%  30%  34%  37%  40%  43%  46%  49%  52%  56%  59%  62%  65%  68%  71%  74%  78%  81%  84%  87%  90%  93%  96% 100%</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Aspect raster map &lt;aspect&gt; complete</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Slope raster map &lt;slope&gt; complete</span>
 <span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="va">run</span><span class="op">)</span> <span class="op">{</span></span></span>
 <span class="r-in"><span><span class="va">u1</span> <span class="op">&lt;-</span> <span class="fu"><a href="readRAST.html">read_RAST</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"elev"</span>, <span class="st">"slope"</span>, <span class="st">"aspect"</span><span class="op">)</span>, return_format<span class="op">=</span><span class="st">"terra"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/pkg/terra/man/plot.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">u1</span><span class="op">[[</span><span class="st">"elev"</span><span class="op">]</span><span class="op">]</span>, col<span class="op">=</span><span class="fu">grDevices</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/grDevices/palettes.html" class="external-link">terrain.colors</a></span><span class="op">(</span><span class="fl">50</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">}</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Checking GDAL data type and nodata value...</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    2%   5%   8%  11%  14%  17%  20%  23%  26%  30%  33%  36%  40%  43%  46%  50%  53%  56%  60%  63%  66%  70%  73%  76%  80%  83%  86%  90%  93%  96% 100%</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Using GDAL data type &lt;UInt16&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Exporting raster data to RRASTER format...</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    2%   5%   8%  11%  14%  17%  20%  23%  26%  30%  33%  36%  40%  43%  46%  50%  53%  56%  60%  63%  66%  70%  73%  76%  80%  83%  86%  90%  93%  96% 100%</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> r.out.gdal complete. File</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;/tmp/grass8-rsb-153235/RtmpqwHJzg/file25b0a1cbd6138.grd&gt; created.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Checking GDAL data type and nodata value...</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    2%   5%   8%  11%  14%  17%  20%  23%  26%  30%  33%  36%  40%  43%  46%  50%  53%  56%  60%  63%  66%  70%  73%  76%  80%  83%  86%  90%  93%  96% 100%</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Using GDAL data type &lt;Float32&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Exporting raster data to RRASTER format...</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    2%   5%   8%  11%  14%  17%  20%  23%  26%  30%  33%  36%  40%  43%  46%  50%  53%  56%  60%  63%  66%  70%  73%  76%  80%  83%  86%  90%  93%  96% 100%</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> r.out.gdal complete. File</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;/tmp/grass8-rsb-153235/RtmpqwHJzg/file25b0a67a17837.grd&gt; created.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Checking GDAL data type and nodata value...</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    2%   5%   8%  11%  14%  17%  20%  23%  26%  30%  33%  36%  40%  43%  46%  50%  53%  56%  60%  63%  66%  70%  73%  76%  80%  83%  86%  90%  93%  96% 100%</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Using GDAL data type &lt;Float32&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Exporting raster data to RRASTER format...</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    2%   5%   8%  11%  14%  17%  20%  23%  26%  30%  33%  36%  40%  43%  46%  50%  53%  56%  60%  63%  66%  70%  73%  76%  80%  83%  86%  90%  93%  96% 100%</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> r.out.gdal complete. File</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;/tmp/grass8-rsb-153235/RtmpqwHJzg/file25b0a39f82ef6.grd&gt; created.</span>
-<span class="r-plt img"><img src="initGRASS-2.png" alt="" width="700" height="433"></span>
 </code></pre></div>
     </div>
   </div>

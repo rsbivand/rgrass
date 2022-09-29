@@ -1,4 +1,4 @@
-# **rgrass** version 0.3-4 (development)
+# **rgrass** version 0.3-5 (development)
 
 - #63 and #64, detection of GRASS path for `initGRASS()` semi-automated if `grass --config path` works or if environment variable `GRASS_INSTALLATION` set to path, thanks to Robin Lovelace
 

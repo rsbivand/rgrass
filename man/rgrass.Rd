@@ -56,7 +56,7 @@ if (run) {
   set.seed(1)
   smple <- spatSample(ext(elevation), lonlat=is.lonlat(elevation), size=200,
     method="random", as.points=TRUE)
-  values(smple) <- elevation[smple]
+  values(smple) <- extract(elevation, smple)[,2]
   smple
  }
 if (run) {
