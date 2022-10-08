@@ -8,6 +8,6 @@ To propose a change to `rgrass`, please consider the roles assigned to the diffe
 
 * The `main` branch is the development branch for `rgrass`. If you would like to contribute to `rgrass` ("new" package), please target your PRs and contributions to this branch.
 
-* The `rgrass7` branch is the "target" maintenance source for the package `rgrass7` ("old" package). If you would like to contribute to `rgrass7`, please target your PRs and contributions to this branch, but note that the package will largely be unusable for file interchange when 
+* The `rgrass7` branch is the "target" maintenance source for the package `rgrass7` ("old" package). If you would like to contribute to `rgrass7`, please target your PRs and contributions to this branch, but note that onlly essential PRs will be considered. 
 
-* The  next release of `rgrass7` will be updated to give a startup message advising users to switch to `rgrass` and to deprecate all file interchange functionality.
+* The next release of `rgrass7` has been updated to give a startup message advising users to switch to `rgrass` and to deprecate all functionality.
