@@ -47,7 +47,7 @@ terra_available <- require("terra", quietly=TRUE)
 sf_available <- require("sf", quietly=TRUE)
 Sys.setenv("_SP_EVOLUTION_STATUS_"="2")
 sp_available <- require("sp", quietly=TRUE)
-stars_available <- require("stars", quietly=TRUE)
+stars_available <- require("stars", quietly=TRUE) && packageVersion("stars") > "0.5.4"
 raster_available <- require("raster", quietly=TRUE)
 ```
 
