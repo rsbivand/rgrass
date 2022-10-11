@@ -33,7 +33,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rgrass</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.3-5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.3-6</span>
       </span>
     </div>
 
@@ -112,7 +112,7 @@
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Sys.setenv.html" class="external-link">Sys.setenv</a></span><span class="op">(</span><span class="st">"_SP_EVOLUTION_STATUS_"</span><span class="op">=</span><span class="st">"2"</span><span class="op">)</span></span>
 <span><span class="va">sp_available</span> <span class="op">&lt;-</span> <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="st"><a href="https://github.com/edzer/sp/" class="external-link">"sp"</a></span>, quietly<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span>
-<span><span class="va">stars_available</span> <span class="op">&lt;-</span> <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="st"><a href="https://r-spatial.github.io/stars/" class="external-link">"stars"</a></span>, quietly<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="va">stars_available</span> <span class="op">&lt;-</span> <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="st"><a href="https://r-spatial.github.io/stars/" class="external-link">"stars"</a></span>, quietly<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span> <span class="op">&amp;&amp;</span> <span class="fu"><a href="https://rdrr.io/r/utils/packageDescription.html" class="external-link">packageVersion</a></span><span class="op">(</span><span class="st">"stars"</span><span class="op">)</span> <span class="op">&gt;</span> <span class="st">"0.5.4"</span></span>
 <span><span class="va">raster_available</span> <span class="op">&lt;-</span> <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="st"><a href="https://rspatial.org/raster" class="external-link">"raster"</a></span>, quietly<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 <p>This description is constructed conditioning on the availability of suggested packages. <code><a href="https://rdrr.io/pkg/terra/man/gdal.html" class="external-link">terra::gdal()</a></code> tells us the versions of the external libraries being used by <strong>terra</strong>:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
@@ -370,32 +370,31 @@
 <h3 id="rasterlayer">
 <code>"RasterLayer"</code><a class="anchor" aria-label="anchor" href="#rasterlayer"></a>
 </h3>
-<p>As <strong>rgdal</strong> will retire soon, using <strong>rgdal</strong> in the <strong>raster</strong> package <span class="citation">(Hijmans 2022a)</span> is not a feasible way to coerce a <code>"SpatRaster"</code> object to a <code>"RasterLayer"</code> object.</p>
+<p>From version 3.6-3 the <strong>raster</strong> package <span class="citation">(Hijmans 2022a)</span> uses <strong>terra</strong> for all GDAL operations. Because of this, coercing a <code>"SpatRaster"</code> object to a <code>"RasterLayer"</code> object is simple:</p>
 <div class="sourceCode" id="cb40"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">tf</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempfile</a></span><span class="op">(</span>fileext<span class="op">=</span><span class="st">".grd"</span><span class="op">)</span></span>
-<span><span class="fu">terra</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/terra/man/writeRaster.html" class="external-link">writeRaster</a></span><span class="op">(</span><span class="va">r</span>, filename<span class="op">=</span><span class="va">tf</span>, filetype<span class="op">=</span><span class="st">"RRASTER"</span><span class="op">)</span></span></code></pre></div>
-<p>We can use a temporary file in the <code>"RRASTER"</code> format that <code><a href="https://rdrr.io/pkg/terra/man/writeRaster.html" class="external-link">terra::writeRaster()</a></code> can write using GDAL, and <code><a href="https://rdrr.io/pkg/raster/man/raster.html" class="external-link">raster::raster()</a></code> can read using R code rather than GDAL:</p>
-<div class="sourceCode" id="cb41"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="op">(</span><span class="va">r_RL</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/raster/man/raster.html" class="external-link">raster</a></span><span class="op">(</span><span class="va">tf</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="op">(</span><span class="va">r_RL</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/raster/man/raster.html" class="external-link">raster</a></span><span class="op">(</span><span class="va">r</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## class      : RasterLayer </span></span>
 <span><span class="co">## dimensions : 90, 95, 8550  (nrow, ncol, ncell)</span></span>
 <span><span class="co">## resolution : 0.008333333, 0.008333333  (x, y)</span></span>
 <span><span class="co">## extent     : 5.741667, 6.533333, 49.44167, 50.19167  (xmin, xmax, ymin, ymax)</span></span>
 <span><span class="co">## crs        : +proj=longlat +datum=WGS84 +no_defs </span></span>
-<span><span class="co">## source     : file2aca52f90d7f8.grd </span></span>
+<span><span class="co">## source     : elev.tif </span></span>
 <span><span class="co">## names      : elevation </span></span>
-<span><span class="co">## values     : 0, 547  (min, max)</span></span></code></pre>
+<span><span class="co">## values     : 141, 547  (min, max)</span></span></code></pre>
+<div class="sourceCode" id="cb42"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/terra/man/sources.html" class="external-link">inMemory</a></span><span class="op">(</span><span class="va">r_RL</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## [1] FALSE</span></span></code></pre>
 <p>This object (held on file rather than in memory) can be round-tripped:</p>
-<div class="sourceCode" id="cb43"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb44"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="op">(</span><span class="va">r_RL_rt</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/terra/man/rast.html" class="external-link">rast</a></span><span class="op">(</span><span class="va">r_RL</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## class       : SpatRaster </span></span>
 <span><span class="co">## dimensions  : 90, 95, 1  (nrow, ncol, nlyr)</span></span>
 <span><span class="co">## resolution  : 0.008333333, 0.008333333  (x, y)</span></span>
 <span><span class="co">## extent      : 5.741667, 6.533333, 49.44167, 50.19167  (xmin, xmax, ymin, ymax)</span></span>
-<span><span class="co">## coord. ref. : +proj=longlat +datum=WGS84 +no_defs </span></span>
-<span><span class="co">## source      : file2aca52f90d7f8.grd </span></span>
+<span><span class="co">## coord. ref. : lon/lat WGS 84 (EPSG:4326) </span></span>
+<span><span class="co">## source      : elev.tif </span></span>
 <span><span class="co">## name        : elevation </span></span>
-<span><span class="co">## min value   :         0 </span></span>
+<span><span class="co">## min value   :       141 </span></span>
 <span><span class="co">## max value   :       547</span></span></code></pre>
 </div>
 </div>

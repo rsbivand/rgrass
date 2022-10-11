@@ -1,4 +1,8 @@
-# **rgrass** version 0.3-5 (development)
+# **rgrass** version 0.3-6 (development)
+
+- macOS vignette issue
+
+# **rgrass** version 0.3-5 (2022-09-29)
 
 - #63 and #64, detection of GRASS path for `initGRASS()` semi-automated if `grass --config path` works or if environment variable `GRASS_INSTALLATION` set to path, thanks to Robin Lovelace
 
