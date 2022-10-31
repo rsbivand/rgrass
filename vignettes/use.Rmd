@@ -91,9 +91,7 @@ knitr::include_graphics("rstudio_in_GRASS.png")
 
 ## Starting GRASS inside R
 
-From **spgrass6** 0.6-3, it has also been possible to start a GRASS session from a running R session using the `initGRASS()` function. This is done by setting GRASS and environment variables from the R session (https://grass.osgeo.org/grass80/manuals/variables.html). Starting GRASS from R may use a temporary location, or may use an existing GRASS `LOCATION`.
-
-### Temporary GRASS location
+From **spgrass6** 0.6-3, it has also been possible to start a GRASS session from a running R session using the `initGRASS()` function. This is done by setting GRASS and environment variables from the R session (https://grass.osgeo.org/grass80/manuals/variables.html).
 
 It may be useful to set an environmental variable to the value of `GISBASE`, as shown for example in the GRASS terminal console:
 
@@ -117,6 +115,13 @@ Platform: x86_64-pc-linux-gnu (64-bit)
 Loading required package: XML
 GRASS GIS interface loaded with GRASS version: (GRASS not running)
 ```
+
+Starting GRASS from R may use a temporary location, or may use an existing GRASS `LOCATION`.
+
+### Temporary GRASS location
+
+If we don't pass an existing location to `initGRASS()`, a temporary GRASS location will be created and set.
+
 Here we'll use a raster file provided with **terra**:
 
 ```
@@ -196,7 +201,7 @@ max values  :   547.000000,     7.229438,   360.000000
 
 ### Existing GRASS location
 
-Similarly, GRASS may be started in an R session by providing the `gisDbase=`, "`location=` and `mapset=` arguments with valid values:
+Similarly, GRASS may be started in an R session with an existing location by providing the `gisDbase=`, "`location=` and `mapset=` arguments with valid values:
 
 ```
 $ GRASS_INSTALLATION=/home/rsb/topics/grass/g820/grass82 R
