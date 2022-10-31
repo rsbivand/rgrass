@@ -138,6 +138,7 @@ The first argument to `initGRASS()` is `gisBase=`, which here we are passing the
 [1] TRUE
 > loc <- initGRASS(gisBase=GRASS_INSTALLATION, home=tempdir(), SG=r, override=TRUE)
 ```
+
 As can be seen, `initGRASS()` creates not only environment and GRASS variables, but also many files in the location mapsets; `g.gisenv` also shows details:
 
 ```
@@ -201,7 +202,7 @@ max values  :   547.000000,     7.229438,   360.000000
 
 ### Existing GRASS location
 
-Similarly, GRASS may be started in an R session with an existing location by providing the `gisDbase=`, "`location=` and `mapset=` arguments with valid values:
+Similarly, GRASS may be started in an R session with an existing location by providing the `gisDbase=`, `location=` and `mapset=` arguments with valid values:
 
 ```
 $ GRASS_INSTALLATION=/home/rsb/topics/grass/g820/grass82 R
