@@ -83,7 +83,7 @@ Goodbye from GRASS GIS
 ```
 Leaving R returns us to the GRASS terminal console, which we can also exit.
 
-R can also be started within the GRASS GUI, by choosing the console tab, and entering for example `rstudio`, or another R graphical user interface on Windows or macOS. This screendump shows the same listing of rasters in PERMANENT in `rstudio`:
+R can also be started within the GRASS GUI, by choosing the console tab, and entering for example `rstudio`, or another R graphical user interface. This screendump shows the same listing of rasters in PERMANENT in `rstudio`:
 
 ```{r, out.width=800, echo=FALSE}
 knitr::include_graphics("rstudio_in_GRASS.png")
