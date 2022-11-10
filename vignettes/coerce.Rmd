@@ -40,6 +40,8 @@ From GDAL 3.5.0, the `RRASTER` driver also supports WKT2_2019 CRS representation
 
 These changes mean that users transferring data between R and GRASS will need to coerce between **terra** classes `SpatVector` and `SpatRaster` and the class system of choice. In addition, `SpatRaster` is only read into memory from file when this is required, so requiring some care.
 
+## Loading and attaching packages
+
 This vignette is constructed conditioning on the availability of aforementioned R packages, i.e. if some were missing at the time of package building, some code blocks will not be displayed.
 
 Below setting, needed before loading **sp**, is to prevent **sp** from relying on **rgdal** or **rgeos**.
