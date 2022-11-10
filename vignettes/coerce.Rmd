@@ -42,6 +42,9 @@ These changes mean that users transferring data between R and GRASS will need to
 
 This vignette is constructed conditioning on the availability of aforementioned R packages, i.e. if some were missing at the time of package building, some code blocks will not be displayed.
 
+Below setting, needed before loading **sp**, is to prevent **sp** from relying on **rgdal** or **rgeos**.
+Those packages will retire by the end of 2023 [@pebesma_r-spatial_2022].
+
 ```{r}
 Sys.setenv("_SP_EVOLUTION_STATUS_"="2")
 ```
