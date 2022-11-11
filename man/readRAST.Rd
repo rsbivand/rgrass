@@ -53,6 +53,7 @@ if (run) {
   execGRASS("r.stats", flags="c", input="landuse1")
   execGRASS("g.remove", flags="f", name="landuse1", type="raster")
 }
+Sys.setenv("_SP_EVOLUTION_STATUS_"="2")
 run <- run && require("sp", quietly=TRUE)
 if (run) {
   nc_basic <- read_RAST(c("geology", "elevation"), cat=c(TRUE, FALSE),

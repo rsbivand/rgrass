@@ -1,4 +1,10 @@
-# **rgrass** version 0.3-6 (development)
+# **rgrass** version 0.3-7 (development)
+
+- added _SP_EVOLUTION_STATUS_ 2 to examples
+
+- #68, #69 improvements to vignettes, thanks to Floris Vanderhaeghe and Veronica Andreo
+
+# **rgrass** version 0.3-6 (2022-10-11)
 
 - macOS vignette issue
 

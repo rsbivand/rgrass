@@ -1,6 +1,6 @@
 Package: rgrass
-Version: 0.3-6
-Date: 2022-10-12
+Version: 0.3-7
+Date: 2022-11-12
 Title: Interface Between 'GRASS' Geographical Information System and 'R'
 Authors@R: c(
 	person("Roger", "Bivand", role = c("cre", "aut"), email = "Roger.Bivand@nhh.no", comment=c(ORCID="0000-0003-2392-6140")),
