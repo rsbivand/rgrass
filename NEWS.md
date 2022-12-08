@@ -2,6 +2,8 @@
 
 - added _SP_EVOLUTION_STATUS_ 2 to examples
 
+- #66 re-examining to protect from UInt maxing out; add stop for required manual NODATA
+
 - #68, #69 improvements to vignettes, thanks to Floris Vanderhaeghe and Veronica Andreo
 
 # **rgrass** version 0.3-6 (2022-10-11)

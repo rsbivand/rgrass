@@ -91,9 +91,33 @@ read_RAST <- function(vname, cat=NULL, NODATA=NULL,
 	            lres$min <- floor(as.double(lres$min))
 		    may_be_u <- all(c(lres$min, lres$max) >= 0)
                     if (may_be_u && CELL) {
-                        if (lres$max < 4294967295) NODATAi <- 4294967295
-                        if (lres$max < 65535) NODATAi <- 65535
-                        if (lres$max < 255) NODATAi <- 255
+                        if (lres$max < 4294967295) {
+                            NODATAi <- 4294967295
+                        } else if (lres$max == 4294967295) {
+                            if (lres$min > 0) {
+                                NODATAi <- 0
+                            } else {
+                                stop("set NODATA manually to a feasible value")
+                            }
+                        }
+                        if (lres$max < 65535) {
+                            NODATAi <- 65535
+                        } else if (lres$max == 65535) {
+                            if (lres$min > 0) {
+                                NODATAi <- 0
+                            } else {
+                                stop("set NODATA manually to a feasible value")
+                            }
+                        }
+                        if (lres$max < 255) {
+                            NODATAi <- 255
+                        } else if (lres$max == 255) {
+                            if (lres$min > 0) {
+                                NODATAi <- 0
+                            } else {
+                                stop("set NODATA manually to a feasible value")
+                            }
+                        }
                     } else if (!may_be_u && CELL) {
                         if (lres$min == -2147483648) {
                             if (lres$max < 2147483647) NODATAi <- 2147483647
