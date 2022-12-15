@@ -33,7 +33,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rgrass</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.3-6</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.3-7</span>
       </span>
     </div>
 
@@ -151,16 +151,13 @@ Done.
 
 Goodbye from GRASS GIS</code></pre>
 <p>Leaving R returns us to the GRASS terminal console, which we can also exit.</p>
-<p>R can also be started within the GRASS GUI, by choosing the console tab, and entering for example <code>rstudio</code>, or another R graphical user interface on Windows or macOS. This screendump shows the same listing of rasters in PERMANENT in <code>rstudio</code>:</p>
+<p>R can also be started within the GRASS GUI, by choosing the console tab, and entering for example <code>rstudio</code>, or another R graphical user interface. This screendump shows the same listing of rasters in PERMANENT in <code>rstudio</code>:</p>
 <p><img src="rstudio_in_GRASS.png" width="800"></p>
 </div>
 <div class="section level2">
 <h2 id="starting-grass-inside-r">Starting GRASS inside R<a class="anchor" aria-label="anchor" href="#starting-grass-inside-r"></a>
 </h2>
-<p>From <strong>spgrass6</strong> 0.6-3, it has also been possible to start a GRASS session from a running R session using the <code><a href="../reference/initGRASS.html">initGRASS()</a></code> function. This is done by setting GRASS and environment variables from the R session (<a href="https://grass.osgeo.org/grass80/manuals/variables.html" class="external-link uri">https://grass.osgeo.org/grass80/manuals/variables.html</a>). Starting GRASS from R may use a temporary location, or may use an existing GRASS <code>LOCATION</code>.</p>
-<div class="section level3">
-<h3 id="temporary-grass-location">Temporary GRASS location<a class="anchor" aria-label="anchor" href="#temporary-grass-location"></a>
-</h3>
+<p>From <strong>spgrass6</strong> 0.6-3, it has also been possible to start a GRASS session from a running R session using the <code><a href="../reference/initGRASS.html">initGRASS()</a></code> function. This is done by setting GRASS and environment variables from the R session (<a href="https://grass.osgeo.org/grass-stable/manuals/variables.html" class="external-link uri">https://grass.osgeo.org/grass-stable/manuals/variables.html</a>).</p>
 <p>It may be useful to set an environmental variable to the value of <code>GISBASE</code>, as shown for example in the GRASS terminal console:</p>
 <pre><code>GRASS nc_basic_spm_grass7/rsb:github-rsb &gt; echo $GISBASE
 /home/rsb/topics/grass/g820/grass82</code></pre>
@@ -176,6 +173,11 @@ Platform: x86_64-pc-linux-gnu (64-bit)
 &gt; library(rgrass)
 Loading required package: XML
 GRASS GIS interface loaded with GRASS version: (GRASS not running)</code></pre>
+<p>Starting GRASS from R may use a temporary or an existing GRASS <code>LOCATION</code>.</p>
+<div class="section level3">
+<h3 id="temporary-grass-location">Temporary GRASS location<a class="anchor" aria-label="anchor" href="#temporary-grass-location"></a>
+</h3>
+<p>If we don’t pass an existing location to <code><a href="../reference/initGRASS.html">initGRASS()</a></code>, a temporary GRASS location will be created and set.</p>
 <p>Here we’ll use a raster file provided with <strong>terra</strong>:</p>
 <pre><code>&gt; library(terra)
 terra 1.6.0
@@ -244,7 +246,7 @@ max values  :   547.000000,     7.229438,   360.000000 </code></pre>
 <div class="section level3">
 <h3 id="existing-grass-location">Existing GRASS location<a class="anchor" aria-label="anchor" href="#existing-grass-location"></a>
 </h3>
-<p>Similarly, GRASS may be started in an R session by providing the <code>gisDbase=</code>, “<code>location=</code> and <code>mapset=</code> arguments with valid values:</p>
+<p>Similarly, GRASS may be started in an R session with an existing location by providing the <code>gisDbase=</code>, <code>location=</code> and <code>mapset=</code> arguments with valid values:</p>
 <pre><code>$ GRASS_INSTALLATION=/home/rsb/topics/grass/g820/grass82 R
 
 R version 4.2.1 (2022-06-23) -- "Funny-Looking Kid"

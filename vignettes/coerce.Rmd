@@ -187,21 +187,6 @@ with coercion from `"stars_proxy"` also not reading data into memory:
 (r_stars_p_rt <- rast(r_stars_p))
 ```
 
-### `"Spatial"`
-
-Coercion to the **sp** `"SpatialGridDataFrame"` representation is provided by **stars**:
-
-```{r, eval=(terra_available && stars_available && sp_available)}
-r_sp <- as(r_stars, "Spatial")
-summary(r_sp)
-```
-
-and can be round-tripped:
-
-```{r, eval=(terra_available && stars_available && sp_available)}
-(r_sp_rt <- rast(st_as_stars(r_sp)))
-```
-
 ### `"RasterLayer"`
 
 From version 3.6-3 the **raster** package [@raster] uses **terra** for all GDAL operations. Because of this, coercing a `"SpatRaster"` object to a `"RasterLayer"` object is simple:
@@ -213,10 +198,66 @@ From version 3.6-3 the **raster** package [@raster] uses **terra** for all GDAL 
 inMemory(r_RL)
 ```
 
+The WKT2-2019 CRS representation is present but not shown by default:
+
+```{r, eval=(terra_available && raster_available)}
+cat(wkt(r_RL), "\n")
+```
+
 This object (held on file rather than in memory) can be round-tripped:
 
 ```{r, eval=(terra_available && raster_available)}
 (r_RL_rt <- rast(r_RL))
+```
+
+### `"Spatial"`
+
+`"RasterLayer"` objects can be used for coercion from a `"SpatRaster"` object to a `"SpatialGridDataFrame"` object:
+
+```{r, eval=(terra_available && raster_available && sp_available)}
+r_sp_RL <- as(r_RL, "SpatialGridDataFrame")
+summary(r_sp_RL)
+```
+
+The WKT2-2019 CRS representation is present but not shown by default:
+
+```{r, eval=(terra_available && raster_available && sp_available)}
+cat(wkt(r_sp_RL), "\n")
+```
+
+This object can be round-tripped, but use of **raster** forefronts the Proj.4 string CRS representation:
+```{r, eval=(terra_available && raster_available && sp_available)}
+(r_sp_RL_rt <- raster(r_sp_RL))
+cat(wkt(r_sp_RL_rt), "\n")
+```
+
+
+```{r, eval=(terra_available && raster_available && sp_available)}
+(r_sp_rt <- rast(r_sp_RL_rt))
+```
+```{r, eval=(terra_available && raster_available && sp_available)}
+crs(r_sp_RL_rt)
+```
+
+Coercion to the **sp** `"SpatialGridDataFrame"` representation is also provided by **stars**:
+
+```{r, eval=(terra_available && stars_available && sp_available)}
+r_sp_stars <- as(r_stars, "Spatial")
+summary(r_sp_stars)
+```
+
+```{r, eval=(terra_available && stars_available && sp_available)}
+cat(wkt(r_sp_stars), "\n")
+```
+
+and can be round-tripped:
+
+```{r, eval=(terra_available && stars_available && sp_available)}
+(r_sp_stars_rt <- rast(st_as_stars(r_sp_stars)))
+```
+``
+```{r, eval=(terra_available && stars_available && sp_available)}
+cat(crs(r_sp_rt), "\n")
 ```
 
 ## References
