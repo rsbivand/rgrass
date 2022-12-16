@@ -91,7 +91,7 @@ initGRASS <- function(gisBase = NULL, home, SG, gisDbase, addon_base, location,
                "Either provide the gisBase argument or set a ",
                "GRASS_INSTALLATION environment variable to provide the ",
                "gisBase path",
-               .call = FALSE)
+               call. = FALSE)
         }
         )
         message("Taking gisBase value from `grass --config path` output: ",
