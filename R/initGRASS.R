@@ -44,7 +44,9 @@ initGRASS <- function(gisBase = NULL, home, SG, gisDbase, addon_base, location,
     ignore.stderr=get.ignore.stderrOption()) {
 
     if (nchar(Sys.getenv("GISRC")) > 0 && !override)
-      ask_override(paste("A GRASS location", Sys.getenv("GISRC"), "is already in use"),
+      ask_override(paste0("A GRASS location (defined by ",
+                          Sys.getenv("GISRC"),
+                          ") is already in use"),
                    missing_override = missing(override),
                    envir = environment())
 
