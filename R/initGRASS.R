@@ -47,13 +47,36 @@ initGRASS <- function(gisBase = NULL, home, SG, gisDbase, addon_base, location,
     stopifnot(length(remove_GISRC) == 1)
 
     if (is.null(gisBase)) {
-      message("No gisBase set. Trying to detect from the GRASS_INSTALLATION environment variable")
-      if (Sys.getenv("GRASS_INSTALLATION") == "") {
-        message("No GRASS_INSTALLATION environment variable found")
-        message("Trying to find it with the system command:")
-        message("grass --config path # if this fails set gisBase manually")
-        # Generates an error message
-        gisBase <- system("grass --config path", intern = TRUE)
+      message("No gisBase set. Trying to detect from the GRASS_INSTALLATION ",
+              "environment variable.")
+      grass_installation <- Sys.getenv("GRASS_INSTALLATION")
+      stopifnot(is.character(grass_installation))
+      if (nchar(grass_installation) > 0) {
+        message("Taking gisBase value from GRASS_INSTALLATION: ",
+                grass_installation)
+        gisBase <- grass_installation
+      } else {
+        message("No GRASS_INSTALLATION environment variable was found.\n",
+                "Trying to set gisBase by running command ",
+                "`grass --config path` (requires grass in the system PATH).")
+        tryCatch({
+          gisBase <-
+            if (.Platform$OS.type == "windows") {
+              shell("grass --config path", intern = TRUE)
+            } else {
+              system("grass --config path", intern = TRUE)
+            }
+        }, error = function(e) {
+          stop("grass seems to be unavailable in the system PATH.\n",
+               "Either provide the gisBase argument or set a ",
+               "GRASS_INSTALLATION environment variable to provide the ",
+               "gisBase path",
+               .call = FALSE)
+        }
+        )
+        message("Taking gisBase value from `grass --config path` output: ",
+                gisBase)
+        stopifnot(length(gisBase) == 1L)
       }
     }
 
