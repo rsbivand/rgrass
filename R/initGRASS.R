@@ -23,16 +23,36 @@ unlink_.gislock <- function() {
     if (file.exists(gl)) unlink(gl)
 }
 
+ask_override <- function(msg, missing_override, envir) {
+  if (interactive() && missing_override) {
+    message(msg, ".")
+    a <- ""
+    while(!grepl("^[Yy]([Ee][Ss])?$|^[Nn]([Oo])?$", a)) {
+      a <- readline("Do you want to override ('no' will abort)? (y/n) ")
+    }
+    if (grepl("^[Yy]", a)) {
+      assign("override", TRUE, envir = envir)
+      message("Overriding. Avoid this question by setting override = TRUE")
+    } else stop("Aborting. To override, set override = TRUE", call. = FALSE)
+  } else {
+    stop(msg, "; to override, set override = TRUE", call. = FALSE)
+  }
+}
+
 initGRASS <- function(gisBase = NULL, home, SG, gisDbase, addon_base, location,
     mapset, override=FALSE, use_g.dirseps.exe=TRUE, pid, remove_GISRC=FALSE,
     ignore.stderr=get.ignore.stderrOption()) {
 
     if (nchar(Sys.getenv("GISRC")) > 0 && !override)
-      stop("A GRASS location is already in use; to override, set override=TRUE")
+      ask_override(paste("A GRASS location", Sys.getenv("GISRC"), "is already in use"),
+                   missing_override = missing(override),
+                   envir = environment())
 
     if (nchar(get.GIS_LOCK()) > 0) {
       if(!override)
-        stop("A GIS_LOCK environment variable is present; to override, set override=TRUE")
+        ask_override("A GIS_LOCK environment variable is present",
+                     missing_override = missing(override),
+                     envir = environment())
       else unset.GIS_LOCK()
     }
 
@@ -162,7 +182,9 @@ initGRASS <- function(gisBase = NULL, home, SG, gisDbase, addon_base, location,
         }
         Sys.setenv(GISRC=paste(Sys.getenv("HOME"), "\\.grassrc", gv, sep=""))
         if (file.exists(Sys.getenv("GISRC")) && !override)
-            stop("A GISRC file already exists; to override, set override=TRUE")
+          ask_override(paste("A GISRC file", Sys.getenv("GISRC"), "already exists"),
+                       missing_override = missing(override),
+                       envir = environment())
         fn_gisrc <- "junk"
         if (isTRUE(file.access(".", 2) == 0)) {
             Sys.setenv(GISRC=fn_gisrc)
@@ -216,7 +238,9 @@ initGRASS <- function(gisBase = NULL, home, SG, gisDbase, addon_base, location,
         Sys.setenv(GISRC=paste(home, "/.grassrc", gv, sep=""))
 #FIXME
         if (file.exists(Sys.getenv("GISRC")) && !override)
-            stop("A GISRC file already exists; to override, set override=TRUE")
+          ask_override(paste("A GISRC file", Sys.getenv("GISRC"), "already exists"),
+                       missing_override = missing(override),
+                       envir = environment())
         ePyPATH <- Sys.getenv("PYTHONPATH")
         if (length(grep(basename(Sys.getenv("GISBASE")), ePyPATH)) < 1
             || nchar(ePyPATH) == 0) {
