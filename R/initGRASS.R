@@ -51,11 +51,12 @@ initGRASS <- function(gisBase = NULL, home, SG, gisDbase, addon_base, location,
                    envir = environment())
 
     if (nchar(get.GIS_LOCK()) > 0) {
-      if(!override)
+      if(!override){
         ask_override("A GIS_LOCK environment variable is present",
                      missing_override = missing(override),
                      envir = environment())
         unset.GIS_LOCK() # no error means user wants to override
+      }
       else unset.GIS_LOCK()
     }
 
