@@ -93,7 +93,7 @@ knitr::include_graphics("rstudio_in_GRASS.png")
 
 From **spgrass6** 0.6-3, it has also been possible to start a GRASS session from a running R session using the `initGRASS()` function. This is done by setting GRASS and environment variables from the R session (https://grass.osgeo.org/grass-stable/manuals/variables.html).
 
-It may be useful to set an environmental variable to the value of `GISBASE`, as shown for example in the GRASS terminal console:
+It may be useful to set an environment variable to the value of `GISBASE`, as shown for example in the GRASS terminal console:
 
 ```
 GRASS nc_basic_spm_grass7/rsb:github-rsb > echo $GISBASE
@@ -130,7 +130,7 @@ terra 1.6.0
 > f <- system.file("ex/elev.tif", package="terra")
 > r <- rast(f)
 ```
-The first argument to `initGRASS()` is `gisBase=`, which here we are passing the value of the environmental variable after checking that it is a directory. The second argument is where to write the `GISRC` file. The third is a template raster (here a `"SpatRaster"` object) from which to clone the temporary location size, position, resolution and projection:
+The first argument to `initGRASS()` is `gisBase=`, which here we are passing the value of the environment variable after checking that it is a directory. The second argument is where to write the `GISRC` file. The third is a template raster (here a `"SpatRaster"` object) from which to clone the temporary location size, position, resolution and projection:
 
 ```
 > GRASS_INSTALLATION <- Sys.getenv("GRASS_INSTALLATION")
@@ -138,6 +138,10 @@ The first argument to `initGRASS()` is `gisBase=`, which here we are passing the
 [1] TRUE
 > loc <- initGRASS(gisBase=GRASS_INSTALLATION, home=tempdir(), SG=r, override=TRUE)
 ```
+
+If the `gisBase` argument is missing, `initGRASS()` will do a minimal effort of guessing it.
+Firstly, if a `GRASS_INSTALLATION` environment variable is availabe, then its value will automatically be used for `gisBase`.
+If not, then the system command `grass --config path` will be tried to get the value of `GISBASE` that corresponds to the GRASS installation in the system PATH (if any).
 
 As can be seen, `initGRASS()` creates not only environment and GRASS variables, but also many files in the location mapsets; `g.gisenv` also shows details:
 
