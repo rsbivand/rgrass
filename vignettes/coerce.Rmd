@@ -135,10 +135,10 @@ all.equal(v_sf_rt, v, check.attributes=FALSE)
 
 ### `"Spatial"`
 
-To coerce to and from vector classes defined in the **sp** package [@asdar], use the classes defined in **sf** as an intermediate step:
+To coerce to and from vector classes defined in the **sp** package [@asdar], methods in **raster** are used as an intermediate step:
 
-```{r, eval=(terra_available && sf_available && sp_available)}
-v_sp <- as(v_sf, "Spatial")
+```{r, eval=(terra_available && raster_available && sp_available)}
+v_sp <- as(v, "Spatial")
 print(summary(v_sp))
 ```
 
