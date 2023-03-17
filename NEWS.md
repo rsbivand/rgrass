@@ -1,4 +1,4 @@
-# **rgrass** version 0.3-7 (development)
+# **rgrass** version 0.3-8 (development)
 
 - #73 guess `gisBase=` in `initGRASS()`
 

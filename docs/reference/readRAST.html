@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rgrass</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.3-7</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.3-8</span>
       </span>
     </div>
 
@@ -191,7 +191,7 @@
 <span class="r-in"><span><span class="op">}</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> SpatialGridDataFrame read into GRASS using r.in.bin</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  +----------------------------------------------------------------------------+</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  | Map:      sqdemSP                        Date: Fri Mar 17 13:46:34 2023    |</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  | Map:      sqdemSP                        Date: Fri Mar 17 16:19:50 2023    |</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  | Mapset:   rsb                            Login of Creator: rsb             |</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  | Location: nc_basic_spm_grass7                                              |</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  | DataBase: /home/rsb/topics/grassdata                                       |</span>
@@ -214,7 +214,7 @@
 <span class="r-out co"><span class="r-pr">#&gt;</span>  |                                                                            |</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  |   Comments:                                                                |</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  |    r.in.bin --overwrite --quiet -d input="/home/rsb/topics/grassdata/nc\   |</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  |    _basic_spm_grass7/rsb/.tmp/localhost.localdomain/X536" output="sqdem\   |</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  |    _basic_spm_grass7/rsb/.tmp/localhost.localdomain/X335" output="sqdem\   |</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  |    SP" bytes=8 header=0 bands=1 order="native" north=228500 south=21500\   |</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  |    0 east=645000 west=630000 rows=1350 cols=1500 anull=6                   |</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  |                                                                            |</span>
@@ -225,13 +225,13 @@
 <span class="r-in"><span>    return_format<span class="op">=</span><span class="st">"SGDF"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">}</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    user  system elapsed </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   0.562   0.144   0.708 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   0.611   0.125   0.740 </span>
 <span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="va">run</span><span class="op">)</span> <span class="op">{</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.time.html" class="external-link">system.time</a></span><span class="op">(</span><span class="va">sqdem</span> <span class="op">&lt;-</span> <span class="fu">read_RAST</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"sqdemSP"</span>, <span class="st">"elevation"</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>    return_format<span class="op">=</span><span class="st">"terra"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">}</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    user  system elapsed </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   0.467   0.128   0.598 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   0.492   0.110   0.604 </span>
 <span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="va">run</span><span class="op">)</span> <span class="op">{</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="execGRASS.html">execGRASS</a></span><span class="op">(</span><span class="st">"g.remove"</span>, flags<span class="op">=</span><span class="st">"f"</span>, name<span class="op">=</span><span class="st">"sqdemSP"</span>, type<span class="op">=</span><span class="st">"raster"</span><span class="op">)</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="execGRASS.html">execGRASS</a></span><span class="op">(</span><span class="st">"r.mapcalc"</span>, expression<span class="op">=</span><span class="st">"basins0 = basins - 1"</span>, flags<span class="op">=</span><span class="st">"overwrite"</span><span class="op">)</span></span></span>
