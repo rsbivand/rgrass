@@ -1,5 +1,7 @@
 # **rgrass** version 0.3-7 (development)
 
+- #73 guess `gisBase=` in `initGRASS()`
+
 - added _SP_EVOLUTION_STATUS_ 2 to examples
 
 - #66 re-examining to protect from UInt maxing out; add stop for required manual NODATA

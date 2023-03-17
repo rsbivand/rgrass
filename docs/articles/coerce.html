@@ -113,10 +113,10 @@
 <p>On loading and attaching, <strong>terra</strong> displays its version:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st"><a href="https://rspatial.org/terra/" class="external-link">"terra"</a></span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## terra 1.6.47</span></span></code></pre>
+<pre><code><span><span class="co">## terra 1.7.18</span></span></code></pre>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st"><a href="https://r-spatial.github.io/sf/" class="external-link">"sf"</a></span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## Linking to GEOS 3.11.1, GDAL 3.6.0, PROJ 9.1.1; sf_use_s2() is TRUE</span></span></code></pre>
+<pre><code><span><span class="co">## Linking to GEOS 3.11.1, GDAL 3.6.2, PROJ 9.2.0; sf_use_s2() is TRUE</span></span></code></pre>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st"><a href="https://github.com/edzer/sp/" class="external-link">"sp"</a></span><span class="op">)</span></span></code></pre></div>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
@@ -128,7 +128,7 @@
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/terra/man/gdal.html" class="external-link">gdal</a></span><span class="op">(</span>lib<span class="op">=</span><span class="st">"all"</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##     gdal     proj     geos </span></span>
-<span><span class="co">##  "3.6.0"  "9.1.1" "3.11.1"</span></span></code></pre>
+<span><span class="co">##  "3.6.2"  "9.2.0" "3.11.1"</span></span></code></pre>
 <p>When using CRAN binary packages built static for Windows and macOS, the R packages will use the same versions of the external libraries, but not necessarily the same versions as those against which GRASS was installed.</p>
 </div>
 <div class="section level2">
@@ -230,9 +230,9 @@
 <h3 id="spatial">
 <code>"Spatial"</code><a class="anchor" aria-label="anchor" href="#spatial"></a>
 </h3>
-<p>To coerce to and from vector classes defined in the <strong>sp</strong> package <span class="citation">(Roger S. Bivand, Pebesma, and Gomez-Rubio 2013)</span>, use the classes defined in <strong>sf</strong> as an intermediate step:</p>
+<p>To coerce to and from vector classes defined in the <strong>sp</strong> package <span class="citation">(Roger S. Bivand, Pebesma, and Gomez-Rubio 2013)</span>, methods in <strong>raster</strong> are used as an intermediate step:</p>
 <div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">v_sp</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/methods/as.html" class="external-link">as</a></span><span class="op">(</span><span class="va">v_sf</span>, <span class="st">"Spatial"</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">v_sp</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/methods/as.html" class="external-link">as</a></span><span class="op">(</span><span class="va">v</span>, <span class="st">"Spatial"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/terra/man/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">v_sp</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## Object of class SpatialPolygonsDataFrame</span></span>
 <span><span class="co">## Coordinates:</span></span>
@@ -635,7 +635,7 @@ Pebesma, Edzer, and Roger Bivand. 2022. <span>“<span class="nocase">R-spatial<
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer>

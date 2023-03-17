@@ -158,7 +158,7 @@ Goodbye from GRASS GIS</code></pre>
 <h2 id="starting-grass-inside-r">Starting GRASS inside R<a class="anchor" aria-label="anchor" href="#starting-grass-inside-r"></a>
 </h2>
 <p>From <strong>spgrass6</strong> 0.6-3, it has also been possible to start a GRASS session from a running R session using the <code><a href="../reference/initGRASS.html">initGRASS()</a></code> function. This is done by setting GRASS and environment variables from the R session (<a href="https://grass.osgeo.org/grass-stable/manuals/variables.html" class="external-link uri">https://grass.osgeo.org/grass-stable/manuals/variables.html</a>).</p>
-<p>It may be useful to set an environmental variable to the value of <code>GISBASE</code>, as shown for example in the GRASS terminal console:</p>
+<p>It may be useful to set an environment variable to the value of <code>GISBASE</code>, as shown for example in the GRASS terminal console:</p>
 <pre><code>GRASS nc_basic_spm_grass7/rsb:github-rsb &gt; echo $GISBASE
 /home/rsb/topics/grass/g820/grass82</code></pre>
 <p>Starting R with such a suitable environment variable set lets us retrieve it later when needed. When loaded and attached, <strong>rgrass</strong> reports that it seems that GRASS is not running:</p>
@@ -183,11 +183,12 @@ GRASS GIS interface loaded with GRASS version: (GRASS not running)</code></pre>
 terra 1.6.0
 &gt; f &lt;- system.file("ex/elev.tif", package="terra")
 &gt; r &lt;- rast(f)</code></pre>
-<p>The first argument to <code><a href="../reference/initGRASS.html">initGRASS()</a></code> is <code>gisBase=</code>, which here we are passing the value of the environmental variable after checking that it is a directory. The second argument is where to write the <code>GISRC</code> file. The third is a template raster (here a <code>"SpatRaster"</code> object) from which to clone the temporary location size, position, resolution and projection:</p>
+<p>The first argument to <code><a href="../reference/initGRASS.html">initGRASS()</a></code> is <code>gisBase=</code>, which here we are passing the value of the environment variable after checking that it is a directory. The second argument is where to write the <code>GISRC</code> file. The third is a template raster (here a <code>"SpatRaster"</code> object) from which to clone the temporary location size, position, resolution and projection:</p>
 <pre><code>&gt; GRASS_INSTALLATION &lt;- Sys.getenv("GRASS_INSTALLATION")
 &gt; file.info(GRASS_INSTALLATION)$isdir
 [1] TRUE
 &gt; loc &lt;- initGRASS(gisBase=GRASS_INSTALLATION, home=tempdir(), SG=r, override=TRUE)</code></pre>
+<p>If the <code>gisBase</code> argument is missing, <code><a href="../reference/initGRASS.html">initGRASS()</a></code> will do a minimal effort of guessing it. Firstly, if a <code>GRASS_INSTALLATION</code> environment variable is availabe, then its value will automatically be used for <code>gisBase</code>. If not, then the system command <code>grass --config path</code> will be tried to get the value of <code>GISBASE</code> that corresponds to the GRASS installation in the system PATH (if any).</p>
 <p>As can be seen, <code><a href="../reference/initGRASS.html">initGRASS()</a></code> creates not only environment and GRASS variables, but also many files in the location mapsets; <code>g.gisenv</code> also shows details:</p>
 <pre><code>&gt; list.files(file.path(loc$GISDBASE, loc$LOCATION_NAME), recursive=TRUE)
 [1] "file28aaf6dc1c44c/WIND"          "file28aaf6dc1c44c/windows/input"
@@ -306,7 +307,7 @@ Neteler, M., and H. Mitasova. 2008. <em>Open Source <span>GIS</span>: A <span>GR
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer>
