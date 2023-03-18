@@ -91,7 +91,7 @@ knitr::include_graphics("rstudio_in_GRASS.png")
 
 ## Starting GRASS inside R
 
-From **spgrass6** 0.6-3, it has also been possible to start a GRASS session from a running R session using the `initGRASS()` function. This is done by setting GRASS and environment variables from the R session (https://grass.osgeo.org/grass82/manuals/variables.html).
+From **spgrass6** 0.6-3, it has also been possible to start a GRASS session from a running R session using the `initGRASS()` function. This is done by setting GRASS and environment variables from the R session (https://grass.osgeo.org/grass-stable/manuals/variables.html).
 
 It may be useful to set an environment variable to the value of `GISBASE`, as shown for example in the GRASS terminal console:
 
