@@ -394,6 +394,8 @@ write_RAST <- function(x, vname, zcol = 1, NODATA=NULL, flags=NULL,
     stopifnot(is.character(vname))
     if (!is.null(flags)) stopifnot(is.character(flags))
 
+    if (overwrite && !("overwrite" %in% flags))
+        flags <- c(flags, "overwrite")
     if (inherits(x, "SpatialGridDataFrame")) {
         if (!(requireNamespace("sp", quietly=TRUE))) 
             stop("sp required for SGDF input")
@@ -412,8 +414,6 @@ write_RAST <- function(x, vname, zcol = 1, NODATA=NULL, flags=NULL,
         rtmpfl11 <- paste(rtmpfl1, fid, sep=.Platform$file.sep)
         if (!is.numeric(x@data[[zcol]])) 
             stop("only numeric columns may be exported")
-        if (overwrite && !("overwrite" %in% flags))
-            flags <- c(flags, "overwrite")
         res <- writeBinGrid_ng(x, rtmpfl11, attr = zcol, na.value = NODATA)
                         
         flags <- c(res$flag, flags)
