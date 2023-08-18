@@ -33,7 +33,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rgrass</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.3-8</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.3-9</span>
       </span>
     </div>
 
@@ -82,7 +82,8 @@
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Use of GRASS interface</h1>
-                        <h4 data-toc-skip class="author">Roger Bivand</h4>
+                        <h4 data-toc-skip class="author">Roger
+Bivand</h4>
             
       
       <small class="dont-index">Source: <a href="https://github.com/rsbivand/rgrass/blob/HEAD/vignettes/use.Rmd" class="external-link"><code>vignettes/use.Rmd</code></a></small>
@@ -95,12 +96,28 @@
 <div class="section level2">
 <h2 id="introduction">Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a>
 </h2>
-<p>The original R-GRASS interface <span class="citation">(Bivand 2000; Neteler and Mitasova 2008)</span> was written mainly to permit R objects represented as <strong>sp</strong> class objects to be moved to GRASS, and GRASS objects to be moved to R for statistical analysis. From <strong>spgrass6</strong> 0.6-3 (April 2009) following a fruitful workshop at Queen’s University, Belfast, the interface was re-written to use the <code>--interface-description</code> flag provided for each GRASS command, also used by the Python interface to GRASS commands. Command interface descriptions are parsed from XML and cached as R objects for efficiency. The current version of the R-GRASS interface is contained in this package, <strong>rgrass</strong>. In addition, an R function <code><a href="../reference/initGRASS.html">initGRASS()</a></code> was written to permit GRASS to be started from within GRASS to which we will return below.</p>
+<p>The original R-GRASS interface <span class="citation">(Bivand 2000;
+Neteler and Mitasova 2008)</span> was written mainly to permit R objects
+represented as <strong>sp</strong> class objects to be moved to GRASS,
+and GRASS objects to be moved to R for statistical analysis. From
+<strong>spgrass6</strong> 0.6-3 (April 2009) following a fruitful
+workshop at Queen’s University, Belfast, the interface was re-written to
+use the <code>--interface-description</code> flag provided for each
+GRASS command, also used by the Python interface to GRASS commands.
+Command interface descriptions are parsed from XML and cached as R
+objects for efficiency. The current version of the R-GRASS interface is
+contained in this package, <strong>rgrass</strong>. In addition, an R
+function <code><a href="../reference/initGRASS.html">initGRASS()</a></code> was written to permit GRASS to be
+started from within GRASS to which we will return below.</p>
 </div>
 <div class="section level2">
 <h2 id="starting-r-inside-grass">Starting R inside GRASS<a class="anchor" aria-label="anchor" href="#starting-r-inside-grass"></a>
 </h2>
-<p>When starting GRASS GIS from a terminal console (here GRASS 8.2.0), one can continue in the GRASS terminal console, starting an interactive R session from there (here R 4.2.1). Loading and attaching the R-GRASS interface package <strong>rgrass</strong> in the R session, we see that the current GRASS location is detected and reported:</p>
+<p>When starting GRASS GIS from a terminal console (here GRASS 8.2.0),
+one can continue in the GRASS terminal console, starting an interactive
+R session from there (here R 4.2.1). Loading and attaching the R-GRASS
+interface package <strong>rgrass</strong> in the R session, we see that
+the current GRASS location is detected and reported:</p>
 <pre><code>$ /home/rsb/topics/grass/g820/bin/grass /home/rsb/topics/grassdata/nc_basic_spm_grass7/rsb
 Starting GRASS GIS...
 Cleaning up temporary files...
@@ -133,7 +150,9 @@ Platform: x86_64-pc-linux-gnu (64-bit)
 Loading required package: XML
 GRASS GIS interface loaded with GRASS version: GRASS 8.2.0 (2022)
 and location: nc_basic_spm_grass7</code></pre>
-<p>Since <strong>rgrass</strong> <em>knows</em> the current location, we can for example use <code><a href="../reference/execGRASS.html">execGRASS()</a></code> to list GRASS rasters in the PERMANENT mapset in the standard North Carolina basic data set (<a href="https://grass.osgeo.org/sampledata/north_carolina/nc_basic_spm_grass7.zip" class="external-link uri">https://grass.osgeo.org/sampledata/north_carolina/nc_basic_spm_grass7.zip</a>):</p>
+<p>Since <strong>rgrass</strong> <em>knows</em> the current location, we
+can for example use <code><a href="../reference/execGRASS.html">execGRASS()</a></code> to list GRASS rasters in
+the PERMANENT mapset in the standard North Carolina basic data set (<a href="https://grass.osgeo.org/sampledata/north_carolina/nc_basic_spm_grass7.zip" class="external-link uri">https://grass.osgeo.org/sampledata/north_carolina/nc_basic_spm_grass7.zip</a>):</p>
 <pre><code>&gt; execGRASS("g.list", type="raster", mapset="PERMANENT")
 basins
 elevation
@@ -150,18 +169,30 @@ Cleaning up temporary files...
 Done.
 
 Goodbye from GRASS GIS</code></pre>
-<p>Leaving R returns us to the GRASS terminal console, which we can also exit.</p>
-<p>R can also be started within the GRASS GUI, by choosing the console tab, and entering for example <code>rstudio</code>, or another R graphical user interface. This screendump shows the same listing of rasters in PERMANENT in <code>rstudio</code>:</p>
+<p>Leaving R returns us to the GRASS terminal console, which we can also
+exit.</p>
+<p>R can also be started within the GRASS GUI, by choosing the console
+tab, and entering for example <code>rstudio</code>, or another R
+graphical user interface. This screendump shows the same listing of
+rasters in PERMANENT in <code>rstudio</code>:</p>
 <p><img src="rstudio_in_GRASS.png" width="800"></p>
 </div>
 <div class="section level2">
 <h2 id="starting-grass-inside-r">Starting GRASS inside R<a class="anchor" aria-label="anchor" href="#starting-grass-inside-r"></a>
 </h2>
-<p>From <strong>spgrass6</strong> 0.6-3, it has also been possible to start a GRASS session from a running R session using the <code><a href="../reference/initGRASS.html">initGRASS()</a></code> function. This is done by setting GRASS and environment variables from the R session (<a href="https://grass.osgeo.org/grass82/manuals/variables.html" class="external-link uri">https://grass.osgeo.org/grass82/manuals/variables.html</a>).</p>
-<p>It may be useful to set an environment variable to the value of <code>GISBASE</code>, as shown for example in the GRASS terminal console:</p>
+<p>From <strong>spgrass6</strong> 0.6-3, it has also been possible to
+start a GRASS session from a running R session using the
+<code><a href="../reference/initGRASS.html">initGRASS()</a></code> function. This is done by setting GRASS and
+environment variables from the R session (<a href="https://grass.osgeo.org/grass-stable/manuals/variables.html" class="external-link uri">https://grass.osgeo.org/grass-stable/manuals/variables.html</a>).</p>
+<p>It may be useful to set an environment variable to the value of
+<code>GISBASE</code>, as shown for example in the GRASS terminal
+console:</p>
 <pre><code>GRASS nc_basic_spm_grass7/rsb:github-rsb &gt; echo $GISBASE
 /home/rsb/topics/grass/g820/grass82</code></pre>
-<p>Starting R with such a suitable environment variable set lets us retrieve it later when needed. When loaded and attached, <strong>rgrass</strong> reports that it seems that GRASS is not running:</p>
+<p>Starting R with such a suitable environment variable set lets us
+retrieve it later when needed. When loaded and attached,
+<strong>rgrass</strong> reports that it seems that GRASS is not
+running:</p>
 <pre><code>$ GRASS_INSTALLATION=/home/rsb/topics/grass/g820/grass82 R
 
 R version 4.2.1 (2022-06-23) -- "Funny-Looking Kid"
@@ -173,23 +204,41 @@ Platform: x86_64-pc-linux-gnu (64-bit)
 &gt; library(rgrass)
 Loading required package: XML
 GRASS GIS interface loaded with GRASS version: (GRASS not running)</code></pre>
-<p>Starting GRASS from R may use a temporary or an existing GRASS <code>LOCATION</code>.</p>
+<p>Starting GRASS from R may use a temporary or an existing GRASS
+<code>LOCATION</code>.</p>
 <div class="section level3">
 <h3 id="temporary-grass-location">Temporary GRASS location<a class="anchor" aria-label="anchor" href="#temporary-grass-location"></a>
 </h3>
-<p>If we don’t pass an existing location to <code><a href="../reference/initGRASS.html">initGRASS()</a></code>, a temporary GRASS location will be created and set.</p>
-<p>Here we’ll use a raster file provided with <strong>terra</strong>:</p>
+<p>If we don’t pass an existing location to <code><a href="../reference/initGRASS.html">initGRASS()</a></code>, a
+temporary GRASS location will be created and set.</p>
+<p>Here we’ll use a raster file provided with
+<strong>terra</strong>:</p>
 <pre><code>&gt; library(terra)
 terra 1.6.0
 &gt; f &lt;- system.file("ex/elev.tif", package="terra")
 &gt; r &lt;- rast(f)</code></pre>
-<p>The first argument to <code><a href="../reference/initGRASS.html">initGRASS()</a></code> is <code>gisBase=</code>, which here we are passing the value of the environment variable after checking that it is a directory. The second argument is where to write the <code>GISRC</code> file. The third is a template raster (here a <code>"SpatRaster"</code> object) from which to clone the temporary location size, position, resolution and projection:</p>
+<p>The first argument to <code><a href="../reference/initGRASS.html">initGRASS()</a></code> is
+<code>gisBase=</code>, which here we are passing the value of the
+environment variable after checking that it is a directory. The second
+argument is where to write the <code>GISRC</code> file. The third is a
+template raster (here a <code>"SpatRaster"</code> object) from which to
+clone the temporary location size, position, resolution and
+projection:</p>
 <pre><code>&gt; GRASS_INSTALLATION &lt;- Sys.getenv("GRASS_INSTALLATION")
 &gt; file.info(GRASS_INSTALLATION)$isdir
 [1] TRUE
 &gt; loc &lt;- initGRASS(gisBase=GRASS_INSTALLATION, home=tempdir(), SG=r, override=TRUE)</code></pre>
-<p>If the <code>gisBase</code> argument is missing, <code><a href="../reference/initGRASS.html">initGRASS()</a></code> will do a minimal effort of guessing it. Firstly, if a <code>GRASS_INSTALLATION</code> environment variable is availabe, then its value will automatically be used for <code>gisBase</code>. If not, then the system command <code>grass --config path</code> will be tried to get the value of <code>GISBASE</code> that corresponds to the GRASS installation in the system PATH (if any).</p>
-<p>As can be seen, <code><a href="../reference/initGRASS.html">initGRASS()</a></code> creates not only environment and GRASS variables, but also many files in the location mapsets; <code>g.gisenv</code> also shows details:</p>
+<p>If the <code>gisBase</code> argument is missing,
+<code><a href="../reference/initGRASS.html">initGRASS()</a></code> will do a minimal effort of guessing it.
+Firstly, if a <code>GRASS_INSTALLATION</code> environment variable is
+availabe, then its value will automatically be used for
+<code>gisBase</code>. If not, then the system command
+<code>grass --config path</code> will be tried to get the value of
+<code>GISBASE</code> that corresponds to the GRASS installation in the
+system PATH (if any).</p>
+<p>As can be seen, <code><a href="../reference/initGRASS.html">initGRASS()</a></code> creates not only environment
+and GRASS variables, but also many files in the location mapsets;
+<code>g.gisenv</code> also shows details:</p>
 <pre><code>&gt; list.files(file.path(loc$GISDBASE, loc$LOCATION_NAME), recursive=TRUE)
 [1] "file28aaf6dc1c44c/WIND"          "file28aaf6dc1c44c/windows/input"
 [3] "PERMANENT/DEFAULT_WIND"          "PERMANENT/PROJ_EPSG"            
@@ -201,7 +250,8 @@ GISDBASE='/tmp/Rtmpe7QdVd';
 LOCATION_NAME='file28aaf5be4b905';
 MAPSET='file28aaf6dc1c44c';
 GRASS_GUI='text';</code></pre>
-<p>We may now write R objects to the temporary GRASS location for manipulation and analysis, here calculating slope and aspect layers:</p>
+<p>We may now write R objects to the temporary GRASS location for
+manipulation and analysis, here calculating slope and aspect layers:</p>
 <pre><code>&gt; write_RAST(r, vname="terra_elev")
 Importing raster map &lt;terra_elev&gt;...
  100%
@@ -247,7 +297,9 @@ max values  :   547.000000,     7.229438,   360.000000 </code></pre>
 <div class="section level3">
 <h3 id="existing-grass-location">Existing GRASS location<a class="anchor" aria-label="anchor" href="#existing-grass-location"></a>
 </h3>
-<p>Similarly, GRASS may be started in an R session with an existing location by providing the <code>gisDbase=</code>, <code>location=</code> and <code>mapset=</code> arguments with valid values:</p>
+<p>Similarly, GRASS may be started in an R session with an existing
+location by providing the <code>gisDbase=</code>, <code>location=</code>
+and <code>mapset=</code> arguments with valid values:</p>
 <pre><code>$ GRASS_INSTALLATION=/home/rsb/topics/grass/g820/grass82 R
 
 R version 4.2.1 (2022-06-23) -- "Funny-Looking Kid"
@@ -281,10 +333,14 @@ soils</code></pre>
 </h2>
 <div id="refs" class="references csl-bib-body hanging-indent">
 <div id="ref-bivand:00" class="csl-entry">
-Bivand, R. S. 2000. <span>“Using the <span>R</span> Statistical Data Analysis Language on <span>GRASS</span> 5.0 <span>GIS</span> Data Base Files.”</span> <em>Computers and Geosciences</em> 26: 1043–52.
+Bivand, R. S. 2000. <span>“Using the <span>R</span> Statistical Data
+Analysis Language on <span>GRASS</span> 5.0 <span>GIS</span> Data Base
+Files.”</span> <em>Computers and Geosciences</em> 26: 1043–52.
 </div>
 <div id="ref-neteler+mitasova:08" class="csl-entry">
-Neteler, M., and H. Mitasova. 2008. <em>Open Source <span>GIS</span>: A <span>GRASS</span> <span>GIS</span> Approach, Third Edition</em>. New York: Springer.
+Neteler, M., and H. Mitasova. 2008. <em>Open Source <span>GIS</span>: A
+<span>GRASS</span> <span>GIS</span> Approach, Third Edition</em>. New
+York: Springer.
 </div>
 </div>
 </div>
