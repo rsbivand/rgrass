@@ -1,0 +1,35 @@
+
+R version 4.3.1 (2023-06-16) -- "Beagle Scouts"
+Copyright (C) 2023 The R Foundation for Statistical Computing
+Platform: x86_64-pc-linux-gnu (64-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> library(rgrass)
+Loading required package: XML
+GRASS GIS interface loaded with GRASS version: GRASS 8.2.1 (2023)
+and location: nc_basic_spm_grass7
+> if (requireNamespace("terra", quietly=TRUE)) {
++   f <- system.file("ex/elev.tif", package="terra")
++   SG <- terra::rast(f)
++   if (packageVersion("terra") < "1.7.46") {
++     bb <- getMethod("ext", "SpatRaster")(SG)@ptr$vector
++     all.equal(bb, as.vector(getMethod("ext", "SpatRaster")(SG)))
++   } else {
++     bb <- as.vector(getMethod("ext", "SpatRaster")(SG))
++   }
++ }
+> 
+> proc.time()
+   user  system elapsed 
+  3.097   0.086   3.188 
