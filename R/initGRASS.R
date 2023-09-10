@@ -333,7 +333,8 @@ initGRASS <- function(gisBase = NULL, home, SG, gisDbase, addon_base, location,
             } else if (inherits(SG, "SpatRaster")) {
                 if (!requireNamespace("terra", quietly=TRUE))
                     stop("The terra package is required for the SG argument")
-                bb <- getMethod("ext", "SpatRaster")(SG)@ptr$vector
+                bb <- getMethod("ext", "SpatRaster")(SG)
+				bb <- as.vector(bb)
                 bb <- matrix(bb, 2, 2, byrow=TRUE)
                 colnames(bb) <- c("min", "max")
                 cs <- getMethod("res", "SpatRaster")(SG)
