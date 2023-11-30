@@ -1,4 +1,4 @@
-import(XML)
+importFrom(xml2, "read_xml", "xml_root", "xml_contents", "xml_text", "xml_name", "xml_attrs", "xml_child")
 importFrom(stats, "runif", "na.omit")
 importFrom(methods, "slot", "slot<-", "as", "getMethod")
 importFrom("utils", "packageVersion", "packageDescription", "read.table", "write.table")

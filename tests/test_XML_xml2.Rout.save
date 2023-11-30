@@ -18,17 +18,13 @@ Type 'q()' to quit R.
 > library(rgrass)
 GRASS GIS interface loaded with GRASS version: GRASS 8.3.1 (2023)
 and location: nc_basic_spm_grass7
-> if (requireNamespace("terra", quietly=TRUE)) {
-+   f <- system.file("ex/elev.tif", package="terra")
-+   SG <- terra::rast(f)
-+   if (packageVersion("terra") < "1.7.46") {
-+     bb <- getMethod("ext", "SpatRaster")(SG)@ptr$vector
-+     all.equal(bb, as.vector(getMethod("ext", "SpatRaster")(SG)))
-+   } else {
-+     bb <- as.vector(getMethod("ext", "SpatRaster")(SG))
-+   }
+> old <- readRDS(system.file("etc/XML.r.out.gdal.rds", package="rgrass"))
+> if (nchar(Sys.getenv("GISRC")) > 0) {
++   new <- parseGRASS("r.out.gdal")
++   all.equal(old, new)
 + }
+[1] TRUE
 > 
 > proc.time()
    user  system elapsed 
-  2.771   0.064   2.842 
+  0.223   0.054   0.267 
