@@ -63,6 +63,7 @@ read_RAST <- function(vname, cat=NULL, NODATA=NULL,
 # 130422 at rgdal 0.8-8 GDAL.close(DS)
 # 061107 Dylan Beaudette NODATA
 # 071009 Markus Neteler's idea to use range
+            typei <- NULL
             if (is.null(NODATA)) {
 	        tx <- execGRASS("r.info", flags="r", map=vname[i], intern=TRUE, 
 	            ignore.stderr=ignore.stderr)
@@ -84,7 +85,6 @@ read_RAST <- function(vname, cat=NULL, NODATA=NULL,
 	        names(l1res) <- colnames(res)
 		CELL <- l1res$datatype == "CELL"
                 NODATAi <- NULL
-                typei <- NULL
 	        if (!is.numeric(lres$min) || 
 	           !is.finite(as.double(lres$min))) {
                      stop("set NODATA manually to a feasible value")
