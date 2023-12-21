@@ -63,6 +63,10 @@ read_RAST <- function(vname, cat=NULL, NODATA=NULL,
 # 130422 at rgdal 0.8-8 GDAL.close(DS)
 # 061107 Dylan Beaudette NODATA
 # 071009 Markus Neteler's idea to use range
+            exsts <- execGRASS("g.list", type="raster", pattern=vname[i],
+                intern=TRUE, ignore.stderr=ignore.stderr)
+            if (length(exsts) == 0L || exsts != vname[i])
+                stop(vname[i], " not found")
             typei <- NULL
             if (is.null(NODATA)) {
 	        tx <- execGRASS("r.info", flags="r", map=vname[i], intern=TRUE, 
@@ -178,6 +182,10 @@ read_RAST <- function(vname, cat=NULL, NODATA=NULL,
 
     for (i in seq(along=vname)) {
 
+        exsts <- execGRASS("g.list", type="raster", pattern=vname[i],
+            intern=TRUE, ignore.stderr=ignore.stderr)
+        if (length(exsts) == 0L || exsts != vname[i])
+            stop(vname[i], " not found")
         glist <- execGRASS("r.info", flags="g", map=vname[i],
             intern=TRUE, ignore.stderr=ignore.stderr)
         whCELL <- glist[grep("datatype", glist)]
