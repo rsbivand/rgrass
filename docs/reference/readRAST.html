@@ -128,7 +128,7 @@
 <span class="r-in"><span><span class="fu"><a href="gmeta.html">set.ignore.stderrOption</a></span><span class="op">(</span><span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] FALSE</span>
 <span class="r-in"><span><span class="va">run</span> <span class="op">&lt;-</span> <span class="va">run</span> <span class="op">&amp;&amp;</span> <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="st"><a href="https://rspatial.org/" class="external-link">"terra"</a></span>, quietly<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> terra 1.7.62</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> terra 1.7.65</span>
 <span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="va">run</span><span class="op">)</span> <span class="op">{</span></span></span>
 <span class="r-in"><span>  <span class="va">v1</span> <span class="op">&lt;-</span> <span class="fu">read_RAST</span><span class="op">(</span><span class="st">"landuse"</span>, cat<span class="op">=</span><span class="cn">TRUE</span>, return_format<span class="op">=</span><span class="st">"terra"</span><span class="op">)</span></span></span>
 <span class="r-in"><span>  <span class="va">v1</span></span></span>
@@ -191,7 +191,7 @@
 <span class="r-in"><span><span class="op">}</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> SpatialGridDataFrame read into GRASS using r.in.bin</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  +----------------------------------------------------------------------------+</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  | Map:      sqdemSP                        Date: Thu Nov 30 15:50:35 2023    |</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  | Map:      sqdemSP                        Date: Fri Dec 22 15:40:24 2023    |</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  | Mapset:   rsb                            Login of Creator: rsb             |</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  | Location: nc_basic_spm_grass7                                              |</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  | DataBase: /home/rsb/topics/grassdata                                       |</span>
@@ -214,7 +214,7 @@
 <span class="r-out co"><span class="r-pr">#&gt;</span>  |                                                                            |</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  |   Comments:                                                                |</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  |    r.in.bin --overwrite --quiet -d input="/home/rsb/topics/grassdata/nc\   |</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  |    _basic_spm_grass7/rsb/.tmp/localhost.localdomain/X858" output="sqdem\   |</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  |    _basic_spm_grass7/rsb/.tmp/localhost.localdomain/X369" output="sqdem\   |</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  |    SP" bytes=8 header=0 bands=1 order="native" north=228500 south=21500\   |</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  |    0 east=645000 west=630000 rows=1350 cols=1500 anull=6                   |</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  |                                                                            |</span>
@@ -225,13 +225,13 @@
 <span class="r-in"><span>    return_format<span class="op">=</span><span class="st">"SGDF"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">}</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    user  system elapsed </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   0.620   0.108   0.733 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   0.651   0.133   0.790 </span>
 <span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="va">run</span><span class="op">)</span> <span class="op">{</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.time.html" class="external-link">system.time</a></span><span class="op">(</span><span class="va">sqdem</span> <span class="op">&lt;-</span> <span class="fu">read_RAST</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"sqdemSP"</span>, <span class="st">"elevation"</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>    return_format<span class="op">=</span><span class="st">"terra"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">}</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    user  system elapsed </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   0.503   0.118   0.629 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   0.573   0.128   0.704 </span>
 <span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="va">run</span><span class="op">)</span> <span class="op">{</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="execGRASS.html">execGRASS</a></span><span class="op">(</span><span class="st">"g.remove"</span>, flags<span class="op">=</span><span class="st">"f"</span>, name<span class="op">=</span><span class="st">"sqdemSP"</span>, type<span class="op">=</span><span class="st">"raster"</span><span class="op">)</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="execGRASS.html">execGRASS</a></span><span class="op">(</span><span class="st">"r.mapcalc"</span>, expression<span class="op">=</span><span class="st">"basins0 = basins - 1"</span>, flags<span class="op">=</span><span class="st">"overwrite"</span><span class="op">)</span></span></span>
@@ -264,6 +264,27 @@
 <span class="r-out co"><span class="r-pr">#&gt;</span>  63433  91354 190239  59727 </span>
 <span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="va">run</span><span class="op">)</span> <span class="op">{</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="execGRASS.html">execGRASS</a></span><span class="op">(</span><span class="st">"g.remove"</span>, flags<span class="op">=</span><span class="st">"f"</span>, name<span class="op">=</span><span class="st">"basins0"</span>, type<span class="op">=</span><span class="st">"raster"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
+<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="va">run</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="execGRASS.html">execGRASS</a></span><span class="op">(</span>cmd <span class="op">=</span> <span class="st">"r.mapcalc"</span>, expression<span class="op">=</span><span class="st">"test_t=66000"</span>, flags<span class="op">=</span><span class="st">"overwrite"</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="execGRASS.html">execGRASS</a></span><span class="op">(</span><span class="st">"r.info"</span>, flags <span class="op">=</span> <span class="st">"r"</span>, map <span class="op">=</span> <span class="st">"test_t"</span>, intern <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="co"># #82</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "min=66000" "max=66000"</span>
+<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="va">run</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span>  <span class="op">(</span><span class="va">tt</span> <span class="op">=</span> <span class="fu">read_RAST</span><span class="op">(</span>vname <span class="op">=</span> <span class="st">"test_t"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> WARNING: Too many values, color table cut to 65535 entries</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> class       : SpatRaster </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> dimensions  : 1350, 1500, 1  (nrow, ncol, nlyr)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> resolution  : 10, 10  (x, y)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> extent      : 630000, 645000, 215000, 228500  (xmin, xmax, ymin, ymax)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> coord. ref. : NAD83(HARN) / North Carolina (EPSG:3358) </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> source      : file7e1ba4de5cf00.grd </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> name        : file7e1ba4de5cf00 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> min value   :                 0 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> max value   :             66000 </span>
+<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="va">run</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="execGRASS.html">execGRASS</a></span><span class="op">(</span><span class="st">"g.remove"</span>, flags<span class="op">=</span><span class="st">"f"</span>, name<span class="op">=</span><span class="st">"test_t"</span>, type<span class="op">=</span><span class="st">"raster"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">}</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/Sys.setenv.html" class="external-link">Sys.setenv</a></span><span class="op">(</span><span class="st">"GRASS_VERBOSE"</span><span class="op">=</span><span class="va">GV</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="gmeta.html">set.ignore.stderrOption</a></span><span class="op">(</span><span class="va">ois</span><span class="op">)</span></span></span>
