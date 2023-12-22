@@ -63,6 +63,11 @@ read_RAST <- function(vname, cat=NULL, NODATA=NULL,
 # 130422 at rgdal 0.8-8 GDAL.close(DS)
 # 061107 Dylan Beaudette NODATA
 # 071009 Markus Neteler's idea to use range
+            exsts <- execGRASS("g.list", type="raster", pattern=vname[i],
+                intern=TRUE, ignore.stderr=ignore.stderr)
+            if (length(exsts) == 0L || exsts != vname[i])
+                stop(vname[i], " not found")
+            typei <- NULL
             if (is.null(NODATA)) {
 	        tx <- execGRASS("r.info", flags="r", map=vname[i], intern=TRUE, 
 	            ignore.stderr=ignore.stderr)
@@ -85,14 +90,15 @@ read_RAST <- function(vname, cat=NULL, NODATA=NULL,
 		CELL <- l1res$datatype == "CELL"
                 NODATAi <- NULL
 	        if (!is.numeric(lres$min) || 
-	           !is.finite(as.double(lres$min))) 
-                     NODATAi <- as.integer(999)
-	        else {
+	           !is.finite(as.double(lres$min))) {
+                     stop("set NODATA manually to a feasible value")
+	        } else {
 	            lres$min <- floor(as.double(lres$min))
 		    may_be_u <- all(c(lres$min, lres$max) >= 0)
                     if (may_be_u && CELL) {
                         if (lres$max < 4294967295) {
                             NODATAi <- 4294967295
+                            typei <- "UInt32"
                         } else if (lres$max == 4294967295) {
                             if (lres$min > 0) {
                                 NODATAi <- 0
@@ -105,6 +111,7 @@ read_RAST <- function(vname, cat=NULL, NODATA=NULL,
                         } else if (lres$max == 65535) {
                             if (lres$min > 0) {
                                 NODATAi <- 0
+                                typei <- "UInt16"
                             } else {
                                 stop("set NODATA manually to a feasible value")
                             }
@@ -114,18 +121,23 @@ read_RAST <- function(vname, cat=NULL, NODATA=NULL,
                         } else if (lres$max == 255) {
                             if (lres$min > 0) {
                                 NODATAi <- 0
+                                typei <- "Byte"
                             } else {
                                 stop("set NODATA manually to a feasible value")
                             }
                         }
                     } else if (!may_be_u && CELL) {
                         if (lres$min == -2147483648) {
-                            if (lres$max < 2147483647) NODATAi <- 2147483647
-                            else stop("set NODATA manually to a feasible value")
+                            if (lres$max < 2147483647) {
+                                NODATAi <- 2147483647
+                                typei <- "Int32"
+                            } else stop("set NODATA manually to a feasible value")
                         }    
                         if (lres$min == -32768) {
-                            if (lres$max < 32767) NODATAi <- 32767
-                            else stop("set NODATA manually to a feasible value")
+                            if (lres$max < 32767) {
+                                NODATAi <- 32767
+                                typei <- "Int16"
+                            } else stop("set NODATA manually to a feasible value")
                         }
                         if (is.null(NODATAi)) NODATAi <- floor(lres$min) - 1
                     } else {
@@ -136,9 +148,15 @@ read_RAST <- function(vname, cat=NULL, NODATA=NULL,
             tmplist[[i]] <- tempfile(fileext=fxt)
             if (is.null(flags)) flags <- c("overwrite", "c", "m")
             if (!is.null(cat) && cat[i]) flags <- c(flags, "t")
-            execGRASS("r.out.gdal", input=vname[i], output=tmplist[[i]],
-                format=drv, nodata=NODATAi, flags=flags,
-                ignore.stderr=ignore.stderr)
+            if (is.null(typei)) {
+                execGRASS("r.out.gdal", input=vname[i], output=tmplist[[i]],
+                    format=drv, nodata=NODATAi, flags=flags,
+                    ignore.stderr=ignore.stderr)
+            } else {
+                execGRASS("r.out.gdal", input=vname[i], output=tmplist[[i]],
+                    format=drv, nodata=NODATAi, type=typei, flags=flags,
+                    ignore.stderr=ignore.stderr)
+            }
             reslist[[i]] <- getMethod("rast", "character")(tmplist[[i]])
         }         
         resa <- getMethod("rast", "list")(reslist)
@@ -164,6 +182,10 @@ read_RAST <- function(vname, cat=NULL, NODATA=NULL,
 
     for (i in seq(along=vname)) {
 
+        exsts <- execGRASS("g.list", type="raster", pattern=vname[i],
+            intern=TRUE, ignore.stderr=ignore.stderr)
+        if (length(exsts) == 0L || exsts != vname[i])
+            stop(vname[i], " not found")
         glist <- execGRASS("r.info", flags="g", map=vname[i],
             intern=TRUE, ignore.stderr=ignore.stderr)
         whCELL <- glist[grep("datatype", glist)]

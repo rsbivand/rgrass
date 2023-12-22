@@ -21,7 +21,7 @@ knitr::opts_chunk$set(echo = TRUE, paged.print=FALSE)
 
 ## Introduction
 
-The original R-GRASS interface [@bivand:00; @neteler+mitasova:08] was designed to move raster and later vector data between R and GRASS GIS. To do this, use was made of intermediate files, often using the external GDAL library on both sides. On the R side, the **rgdal** package was used, interfacing GDAL and PROJ as GRASS GIS also did. The GRASS commands `r.in.gdal`, `r.out.gdal`, `v.in.ogr` and `v.out.ogr` were matched by **rgdal** functions using the same underlying external libraries:
+The original R-GRASS interface [@bivand:00; @neteler+mitasova:08] was designed to move raster and later vector data between R and GRASS GIS. To do this, use was made of intermediate files, often using the external GDAL library on both sides. On the R side, the **rgdal** now archived package was used, interfacing GDAL and PROJ as GRASS GIS also did. The GRASS commands `r.in.gdal`, `r.out.gdal`, `v.in.ogr` and `v.out.ogr` were matched by **rgdal** functions using the same underlying external libraries:
 
 
 ```{r, out.width=500, echo=FALSE}
@@ -44,12 +44,6 @@ These changes mean that users transferring data between R and GRASS will need to
 
 This vignette is constructed conditioning on the availability of aforementioned R packages, i.e. if some were missing at the time of package building, some code blocks will not be displayed.
 
-The setting below, needed before loading **sp**, is to prevent **sp** from relying on **rgdal** or **rgeos**.
-Those packages will retire by the end of 2023 [@pebesma_r-spatial_2022].
-
-```{r}
-Sys.setenv("_SP_EVOLUTION_STATUS_"="2")
-```
 
 ```{r include=FALSE, message=FALSE}
 terra_available <- requireNamespace("terra", quietly=TRUE)

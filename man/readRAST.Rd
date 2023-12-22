@@ -93,6 +93,16 @@ if (run) {
 if (run) {
   execGRASS("g.remove", flags="f", name="basins0", type="raster")
 }
+if (run) {
+  execGRASS(cmd = "r.mapcalc", expression="test_t=66000", flags="overwrite")
+  execGRASS("r.info", flags = "r", map = "test_t", intern = TRUE) # #82
+}
+if (run) {
+  (tt = read_RAST(vname = "test_t"))
+}
+if (run) {
+  execGRASS("g.remove", flags="f", name="test_t", type="raster")
+}
 Sys.setenv("GRASS_VERBOSE"=GV)
 set.ignore.stderrOption(ois)
 }

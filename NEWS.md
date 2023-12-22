@@ -1,4 +1,8 @@
-# **rgrass** version 0.3-9 (development)
+# **rgrass** version 0.4-1 (development)
+
+- replace `XML` with `xml2` see #72
+
+# **rgrass** version 0.3-9 (2023-09-10)
 
 - reinstate `grass-stable` https://github.com/OSGeo/grass-website/issues/357
 
