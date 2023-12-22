@@ -24,7 +24,13 @@ and location: nc_basic_spm_grass7
 +   all.equal(old, new)
 + }
 [1] TRUE
+> old <- readRDS(system.file("etc/res_r.water.outlet.rds", package="rgrass"))
+> if (nchar(Sys.getenv("GISRC")) > 0) {
++   new <- parseGRASS("r.water.outlet")
++   all.equal(old, new)
++ }
+[1] TRUE
 > 
 > proc.time()
    user  system elapsed 
-  0.223   0.054   0.267 
+  0.323   0.073   0.389 

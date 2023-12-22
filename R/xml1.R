@@ -107,7 +107,8 @@ parseGRASS <- function(cmd, legacyExec=NULL) {
                 strkd <- as.character(NA)
             } else {
 #                kda <- xmlApply(kd, xmlValue)
-                kda <- trimws(xml2::xml_text(xml2::xml_child(obj, "keydesc")))
+                kda <- xml2::xml_child(obj, "keydesc")
+                kda <- xml2::xml_text(xml2::xml_children(kda), trim=TRUE)
                 nkd <- length(kda)
                 strkd <- paste(sapply(kda, c), collapse=",")
             }
