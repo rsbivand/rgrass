@@ -54,7 +54,7 @@ parseGRASS <- function(cmd, legacyExec=NULL) {
             }
             tr <- readLines(outFile)
         }
-        tr <- paste(gsub("\\t", " ", gsub("\\n", " ", tr)), collapse=" ")
+        tr <- paste(tr, collapse=" ")
         enc <- get("override_encoding", envir=.GRASS_CACHE)
         if (nchar(enc) > 0) {
 #          if (length(grep("UTF-8", tr[1])) > 0) {
