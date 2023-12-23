@@ -75,9 +75,17 @@ parseGRASS <- function(cmd, legacyExec=NULL) {
         res$ext <- ext
         res$prep <- prep
 #        res$description <- xmlValue(tr1[[1]])
-        res$description <- trimws(xml_text(tr1[[match("description", xml_name(tr1))]]))
+        if (is.na(match("description", xml_name(tr1))))
+            res$description <- xml_text(tr1[[match("label", xml_name(tr1))]],
+                trim=TRUE)
+        else if (is.na(match("label", xml_name(tr1)))) 
+            res$description <- xml_text(tr1[[match("description",
+                xml_name(tr1))]], trim=TRUE)
+        else res$description <- paste0(xml_text(tr1[[match("label",
+                xml_name(tr1))]], trim=TRUE), " ", xml_text(tr1[[match(
+                "description", xml_name(tr1))]], trim=TRUE))
 #        res$keywords <- xmlValue(tr1[[2]])
-        res$keywords <- trimws(xml_text(tr1[[match("keywords", xml_name(tr1))]]))
+        res$keywords <- xml_text(tr1[[match("keywords", xml_name(tr1))]], trim=TRUE)
 #        o0 <- names(tr1)
         o0 <- xml2::xml_name(tr1)
         pseq <- which(o0 == "parameter")
@@ -90,13 +98,13 @@ parseGRASS <- function(cmd, legacyExec=NULL) {
             pv <- xml2::xml_attrs(obj)
 #            pvCh <- xmlChildren(obj)
 #            pv <- c(pv, xmlValue(pvCh[["description"]]))
-            pv <- c(pv, trimws(xml2::xml_text(xml2::xml_child(obj, "description"))))
+            pv <- c(pv, xml2::xml_text(xml2::xml_child(obj, "description"), trim=TRUE))
 #            default <- pvCh[["default"]]
 #            if (is.null(default)) {
             if (!("default" %in% onms)) {
                 strdef <- as.character(NA)
             } else {
-                strdef <- trimws(xml2::xml_text(xml2::xml_child(obj, "default")))
+                strdef <- xml2::xml_text(xml2::xml_child(obj, "default"), trim=TRUE)
                 if (length(strdef) == 0) strdef <- ""
             }
             pv <- c(pv, strdef)
@@ -130,7 +138,7 @@ parseGRASS <- function(cmd, legacyExec=NULL) {
 #            nobj <- sapply(xmlChildren(obj), xmlName)
 #            di <- match("description", nobj)
 #            fv <- c(fv, xmlValue(xmlChildren(obj)[[di]]))
-            fv <- c(fv, trimws(xml2::xml_text(xml2::xml_child(obj, "description"))))
+            fv <- c(fv, xml2::xml_text(xml2::xml_child(obj, "description"), trim=TRUE))
 #            suppr_req <- as.character("suppress_required" %in% nobj)
             suppr_req <- as.character(!(is.na(xml2::xml_child(obj, "suppress_required"))))
             fv <- c(fv, suppr_req)
