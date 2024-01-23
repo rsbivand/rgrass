@@ -75,7 +75,7 @@
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>vname</dt>
-<dd><p>A vector of GRASS raster file names in mapsets in the current search path, as set by “g.mapsets”; the file names may be given as fully-qualified map names using “name@mapset”, in which case only the mapset given in the full path will be searched for the existence of the raster; if more than one raster with the same name is found in mapsets in the current search path, an error will occur, in which case the user should give the fully-qualified map name.</p></dd>
+<dd><p>A vector of GRASS raster file names in mapsets in the current search path, as set by “g.mapsets”; the file names may be given as fully-qualified map names using “name@mapset”, in which case only the mapset given in the full path will be searched for the existence of the raster; if more than one raster with the same name is found in mapsets in the current search path, an error will occur, in which case the user should give the fully-qualified map name. If the fully-qualified name is used, <code>@</code> will be replaced by underscore in the output object.</p></dd>
 
   <dt>cat</dt>
 <dd><p>default NULL; if not NULL, must be a logical vector matching vname, stating which (CELL) rasters to return as factor</p></dd>
@@ -207,7 +207,7 @@
 <span class="r-in"><span><span class="op">}</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> SpatialGridDataFrame read into GRASS using r.in.bin</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  +----------------------------------------------------------------------------+</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  | Map:      sqdemSP                        Date: Tue Jan 23 16:29:44 2024    |</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  | Map:      sqdemSP                        Date: Tue Jan 23 16:37:46 2024    |</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  | Mapset:   rsb                            Login of Creator: rsb             |</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  | Location: nc_basic_spm_grass7                                              |</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  | DataBase: /home/rsb/topics/grassdata                                       |</span>
@@ -241,13 +241,13 @@
 <span class="r-in"><span>    return_format<span class="op">=</span><span class="st">"SGDF"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">}</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    user  system elapsed </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   0.678   0.138   0.822 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   0.642   0.146   0.793 </span>
 <span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="va">run</span><span class="op">)</span> <span class="op">{</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.time.html" class="external-link">system.time</a></span><span class="op">(</span><span class="va">sqdem</span> <span class="op">&lt;-</span> <span class="fu">read_RAST</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"sqdemSP"</span>, <span class="st">"elevation"</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>    return_format<span class="op">=</span><span class="st">"terra"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">}</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    user  system elapsed </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   0.551   0.157   0.713 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   0.591   0.111   0.707 </span>
 <span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="va">run</span><span class="op">)</span> <span class="op">{</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/pkg/terra/man/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">sqdem</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">}</span></span></span>
@@ -306,8 +306,8 @@
 <span class="r-out co"><span class="r-pr">#&gt;</span> resolution  : 10, 10  (x, y)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> extent      : 630000, 645000, 215000, 228500  (xmin, xmax, ymin, ymax)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> coord. ref. : NAD83(HARN) / North Carolina (EPSG:3358) </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> source      : file7dd196c987367.grd </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> name        : file7dd196c987367 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> source      : file7e46249550b2e.grd </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> name        : file7e46249550b2e </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> min value   :                 0 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> max value   :             66000 </span>
 <span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="va">run</span><span class="op">)</span> <span class="op">{</span></span></span>
