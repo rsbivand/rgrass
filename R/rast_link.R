@@ -27,6 +27,9 @@ read_RAST <- function(vname, cat=NULL, NODATA=NULL,
             NODATA <- rep(NODATA[1], length.out=length(vname))
      }
 
+    msp <- unlist(strsplit(execGRASS("g.mapsets", flags="p",
+        intern=TRUE), " "))
+
     if (return_format == "SGDF") {
         if (!(requireNamespace("sp", quietly=TRUE)))
             stop("sp required for SGDF output")
@@ -56,17 +59,30 @@ read_RAST <- function(vname, cat=NULL, NODATA=NULL,
             fxt <- ".tif"
         }
         reslist <- vector(mode="list", length=length(vname))
-        names(reslist) <- vname
+        names(reslist) <- gsub("@", "_", vname)
         tmplist <- vector(mode="list", length=length(vname))
-        names(tmplist) <- vname
+        names(tmplist) <- gsub("@", "_", vname)
         for (i in seq(along=vname)) {
 # 130422 at rgdal 0.8-8 GDAL.close(DS)
 # 061107 Dylan Beaudette NODATA
 # 071009 Markus Neteler's idea to use range
-            exsts <- execGRASS("g.list", type="raster", pattern=vname[i],
+            vca <- unlist(strsplit(vname[i], "@"))
+            if (length(vca) == 1L) {
+                exsts <- execGRASS("g.list", type="raster", pattern=vca[1],
                 intern=TRUE, ignore.stderr=ignore.stderr)
-            if (length(exsts) == 0L || exsts != vname[i])
-                stop(vname[i], " not found")
+                if (length(exsts) > 1L) stop("multiple rasters named ", vca[1],
+                     " found in in mapsets in search path: ",
+                      paste(msp, collapse=", "), 
+                      " ; use full path with @ to choose the required raster")
+                if (length(exsts) == 0L || exsts != vca[1])
+                    stop(vname[i], " not found in mapsets in search path: ",
+                      paste(msp, collapse=", "))
+            } else if (length(vca) == 2L) {
+                exsts <- execGRASS("g.list", type="raster", pattern=vca[1],
+                mapset=vca[2], intern=TRUE, ignore.stderr=ignore.stderr)
+                if (length(exsts) == 0L || exsts != vca[1])
+                    stop(vname[i], " not found in mapset: ", vca[2])
+            } else stop(vname[i], " incorrectly formatted")
             typei <- NULL
             if (is.null(NODATA)) {
 	        tx <- execGRASS("r.info", flags="r", map=vname[i], intern=TRUE, 
@@ -178,14 +194,30 @@ read_RAST <- function(vname, cat=NULL, NODATA=NULL,
         p4 <- sp::CRS(gLP)
 
     reslist <- vector(mode="list", length=length(vname))
-    names(reslist) <- vname
+    names(reslist) <- gsub("@", "_", vname)
+
+    msp <- unlist(strsplit(execGRASS("g.mapsets", flags="p",
+        intern=TRUE), " "))
 
     for (i in seq(along=vname)) {
 
-        exsts <- execGRASS("g.list", type="raster", pattern=vname[i],
-            intern=TRUE, ignore.stderr=ignore.stderr)
-        if (length(exsts) == 0L || exsts != vname[i])
-            stop(vname[i], " not found")
+        vca <- unlist(strsplit(vname[i], "@"))
+        if (length(vca) == 1L) {
+            exsts <- execGRASS("g.list", type="raster", pattern=vca[1],
+                intern=TRUE, ignore.stderr=ignore.stderr)
+            if (length(exsts) > 1L) stop("multiple rasters named ", vca[1],
+               " found in in mapsets in search path:\n",
+                  paste(msp, collapse=", "), 
+                "\nuse full path with @ to choose the required raster")
+            if (length(exsts) == 0L || exsts != vca[1])
+                stop(vname[i], " not found in mapsets in search path: ",
+                  paste(msp, collapse=", "))
+        } else if (length(vca) == 2L) {
+            exsts <- execGRASS("g.list", type="raster", pattern=vca[1],
+                mapset=vca[2], intern=TRUE, ignore.stderr=ignore.stderr)
+            if (length(exsts) == 0L || exsts != vca[1])
+                stop(vname[i], " not found in mapset: ", vca[2])
+        } else stop(vname[i], " incorrectly formatted")
         glist <- execGRASS("r.info", flags="g", map=vname[i],
             intern=TRUE, ignore.stderr=ignore.stderr)
         whCELL <- glist[grep("datatype", glist)]

@@ -17,7 +17,7 @@ write_RAST(x, vname, zcol = 1, NODATA=NULL, flags=NULL,
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-  \item{vname}{A vector of GRASS raster file names}
+  \item{vname}{A vector of GRASS raster file names in mapsets in the current search path, as set by \dQuote{g.mapsets}; the file names may be given as fully-qualified map names using \dQuote{name@mapset}, in which case only the mapset given in the full path will be searched for the existence of the raster; if more than one raster with the same name is found in mapsets in the current search path, an error will occur, in which case the user should give the fully-qualified map name.}
   \item{cat}{default NULL; if not NULL, must be a logical vector matching vname, stating which (CELL) rasters to return as factor}
   \item{return_format}{default \code{"terra"}, optionally \code{"SGDF"}}
   \item{ignore.stderr}{default taking the value set by \code{set.ignore.stderrOption}; can be set to TRUE to silence \code{system()} output to standard error; does not apply on Windows platforms}
@@ -42,6 +42,18 @@ GV <- Sys.getenv("GRASS_VERBOSE")
 Sys.setenv("GRASS_VERBOSE"=0)
 ois <- get.ignore.stderrOption()
 set.ignore.stderrOption(TRUE)
+if (run) {
+unlist(strsplit(execGRASS("g.mapsets", flags="p", intern=TRUE), " "))
+}
+if (run) {
+execGRASS("g.list", type="raster", pattern="soils", flags="m", intern=TRUE)
+}
+if (run) {
+execGRASS("g.list", type="raster", pattern="soils@PERMANENT", mapset=".", flags="m", intern=TRUE)
+}
+if (run) {
+execGRASS("g.list", type="raster", pattern="soils", mapset="PERMANENT", flags="m", intern=TRUE)
+}
 run <- run && require("terra", quietly=TRUE)
 if (run) {
   v1 <- read_RAST("landuse", cat=TRUE, return_format="terra")
@@ -80,6 +92,15 @@ if (run) {
 if (run) {
   print(system.time(sqdem <- read_RAST(c("sqdemSP", "elevation"),
     return_format="terra")))
+}
+if (run) {
+names(sqdem)
+}
+if (run) {
+  try(sqdem1 <- read_RAST(c("sqdemSP@rsb", "elevation@PERMANENT")))
+}
+if (run) {
+names(sqdem1)
 }
 if (run) {
   execGRASS("g.remove", flags="f", name="sqdemSP", type="raster")

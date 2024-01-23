@@ -1,4 +1,8 @@
-# **rgrass** version 0.4-1 (development)
+# **rgrass** version 0.4-2 (development)
+
+- see #84 - handling fully-qualified map names
+
+# **rgrass** version 0.4-1 (2024-01-08)
 
 - replace `XML` with `xml2` see #72
 
