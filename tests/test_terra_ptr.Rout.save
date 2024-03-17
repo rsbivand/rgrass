@@ -1,6 +1,6 @@
 
-R version 4.3.2 (2023-10-31) -- "Eye Holes"
-Copyright (C) 2023 The R Foundation for Statistical Computing
+R version 4.3.3 (2024-02-29) -- "Angel Food Cake"
+Copyright (C) 2024 The R Foundation for Statistical Computing
 Platform: x86_64-pc-linux-gnu (64-bit)
 
 R is free software and comes with ABSOLUTELY NO WARRANTY.
@@ -16,7 +16,7 @@ Type 'demo()' for some demos, 'help()' for on-line help, or
 Type 'q()' to quit R.
 
 > library(rgrass)
-GRASS GIS interface loaded with GRASS version: GRASS 8.3.1 (2023)
+GRASS GIS interface loaded with GRASS version: GRASS 8.3.2 (2024)
 and location: nc_basic_spm_grass7
 > if (requireNamespace("terra", quietly=TRUE)) {
 +   f <- system.file("ex/elev.tif", package="terra")
@@ -31,4 +31,4 @@ and location: nc_basic_spm_grass7
 > 
 > proc.time()
    user  system elapsed 
-  2.771   0.064   2.842 
+  3.525   0.082   3.615 
