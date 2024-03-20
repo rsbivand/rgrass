@@ -1,4 +1,8 @@
-# **rgrass** version 0.4-2 (development)
+# **rgrass** version 0.4-3 (development)
+
+- see #87 - Windows QGIS standalone installations of GRASS can be used only if R is started in the OSGeo4W shell bundled with the installation
+
+# **rgrass** version 0.4-2 (2024-03-17)
 
 - see #84 - handling fully-qualified map names
 
