@@ -33,7 +33,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rgrass</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.4-2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.4-3</span>
       </span>
     </div>
 
@@ -204,6 +204,20 @@ Platform: x86_64-pc-linux-gnu (64-bit)
 &gt; library(rgrass)
 Loading required package: XML
 GRASS GIS interface loaded with GRASS version: (GRASS not running)</code></pre>
+<p>On Windows, if OSGeo4W GRASS is being used, the R session must be
+started in the OSGeo4W shell. If not, the non-standard placing of files
+and of environment variables confuses the function. If
+<code>toupper(gisBase)}</code>contains <code>OSGEO4W64/APPS/GRASS</code>
+or <code>OSGEO4W/APPS/GRASS</code>, but the environment variable
+<code>OSGEO4W_ROOT</code> is not defined, <code>initGRASS</code> will
+exit with an error before confusion leads to further errors. For further
+details, see <a href="https://github.com/rsbivand/rgrass/issues/16" class="external-link uri">https://github.com/rsbivand/rgrass/issues/16</a> and <a href="https://lists.osgeo.org/pipermail/grass-stats/2018-November/001800.html" class="external-link uri">https://lists.osgeo.org/pipermail/grass-stats/2018-November/001800.html</a>.</p>
+<p>The same restriction applies to use of GRASS with QGIS Windows
+standalone installations, which may be used with <code>initGRASS</code>
+only if the R session is started from the OSGeo4W shell shipped as part
+of the standalone installer (see <a href="https://github.com/rsbivand/rgrass/issues/87" class="external-link uri">https://github.com/rsbivand/rgrass/issues/87</a>). The
+function will exit with an error if R was not started from the QGIS
+OSGeo4W shell before confusion leads to further errors.</p>
 <p>Starting GRASS from R may use a temporary or an existing GRASS
 <code>LOCATION</code>.</p>
 <div class="section level3">

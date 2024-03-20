@@ -20,7 +20,7 @@ to hold spatial data."><!-- mathjax --><script src="https://cdnjs.cloudflare.com
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rgrass</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.4-2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.4-3</span>
       </span>
     </div>
 
@@ -114,9 +114,9 @@ vect2neigh             return area neighbours with shared boundary length
 <span class="r-in"><span><span class="op">}</span></span></span>
 <span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="va">run</span><span class="op">)</span> <span class="op">{</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span></span></span>
-<span class="r-in"><span>  <span class="va">smple</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/terra/man/sample.html" class="external-link">spatSample</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/terra/man/ext.html" class="external-link">ext</a></span><span class="op">(</span><span class="va">elevation</span><span class="op">)</span>, lonlat<span class="op">=</span><span class="fu"><a href="https://rdrr.io/pkg/terra/man/is.lonlat.html" class="external-link">is.lonlat</a></span><span class="op">(</span><span class="va">elevation</span><span class="op">)</span>, size<span class="op">=</span><span class="fl">200</span>,</span></span>
+<span class="r-in"><span>  <span class="va">smple</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rspatial.github.io/terra/reference/sample.html" class="external-link">spatSample</a></span><span class="op">(</span><span class="fu"><a href="https://rspatial.github.io/terra/reference/ext.html" class="external-link">ext</a></span><span class="op">(</span><span class="va">elevation</span><span class="op">)</span>, lonlat<span class="op">=</span><span class="fu"><a href="https://rspatial.github.io/terra/reference/is.lonlat.html" class="external-link">is.lonlat</a></span><span class="op">(</span><span class="va">elevation</span><span class="op">)</span>, size<span class="op">=</span><span class="fl">200</span>,</span></span>
 <span class="r-in"><span>    method<span class="op">=</span><span class="st">"random"</span>, as.points<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></span>
-<span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/pkg/terra/man/values.html" class="external-link">values</a></span><span class="op">(</span><span class="va">smple</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/terra/man/extract.html" class="external-link">extract</a></span><span class="op">(</span><span class="va">elevation</span>, <span class="va">smple</span><span class="op">)</span><span class="op">[</span>,<span class="fl">2</span><span class="op">]</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="https://rspatial.github.io/terra/reference/values.html" class="external-link">values</a></span><span class="op">(</span><span class="va">smple</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rspatial.github.io/terra/reference/extract.html" class="external-link">extract</a></span><span class="op">(</span><span class="va">elevation</span>, <span class="va">smple</span><span class="op">)</span><span class="op">[</span>,<span class="fl">2</span><span class="op">]</span></span></span>
 <span class="r-in"><span>  <span class="va">smple</span></span></span>
 <span class="r-in"><span> <span class="op">}</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  class       : SpatVector </span>
@@ -132,11 +132,11 @@ vect2neigh             return area neighbours with shared boundary length
 <span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="va">run</span><span class="op">)</span> <span class="op">{</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="readVECT.html">write_VECT</a></span><span class="op">(</span><span class="va">smple</span>, <span class="st">"sp_dem"</span>, flags<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"overwrite"</span>, <span class="st">"o"</span><span class="op">)</span>, ignore.stderr<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">}</span></span></span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>GDAL Message 6: dataset /tmp/grass8-rsb-481196/RtmpHUcZJT/file7e46220ddd93c.gpkg does not support layer creation option ENCODING</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>GDAL Message 6: dataset /tmp/grass8-rsb-264685/RtmprKPNk7/file414995fcbb924.gpkg does not support layer creation option ENCODING</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> WARNING: Vector map &lt;sp_dem&gt; already exists and will be overwritten</span>
 <span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="va">run</span><span class="op">)</span> <span class="op">{</span></span></span>
 <span class="r-in"><span>  <span class="va">schoolsDF</span> <span class="op">&lt;-</span> <span class="fu"><a href="readVECT.html">read_VECT</a></span><span class="op">(</span><span class="st">"schools"</span>, ignore.stderr<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></span>
-<span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/pkg/terra/man/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">schoolsDF</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="https://rspatial.github.io/terra/reference/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">schoolsDF</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">}</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>       cat            TAG             NAMESHORT           NAMELONG        </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  Min.   :  1.0   Length:167         Length:167         Length:167        </span>
@@ -233,7 +233,7 @@ vect2neigh             return area neighbours with shared boundary length
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 8554</span>
 <span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="va">run</span><span class="op">)</span> <span class="op">{</span></span></span>
 <span class="r-in"><span>  <span class="va">streams</span> <span class="op">&lt;-</span> <span class="fu"><a href="readVECT.html">read_VECT</a></span><span class="op">(</span><span class="st">"streams"</span>, type<span class="op">=</span><span class="st">"line"</span>, ignore.stderr<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></span>
-<span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/pkg/terra/man/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">streams</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="https://rspatial.github.io/terra/reference/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">streams</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">}</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>       cat             FNODE_           TNODE_           LPOLY_      </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  Min.   : 40102   Min.   : 42043   Min.   : 42046   Min.   :0.0000  </span>
