@@ -118,7 +118,7 @@ GRASS GIS interface loaded with GRASS version: (GRASS not running)
 
 On Windows, if OSGeo4W GRASS is being used, the R session must be started in the OSGeo4W shell. If not, the non-standard placing of files and of environment variables confuses the function. If `toupper(gisBase)}`contains `OSGEO4W64/APPS/GRASS` or `OSGEO4W/APPS/GRASS`, but the environment variable `OSGEO4W_ROOT` is not defined, `initGRASS` will exit with an error before confusion leads to further errors. For further details, see https://github.com/rsbivand/rgrass/issues/16 and https://lists.osgeo.org/pipermail/grass-stats/2018-November/001800.html.
 
-The same restriction applies to use of GRASS with QGIS Windows standalone installations, which may be used with `initGRASS` only if the R session is started from the OSGeo4W shell shipped as part of the standalone installer (see https://github.com/rsbivand/rgrass/issues/87). So far no way to warn affected users has been found.
+The same restriction applies to use of GRASS with QGIS Windows standalone installations, which may be used with `initGRASS` only if the R session is started from the OSGeo4W shell shipped as part of the standalone installer (see https://github.com/rsbivand/rgrass/issues/87). The function will exit with an error if R was not started from the QGIS OSGeo4W shell before confusion leads to further errors.
 
 
 Starting GRASS from R may use a temporary or an existing GRASS `LOCATION`.

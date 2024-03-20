@@ -140,9 +140,12 @@ initGRASS <- function(gisBase = NULL, home, SG, gisDbase, addon_base, location,
             unistring <- gsub("\\\\", "/", unistring)
             if (length(grep("OSGEO4W.*/APPS/GRASS", unistring)) > 0)
                 stop("NOTE: If using OSGeo4W GRASS, start R in the OSGeo4W shell,\nsee help(initGRASS) for further details")
+	    if (length(grep("QGIS.*/APPS/GRASS", unistring)) > 0)
+                stop("NOTE: If using Windows standalone QGIS GRASS, start R in the QGIS standalone\nOSGeo4W shell, see help(initGRASS) for further details")
             Sys.setenv(GRASS_PROJSHARE=paste(Sys.getenv("GISBASE"),
                 "\\share\\proj", sep=""))
         }
+
         Wpath <- Sys.getenv("PATH")
         if (length(grep(basename(Sys.getenv("GISBASE")), Wpath)) < 1) {
             Sys.setenv(PATH=paste(Sys.getenv("GISBASE"), "\\lib;",
