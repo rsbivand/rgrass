@@ -113,14 +113,13 @@ started from within GRASS to which we will return below.</p>
 <div class="section level2">
 <h2 id="starting-r-inside-grass">Starting R inside GRASS<a class="anchor" aria-label="anchor" href="#starting-r-inside-grass"></a>
 </h2>
-<p>When starting GRASS GIS from a terminal console (here GRASS 8.2.0),
+<p>When starting GRASS GIS from a terminal console (here GRASS 8.3.2),
 one can continue in the GRASS terminal console, starting an interactive
-R session from there (here R 4.2.1). Loading and attaching the R-GRASS
+R session from there (here R 4.3.3). Loading and attaching the R-GRASS
 interface package <strong>rgrass</strong> in the R session, we see that
 the current GRASS location is detected and reported:</p>
-<pre><code>$ /home/rsb/topics/grass/g820/bin/grass /home/rsb/topics/grassdata/nc_basic_spm_grass7/rsb
+<pre><code>$ grass
 Starting GRASS GIS...
-Cleaning up temporary files...
 
           __________  ___   __________    _______________
          / ____/ __ \/   | / ___/ ___/   / ____/  _/ ___/
@@ -128,7 +127,7 @@ Cleaning up temporary files...
        / /_/ / _, _/ ___ |___/ /__/ /  / /_/ // / ___/ /
        \____/_/ |_/_/  |_/____/____/   \____/___//____/
 
-Welcome to GRASS GIS 8.2.0
+Welcome to GRASS GIS 8.3.2
 GRASS GIS homepage:                      https://grass.osgeo.org
 This version running through:            Bash Shell (/bin/bash)
 Help is available with the command:      g.manual -i
@@ -138,17 +137,16 @@ If required, restart the GUI with:       g.gui wxpython
 When ready to quit enter:                exit
 
 Launching &lt;wxpython&gt; GUI in the background, please wait...
-GRASS nc_basic_spm_grass7/rsb:github-rsb &gt; R
+GRASS nc_basic_spm_grass7/rsb:~ &gt; R
 
-R version 4.2.1 (2022-06-23) -- "Funny-Looking Kid"
-Copyright (C) 2022 The R Foundation for Statistical Computing
+R version 4.3.3 (2024-02-29) -- "Angel Food Cake"
+Copyright (C) 2024 The R Foundation for Statistical Computing
 Platform: x86_64-pc-linux-gnu (64-bit)
 
 ...
 
 &gt; library(rgrass)
-Loading required package: XML
-GRASS GIS interface loaded with GRASS version: GRASS 8.2.0 (2022)
+GRASS GIS interface loaded with GRASS version: GRASS 8.3.2 (2024)
 and location: nc_basic_spm_grass7</code></pre>
 <p>Since <strong>rgrass</strong> <em>knows</em> the current location, we
 can for example use <code><a href="../reference/execGRASS.html">execGRASS()</a></code> to list GRASS rasters in
@@ -164,8 +162,7 @@ soils
 &gt; q()
 Save workspace image? [y/n/c]: n
 GRASS nc_basic_spm_grass7/rsb:github-rsb &gt; exit
-Cleaning up default sqlite database ...
-Cleaning up temporary files...
+exit
 Done.
 
 Goodbye from GRASS GIS</code></pre>
@@ -188,38 +185,64 @@ environment variables from the R session (<a href="https://grass.osgeo.org/grass
 <code>GISBASE</code>, as shown for example in the GRASS terminal
 console:</p>
 <pre><code>GRASS nc_basic_spm_grass7/rsb:github-rsb &gt; echo $GISBASE
-/home/rsb/topics/grass/g820/grass82</code></pre>
+/home/rsb/topics/grass/g832/grass83</code></pre>
 <p>Starting R with such a suitable environment variable set lets us
 retrieve it later when needed. When loaded and attached,
 <strong>rgrass</strong> reports that it seems that GRASS is not
 running:</p>
-<pre><code>$ GRASS_INSTALLATION=/home/rsb/topics/grass/g820/grass82 R
+<pre><code>$ GRASS_INSTALLATION=/home/rsb/topics/grass/g832/grass83 R
 
-R version 4.2.1 (2022-06-23) -- "Funny-Looking Kid"
-Copyright (C) 2022 The R Foundation for Statistical Computing
+R version 4.3.3 (2024-02-29) -- "Angel Food Cake"
+Copyright (C) 2024 The R Foundation for Statistical Computing
 Platform: x86_64-pc-linux-gnu (64-bit)
 
 ...
 
 &gt; library(rgrass)
-Loading required package: XML
-GRASS GIS interface loaded with GRASS version: (GRASS not running)</code></pre>
-<p>On Windows, if OSGeo4W GRASS is being used, the R session must be
-started in the OSGeo4W shell. If not, the non-standard placing of files
-and of environment variables confuses the function. If
-<code>toupper(gisBase)}</code>contains <code>OSGEO4W64/APPS/GRASS</code>
-or <code>OSGEO4W/APPS/GRASS</code>, but the environment variable
-<code>OSGEO4W_ROOT</code> is not defined, <code>initGRASS</code> will
-exit with an error before confusion leads to further errors. For further
-details, see <a href="https://github.com/rsbivand/rgrass/issues/16" class="external-link uri">https://github.com/rsbivand/rgrass/issues/16</a> and <a href="https://lists.osgeo.org/pipermail/grass-stats/2018-November/001800.html" class="external-link uri">https://lists.osgeo.org/pipermail/grass-stats/2018-November/001800.html</a>.</p>
+GRASS GIS interface loaded with GRASS version: GRASS 8.3.2 (2024)
+and location: nc_basic_spm_grass7</code></pre>
+<p>On Windows, if GRASS was installed through the OSGeo4W installer, the
+R session must be started in the OSGeo4W shell, including starting
+RStudio. In using the OSGeo4W shell, found in the Windows left app
+navbar (for example here in thw QGIS app group, also found in the
+OSGeo4W app group):</p>
+<p><img src="OSGeo4W_QGIS_navbar.png" width="200"></p>
+<p>note that the standard PATH to Rgui or RStudio apps is overwritten,
+so the program name has to be entered with its full path, for example
+<code>"C:\Program Files\R\R-4.3.3\bin\x64\Rgui.exe"</code> or
+<code>"C:\Program Files\RStudio\rstudio.exe"</code> in quotes because of
+the space. In addition, the working directory in not user-writable, so
+also needs to be changed when using Rgui, while RStudio itself changes
+to the directory Windows treats as your home directory. First Rgui:</p>
+<p><img src="OSGeo4W_Rgui.png" width="426"></p>
+<p>and RStudio:</p>
+<p><img src="OSGeo4W_rstudio.png" width="520"></p>
+<p>In both cases, warnings can be seen on loading <code>terra</code>
+which are not associated with RStudio, Rgui or R, but in this case were
+caused by the OSGeo4W express installer not installing the correct
+plugins for the GDAL version it installed by default. Using the OSGeo4W
+custom installer from OSGeo4W Setup (also in the left app navbar), the
+latest version of GDAL can be installed, resolving the non-critical
+warnings.</p>
+<p>If not started in the OSGeo4W shell, the non-standard placing of
+files and of environment variables confuses the function and
+<code>initGRASS</code> will exit with an error before confusion leads to
+further errors. For further details, see <a href="https://github.com/rsbivand/rgrass/issues/16" class="external-link uri">https://github.com/rsbivand/rgrass/issues/16</a> and <a href="https://lists.osgeo.org/pipermail/grass-stats/2018-November/001800.html" class="external-link uri">https://lists.osgeo.org/pipermail/grass-stats/2018-November/001800.html</a>.</p>
 <p>The same restriction applies to use of GRASS with QGIS Windows
 standalone installations, which may be used with <code>initGRASS</code>
 only if the R session is started from the OSGeo4W shell shipped as part
-of the standalone installer (see <a href="https://github.com/rsbivand/rgrass/issues/87" class="external-link uri">https://github.com/rsbivand/rgrass/issues/87</a>). The
-function will exit with an error if R was not started from the QGIS
-OSGeo4W shell before confusion leads to further errors.</p>
+of the standalone installer (see <a href="https://github.com/rsbivand/rgrass/issues/87" class="external-link uri">https://github.com/rsbivand/rgrass/issues/87</a>).</p>
+<p>The QGIS Windows standalone installer may be used to install GRASS
+for <code>rgrass</code>, but if GRASS is to be run within R, again R or
+RStudio must be started in the OSGeo4W shell installed this time by the
+QGIS Windows standalone installer:</p>
+<p><img src="OSGeo4W_QGIS_Rgui.png" width="426"></p>
+<p>If not started from the required OSGeo4W shell, the function will
+exit with an error before confusion leads to further errors.</p>
+<p><img src="OSGeo4W_QGIS_rstudio.png" width="518"></p>
 <p>Starting GRASS from R may use a temporary or an existing GRASS
-<code>LOCATION</code>.</p>
+<code>LOCATION</code>, as has already been demonstrated in the temporary
+directory case in the OSGeo4W and QGIS standalone installer cases.</p>
 <div class="section level3">
 <h3 id="temporary-grass-location">Temporary GRASS location<a class="anchor" aria-label="anchor" href="#temporary-grass-location"></a>
 </h3>
@@ -228,7 +251,7 @@ temporary GRASS location will be created and set.</p>
 <p>Here we’ll use a raster file provided with
 <strong>terra</strong>:</p>
 <pre><code>&gt; library(terra)
-terra 1.6.0
+terra 1.7.71
 &gt; f &lt;- system.file("ex/elev.tif", package="terra")
 &gt; r &lt;- rast(f)</code></pre>
 <p>The first argument to <code><a href="../reference/initGRASS.html">initGRASS()</a></code> is
@@ -314,16 +337,15 @@ max values  :   547.000000,     7.229438,   360.000000 </code></pre>
 <p>Similarly, GRASS may be started in an R session with an existing
 location by providing the <code>gisDbase=</code>, <code>location=</code>
 and <code>mapset=</code> arguments with valid values:</p>
-<pre><code>$ GRASS_INSTALLATION=/home/rsb/topics/grass/g820/grass82 R
+<pre><code>$ GRASS_INSTALLATION=/home/rsb/topics/grass/g832/grass83 R
 
-R version 4.2.1 (2022-06-23) -- "Funny-Looking Kid"
-Copyright (C) 2022 The R Foundation for Statistical Computing
+R version 4.3.3 (2024-02-29) -- "Angel Food Cake"
+Copyright (C) 2024 The R Foundation for Statistical Computing
 Platform: x86_64-pc-linux-gnu (64-bit)
 
 ...
 
 &gt; library(rgrass)
-Loading required package: XML
 GRASS GIS interface loaded with GRASS version: (GRASS not running)
 &gt; GRASS_INSTALLATION &lt;- Sys.getenv("GRASS_INSTALLATION")
 &gt; loc &lt;- initGRASS(GRASS_INSTALLATION, home=tempdir(), gisDbase="/home/rsb/topics/grassdata", location="nc_basic_spm_grass7", mapset="rsb", override=TRUE)
