@@ -113,13 +113,13 @@ GRASS GIS interface loaded with GRASS version: GRASS 8.3.2 (2024)
 and location: nc_basic_spm_grass7
 ```
 
-On Windows, if GRASS was installed through the OSGeo4W installer, the R session must be started in the OSGeo4W shell, including starting RStudio. In using the OSGeo4W shell, found in the Windows left app navbar (for example here in thw QGIS app group, also found in the OSGeo4W app group):
+On Windows, if GRASS was installed through the OSGeo4W installer, the R session must be started in the OSGeo4W shell, including starting RStudio. In using the OSGeo4W shell, found in the Windows left app navbar (for example here in the QGIS app group, also found in the OSGeo4W app group):
 
 ```{r, out.width=200, echo=FALSE}
 knitr::include_graphics("OSGeo4W_QGIS_navbar.png")
 ```
 
-note that the standard PATH to Rgui or RStudio apps is overwritten, so the program name has to be entered with its full path, for example `"C:\Program Files\R\R-4.3.3\bin\x64\Rgui.exe"` or `"C:\Program Files\RStudio\rstudio.exe"` in quotes because of the space. In addition, the working directory in not user-writable, so also needs to be changed when using Rgui, while RStudio itself changes to the directory Windows treats as your home directory. First Rgui:
+note that the standard PATH to Rgui or RStudio apps is overwritten, so the program name has to be entered with its full path, for example `"C:\Program Files\R\R-4.3.3\bin\x64\Rgui.exe"` or `"C:\Program Files\RStudio\rstudio.exe"` in quotes because of the space. In addition, the working directory in not user-writeable, so also needs to be changed when using Rgui, while RStudio itself changes to the directory Windows treats as your home directory. First Rgui:
 
 ```{r, out.width=426, echo=FALSE}
 knitr::include_graphics("OSGeo4W_Rgui.png")
