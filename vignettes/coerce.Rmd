@@ -16,7 +16,7 @@ vignette: >
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE, paged.print=FALSE)
+knitr::opts_chunk$set(echo = TRUE, paged.print = FALSE)
 ```
 
 ## Introduction
@@ -46,11 +46,11 @@ This vignette is constructed conditioning on the availability of aforementioned 
 
 
 ```{r include=FALSE, message=FALSE}
-terra_available <- requireNamespace("terra", quietly=TRUE)
-sf_available <- requireNamespace("sf", quietly=TRUE)
-sp_available <- requireNamespace("sp", quietly=TRUE)
-stars_available <- requireNamespace("stars", quietly=TRUE) && packageVersion("stars") > "0.5.4"
-raster_available <- requireNamespace("raster", quietly=TRUE)
+terra_available <- requireNamespace("terra", quietly = TRUE)
+sf_available <- requireNamespace("sf", quietly = TRUE)
+sp_available <- requireNamespace("sp", quietly = TRUE)
+stars_available <- requireNamespace("stars", quietly = TRUE) && packageVersion("stars") > "0.5.4"
+raster_available <- requireNamespace("raster", quietly = TRUE)
 ```
 
 On loading and attaching, **terra** displays its version:
@@ -78,7 +78,7 @@ library("raster")
 `terra::gdal()` tells us the versions of the external libraries being used by **terra**:
 
 ```{r, eval=terra_available}
-gdal(lib="all")
+gdal(lib = "all")
 ```
 
 When using CRAN binary packages built static for Windows and macOS, the R packages will use the same versions of the external libraries, but not necessarily the same versions as those against which GRASS was installed.
@@ -91,7 +91,7 @@ In the **terra** package [@terra], vector data are held in `"SpatVector"` object
 
 
 ```{r, eval=terra_available}
-fv <- system.file("ex/lux.shp", package="terra")
+fv <- system.file("ex/lux.shp", package = "terra")
 (v <- vect(fv))
 ```
 
@@ -124,7 +124,7 @@ v_sf_rt
 ```
 
 ```{r, eval=(terra_available && sf_available)}
-all.equal(v_sf_rt, v, check.attributes=FALSE)
+all.equal(v_sf_rt, v, check.attributes = FALSE)
 ```
 
 ### `"Spatial"`
@@ -138,7 +138,7 @@ print(summary(v_sp))
 
 ```{r, eval=(terra_available && sf_available && sp_available)}
 v_sp_rt <- vect(st_as_sf(v_sp))
-all.equal(v_sp_rt, v, check.attributes=FALSE)
+all.equal(v_sp_rt, v, check.attributes = FALSE)
 ```
 
 ## `"SpatRaster"` coercion
@@ -146,7 +146,7 @@ all.equal(v_sp_rt, v, check.attributes=FALSE)
 In the **terra** package, raster data are held in `"SpatRaster"` objects. This means that when `read_RAST()` is used, a `"SpatRaster"` object is returned, and the same class of object is needed for `write_RAST()` for writing to GRASS.
 
 ```{r, eval=terra_available}
-fr <- system.file("ex/elev.tif", package="terra")
+fr <- system.file("ex/elev.tif", package = "terra")
 (r <- rast(fr))
 ```
 
@@ -173,7 +173,7 @@ which round-trips in memory.
 When coercing to `"stars_proxy"` the same applies:
 
 ```{r, eval=(terra_available && stars_available)}
-(r_stars_p <- st_as_stars(r, proxy=TRUE))
+(r_stars_p <- st_as_stars(r, proxy = TRUE))
 ```
 with coercion from `"stars_proxy"` also not reading data into memory:
 
