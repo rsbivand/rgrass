@@ -6,9 +6,11 @@ read_RAST <- function(
     vname, cat = NULL, NODATA = NULL,
     ignore.stderr = get.ignore.stderrOption(), return_format = "terra",
     close_OK = return_format == "SGDF", flags = NULL) {
-  if (!is.null(cat))
-    if (length(vname) != length(cat))
+  if (!is.null(cat)) {
+    if (length(vname) != length(cat)) {
       stop("vname and cat not same length")
+    }
+  }
   if (get.suppressEchoCmdInFuncOption()) {
     inEchoCmd <- set.echoCmdOption(FALSE)
   }
@@ -18,13 +20,16 @@ read_RAST <- function(
   stopifnot(is.logical(ignore.stderr))
 
   if (!is.null(NODATA)) {
-    if (any(!is.finite(NODATA)) || any(!is.numeric(NODATA)))
+    if (any(!is.finite(NODATA)) || any(!is.numeric(NODATA))) {
       stop("invalid NODATA value")
-    if (NODATA != round(NODATA))
+    }
+    if (NODATA != round(NODATA)) {
       warning("NODATA rounded to integer")
+    }
     NODATA <- round(NODATA)
-    if (length(NODATA) != length(vname))
+    if (length(NODATA) != length(vname)) {
       NODATA <- rep(NODATA[1], length.out = length(vname))
+    }
   }
 
   msp <- unlist(strsplit(execGRASS("g.mapsets",
@@ -33,8 +38,9 @@ read_RAST <- function(
   ), " "))
 
   if (return_format == "SGDF") {
-    if (!(requireNamespace("sp", quietly = TRUE)))
+    if (!(requireNamespace("sp", quietly = TRUE))) {
       stop("sp required for SGDF output")
+    }
     resa <- .read_rast_non_plugin_ng(
       vname = vname, cat = cat, NODATA = NODATA,
       ignore.stderr = ignore.stderr
@@ -45,8 +51,9 @@ read_RAST <- function(
       for (bye in toBeClosed) close(bye)
     }
   } else {
-    if (!(requireNamespace("terra", quietly = TRUE)))
+    if (!(requireNamespace("terra", quietly = TRUE))) {
       stop("terra required for SpatRaster output")
+    }
     drv <- "RRASTER"
     fxt <- ".grd"
     ro <- FALSE
@@ -76,25 +83,31 @@ read_RAST <- function(
           type = "raster", pattern = vca[1],
           intern = TRUE, ignore.stderr = ignore.stderr
         )
-        if (length(exsts) > 1L) stop(
-          "multiple rasters named ", vca[1],
-          " found in in mapsets in search path: ",
-          paste(msp, collapse = ", "),
-          " ; use full path with @ to choose the required raster"
-        )
-        if (length(exsts) == 0L || exsts != vca[1])
+        if (length(exsts) > 1L) {
+          stop(
+            "multiple rasters named ", vca[1],
+            " found in in mapsets in search path: ",
+            paste(msp, collapse = ", "),
+            " ; use full path with @ to choose the required raster"
+          )
+        }
+        if (length(exsts) == 0L || exsts != vca[1]) {
           stop(
             vname[i], " not found in mapsets in search path: ",
             paste(msp, collapse = ", ")
           )
+        }
       } else if (length(vca) == 2L) {
         exsts <- execGRASS("g.list",
           type = "raster", pattern = vca[1],
           mapset = vca[2], intern = TRUE, ignore.stderr = ignore.stderr
         )
-        if (length(exsts) == 0L || exsts != vca[1])
+        if (length(exsts) == 0L || exsts != vca[1]) {
           stop(vname[i], " not found in mapset: ", vca[2])
-      } else stop(vname[i], " incorrectly formatted")
+        }
+      } else {
+        stop(vname[i], " incorrectly formatted")
+      }
       typei <- NULL
       if (is.null(NODATA)) {
         tx <- execGRASS("r.info",
@@ -107,8 +120,9 @@ read_RAST <- function(
         close(con)
         lres <- as.list(res)
         names(lres) <- colnames(res)
-        lres <- lapply(lres, function(x)
-          ifelse(x == "NULL", as.numeric(NA), as.numeric(x)))
+        lres <- lapply(lres, function(x) {
+          ifelse(x == "NULL", as.numeric(NA), as.numeric(x))
+        })
         tx <- execGRASS("r.info",
           flags = "g", map = vname[i], intern = TRUE,
           ignore.stderr = ignore.stderr
@@ -163,20 +177,26 @@ read_RAST <- function(
               if (lres$max < 2147483647) {
                 NODATAi <- 2147483647
                 typei <- "Int32"
-              } else stop("set NODATA manually to a feasible value")
+              } else {
+                stop("set NODATA manually to a feasible value")
+              }
             }
             if (lres$min == -32768) {
               if (lres$max < 32767) {
                 NODATAi <- 32767
                 typei <- "Int16"
-              } else stop("set NODATA manually to a feasible value")
+              } else {
+                stop("set NODATA manually to a feasible value")
+              }
             }
             if (is.null(NODATAi)) NODATAi <- floor(lres$min) - 1
           } else {
             NODATAi <- floor(lres$min) - 1
           }
         }
-      } else NODATAi <- NODATA[i]
+      } else {
+        NODATAi <- NODATA[i]
+      }
       tmplist[[i]] <- tempfile(fileext = fxt)
       if (is.null(flags)) flags <- c("overwrite", "c", "m")
       if (!is.null(cat) && cat[i]) flags <- c(flags, "t")
@@ -207,10 +227,11 @@ read_RAST <- function(
   pid <- as.integer(round(runif(1, 1, 1000)))
 
   gLP <- getLocationProj()
-  if (gLP == "XY location (unprojected)")
+  if (gLP == "XY location (unprojected)") {
     p4 <- sp::CRS(as.character(NA))
-  else
+  } else {
     p4 <- sp::CRS(gLP)
+  }
 
   reslist <- vector(mode = "list", length = length(vname))
   names(reslist) <- gsub("@", "_", vname)
@@ -227,25 +248,31 @@ read_RAST <- function(
         type = "raster", pattern = vca[1],
         intern = TRUE, ignore.stderr = ignore.stderr
       )
-      if (length(exsts) > 1L) stop(
-        "multiple rasters named ", vca[1],
-        " found in in mapsets in search path:\n",
-        paste(msp, collapse = ", "),
-        "\nuse full path with @ to choose the required raster"
-      )
-      if (length(exsts) == 0L || exsts != vca[1])
+      if (length(exsts) > 1L) {
+        stop(
+          "multiple rasters named ", vca[1],
+          " found in in mapsets in search path:\n",
+          paste(msp, collapse = ", "),
+          "\nuse full path with @ to choose the required raster"
+        )
+      }
+      if (length(exsts) == 0L || exsts != vca[1]) {
         stop(
           vname[i], " not found in mapsets in search path: ",
           paste(msp, collapse = ", ")
         )
+      }
     } else if (length(vca) == 2L) {
       exsts <- execGRASS("g.list",
         type = "raster", pattern = vca[1],
         mapset = vca[2], intern = TRUE, ignore.stderr = ignore.stderr
       )
-      if (length(exsts) == 0L || exsts != vca[1])
+      if (length(exsts) == 0L || exsts != vca[1]) {
         stop(vname[i], " not found in mapset: ", vca[2])
-    } else stop(vname[i], " incorrectly formatted")
+      }
+    } else {
+      stop(vname[i], " incorrectly formatted")
+    }
     glist <- execGRASS("r.info",
       flags = "g", map = vname[i],
       intern = TRUE, ignore.stderr = ignore.stderr
@@ -284,12 +311,13 @@ read_RAST <- function(
       close(con)
       lres <- as.list(res)
       names(lres) <- colnames(res)
-      lres <- lapply(lres, function(x)
-        ifelse(x == "NULL", as.numeric(NA), as.numeric(x)))
+      lres <- lapply(lres, function(x) {
+        ifelse(x == "NULL", as.numeric(NA), as.numeric(x))
+      })
       if (!is.numeric(lres$min) ||
-        !is.finite(as.double(lres$min)))
+        !is.finite(as.double(lres$min))) {
         NODATAi <- as.integer(999)
-      else {
+      } else {
         lres$min <- floor(as.double(lres$min))
         NODATAi <- floor(lres$min) - 1
       }
@@ -297,8 +325,11 @@ read_RAST <- function(
 
     rOutBinFlags <- "b"
     # 120118 Rainer Krug
-    if (to_int) rOutBinFlags <- c(rOutBinFlags, "i")
-    else rOutBinFlags <- c(rOutBinFlags, "f")
+    if (to_int) {
+      rOutBinFlags <- c(rOutBinFlags, "i")
+    } else {
+      rOutBinFlags <- c(rOutBinFlags, "f")
+    }
     rOutBinBytes <- 4L
     if (Dcell) rOutBinBytes <- 8L
     tryCatch({
@@ -335,8 +366,9 @@ read_RAST <- function(
     unname(c(gdal_info[2], gdal_info[1]))
   )
 
-  if (length(unique(sapply(reslist, length))) != 1)
+  if (length(unique(sapply(reslist, length))) != 1) {
     stop("bands differ in length")
+  }
 
   df <- as.data.frame(reslist)
 
@@ -381,10 +413,12 @@ read_RAST <- function(
 
 bin_gdal_info_ng <- function(fname, to_int) {
   if (!file.exists(fname)) stop(paste("no such file:", fname))
-  if (!file.exists(paste(fname, "hdr", sep = ".")))
+  if (!file.exists(paste(fname, "hdr", sep = "."))) {
     stop(paste("no such file:", paste(fname, "hdr", sep = ".")))
-  if (!file.exists(paste(fname, "wld", sep = ".")))
+  }
+  if (!file.exists(paste(fname, "wld", sep = "."))) {
     stop(paste("no such file:", paste(fname, "wld", sep = ".")))
+  }
   con <- file(paste(fname, "hdr", sep = "."), "r")
   l8 <- readLines(con, n = 8)
   close(con)
@@ -403,7 +437,9 @@ bin_gdal_info_ng <- function(fname, to_int) {
   lres$byteorder <- as.character(lres$byteorder)
   endian <- .Platform$endian
   if ((endian == "little" && lres$byteorder == "M") ||
-    (endian == "big" && lres$byteorder == "I")) endian <- "swap"
+    (endian == "big" && lres$byteorder == "I")) {
+    endian <- "swap"
+  }
   con <- file(paste(fname, "wld", sep = "."), "r")
   l6 <- readLines(con, n = 6)
   close(con)
@@ -439,8 +475,9 @@ readBinGridData <- function(fname, what, n, size, endian, nodata) {
 }
 
 repair_cats <- function(x, layer, vname) {
-  if (!(requireNamespace("terra", quietly = TRUE)))
+  if (!(requireNamespace("terra", quietly = TRUE))) {
     stop("terra required for to repair terra object cats")
+  }
   if (!inherits(x, "SpatRaster")) stop("x not a SpatRaster object")
   xcats <- getMethod("cats", "SpatRaster")(x)
   nms <- getMethod("names", "SpatRaster")(x)
@@ -484,8 +521,9 @@ read_cat_colors <- function(vname) {
   cols <- execGRASS("r.colors.out", map = vname, intern = TRUE)
   cols12 <- strsplit(cols, " ")
   cat_col1 <- match(as.character(zcats$rcp_out[, 1]), sapply(cols12, "[", 1))
-  if (length(cat_col1) != (length(cols12) - 2L))
+  if (length(cat_col1) != (length(cols12) - 2L)) {
     warning("possible category mismatch")
+  }
   coltb <- sapply(cols12[zcats$rcp_out[order(zcats$rcp_out[, 1]), 2]], "[", 2L)
   df <- as.data.frame(t(sapply(strsplit(coltb, ":"), as.integer)))
   pal <- rgb(df$V1, df$V2, df$V3, maxColorValue = 255)
@@ -503,11 +541,13 @@ write_RAST <- function(
   stopifnot(is.character(vname))
   if (!is.null(flags)) stopifnot(is.character(flags))
 
-  if (overwrite && !("overwrite" %in% flags))
+  if (overwrite && !("overwrite" %in% flags)) {
     flags <- c(flags, "overwrite")
+  }
   if (inherits(x, "SpatialGridDataFrame")) {
-    if (!(requireNamespace("sp", quietly = TRUE)))
+    if (!(requireNamespace("sp", quietly = TRUE))) {
       stop("sp required for SGDF input")
+    }
     stopifnot(length(vname) == 1L)
     pid <- as.integer(round(runif(1, 1, 1000)))
     gtmpfl1 <- dirname(execGRASS("g.tempfile",
@@ -524,8 +564,9 @@ write_RAST <- function(
     fid <- paste("X", pid, sep = "")
     gtmpfl11 <- paste(gtmpfl1, fid, sep = .Platform$file.sep)
     rtmpfl11 <- paste(rtmpfl1, fid, sep = .Platform$file.sep)
-    if (!is.numeric(x@data[[zcol]]))
+    if (!is.numeric(x@data[[zcol]])) {
       stop("only numeric columns may be exported")
+    }
     res <- writeBinGrid_ng(x, rtmpfl11, attr = zcol, na.value = NODATA)
 
     flags <- c(res$flag, flags)
@@ -540,13 +581,17 @@ write_RAST <- function(
     )
     if (verbose) message("SpatialGridDataFrame read into GRASS using r.in.bin")
   } else if (inherits(x, "SpatRaster")) {
-    if (!(requireNamespace("terra", quietly = TRUE)))
+    if (!(requireNamespace("terra", quietly = TRUE))) {
       stop("terra required for terra output")
+    }
     # Suggestion https://github.com/rsbivand/rgrass/pull/45#discussion_r816113064 Floris Vanderhaeghe
     srcs <- getMethod("sources", "SpatRaster")(x)
     mems <- getMethod("inMemory", "SpatRaster")(x)
-    if (length(srcs) == 1L && !mems[1]) tf <- srcs[1]
-    else tf <- ""
+    if (length(srcs) == 1L && !mems[1]) {
+      tf <- srcs[1]
+    } else {
+      tf <- ""
+    }
     if (!file.exists(tf)) {
       drv <- "RRASTER"
       fxt <- ".grd"
@@ -565,10 +610,12 @@ write_RAST <- function(
     }
     execGRASS("r.in.gdal", flags = flags, input = tf, output = vname)
     #        if (tmpfl) unlink(tf)
-    if (verbose) message(
-      "SpatRaster read into GRASS using r.in.gdal from ",
-      ifelse(tmpfl, "memory", "file")
-    )
+    if (verbose) {
+      message(
+        "SpatRaster read into GRASS using r.in.gdal from ",
+        ifelse(tmpfl, "memory", "file")
+      )
+    }
     if (getMethod("nlyr", "SpatRaster")(x) == 1L) {
       xcats <- getMethod("cats", "SpatRaster")(x)[[1]]
       if (!is.null(xcats)) {
@@ -590,39 +637,45 @@ write_RAST <- function(
 }
 
 writeBinGrid_ng <- function(x, fname, attr = 1, na.value = NULL) {
-  if (!sp::gridded(x))
+  if (!sp::gridded(x)) {
     stop("can only write SpatialGridDataFrame objects to binary grid")
-  x = as(x, "SpatialGridDataFrame")
-  gp = sp::gridparameters(x)
-  if (length(gp$cells.dim) != 2)
+  }
+  x <- as(x, "SpatialGridDataFrame")
+  gp <- sp::gridparameters(x)
+  if (length(gp$cells.dim) != 2) {
     stop("binary grid only supports 2D grids")
-  z = x@data[[attr]]
+  }
+  z <- x@data[[attr]]
   if (is.factor(z)) z <- as.numeric(z)
   if (!is.numeric(z)) stop("only numeric values may be exported")
   if (is.null(na.value)) {
     na.value <- floor(min(z, na.rm = TRUE)) - 1
   } else {
-    if (!is.finite(na.value) || !is.numeric(na.value))
+    if (!is.finite(na.value) || !is.numeric(na.value)) {
       stop("invalid NODATA value")
-    if (na.value != round(na.value))
+    }
+    if (na.value != round(na.value)) {
       warning("NODATA rounded to integer")
+    }
     na.value <- round(na.value)
   }
   res <- list()
   res$anull <- formatC(na.value, format = "d")
-  z[is.na(z)] = as.integer(na.value)
+  z[is.na(z)] <- as.integer(na.value)
   if (storage.mode(z) == "integer") {
     sz <- 4
   } else if (storage.mode(z) == "double") {
     sz <- 8
     res$flag <- "d"
-  } else stop("unknown storage mode")
+  } else {
+    stop("unknown storage mode")
+  }
   res$bytes <- formatC(sz, format = "d")
-  f = file(fname, open = "wb")
+  f <- file(fname, open = "wb")
   writeBin(z, con = f, size = sz)
   close(f)
   grd <- slot(x, "grid")
-  f = file(paste(fname, "hdr", sep = "."), open = "wt")
+  f <- file(paste(fname, "hdr", sep = "."), open = "wt")
   writeLines(paste("nrows", grd@cells.dim[2]), f)
   res$rows <- formatC(grd@cells.dim[2], format = "d")
   writeLines(paste("ncols", grd@cells.dim[1]), f)
@@ -636,7 +689,7 @@ writeBinGrid_ng <- function(x, fname, attr = 1, na.value = NULL) {
   writeLines(paste("skipbytes 0"), f)
   writeLines(paste("nodata", na.value), f)
   close(f)
-  f = file(paste(fname, "wld", sep = "."), open = "wt")
+  f <- file(paste(fname, "wld", sep = "."), open = "wt")
   writeLines(formatC(grd@cellsize[1], format = "f"), f)
   writeLines("0.0", f)
   writeLines("0.0", f)

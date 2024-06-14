@@ -4,10 +4,12 @@
 read_VECT <- function(
     vname, layer, type = NULL, flags = "overwrite",
     ignore.stderr = NULL) {
-  if (!(requireNamespace("terra", quietly = TRUE)))
+  if (!(requireNamespace("terra", quietly = TRUE))) {
     stop("terra required for SpatVector output")
-  if (is.null(ignore.stderr))
+  }
+  if (is.null(ignore.stderr)) {
     ignore.stderr <- get.ignore.stderrOption()
+  }
   stopifnot(is.logical(ignore.stderr))
   if (missing(layer)) layer <- "1"
   layer <- as.character(layer)
@@ -29,8 +31,9 @@ read_VECT <- function(
     format = "GPKG", ignore.stderr = ignore.stderr
   )
   res <- getMethod("vect", "character")(tf)
-  if (!all(getMethod("is.valid", "SpatVector")(res)))
+  if (!all(getMethod("is.valid", "SpatVector")(res))) {
     res <- getMethod("makeValid", "SpatVector")(res)
+  }
   if (get.suppressEchoCmdInFuncOption()) {
     tull <- set.echoCmdOption(inEchoCmd)
   }
@@ -38,10 +41,12 @@ read_VECT <- function(
 }
 
 write_VECT <- function(x, vname, flags = "overwrite", ignore.stderr = NULL) {
-  if (!(requireNamespace("terra", quietly = TRUE)))
+  if (!(requireNamespace("terra", quietly = TRUE))) {
     stop("terra required for SpatVector input")
-  if (is.null(ignore.stderr))
+  }
+  if (is.null(ignore.stderr)) {
     ignore.stderr <- get.ignore.stderrOption()
+  }
   stopifnot(is.logical(ignore.stderr))
   if (get.suppressEchoCmdInFuncOption()) {
     inEchoCmd <- set.echoCmdOption(FALSE)
@@ -60,6 +65,7 @@ write_VECT <- function(x, vname, flags = "overwrite", ignore.stderr = NULL) {
     flags = flags, input = tf, output = vname, type = type,
     ignore.stderr = ignore.stderr
   )
-  if (get.suppressEchoCmdInFuncOption())
+  if (get.suppressEchoCmdInFuncOption()) {
     tull <- set.echoCmdOption(inEchoCmd)
+  }
 }

@@ -8,8 +8,9 @@ vInfo <- function(vname, layer, ignore.stderr = NULL) {
     inEchoCmd <- get.echoCmdOption()
     tull <- set.echoCmdOption(FALSE)
   }
-  if (is.null(ignore.stderr))
+  if (is.null(ignore.stderr)) {
     ignore.stderr <- get("ignore.stderr", envir = .GRASS_CACHE)
+  }
   stopifnot(is.logical(ignore.stderr))
 
   if (missing(layer)) layer <- "1"
@@ -37,8 +38,9 @@ vColumns <- function(vname, layer, ignore.stderr = NULL) {
     inEchoCmd <- get.echoCmdOption()
     tull <- set.echoCmdOption(FALSE)
   }
-  if (is.null(ignore.stderr))
+  if (is.null(ignore.stderr)) {
     ignore.stderr <- get("ignore.stderr", envir = .GRASS_CACHE)
+  }
   stopifnot(is.logical(ignore.stderr))
   if (missing(layer)) layer <- "1"
   layer <- as.character(layer)
@@ -48,11 +50,12 @@ vColumns <- function(vname, layer, ignore.stderr = NULL) {
   )
   vinfo1 <- strsplit(vinfo0, "\\|")
   vinfo2 <- vinfo1[sapply(vinfo1, length) == 2]
-  if (length(vinfo1) != length(vinfo2))
+  if (length(vinfo1) != length(vinfo2)) {
     warning(
       "vColumns: v.info -c output not in two columns:\n",
       paste(vinfo1[sapply(vinfo1, length) != 2])
     )
+  }
   res <- as.data.frame(do.call("rbind", vinfo2))
   names(res) <- c("storageType", "name")
   if (get.suppressEchoCmdInFuncOption()) {
@@ -66,21 +69,25 @@ vDataCount <- function(vname, layer, ignore.stderr = NULL) {
     inEchoCmd <- get.echoCmdOption()
     tull <- set.echoCmdOption(FALSE)
   }
-  if (is.null(ignore.stderr))
+  if (is.null(ignore.stderr)) {
     ignore.stderr <- get("ignore.stderr", envir = .GRASS_CACHE)
+  }
   stopifnot(is.logical(ignore.stderr))
   column <- "column" %in% parseGRASS("v.db.select")$pnames
   if (missing(layer)) layer <- "1"
   layer <- as.character(layer)
   parms <- list(map = vname, layer = as.character(layer), columns = "cat")
-  if (column) tull <- execGRASS("v.db.select",
-    flags = "c",
-    parameters = parms, intern = TRUE, ignore.stderr = ignore.stderr
-  )
-  else tull <- execGRASS("v.db.select",
-    flags = "c",
-    parameters = parms, intern = TRUE, ignore.stderr = ignore.stderr
-  )
+  if (column) {
+    tull <- execGRASS("v.db.select",
+      flags = "c",
+      parameters = parms, intern = TRUE, ignore.stderr = ignore.stderr
+    )
+  } else {
+    tull <- execGRASS("v.db.select",
+      flags = "c",
+      parameters = parms, intern = TRUE, ignore.stderr = ignore.stderr
+    )
+  }
   n <- length(tull)
   if (get.suppressEchoCmdInFuncOption()) {
     tull <- set.echoCmdOption(inEchoCmd)
@@ -159,14 +166,16 @@ vect2neigh <- function(
     inEchoCmd <- get.echoCmdOption()
     tull <- set.echoCmdOption(FALSE)
   }
-  if (is.null(ignore.stderr))
+  if (is.null(ignore.stderr)) {
     ignore.stderr <- get("ignore.stderr", envir = .GRASS_CACHE)
+  }
   stopifnot(is.logical(ignore.stderr))
 
   vinfo <- vInfo(vname)
   types <- names(vinfo)[which(vinfo > 0)]
-  if (length(grep("areas", types)) == 0)
+  if (length(grep("areas", types)) == 0) {
     stop("Vector object not of area type")
+  }
 
   n <- vDataCount(vname, ignore.stderr = ignore.stderr)
 
@@ -184,8 +193,9 @@ vect2neigh <- function(
       map = vname, intern = TRUE,
       ignore.stderr = ignore.stderr
     )
-    if (length(grep(ID, tull)) == 0)
+    if (length(grep(ID, tull)) == 0) {
       stop("ID not found")
+    }
     # 		cmd <- paste(paste("v.db.select", .addexe(), sep=""),
     #                    " -c map=", vname, " column=",
     # 			ID, sep="")
@@ -198,8 +208,9 @@ vect2neigh <- function(
       map = vname, columns = ID, intern = TRUE,
       ignore.stderr = ignore.stderr
     )
-    if (length(unique(ID)) != n)
+    if (length(unique(ID)) != n) {
       stop("fewer than n unique ID values")
+    }
   }
   vname2_was_null <- FALSE
   if (is.null(vname2)) {
@@ -303,10 +314,12 @@ vect2neigh <- function(
   #                    " vect=", vname2, ",", vname2a, sep="")
   # 	if(.Platform$OS.type == "windows") tull <- system(cmd, intern=TRUE)
   # 	else tull <- system(cmd, intern=TRUE, ignore.stderr=ignore.stderr)
-  if (remove) tull <- execGRASS("g.remove",
-    name = paste(vname2, vname2a, sep = ","), type = "vector",
-    intern = TRUE, ignore.stderr = ignore.stderr
-  )
+  if (remove) {
+    tull <- execGRASS("g.remove",
+      name = paste(vname2, vname2a, sep = ","), type = "vector",
+      intern = TRUE, ignore.stderr = ignore.stderr
+    )
+  }
 
   con <- textConnection(res)
   t2 <- read.table(con, sep = "|", header = TRUE, row.names = 1)

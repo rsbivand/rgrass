@@ -19,12 +19,16 @@ if (!exists("Sys.setenv", envir = baseenv())) Sys.setenv <- Sys.putenv
   assign("cmdCACHE", list(), envir = .GRASS_CACHE)
   assign("override_encoding", "", envir = .GRASS_CACHE)
   SYS <- ""
-  if (.Platform$OS.type == "windows") SYS <- "WinNat"
-  else if (.Platform$OS.type == "unix") SYS <- "unix"
-  else SYS <- "unknown"
+  if (.Platform$OS.type == "windows") {
+    SYS <- "WinNat"
+  } else if (.Platform$OS.type == "unix") {
+    SYS <- "unix"
+  } else {
+    SYS <- "unknown"
+  }
   assign("SYS", SYS, envir = .GRASS_CACHE)
   res <- ""
-  if (SYS == "WinNat") res = ".exe"
+  if (SYS == "WinNat") res <- ".exe"
   assign("addEXE", res, envir = .GRASS_CACHE)
   assign("WN_bat", "", envir = .GRASS_CACHE)
 
@@ -42,8 +46,9 @@ if (!exists("Sys.setenv", envir = baseenv())) Sys.setenv <- Sys.putenv
 .onAttach <- function(lib, pkg) {
   gisrc <- Sys.getenv("GISRC")
   loc <- Sys.getenv("LOCATION_NAME")
-  if (nchar(gisrc) == 0) gv <- "(GRASS not running)"
-  else {
+  if (nchar(gisrc) == 0) {
+    gv <- "(GRASS not running)"
+  } else {
     gv <- .grassVersion()
     comp <- .compatibleGRASSVersion(gv)
     if (!is.na(comp) && !comp) {
@@ -55,9 +60,9 @@ if (!exists("Sys.setenv", envir = baseenv())) Sys.setenv <- Sys.putenv
     }
   }
 
-  Smess <- paste('GRASS GIS interface loaded ',
-    'with GRASS version: ', gv, '\n',
-    ifelse(nchar(loc) == 0, '', paste('and location: ', loc, '\n', sep = "")),
+  Smess <- paste("GRASS GIS interface loaded ",
+    "with GRASS version: ", gv, "\n",
+    ifelse(nchar(loc) == 0, "", paste("and location: ", loc, "\n", sep = "")),
     sep = ""
   )
   packageStartupMessage(Smess, appendLF = FALSE)

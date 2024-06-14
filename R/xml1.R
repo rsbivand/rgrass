@@ -1,8 +1,9 @@
 parseGRASS <- function(cmd, legacyExec = NULL) {
   cmdCACHE <- get("cmdCACHE", envir = .GRASS_CACHE)
   res <- cmdCACHE[[cmd]]
-  if (is.null(legacyExec))
+  if (is.null(legacyExec)) {
     legacyExec <- get.legacyExecOption()
+  }
   stopifnot(is.logical(legacyExec))
   if (get("SYS", envir = .GRASS_CACHE) != "unix" && !legacyExec) {
     warning("legacyExec set TRUE on non-unix platform")
@@ -28,15 +29,17 @@ parseGRASS <- function(cmd, legacyExec = NULL) {
           ), pattern = ".bat$")
         ), silent = TRUE)
         if (length(t0) > 0 && !inherits(t0, "try-error") &&
-          is.character(t0) && all(nchar(t0) > 0))
+          is.character(t0) && all(nchar(t0) > 0)) {
           WN_bat <- c(WN_bat, t0)
+        }
       }
       assign("WN_bat", WN_bat, envir = .GRASS_CACHE)
     }
     prep <- ""
     if ((get("SYS", envir = .GRASS_CACHE) == "WinNat") &&
-      cmd %in% get("WN_bat", envir = .GRASS_CACHE))
+      cmd %in% get("WN_bat", envir = .GRASS_CACHE)) {
       ext <- ".bat"
+    }
 
     cmd0 <- paste(paste(prep, cmd, ext, sep = ""), "--interface-description")
     if (legacyExec) {
@@ -90,21 +93,23 @@ parseGRASS <- function(cmd, legacyExec = NULL) {
     res$ext <- ext
     res$prep <- prep
     #        res$description <- xmlValue(tr1[[1]])
-    if (is.na(match("description", xml_name(tr1))))
+    if (is.na(match("description", xml_name(tr1)))) {
       res$description <- xml_text(tr1[[match("label", xml_name(tr1))]],
         trim = TRUE
       )
-    else if (is.na(match("label", xml_name(tr1))))
+    } else if (is.na(match("label", xml_name(tr1)))) {
       res$description <- xml_text(tr1[[match(
         "description",
         xml_name(tr1)
       )]], trim = TRUE)
-    else res$description <- paste0(xml_text(tr1[[match(
-      "label",
-      xml_name(tr1)
-    )]], trim = TRUE), " ", xml_text(tr1[[match(
-      "description", xml_name(tr1)
-    )]], trim = TRUE))
+    } else {
+      res$description <- paste0(xml_text(tr1[[match(
+        "label",
+        xml_name(tr1)
+      )]], trim = TRUE), " ", xml_text(tr1[[match(
+        "description", xml_name(tr1)
+      )]], trim = TRUE))
+    }
     #        res$keywords <- xmlValue(tr1[[2]])
     res$keywords <- xml_text(tr1[[match("keywords", xml_name(tr1))]], trim = TRUE)
     #        o0 <- names(tr1)
@@ -182,8 +187,9 @@ parseGRASS <- function(cmd, legacyExec = NULL) {
 }
 
 setXMLencoding <- function(enc) {
-  if (!is.character(enc) || length(enc) > 1)
+  if (!is.character(enc) || length(enc) > 1) {
     stop("enc must be a character string")
+  }
   invisible(assign("override_encoding", enc, envir = .GRASS_CACHE))
 }
 
@@ -203,21 +209,27 @@ print.GRASS_interface_desc <- function(x, ...) {
       i["multiple"], "\n",
       sep = ""
     )
-    if (!is.na(i["default"])) cat("  default: ", i["default"],
-      "\n",
-      sep = ""
-    )
-    if (!is.na(i["keydesc"])) cat("  keydesc: ", i["keydesc"],
-      ", keydesc_count: ", i["keydesc_count"], "\n",
-      sep = ""
-    )
+    if (!is.na(i["default"])) {
+      cat("  default: ", i["default"],
+        "\n",
+        sep = ""
+      )
+    }
+    if (!is.na(i["keydesc"])) {
+      cat("  keydesc: ", i["keydesc"],
+        ", keydesc_count: ", i["keydesc_count"], "\n",
+        sep = ""
+      )
+    }
     cat("[", i["desc"], "]\n", sep = "")
   }
   cat("Flags:\n")
-  for (i in x$flags) cat("  name: ", i["name"], " [",
-    i["desc"], "] {", i["suppr_req"], "}\n",
-    sep = ""
-  )
+  for (i in x$flags) {
+    cat("  name: ", i["name"], " [",
+      i["desc"], "] {", i["suppr_req"], "}\n",
+      sep = ""
+    )
+  }
   invisible(x)
 }
 
@@ -229,11 +241,13 @@ doGRASS <- function(cmd, flags = NULL, ..., parameters = NULL, echoCmd = NULL, l
   }
   if (!is.null(flags)) stopifnot(is.character(flags))
   if (!is.null(parameters)) stopifnot(is.list(parameters))
-  if (is.null(echoCmd))
+  if (is.null(echoCmd)) {
     echoCmd <- get("echoCmd", envir = .GRASS_CACHE)
+  }
   stopifnot(is.logical(echoCmd))
-  if (is.null(legacyExec))
+  if (is.null(legacyExec)) {
     legacyExec <- get.legacyExecOption()
+  }
   stopifnot(is.logical(legacyExec))
   if (get("SYS", envir = .GRASS_CACHE) != "unix" && !legacyExec) {
     warning("legacyExec set TRUE on non-unix platform")
@@ -243,11 +257,12 @@ doGRASS <- function(cmd, flags = NULL, ..., parameters = NULL, echoCmd = NULL, l
   #    G6 <- get("GV", envir=.GRASS_CACHE) < "GRASS 7"
 
   dlist <- list(...)
-  if (!is.null(parameters) && (length(dlist) > 0))
+  if (!is.null(parameters) && (length(dlist) > 0)) {
     stop(paste("Use either GRASS parameters as R arguments,",
       "or as a parameter argument list object, but not both",
       sep = "\n"
     ))
+  }
   if (is.null(parameters) && (length(dlist) > 0)) parameters <- dlist
   pcmd <- parseGRASS(cmd, legacyExec = legacyExec)
   cmd <- paste(pcmd$prep, cmd, pcmd$ext, sep = "")
@@ -300,23 +315,26 @@ doGRASS <- function(cmd, flags = NULL, ..., parameters = NULL, echoCmd = NULL, l
       pmmult <- match(mult, parnms)
       for (i in seq(along = parameters)) {
         # patch for multiple values Patrick Caldon 090524
-        if (length(parameters[[i]]) > 1 && !(i %in% pmmult))
+        if (length(parameters[[i]]) > 1 && !(i %in% pmmult)) {
           stop(paste("Parameter <", names(parameters)[i],
             "> has multiple values",
             sep = ""
           ))
+        }
         if (pmv[i] == "string") {
-          if (!is.character(parameters[[i]]))
+          if (!is.character(parameters[[i]])) {
             stop(paste("Parameter <", names(parameters)[i],
               "> does not have string value",
               sep = ""
             ))
+          }
           # added any() 140516
-          if (any(is.na(parameters[[i]])))
+          if (any(is.na(parameters[[i]]))) {
             stop(paste("Parameter <", names(parameters)[i],
               "> is NA",
               sep = ""
             ))
+          }
           # string space protection 091108 Martin Mainzer
           Space <- length(grep(" ", parameters[[i]])) > 0
           # Rainer Krug 110128
@@ -331,27 +349,31 @@ doGRASS <- function(cmd, flags = NULL, ..., parameters = NULL, echoCmd = NULL, l
             }
           }
         } else if (pmv[i] == "float") {
-          if (!is.numeric(parameters[[i]]))
+          if (!is.numeric(parameters[[i]])) {
             stop(paste("Parameter <", names(parameters)[i],
               "> does not have numeric value",
               sep = ""
             ))
-          if (any(!is.finite(parameters[[i]])))
+          }
+          if (any(!is.finite(parameters[[i]]))) {
             stop(paste("Parameter <", names(parameters)[i],
               "> is not finite",
               sep = ""
             ))
+          }
         } else if (pmv[i] == "integer") {
-          if (!is.numeric(parameters[[i]]))
+          if (!is.numeric(parameters[[i]])) {
             stop(paste("Parameter <", names(parameters)[i],
               "> does not have numeric value",
               sep = ""
             ))
-          if (any(!is.finite(parameters[[i]])))
+          }
+          if (any(!is.finite(parameters[[i]]))) {
             stop(paste("Parameter <", names(parameters)[i],
               "> is not finite",
               sep = ""
             ))
+          }
           if (!is.integer(parameters[[i]])) {
             opi <- parameters[[i]]
             if (all(as.integer(opi) == opi)) {
@@ -363,7 +385,9 @@ doGRASS <- function(cmd, flags = NULL, ..., parameters = NULL, echoCmd = NULL, l
               ))
             }
           }
-        } else warning("unknown parameter type")
+        } else {
+          warning("unknown parameter type")
+        }
         # patch for multiple values Patrick Caldon 090524
         param <- paste(parameters[[i]], collapse = ",")
         res <- paste(res, paste(names(parameters)[i], param,
@@ -373,10 +397,13 @@ doGRASS <- function(cmd, flags = NULL, ..., parameters = NULL, echoCmd = NULL, l
     }
   }
   if (length(req) > 0) {
-    if ((!is.null(pt) && is.null(parameters)) && is.null(flags))
-      if (get.stop_on_no_flags_parasOption())
+    if ((!is.null(pt) && is.null(parameters)) && is.null(flags)) {
+      if (get.stop_on_no_flags_parasOption()) {
         stop("No flags or parameters provided")
-      else warning("No flags or parameters provided")
+      } else {
+        warning("No flags or parameters provided")
+      }
+    }
   }
   if (echoCmd) cat("GRASS command:", res, "\n")
   attr(res, "cmd") <- cmd
@@ -419,14 +446,17 @@ execGRASS <- function(
     ignore.stderr = NULL, Sys_ignore.stdout = FALSE, Sys_wait = TRUE,
     Sys_input = NULL, Sys_show.output.on.console = TRUE, Sys_minimized = FALSE,
     Sys_invisible = TRUE, echoCmd = NULL, redirect = FALSE, legacyExec = NULL) {
-  if (is.null(ignore.stderr))
+  if (is.null(ignore.stderr)) {
     ignore.stderr <- get.ignore.stderrOption()
+  }
   stopifnot(is.logical(ignore.stderr))
-  if (is.null(intern))
+  if (is.null(intern)) {
     intern <- get.useInternOption()
+  }
   stopifnot(is.logical(intern))
-  if (is.null(legacyExec))
+  if (is.null(legacyExec)) {
     legacyExec <- get.legacyExecOption()
+  }
   stopifnot(is.logical(legacyExec))
   if (get("SYS", envir = .GRASS_CACHE) != "unix" && !legacyExec) {
     warning("legacyExec set TRUE on non-unix platform")
@@ -440,7 +470,7 @@ execGRASS <- function(
   if (legacyExec) {
     if (redirect) {
       syscmd <- paste(syscmd, "2>&1")
-      intern = TRUE
+      intern <- TRUE
     }
     if (get("SYS", envir = .GRASS_CACHE) == "unix") {
       res <- system(syscmd,
@@ -455,7 +485,9 @@ execGRASS <- function(
         minimized = Sys_minimized, invisible = Sys_invisible
       )
     }
-    if (intern) return(res)
+    if (intern) {
+      return(res)
+    }
   } else {
     command <- attr(syscmd, "cmd")
     arguments <- substring(syscmd, (nchar(command) + 2), nchar(syscmd))
@@ -500,7 +532,9 @@ execGRASS <- function(
     }
 
     resOut <- readLines(outFile)
-    if (intern) return(resOut)
+    if (intern) {
+      return(resOut)
+    }
 
     if (length(resOut) > 0) cat(resOut, sep = "\n")
     if (length(resErr) > 0) cat(resErr, sep = "\n")
