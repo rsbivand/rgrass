@@ -4,7 +4,7 @@
 \alias{write_RAST}
 \title{Read and write GRASS raster files}
 \description{
-Read GRASS raster files from GRASS into R \pkg{terra} \code{"SpatRaster"} or \pkg{sp} \code{"SpatialGridDataFrame"} objects, and write single columns of \pkg{terra} \code{"SpatRaster"} or \pkg{sp} \code{"SpatialGridDataFrame"} objects to GRASS. When \code{return_format="terra"}, temporary binary files and r.out.bin and r.in.bin are used for speed reasons. \code{read_RAST()} and \code{write_RAST()} by default use \code{"RRASTER"} files written and read by GDAL. 
+Read GRASS raster files from GRASS into R \pkg{terra} \code{"SpatRaster"} or \pkg{sp} \code{"SpatialGridDataFrame"} objects, and write single columns of \pkg{terra} \code{"SpatRaster"} or \pkg{sp} \code{"SpatialGridDataFrame"} objects to GRASS. When \code{return_format="terra"}, temporary binary files and r.out.bin and r.in.bin are used for speed reasons. \code{read_RAST()} and \code{write_RAST()} by default use \code{"RRASTER"} files written and read by GDAL.
 }
 
 
@@ -12,7 +12,7 @@ Read GRASS raster files from GRASS into R \pkg{terra} \code{"SpatRaster"} or \pk
 \usage{
 read_RAST(vname, cat=NULL, NODATA=NULL, ignore.stderr=get.ignore.stderrOption(),
  return_format="terra", close_OK=return_format=="SGDF", flags=NULL)
-write_RAST(x, vname, zcol = 1, NODATA=NULL, flags=NULL, 
+write_RAST(x, vname, zcol = 1, NODATA=NULL, flags=NULL,
  ignore.stderr = get.ignore.stderrOption(), overwrite=FALSE, verbose=TRUE)
 }
 %- maybe also 'usage' for other objects documented here.
