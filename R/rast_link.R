@@ -34,10 +34,7 @@ read_RAST <- function(
     }
   }
 
-  msp <- unlist(strsplit(execGRASS("g.mapsets",
-    flags = "p",
-    intern = TRUE
-  ), " "))
+  msp <- get_mapsets()
 
   if (return_format == "SGDF") {
     if (!(requireNamespace("sp", quietly = TRUE))) {
@@ -82,37 +79,12 @@ read_RAST <- function(
       # 130422 at rgdal 0.8-8 GDAL.close(DS)
       # 061107 Dylan Beaudette NODATA
       # 071009 Markus Neteler's idea to use range
-      vca <- unlist(strsplit(vname[i], "@"))
-      if (length(vca) == 1L) {
-        exsts <- execGRASS("g.list",
-          type = "raster", pattern = vca[1],
-          intern = TRUE, ignore.stderr = ignore.stderr
-        )
-        if (length(exsts) > 1L) {
-          stop(
-            "multiple rasters named ", vca[1],
-            " found in in mapsets in search path: ",
-            paste(msp, collapse = ", "),
-            " ; use full path with @ to choose the required raster"
-          )
-        }
-        if (length(exsts) == 0L || exsts != vca[1]) {
-          stop(
-            vname[i], " not found in mapsets in search path: ",
-            paste(msp, collapse = ", ")
-          )
-        }
-      } else if (length(vca) == 2L) {
-        exsts <- execGRASS("g.list",
-          type = "raster", pattern = vca[1],
-          mapset = vca[2], intern = TRUE, ignore.stderr = ignore.stderr
-        )
-        if (length(exsts) == 0L || exsts != vca[1]) {
-          stop(vname[i], " not found in mapset: ", vca[2])
-        }
-      } else {
-        stop(vname[i], " incorrectly formatted")
-      }
+      vca <- sanitize_layername(
+        name = vname[i],
+        type = "raster",
+        mapsets = msp,
+        ignore.stderr = ignore.stderr
+      )
       typei <- NULL
       if (is.null(NODATA)) {
         tx <- execGRASS("r.info",
