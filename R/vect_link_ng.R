@@ -27,7 +27,7 @@ read_VECT <- function(
   tf <- tempfile(fileext = ".gpkg")
   execGRASS("v.out.ogr",
     flags = flags, input = vname, type = type,
-    layer = as.character(layer), output = tf, output_layer = vname,
+    layer = layer, output = tf, output_layer = vname,
     format = "GPKG", ignore.stderr = ignore.stderr
   )
   res <- getMethod("vect", "character")(tf)
