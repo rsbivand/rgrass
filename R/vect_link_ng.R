@@ -80,7 +80,7 @@ write_VECT <- function(x, vname, flags = "overwrite",
   if (!(requireNamespace("terra", quietly = TRUE))) {
     stop("terra required for SpatVector input")
   }
-  stopifnot(is.logical(ignore.stderr))
+  stopifnot(is.logical(ignore.stderr), !is.na(ignore.stderr))
   if (get.suppressEchoCmdInFuncOption()) {
     inEchoCmd <- set.echoCmdOption(FALSE)
   }
