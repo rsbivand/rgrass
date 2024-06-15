@@ -17,7 +17,7 @@ read_RAST <- function(
   if (close_OK) {
     openedConns <- as.integer(row.names(showConnections()))
   }
-  stopifnot(is.logical(ignore.stderr))
+  stopifnot(is.logical(ignore.stderr), !is.na(ignore.stderr))
 
   if (!is.null(NODATA)) {
     if (any(!is.finite(NODATA)) || any(!is.numeric(NODATA))) {
