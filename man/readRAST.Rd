@@ -63,9 +63,11 @@ if (run) {
   inMemory(v1)
 }
 if (run) {
-  write_RAST(v1, "landuse1", flags=c("o", "overwrite"))
-  execGRASS("r.stats", flags="c", input="landuse1")
-  execGRASS("g.remove", flags="f", name="landuse1", type="raster")
+  try({
+    write_RAST(v1, "landuse1", flags=c("o", "overwrite"))
+    execGRASS("r.stats", flags="c", input="landuse1")
+    execGRASS("g.remove", flags="f", name="landuse1", type="raster")
+  })
 }
 Sys.setenv("_SP_EVOLUTION_STATUS_"="2")
 run <- run && require("sp", quietly=TRUE)

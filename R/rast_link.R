@@ -604,6 +604,18 @@ write_RAST <- function(
     } else {
       tf <- ""
     }
+    # exit when the source is a GRASS database layer already:
+    if (grepl("[/\\\\]cellhd[/\\\\][^/\\\\]+$", tf)) {
+      grass_layername <- regmatches(
+        tf,
+        regexpr("(?<=[/\\\\]cellhd[/\\\\])[^/\\\\]+$", tf, perl = TRUE)
+      )
+      stop(
+        "This SpatRaster already links to the following raster layer in the ",
+        "GRASS GIS database: ",
+        grass_layername
+      )
+    }
     if (!file.exists(tf)) {
       drv <- "RRASTER"
       fxt <- ".grd"
