@@ -97,10 +97,10 @@ if (run) {
 names(sqdem)
 }
 if (run) {
-  try(sqdem1 <- read_RAST(c("sqdemSP@rsb", "elevation@PERMANENT")))
+  sqdem1 <- read_RAST(c("sqdemSP@PERMANENT", "elevation@PERMANENT"))
 }
 if (run) {
-  try(names(sqdem1))
+  names(sqdem1)
 }
 if (run) {
   execGRASS("g.remove", flags="f", name="sqdemSP", type="raster")
