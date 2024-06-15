@@ -2,17 +2,17 @@
 # Copyright (c) 2022 Roger S. Bivand
 #
 read_VECT <- function(
-    vname, layer, type = NULL, flags = "overwrite",
-    ignore.stderr = get.ignore.stderrOption()) {
+    vname, layer, use_gdal_grass_driver = TRUE, type = NULL,
+    flags = "overwrite", ignore.stderr = get.ignore.stderrOption()) {
   if (!(requireNamespace("terra", quietly = TRUE))) {
     stop("terra required for SpatVector output")
   }
   stopifnot(is.logical(ignore.stderr), !is.na(ignore.stderr))
-  if (missing(layer)) layer <- "1"
-  layer <- as.character(layer)
+  stopifnot(is.logical(use_gdal_grass_driver), !is.na(use_gdal_grass_driver))
   if (get.suppressEchoCmdInFuncOption()) {
     inEchoCmd <- set.echoCmdOption(FALSE)
   }
+  if (!missing(layer)) layer <- as.character(layer)
   vinfo <- vInfo(vname)
   types <- names(vinfo)[which(vinfo > 0)]
   if (is.null(type)) {
@@ -21,13 +21,51 @@ read_VECT <- function(
     if (length(grep("areas", types)) > 0) type <- "area"
     if (is.null(type)) stop("Vector type not found")
   }
-  tf <- tempfile(fileext = ".gpkg")
-  execGRASS("v.out.ogr",
-    flags = flags, input = vname, type = type,
-    layer = layer, output = tf, output_layer = vname,
-    format = "GPKG", ignore.stderr = ignore.stderr
+  msp <- get_mapsets()
+  # in the v.out.ogr case we won't use vca, but this is done to run the checks
+  # on vname anyway:
+  vca <- sanitize_layername(
+    name = vname,
+    type = "vector",
+    mapsets = msp,
+    ignore.stderr = ignore.stderr
   )
-  res <- getMethod("vect", "character")(tf)
+  has_grassraster_drv <- gdal_has_grassraster_driver()
+  if (has_grassraster_drv && use_gdal_grass_driver) {
+    args <- list(name = vca[1], type = "vector")
+    if (length(vca) == 2L) args <- c(args, mapset = vca[2])
+    tf <- do.call(generate_header_path, args)
+    layers <- terra::vector_layers(tf)
+    if (missing(layer)) {
+      # Set index as 1 and remove this condition once GDAL-GRASS driver issue
+      # has been solved (https://github.com/OSGeo/gdal-grass/issues/46).
+      # Then also move the type assignment code (from vInfo) to the
+      # v.out.ogr case, where it is used as an argument
+      index <- ifelse(type == "area", 2, 1)
+      layer <- layers[index]
+    } else if (!(layer %in% layers)) {
+      stop(
+        "Layer ",
+        layer,
+        " not found. Available layers: ",
+        paste(layers, collapse = ", ")
+      )
+    }
+    # message("Reading ", tf, " (layer ", layer, ")")
+    suppressMessages({
+      res <- getMethod("vect", "character")(tf, layer)
+    })
+  } else {
+    if (missing(layer)) layer <- "1"
+    tf <- tempfile(fileext = ".gpkg")
+    execGRASS("v.out.ogr",
+              flags = flags, input = vname, type = type,
+              layer = layer, output = tf, output_layer = vname,
+              format = "GPKG", ignore.stderr = ignore.stderr
+    )
+    # message("Reading ", tf)
+    res <- getMethod("vect", "character")(tf)
+  }
   if (!all(getMethod("is.valid", "SpatVector")(res))) {
     res <- getMethod("makeValid", "SpatVector")(res)
   }
