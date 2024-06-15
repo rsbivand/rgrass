@@ -11,7 +11,8 @@ Read GRASS raster files from GRASS into R \pkg{terra} \code{"SpatRaster"} or \pk
 
 \usage{
 read_RAST(vname, cat=NULL, NODATA=NULL, ignore.stderr=get.ignore.stderrOption(),
- return_format="terra", close_OK=return_format=="SGDF", flags=NULL)
+ return_format="terra", use_gdal_grass_driver = TRUE, close_OK=return_format=="SGDF",
+ flags=NULL)
 write_RAST(x, vname, zcol = 1, NODATA=NULL, flags=NULL,
  ignore.stderr = get.ignore.stderrOption(), overwrite=FALSE, verbose=TRUE)
 }
@@ -20,6 +21,7 @@ write_RAST(x, vname, zcol = 1, NODATA=NULL, flags=NULL,
   \item{vname}{A vector of GRASS raster file names in mapsets in the current search path, as set by \dQuote{g.mapsets}; the file names may be given as fully-qualified map names using \dQuote{name@mapset}, in which case only the mapset given in the full path will be searched for the existence of the raster; if more than one raster with the same name is found in mapsets in the current search path, an error will occur, in which case the user should give the fully-qualified map name. If the fully-qualified name is used, \code{@} will be replaced by underscore in the output object.}
   \item{cat}{default NULL; if not NULL, must be a logical vector matching vname, stating which (CELL) rasters to return as factor}
   \item{return_format}{default \code{"terra"}, optionally \code{"SGDF"}}
+  \item{use_gdal_grass_driver}{Default \code{TRUE}. The \href{https://github.com/OSGeo/gdal-grass}{standalone GDAL-GRASS driver} for the raster format will be used if \code{return_format} is \code{"terra"} and if the driver is installed. The advantage is that no intermediate file(s) need to be written from GRASS GIS and subsequently read into R; instead the raster dataset(s) are read directly from the GRASS GIS database.}
   \item{ignore.stderr}{default taking the value set by \code{set.ignore.stderrOption}; can be set to TRUE to silence \code{system()} output to standard error; does not apply on Windows platforms}
   \item{close_OK}{default TRUE - clean up possible open connections used for reading metadata; may be set to FALSE to avoid the side-effect of other user-opened connections being broken}
   \item{x}{A \pkg{terra} \code{"SpatRaster"} or \pkg{sp} \code{"SpatialGridDataFrame"} object}
@@ -91,10 +93,17 @@ if (run) {
 }
 if (run) {
   print(system.time(sqdem <- read_RAST(c("sqdemSP", "elevation"),
-    return_format="terra")))
+                                       return_format="terra",
+                                       use_gdal_grass_driver = FALSE)))
+}
+# install the GDAL-GRASS driver to achieve higher speed:
+if (run) {
+  print(system.time(sqdem <- read_RAST(c("sqdemSP", "elevation"),
+                                       return_format="terra",
+                                       use_gdal_grass_driver = TRUE)))
 }
 if (run) {
-names(sqdem)
+  names(sqdem)
 }
 if (run) {
   sqdem1 <- read_RAST(c("sqdemSP@PERMANENT", "elevation@PERMANENT"))

@@ -5,7 +5,8 @@
 read_RAST <- function(
     vname, cat = NULL, NODATA = NULL,
     ignore.stderr = get.ignore.stderrOption(), return_format = "terra",
-    close_OK = return_format == "SGDF", flags = NULL) {
+    use_gdal_grass_driver = TRUE, close_OK = return_format == "SGDF",
+    flags = NULL) {
   if (!is.null(cat)) {
     if (length(vname) != length(cat)) {
       stop("vname and cat not same length")
@@ -18,6 +19,7 @@ read_RAST <- function(
     openedConns <- as.integer(row.names(showConnections()))
   }
   stopifnot(is.logical(ignore.stderr), !is.na(ignore.stderr))
+  stopifnot(is.logical(use_gdal_grass_driver), !is.na(use_gdal_grass_driver))
 
   if (!is.null(NODATA)) {
     if (any(!is.finite(NODATA)) || any(!is.numeric(NODATA))) {
@@ -54,20 +56,23 @@ read_RAST <- function(
     if (!(requireNamespace("terra", quietly = TRUE))) {
       stop("terra required for SpatRaster output")
     }
-    drv <- "RRASTER"
-    fxt <- ".grd"
-    ro <- FALSE
-    o <- execGRASS("r.out.gdal", flags = "l", intern = TRUE)
-    oo <- grep("RRASTER", o)
-    if (length(oo) == 0L) ro <- TRUE
-    if (!ro) {
-      RR <- o[oo]
-      RRs <- strsplit(RR, " ")[[1]]
-      if (length(grep("\\(rw", RRs)) == 0L) ro <- TRUE
-    }
-    if (ro) {
-      drv <- "GTiff"
-      fxt <- ".tif"
+    has_grassraster_drv <- gdal_has_grassraster_driver()
+    if (!has_grassraster_drv || !use_gdal_grass_driver) {
+      drv <- "RRASTER"
+      fxt <- ".grd"
+      ro <- FALSE
+      o <- execGRASS("r.out.gdal", flags = "l", intern = TRUE)
+      oo <- grep("RRASTER", o)
+      if (length(oo) == 0L) ro <- TRUE
+      if (!ro) {
+        RR <- o[oo]
+        RRs <- strsplit(RR, " ")[[1]]
+        if (length(grep("\\(rw", RRs)) == 0L) ro <- TRUE
+      }
+      if (ro) {
+        drv <- "GTiff"
+        fxt <- ".tif"
+      }
     }
     reslist <- vector(mode = "list", length = length(vname))
     names(reslist) <- gsub("@", "_", vname)
@@ -197,22 +202,29 @@ read_RAST <- function(
       } else {
         NODATAi <- NODATA[i]
       }
-      tmplist[[i]] <- tempfile(fileext = fxt)
-      if (is.null(flags)) flags <- c("overwrite", "c", "m")
-      if (!is.null(cat) && cat[i]) flags <- c(flags, "t")
-      if (is.null(typei)) {
-        execGRASS("r.out.gdal",
-          input = vname[i], output = tmplist[[i]],
-          format = drv, nodata = NODATAi, flags = flags,
-          ignore.stderr = ignore.stderr
-        )
+      if (has_grassraster_drv && use_gdal_grass_driver) {
+        args <- list(name = vca[1], type = "raster")
+        if (length(vca) == 2L) args <- c(args, mapset = vca[2])
+        tmplist[[i]] <- do.call(generate_header_path, args)
       } else {
-        execGRASS("r.out.gdal",
-          input = vname[i], output = tmplist[[i]],
-          format = drv, nodata = NODATAi, type = typei, flags = flags,
-          ignore.stderr = ignore.stderr
-        )
+        tmplist[[i]] <- tempfile(fileext = fxt)
+        if (is.null(flags)) flags <- c("overwrite", "c", "m")
+        if (!is.null(cat) && cat[i]) flags <- c(flags, "t")
+        if (is.null(typei)) {
+          execGRASS("r.out.gdal",
+                    input = vname[i], output = tmplist[[i]],
+                    format = drv, nodata = NODATAi, flags = flags,
+                    ignore.stderr = ignore.stderr
+          )
+        } else {
+          execGRASS("r.out.gdal",
+                    input = vname[i], output = tmplist[[i]],
+                    format = drv, nodata = NODATAi, type = typei, flags = flags,
+                    ignore.stderr = ignore.stderr
+          )
+        }
       }
+      # message("Reading ", tmplist[[i]])
       reslist[[i]] <- getMethod("rast", "character")(tmplist[[i]])
     }
     resa <- getMethod("rast", "list")(reslist)
