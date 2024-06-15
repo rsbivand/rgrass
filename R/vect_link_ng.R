@@ -10,7 +10,7 @@ read_VECT <- function(
   if (is.null(ignore.stderr)) {
     ignore.stderr <- get.ignore.stderrOption()
   }
-  stopifnot(is.logical(ignore.stderr))
+  stopifnot(is.logical(ignore.stderr), !is.na(ignore.stderr))
   if (missing(layer)) layer <- "1"
   layer <- as.character(layer)
   if (get.suppressEchoCmdInFuncOption()) {
