@@ -3,12 +3,9 @@
 #
 read_VECT <- function(
     vname, layer, type = NULL, flags = "overwrite",
-    ignore.stderr = NULL) {
+    ignore.stderr = get.ignore.stderrOption()) {
   if (!(requireNamespace("terra", quietly = TRUE))) {
     stop("terra required for SpatVector output")
-  }
-  if (is.null(ignore.stderr)) {
-    ignore.stderr <- get.ignore.stderrOption()
   }
   stopifnot(is.logical(ignore.stderr), !is.na(ignore.stderr))
   if (missing(layer)) layer <- "1"
@@ -40,12 +37,10 @@ read_VECT <- function(
   res
 }
 
-write_VECT <- function(x, vname, flags = "overwrite", ignore.stderr = NULL) {
+write_VECT <- function(x, vname, flags = "overwrite",
+                       ignore.stderr = get.ignore.stderrOption()) {
   if (!(requireNamespace("terra", quietly = TRUE))) {
     stop("terra required for SpatVector input")
-  }
-  if (is.null(ignore.stderr)) {
-    ignore.stderr <- get.ignore.stderrOption()
   }
   stopifnot(is.logical(ignore.stderr))
   if (get.suppressEchoCmdInFuncOption()) {
