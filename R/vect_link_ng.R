@@ -3,7 +3,8 @@
 #
 read_VECT <- function(
     vname, layer = "", proxy = FALSE, use_gdal_grass_driver = TRUE, type = NULL,
-    flags = "overwrite", ignore.stderr = get.ignore.stderrOption()) {
+    flags = "overwrite", Sys_ignore.stdout = FALSE,
+    ignore.stderr = get.ignore.stderrOption()) {
   if (!(requireNamespace("terra", quietly = TRUE))) {
     stop("terra required for SpatVector output")
   }
@@ -60,7 +61,8 @@ read_VECT <- function(
     execGRASS("v.out.ogr",
               flags = flags, input = vname, type = type,
               layer = layer, output = tf, output_layer = vname,
-              format = "GPKG", ignore.stderr = ignore.stderr
+              format = "GPKG", Sys_ignore.stdout = Sys_ignore.stdout,
+              ignore.stderr = ignore.stderr
     )
     # message("Reading ", tf)
     res <- getMethod("vect", "character")(tf, proxy = proxy)

@@ -14,7 +14,8 @@
 }
 \usage{
 read_VECT(vname, layer = "", proxy = FALSE, use_gdal_grass_driver = TRUE, type = NULL,
-    flags = "overwrite", ignore.stderr = get.ignore.stderrOption())
+    flags = "overwrite", Sys_ignore.stdout = FALSE,
+    ignore.stderr = get.ignore.stderrOption())
 write_VECT(x, vname, flags = "overwrite", ignore.stderr = get.ignore.stderrOption())
 vInfo(vname, layer, ignore.stderr = NULL)
 vColumns(vname, layer, ignore.stderr = NULL)
@@ -29,6 +30,7 @@ vect2neigh(vname, ID=NULL, ignore.stderr = NULL, remove=TRUE, vname2=NULL,
   \item{proxy}{Default is \code{FALSE}. Set as \code{TRUE} if you need a \code{SpatVectorProxy} object.}
   \item{use_gdal_grass_driver}{Default \code{TRUE}. The \href{https://github.com/OSGeo/gdal-grass}{standalone GDAL-GRASS driver} for the vector format will be used if it is installed. The advantage is that no intermediate file needs to be written from GRASS GIS and subsequently read into R; instead the vector layer is read directly from the GRASS GIS database. Please read the \strong{Note} further below!}
   \item{type}{override type detection when multiple types are non-zero, passed to v.out.ogr}
+  \item{Sys_ignore.stdout}{Passed to \code{system}.}
   \item{ignore.stderr}{default the value set by \code{set.ignore.stderrOption}; NULL, taking the value set by \code{set.ignore.stderrOption}, can be set to TRUE to silence \code{system()} output to standard error; does not apply on Windows platforms}
   \item{x}{A \code{"SpatVector"} object moved to GRASS}
   \item{flags}{Character vector containing additional optional flags and/or options for v.in.ogr, particularly "o" and "overwrite"}
