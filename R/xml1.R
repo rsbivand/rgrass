@@ -536,8 +536,8 @@ execGRASS <- function(
       return(resOut)
     }
 
-    if (length(resOut) > 0) cat(resOut, sep = "\n")
-    if (length(resErr) > 0) cat(resErr, sep = "\n")
+    if (length(resOut) > 0 && !Sys_ignore.stdout) cat(resOut, sep = "\n")
+    if (length(resErr) > 0 && !ignore.stderr) cat(resErr, sep = "\n")
 
     attr(res, "resOut") <- resOut
     attr(res, "resErr") <- resErr
