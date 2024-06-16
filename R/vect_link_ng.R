@@ -90,6 +90,25 @@ write_VECT <- function(x, vname, flags = "overwrite",
   } else {
     tf <- ""
   }
+  # exit when the source is a GRASS database layer already:
+  if (grepl("[/\\\\]head::[^/\\\\]+$", tf)) {
+    grass_layername <- regmatches(
+      tf,
+      regexpr("(?<=[/\\\\]head::)[^/\\\\]+$", tf, perl = TRUE)
+    )
+    grass_dsn <- regmatches(
+      tf,
+      regexpr("(?<=[/\\\\])[^/\\\\]+(?=[/\\\\]head::)", tf, perl = TRUE)
+    )
+    stop(
+      "This SpatVector already links to layer '",
+      grass_layername,
+      "' of the data source '",
+      grass_dsn,
+      "' in the GRASS GIS database."
+    )
+  }
+
   if (!file.exists(tf)) {
     tf <- tempfile(fileext = ".gpkg")
     getMethod("writeVector", c("SpatVector", "character"))(x, filename = tf,

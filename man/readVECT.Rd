@@ -60,6 +60,12 @@ if (run) {
   print(summary(schs))
 }
 if (run) {
+  try({
+    write_VECT(schs, "newsch", flags=c("o", "overwrite"))
+  })
+  schs <- read_VECT("schools", use_gdal_grass_driver = FALSE)
+}
+if (run) {
   write_VECT(schs, "newsch", flags=c("o", "overwrite"))
   execGRASS("v.info", map="newsch", layer="1")
 }
