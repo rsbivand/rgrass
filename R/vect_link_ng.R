@@ -52,9 +52,8 @@ read_VECT <- function(
       )
     }
     # message("Reading ", tf, " (layer ", layer, ")")
-    suppressMessages({
-      res <- getMethod("vect", "character")(tf, layer, proxy = proxy)
-    })
+    res <- getMethod("vect", "character")(tf, layer, proxy = proxy)
+
   } else {
     if (missing(layer)) layer <- "1"
     tf <- tempfile(fileext = ".gpkg")
