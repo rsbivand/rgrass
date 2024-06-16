@@ -84,15 +84,23 @@ write_VECT <- function(x, vname, flags = "overwrite",
   if (get.suppressEchoCmdInFuncOption()) {
     inEchoCmd <- set.echoCmdOption(FALSE)
   }
+  srcs <- getMethod("sources", "SpatVector")(x)
+  if (length(srcs) == 1L) {
+    tf <- srcs
+  } else {
+    tf <- ""
+  }
+  if (!file.exists(tf)) {
+    tf <- tempfile(fileext = ".gpkg")
+    getMethod("writeVector", c("SpatVector", "character"))(x, filename = tf,
+    filetype = "GPKG", overwrite = TRUE)
+  }
+
   type <- NULL
   if (getMethod("geomtype", "SpatVector")(x) == "points") type <- "point"
   if (getMethod("geomtype", "SpatVector")(x) == "lines") type <- "line"
   if (getMethod("geomtype", "SpatVector")(x) == "polygons") type <- "boundary"
   if (is.null(type)) stop("Unknown data class")
-
-  tf <- tempfile(fileext = ".gpkg")
-  getMethod("writeVector", c("SpatVector", "character"))(x, filename = tf,
-    filetype = "GPKG", overwrite = TRUE)
 
   execGRASS("v.in.ogr",
     flags = flags, input = tf, output = vname, type = type,
