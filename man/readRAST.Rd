@@ -10,9 +10,9 @@ Read GRASS raster files from GRASS into R \pkg{terra} \code{"SpatRaster"} or \pk
 
 
 \usage{
-read_RAST(vname, cat=NULL, NODATA=NULL, ignore.stderr=get.ignore.stderrOption(),
+read_RAST(vname, cat=NULL, NODATA=NULL,
  return_format="terra", use_gdal_grass_driver = TRUE, close_OK=return_format=="SGDF",
- flags=NULL)
+ flags=NULL, ignore.stderr=get.ignore.stderrOption())
 write_RAST(x, vname, zcol = 1, NODATA=NULL, flags=NULL,
  ignore.stderr = get.ignore.stderrOption(), overwrite=FALSE, verbose=TRUE)
 }

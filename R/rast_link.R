@@ -3,10 +3,9 @@
 #
 
 read_RAST <- function(
-    vname, cat = NULL, NODATA = NULL,
-    ignore.stderr = get.ignore.stderrOption(), return_format = "terra",
+    vname, cat = NULL, NODATA = NULL, return_format = "terra",
     use_gdal_grass_driver = TRUE, close_OK = return_format == "SGDF",
-    flags = NULL) {
+    flags = NULL, ignore.stderr = get.ignore.stderrOption()) {
   if (!is.null(cat)) {
     if (length(vname) != length(cat)) {
       stop("vname and cat not same length")
