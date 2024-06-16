@@ -45,7 +45,13 @@ read_VECT <- function(
       # v.out.ogr case, where it is used as an argument
       layer <- layers[2]
     }
-    # message("Reading ", tf, " (layer ", layer, ")")
+    # message(
+    #   "Will get data source ",
+    #   tf,
+    #   " (layername ",
+    #   ifelse(layer == "", "unknown, will get first layer", layer),
+    #   ")"
+    # )
     res <- getMethod("vect", "character")(tf, layer, proxy = proxy)
 
   } else {
