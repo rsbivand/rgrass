@@ -2,7 +2,7 @@
 # Copyright (c) 2022 Roger S. Bivand
 #
 read_VECT <- function(
-    vname, layer, proxy = FALSE, use_gdal_grass_driver = TRUE, type = NULL,
+    vname, layer = "", proxy = FALSE, use_gdal_grass_driver = TRUE, type = NULL,
     flags = "overwrite", ignore.stderr = get.ignore.stderrOption()) {
   if (!(requireNamespace("terra", quietly = TRUE))) {
     stop("terra required for SpatVector output")
@@ -12,6 +12,7 @@ read_VECT <- function(
   if (get.suppressEchoCmdInFuncOption()) {
     inEchoCmd <- set.echoCmdOption(FALSE)
   }
+  stopifnot(length(layer) == 1L)
   if (!missing(layer)) layer <- as.character(layer)
   vinfo <- vInfo(vname)
   types <- names(vinfo)[which(vinfo > 0)]
@@ -31,31 +32,24 @@ read_VECT <- function(
     ignore.stderr = ignore.stderr
   )
   has_grassraster_drv <- gdal_has_grassraster_driver()
+
   if (has_grassraster_drv && use_gdal_grass_driver) {
     args <- list(name = vca[1], type = "vector")
     if (length(vca) == 2L) args <- c(args, mapset = vca[2])
     tf <- do.call(generate_header_path, args)
-    layers <- terra::vector_layers(tf)
-    if (missing(layer)) {
-      # Set index as 1 and remove this condition once GDAL-GRASS driver issue
+    if (layer == "" && type == "area") {
+      layers <- terra::vector_layers(tf)
+      # Remove this condition once GDAL-GRASS driver issue
       # has been solved (https://github.com/OSGeo/gdal-grass/issues/46).
       # Then also move the type assignment code (from vInfo) to the
       # v.out.ogr case, where it is used as an argument
-      index <- ifelse(type == "area", 2, 1)
-      layer <- layers[index]
-    } else if (!(layer %in% layers)) {
-      stop(
-        "Layer ",
-        layer,
-        " not found. Available layers: ",
-        paste(layers, collapse = ", ")
-      )
+      layer <- layers[2]
     }
     # message("Reading ", tf, " (layer ", layer, ")")
     res <- getMethod("vect", "character")(tf, layer, proxy = proxy)
 
   } else {
-    if (missing(layer)) layer <- "1"
+    if (layer == "") layer <- "1"
     tf <- tempfile(fileext = ".gpkg")
     execGRASS("v.out.ogr",
               flags = flags, input = vname, type = type,
