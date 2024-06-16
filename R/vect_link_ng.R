@@ -2,7 +2,7 @@
 # Copyright (c) 2022 Roger S. Bivand
 #
 read_VECT <- function(
-    vname, layer, use_gdal_grass_driver = TRUE, type = NULL,
+    vname, layer, proxy = FALSE, use_gdal_grass_driver = TRUE, type = NULL,
     flags = "overwrite", ignore.stderr = get.ignore.stderrOption()) {
   if (!(requireNamespace("terra", quietly = TRUE))) {
     stop("terra required for SpatVector output")
@@ -53,7 +53,7 @@ read_VECT <- function(
     }
     # message("Reading ", tf, " (layer ", layer, ")")
     suppressMessages({
-      res <- getMethod("vect", "character")(tf, layer)
+      res <- getMethod("vect", "character")(tf, layer, proxy = proxy)
     })
   } else {
     if (missing(layer)) layer <- "1"
@@ -64,7 +64,7 @@ read_VECT <- function(
               format = "GPKG", ignore.stderr = ignore.stderr
     )
     # message("Reading ", tf)
-    res <- getMethod("vect", "character")(tf)
+    res <- getMethod("vect", "character")(tf, proxy = proxy)
   }
   if (!all(getMethod("is.valid", "SpatVector")(res))) {
     res <- getMethod("makeValid", "SpatVector")(res)
