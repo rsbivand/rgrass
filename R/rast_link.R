@@ -5,7 +5,8 @@
 read_RAST <- function(
     vname, cat = NULL, NODATA = NULL, return_format = "terra",
     use_gdal_grass_driver = TRUE, close_OK = return_format == "SGDF",
-    flags = NULL, ignore.stderr = get.ignore.stderrOption()) {
+    flags = NULL, Sys_ignore.stdout = FALSE,
+    ignore.stderr = get.ignore.stderrOption()) {
   if (!is.null(cat)) {
     if (length(vname) != length(cat)) {
       stop("vname and cat not same length")
@@ -185,13 +186,15 @@ read_RAST <- function(
           execGRASS("r.out.gdal",
                     input = vname[i], output = tmplist[[i]],
                     format = drv, nodata = NODATAi, flags = flags,
-                    ignore.stderr = ignore.stderr
+                    ignore.stderr = ignore.stderr,
+                    Sys_ignore.stdout = Sys_ignore.stdout
           )
         } else {
           execGRASS("r.out.gdal",
                     input = vname[i], output = tmplist[[i]],
                     format = drv, nodata = NODATAi, type = typei, flags = flags,
-                    ignore.stderr = ignore.stderr
+                    ignore.stderr = ignore.stderr,
+                    Sys_ignore.stdout = Sys_ignore.stdout
           )
         }
       }

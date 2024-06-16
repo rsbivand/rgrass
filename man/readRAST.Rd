@@ -12,7 +12,7 @@ Read GRASS raster files from GRASS into R \pkg{terra} \code{"SpatRaster"} or \pk
 \usage{
 read_RAST(vname, cat=NULL, NODATA=NULL,
  return_format="terra", use_gdal_grass_driver = TRUE, close_OK=return_format=="SGDF",
- flags=NULL, ignore.stderr=get.ignore.stderrOption())
+ flags=NULL, Sys_ignore.stdout = FALSE, ignore.stderr=get.ignore.stderrOption())
 write_RAST(x, vname, zcol = 1, NODATA=NULL, flags=NULL,
  ignore.stderr = get.ignore.stderrOption(), overwrite=FALSE, verbose=TRUE)
 }
@@ -22,6 +22,7 @@ write_RAST(x, vname, zcol = 1, NODATA=NULL, flags=NULL,
   \item{cat}{default NULL; if not NULL, must be a logical vector matching vname, stating which (CELL) rasters to return as factor}
   \item{return_format}{default \code{"terra"}, optionally \code{"SGDF"}}
   \item{use_gdal_grass_driver}{Default \code{TRUE}. The \href{https://github.com/OSGeo/gdal-grass}{standalone GDAL-GRASS driver} for the raster format will be used if \code{return_format} is \code{"terra"} and if the driver is installed. The advantage is that no intermediate file(s) need to be written from GRASS GIS and subsequently read into R; instead the raster dataset(s) are read directly from the GRASS GIS database. Please read the \strong{Note} further below!}
+  \item{Sys_ignore.stdout}{Passed to \code{system}.}
   \item{ignore.stderr}{default taking the value set by \code{set.ignore.stderrOption}; can be set to TRUE to silence \code{system()} output to standard error; does not apply on Windows platforms}
   \item{close_OK}{default TRUE - clean up possible open connections used for reading metadata; may be set to FALSE to avoid the side-effect of other user-opened connections being broken}
   \item{x}{A \pkg{terra} \code{"SpatRaster"} or \pkg{sp} \code{"SpatialGridDataFrame"} object}
