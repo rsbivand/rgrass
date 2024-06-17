@@ -4,7 +4,7 @@
 
 read_RAST <- function(
     vname, cat = NULL, NODATA = NULL, return_format = "terra",
-    use_gdal_grass_driver = TRUE, close_OK = return_format == "SGDF",
+    close_OK = return_format == "SGDF",
     flags = NULL, Sys_ignore.stdout = FALSE,
     ignore.stderr = get.ignore.stderrOption()) {
   if (!is.null(cat)) {
@@ -19,7 +19,6 @@ read_RAST <- function(
     openedConns <- as.integer(row.names(showConnections()))
   }
   stopifnot(is.logical(ignore.stderr), !is.na(ignore.stderr))
-  stopifnot(is.logical(use_gdal_grass_driver), !is.na(use_gdal_grass_driver))
 
   if (!is.null(NODATA)) {
     if (any(!is.finite(NODATA)) || any(!is.numeric(NODATA))) {
@@ -53,23 +52,20 @@ read_RAST <- function(
     if (!(requireNamespace("terra", quietly = TRUE))) {
       stop("terra required for SpatRaster output")
     }
-    has_grassraster_drv <- gdal_has_grassraster_driver()
-    if (!has_grassraster_drv || !use_gdal_grass_driver) {
-      drv <- "RRASTER"
-      fxt <- ".grd"
-      ro <- FALSE
-      o <- execGRASS("r.out.gdal", flags = "l", intern = TRUE)
-      oo <- grep("RRASTER", o)
-      if (length(oo) == 0L) ro <- TRUE
-      if (!ro) {
-        RR <- o[oo]
-        RRs <- strsplit(RR, " ")[[1]]
-        if (length(grep("\\(rw", RRs)) == 0L) ro <- TRUE
-      }
-      if (ro) {
-        drv <- "GTiff"
-        fxt <- ".tif"
-      }
+    drv <- "RRASTER"
+    fxt <- ".grd"
+    ro <- FALSE
+    o <- execGRASS("r.out.gdal", flags = "l", intern = TRUE)
+    oo <- grep("RRASTER", o)
+    if (length(oo) == 0L) ro <- TRUE
+    if (!ro) {
+      RR <- o[oo]
+      RRs <- strsplit(RR, " ")[[1]]
+      if (length(grep("\\(rw", RRs)) == 0L) ro <- TRUE
+    }
+    if (ro) {
+      drv <- "GTiff"
+      fxt <- ".tif"
     }
     reslist <- vector(mode = "list", length = length(vname))
     names(reslist) <- gsub("@", "_", vname)
@@ -174,31 +170,24 @@ read_RAST <- function(
       } else {
         NODATAi <- NODATA[i]
       }
-      if (has_grassraster_drv && use_gdal_grass_driver) {
-        args <- list(name = vca[1], type = "raster")
-        if (length(vca) == 2L) args <- c(args, mapset = vca[2])
-        tmplist[[i]] <- do.call(generate_header_path, args)
+      tmplist[[i]] <- tempfile(fileext = fxt)
+      if (is.null(flags)) flags <- c("overwrite", "c", "m")
+      if (!is.null(cat) && cat[i]) flags <- c(flags, "t")
+      if (is.null(typei)) {
+        execGRASS("r.out.gdal",
+                  input = vname[i], output = tmplist[[i]],
+                  format = drv, nodata = NODATAi, flags = flags,
+                  ignore.stderr = ignore.stderr,
+                  Sys_ignore.stdout = Sys_ignore.stdout
+        )
       } else {
-        tmplist[[i]] <- tempfile(fileext = fxt)
-        if (is.null(flags)) flags <- c("overwrite", "c", "m")
-        if (!is.null(cat) && cat[i]) flags <- c(flags, "t")
-        if (is.null(typei)) {
-          execGRASS("r.out.gdal",
-                    input = vname[i], output = tmplist[[i]],
-                    format = drv, nodata = NODATAi, flags = flags,
-                    ignore.stderr = ignore.stderr,
-                    Sys_ignore.stdout = Sys_ignore.stdout
-          )
-        } else {
-          execGRASS("r.out.gdal",
-                    input = vname[i], output = tmplist[[i]],
-                    format = drv, nodata = NODATAi, type = typei, flags = flags,
-                    ignore.stderr = ignore.stderr,
-                    Sys_ignore.stdout = Sys_ignore.stdout
-          )
-        }
+        execGRASS("r.out.gdal",
+                  input = vname[i], output = tmplist[[i]],
+                  format = drv, nodata = NODATAi, type = typei, flags = flags,
+                  ignore.stderr = ignore.stderr,
+                  Sys_ignore.stdout = Sys_ignore.stdout
+        )
       }
-      # message("Reading ", tmplist[[i]])
       reslist[[i]] <- getMethod("rast", "character")(tmplist[[i]])
     }
     resa <- getMethod("rast", "list")(reslist)
@@ -577,18 +566,6 @@ write_RAST <- function(
       tf <- srcs[1]
     } else {
       tf <- ""
-    }
-    # exit when the source is a GRASS database layer already:
-    if (grepl("[/\\\\]cellhd[/\\\\][^/\\\\]+$", tf)) {
-      grass_layername <- regmatches(
-        tf,
-        regexpr("(?<=[/\\\\]cellhd[/\\\\])[^/\\\\]+$", tf, perl = TRUE)
-      )
-      stop(
-        "This SpatRaster already links to the following raster layer in the ",
-        "GRASS GIS database: ",
-        grass_layername
-      )
     }
     if (!file.exists(tf)) {
       drv <- "RRASTER"
