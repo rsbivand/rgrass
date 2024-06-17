@@ -55,7 +55,6 @@ if (run) {
   previous_mapset <- meta$MAPSET
   example_mapset <- "RGRASS_EXAMPLES"
   execGRASS("g.mapset", "c", mapset = example_mapset)
-  execGRASS("g.region", region = "central_10m@PERMANENT")
 }
 
 if (run) {
