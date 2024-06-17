@@ -54,7 +54,7 @@ Be aware that the GDAL-GRASS driver may have some \href{https://github.com/OSGeo
 \examples{
 run <- FALSE
 if (nchar(Sys.getenv("GISRC")) > 0 &&
-  read.dcf(Sys.getenv("GISRC"))[1,"LOCATION_NAME"] == "nc_basic_spm_grass7") run <- TRUE
+    read.dcf(Sys.getenv("GISRC"))[1,"LOCATION_NAME"] == "nc_basic_spm_grass7") run <- TRUE
 GV <- Sys.getenv("GRASS_VERBOSE")
 Sys.setenv("GRASS_VERBOSE"=0)
 ois <- get.ignore.stderrOption()
