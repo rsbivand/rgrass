@@ -44,7 +44,7 @@ Be aware that the GDAL-GRASS driver may currently return incomplete metadata abo
 \examples{
 run <- FALSE
 if (nchar(Sys.getenv("GISRC")) > 0 &&
-  read.dcf(Sys.getenv("GISRC"))[1,"LOCATION_NAME"] == "nc_basic_spm_grass7") run <- TRUE
+    read.dcf(Sys.getenv("GISRC"))[1,"LOCATION_NAME"] == "nc_basic_spm_grass7") run <- TRUE
 GV <- Sys.getenv("GRASS_VERBOSE")
 Sys.setenv("GRASS_VERBOSE"=0)
 ois <- get.ignore.stderrOption()
@@ -53,13 +53,13 @@ if (run) {
 unlist(strsplit(execGRASS("g.mapsets", flags="p", intern=TRUE), " "))
 }
 if (run) {
-execGRASS("g.list", type="raster", pattern="soils", flags="m", intern=TRUE)
+  execGRASS("g.list", type="raster", pattern="soils", flags="m", intern=TRUE)
 }
 if (run) {
-execGRASS("g.list", type="raster", pattern="soils@PERMANENT", mapset=".", flags="m", intern=TRUE)
+  execGRASS("g.list", type="raster", pattern="soils@PERMANENT", mapset=".", flags="m", intern=TRUE)
 }
 if (run) {
-execGRASS("g.list", type="raster", pattern="soils", mapset="PERMANENT", flags="m", intern=TRUE)
+  execGRASS("g.list", type="raster", pattern="soils", mapset="PERMANENT", flags="m", intern=TRUE)
 }
 run <- run && require("terra", quietly=TRUE)
 if (run) {
@@ -78,7 +78,7 @@ Sys.setenv("_SP_EVOLUTION_STATUS_"="2")
 run <- run && require("sp", quietly=TRUE)
 if (run) {
   nc_basic <- read_RAST(c("geology", "elevation"), cat=c(TRUE, FALSE),
-    return_format="SGDF")
+                        return_format="SGDF")
   print(table(nc_basic$geology))
 }
 if (run) {
@@ -96,7 +96,7 @@ if (run) {
 }
 if (run) {
   print(system.time(sqdemSP <- read_RAST(c("sqdemSP", "elevation"),
-    return_format="SGDF")))
+                                         return_format="SGDF")))
 }
 if (run) {
   print(system.time(sqdem <- read_RAST(c("sqdemSP", "elevation"),
