@@ -60,6 +60,14 @@ Sys.setenv("GRASS_VERBOSE"=0)
 ois <- get.ignore.stderrOption()
 set.ignore.stderrOption(TRUE)
 if (run) {
+  meta <- gmeta()
+  location_path <- file.path(meta$GISDBASE, meta$LOCATION_NAME)
+  previous_mapset <- meta$MAPSET
+  example_mapset <- "RGRASS_EXAMPLES"
+  execGRASS("g.mapset", "c", mapset = example_mapset)
+}
+
+if (run) {
   execGRASS("v.info", map="schools", layer="1")
 }
 if (run) {
@@ -97,6 +105,10 @@ if (run) {
 }
 if (run) {
   execGRASS("g.remove", flags="f", name=c("newsch", "newsch1"), type="vector")
+  execGRASS("g.mapset", mapset = previous_mapset)
+  if (example_mapset != previous_mapset) {
+    unlink(file.path(location_path, example_mapset), recursive = TRUE)
+  }
 }
 Sys.setenv("GRASS_VERBOSE"=GV)
 set.ignore.stderrOption(ois)
