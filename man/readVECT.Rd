@@ -99,7 +99,9 @@ if (run) {
   roads <- read_VECT("roadsmajor")
   print(summary(roads))
 }
-if (run) {
+if (FALSE) {
+  # not run: vect2neigh() currently writes 3 new data sources in the PERMANENT
+  # mapset, despite this mapset not being the active one.
   cen_neig <- vect2neigh("census")
   str(cen_neig)
 }
