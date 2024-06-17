@@ -50,7 +50,16 @@ Sys.setenv("GRASS_VERBOSE"=0)
 ois <- get.ignore.stderrOption()
 set.ignore.stderrOption(TRUE)
 if (run) {
-unlist(strsplit(execGRASS("g.mapsets", flags="p", intern=TRUE), " "))
+  meta <- gmeta()
+  location_path <- file.path(meta$GISDBASE, meta$LOCATION_NAME)
+  previous_mapset <- meta$MAPSET
+  example_mapset <- "RGRASS_EXAMPLES"
+  execGRASS("g.mapset", "c", mapset = example_mapset)
+  execGRASS("g.region", region = "central_10m@PERMANENT")
+}
+
+if (run) {
+  unlist(strsplit(execGRASS("g.mapsets", flags="p", intern=TRUE), " "))
 }
 if (run) {
   execGRASS("g.list", type="raster", pattern="soils", flags="m", intern=TRUE)
@@ -113,7 +122,7 @@ if (run) {
   names(sqdem)
 }
 if (run) {
-  sqdem1 <- read_RAST(c("sqdemSP@PERMANENT", "elevation@PERMANENT"))
+  sqdem1 <- read_RAST(c("sqdemSP@RGRASS_EXAMPLES", "elevation@PERMANENT"))
 }
 if (run) {
   names(sqdem1)
@@ -139,6 +148,12 @@ if (run) {
 }
 if (run) {
   execGRASS("g.remove", flags="f", name="test_t", type="raster")
+}
+if (run) {
+  execGRASS("g.mapset", mapset = previous_mapset)
+  if (example_mapset != previous_mapset) {
+    unlink(file.path(location_path, example_mapset), recursive = TRUE)
+  }
 }
 Sys.setenv("GRASS_VERBOSE"=GV)
 set.ignore.stderrOption(ois)
