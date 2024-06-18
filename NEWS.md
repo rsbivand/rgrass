@@ -2,6 +2,15 @@
 
 - see #87 - Windows QGIS standalone installations of GRASS GIS can be used only if R is started in the OSGeo4W shell bundled with the installation
 
+- `write_VECT()`: when the `SpatVector` object already refers to a source file, an intermediate temporary file is no longer written to get the data into the GRASS GIS database (#93).
+A similar shortcut was already in place for `write_RAST()`.
+
+- `read_VECT()`: provide access to the standalone GDAL-GRASS driver to read vector data, which skips the step of writing a intermediate file (#93).
+Note that this standalone driver needs to be set up separately.
+More information is in the [driver's README](https://github.com/OSGeo/gdal-grass/blob/main/README.md).
+
+- `read_VECT()`: support reading as `SpatVectorProxy` class of `{terra}`, by providing a `proxy` argument (#93).
+
 # **rgrass** version 0.4-2 (2024-03-17)
 
 - see #84 - handling fully-qualified map names
