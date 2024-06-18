@@ -13,9 +13,10 @@
   \code{read_VECT} moves one GRASS vector object file with attribute data through a temporary GeoPackage file to a \pkg{terra} \code{"SpatVector"} object; \code{write_VECT} moves a \pkg{terra} \code{"SpatVector"} object through a temporary GeoPackage file to a GRASS vector object file. \code{vect2neigh} returns neighbour pairs with shared boundary length as described by Markus Neteler, in \url{https://stat.ethz.ch/pipermail/r-sig-geo/2005-October/000616.html}. \code{cygwin_clean_temp} can be called to try to clean the GRASS mapset-specific temporary directory under cygwin.
 }
 \usage{
-read_VECT(vname, layer, type=NULL, flags="overwrite",
-    ignore.stderr = NULL)
-write_VECT(x, vname, flags="overwrite", ignore.stderr = NULL)
+read_VECT(vname, layer = "", proxy = FALSE, use_gdal_grass_driver = TRUE, type = NULL,
+    flags = "overwrite", Sys_ignore.stdout = FALSE,
+    ignore.stderr = get.ignore.stderrOption())
+write_VECT(x, vname, flags = "overwrite", ignore.stderr = get.ignore.stderrOption())
 vInfo(vname, layer, ignore.stderr = NULL)
 vColumns(vname, layer, ignore.stderr = NULL)
 vDataCount(vname, layer, ignore.stderr = NULL)
@@ -25,8 +26,11 @@ vect2neigh(vname, ID=NULL, ignore.stderr = NULL, remove=TRUE, vname2=NULL,
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{vname}{A GRASS vector file name}
-  \item{layer}{a layer name (string); if missing set to default of \dQuote{1}}
+  \item{layer}{a layer name (string); if missing the first layer will be used}
+  \item{proxy}{Default is \code{FALSE}. Set as \code{TRUE} if you need a \code{SpatVectorProxy} object.}
+  \item{use_gdal_grass_driver}{Default \code{TRUE}. The \href{https://github.com/OSGeo/gdal-grass}{standalone GDAL-GRASS driver} for the vector format will be used if it is installed. The advantage is that no intermediate file needs to be written from GRASS GIS and subsequently read into R; instead the vector layer is read directly from the GRASS GIS database. Please read the \strong{Note} further below!}
   \item{type}{override type detection when multiple types are non-zero, passed to v.out.ogr}
+  \item{Sys_ignore.stdout}{Passed to \code{system}.}
   \item{ignore.stderr}{default the value set by \code{set.ignore.stderrOption}; NULL, taking the value set by \code{set.ignore.stderrOption}, can be set to TRUE to silence \code{system()} output to standard error; does not apply on Windows platforms}
   \item{x}{A \code{"SpatVector"} object moved to GRASS}
   \item{flags}{Character vector containing additional optional flags and/or options for v.in.ogr, particularly "o" and "overwrite"}
@@ -36,9 +40,13 @@ vect2neigh(vname, ID=NULL, ignore.stderr = NULL, remove=TRUE, vname2=NULL,
   \item{units}{default "k"; see GRASS 'v.to.db' manual page for alternatives}
 }
 \value{
-   \code{read_VECT} imports a GRASS vector object into a \code{"SpatVector"} object.
+   \code{read_VECT} imports a GRASS vector layer into a \code{SpatVector} or \code{SpatVectorProxy} object.
 
 \code{vect2neigh} returns a data frame object with left and right neighbours and boundary lengths, also given class GRASSneigh and spatial.neighbour (as used in spdep). The incantation to retrieve the neighbours list is \code{sn2listw(vect2neigh())$neighbours}, and to retrieve the boundary lengths: \code{sn2listw(vect2neigh())$weights}. The GRASSneigh object has two other useful attributes: external is a vector giving the length of shared boundary between each polygon and the external area, and total giving each polygon's total boundary length.
+}
+
+\note{
+Be aware that the GDAL-GRASS driver may have some \href{https://github.com/OSGeo/gdal-grass/issues}{issues} for vector data. In our experience, the error and warning messages for vector data can be ignored. Further, the returned metadata about the coordinate reference system may currently be incomplete, e.g. it may miss the EPSG code.
 }
 
 \author{Roger S. Bivand, e-mail: \email{Roger.Bivand@nhh.no}}
@@ -46,11 +54,19 @@ vect2neigh(vname, ID=NULL, ignore.stderr = NULL, remove=TRUE, vname2=NULL,
 \examples{
 run <- FALSE
 if (nchar(Sys.getenv("GISRC")) > 0 &&
-  read.dcf(Sys.getenv("GISRC"))[1,"LOCATION_NAME"] == "nc_basic_spm_grass7") run <- TRUE
+    read.dcf(Sys.getenv("GISRC"))[1,"LOCATION_NAME"] == "nc_basic_spm_grass7") run <- TRUE
 GV <- Sys.getenv("GRASS_VERBOSE")
 Sys.setenv("GRASS_VERBOSE"=0)
 ois <- get.ignore.stderrOption()
 set.ignore.stderrOption(TRUE)
+if (run) {
+  meta <- gmeta()
+  location_path <- file.path(meta$GISDBASE, meta$LOCATION_NAME)
+  previous_mapset <- meta$MAPSET
+  example_mapset <- "RGRASS_EXAMPLES"
+  execGRASS("g.mapset", "c", mapset = example_mapset)
+}
+
 if (run) {
   execGRASS("v.info", map="schools", layer="1")
 }
@@ -58,6 +74,12 @@ if (run) {
   print(vInfo("schools"))
   schs <- read_VECT("schools")
   print(summary(schs))
+}
+if (run) {
+  try({
+    write_VECT(schs, "newsch", flags=c("o", "overwrite"))
+  })
+  schs <- read_VECT("schools", use_gdal_grass_driver = FALSE)
 }
 if (run) {
   write_VECT(schs, "newsch", flags=c("o", "overwrite"))
@@ -77,12 +99,18 @@ if (run) {
   roads <- read_VECT("roadsmajor")
   print(summary(roads))
 }
-if (run) {
+if (FALSE) {
+  # not run: vect2neigh() currently writes 3 new data sources in the PERMANENT
+  # mapset, despite this mapset not being the active one.
   cen_neig <- vect2neigh("census")
   str(cen_neig)
 }
 if (run) {
   execGRASS("g.remove", flags="f", name=c("newsch", "newsch1"), type="vector")
+  execGRASS("g.mapset", mapset = previous_mapset)
+  if (example_mapset != previous_mapset) {
+    unlink(file.path(location_path, example_mapset), recursive = TRUE)
+  }
 }
 Sys.setenv("GRASS_VERBOSE"=GV)
 set.ignore.stderrOption(ois)

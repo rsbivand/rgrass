@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Interface Between GRASS Geographical Information System and R • rgrass</title>
-<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous">
+<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script><!-- bootstrap-toc --><link rel="stylesheet" href="bootstrap-toc.css">
 <script src="bootstrap-toc.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
@@ -88,12 +88,12 @@
 <h3 id="interface-between-grass-geographical-information-system-and-r">Interface Between GRASS Geographical Information System and R<a class="anchor" aria-label="anchor" href="#interface-between-grass-geographical-information-system-and-r"></a>
 </h3>
 <p>Interpreted interface between GRASS geographical information system and R, based on starting R from within the GRASS GIS environment, or running free-standing R in a temporary or existing GRASS location; the package provides facilities for using all GRASS commands from the R command line, see <a href="https://rsbivand.github.io/rgrass/articles/use.html" class="external-link uri">https://rsbivand.github.io/rgrass/articles/use.html</a>.</p>
-<p>The original interface <strong>GRASS</strong> package for <code>GRASS 5</code> (2000-2010) is described in Bivand (2000) (<a href="https://doi.org/10.1016/S0098-3004(00)00057-1" class="external-link uri">https://doi.org/10.1016/S0098-3004(00)00057-1</a>) and Bivand (2001) (<a href="https://www.r-project.org/conferences/DSC-2001/Proceedings/Bivand.pdf" class="external-link uri">https://www.r-project.org/conferences/DSC-2001/Proceedings/Bivand.pdf</a>). This was succeeded by <strong>spgrass6</strong> for <code>GRASS 6</code> (2006-2016) and <strong>rgrass7</strong> for <code>GRASS 7</code> (2015-2023). Note that <strong>rgrass7</strong> will be archived on CRAN together with <strong>rgdal</strong> in October 2023. The <strong>rgrass</strong> package modernizes the interface for <code>GRASS 8</code> while still permitting the use of <code>GRASS 7</code>.</p>
+<p>The original interface <strong>GRASS</strong> package for <code>GRASS 5</code> (2000-2010) is described in Bivand (2000) (<a href="https://doi.org/10.1016/S0098-3004(00)00057-1" class="external-link uri">https://doi.org/10.1016/S0098-3004(00)00057-1</a>) and Bivand (2001) (<a href="https://www.r-project.org/conferences/DSC-2001/Proceedings/Bivand.pdf" class="external-link uri">https://www.r-project.org/conferences/DSC-2001/Proceedings/Bivand.pdf</a>). This was succeeded by <strong>spgrass6</strong> for <code>GRASS 6</code> (2006-2016) and <strong>rgrass7</strong> for <code>GRASS 7</code> (2015-2023). The <strong>rgrass</strong> package modernizes the interface for <code>GRASS 8</code> while still permitting the use of <code>GRASS 7</code>.</p>
 </div>
 <div class="section level3">
 <h3 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h3>
-<p>This package depends on <a href="https://grass.osgeo.org/" class="external-link">GRASS</a> version 8 or above (later version 7 should also be OK).</p>
+<p>This package depends on <a href="https://grass.osgeo.org/" class="external-link">GRASS GIS</a> version 8 or above (later version 7 should also be OK).</p>
 <p>If you use OSGeo4W on Windows (recommended), remember that you must start RStudio, Rgui or console R from within the OSGeo4W shell.</p>
 <p>See the <a href="https://rsbivand.github.io/foss4g_2022/modernizing_220822.html" class="external-link">workshop on <strong>rgrass</strong> at FOSS4G 2022</a> for a detailed introduction with reproducible examples.</p>
 <p>If you would like to contribute, please see the CONTRIBUTING file in the .github folder.</p>
@@ -154,7 +154,7 @@
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.9.</p>
 </div>
 
       </footer>

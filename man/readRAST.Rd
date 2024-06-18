@@ -10,8 +10,9 @@ Read GRASS raster files from GRASS into R \pkg{terra} \code{"SpatRaster"} or \pk
 
 
 \usage{
-read_RAST(vname, cat=NULL, NODATA=NULL, ignore.stderr=get.ignore.stderrOption(),
- return_format="terra", close_OK=return_format=="SGDF", flags=NULL)
+read_RAST(vname, cat=NULL, NODATA=NULL,
+ return_format="terra", close_OK=return_format=="SGDF",
+ flags=NULL, Sys_ignore.stdout = FALSE, ignore.stderr=get.ignore.stderrOption())
 write_RAST(x, vname, zcol = 1, NODATA=NULL, flags=NULL,
  ignore.stderr = get.ignore.stderrOption(), overwrite=FALSE, verbose=TRUE)
 }
@@ -20,6 +21,7 @@ write_RAST(x, vname, zcol = 1, NODATA=NULL, flags=NULL,
   \item{vname}{A vector of GRASS raster file names in mapsets in the current search path, as set by \dQuote{g.mapsets}; the file names may be given as fully-qualified map names using \dQuote{name@mapset}, in which case only the mapset given in the full path will be searched for the existence of the raster; if more than one raster with the same name is found in mapsets in the current search path, an error will occur, in which case the user should give the fully-qualified map name. If the fully-qualified name is used, \code{@} will be replaced by underscore in the output object.}
   \item{cat}{default NULL; if not NULL, must be a logical vector matching vname, stating which (CELL) rasters to return as factor}
   \item{return_format}{default \code{"terra"}, optionally \code{"SGDF"}}
+  \item{Sys_ignore.stdout}{Passed to \code{system}.}
   \item{ignore.stderr}{default taking the value set by \code{set.ignore.stderrOption}; can be set to TRUE to silence \code{system()} output to standard error; does not apply on Windows platforms}
   \item{close_OK}{default TRUE - clean up possible open connections used for reading metadata; may be set to FALSE to avoid the side-effect of other user-opened connections being broken}
   \item{x}{A \pkg{terra} \code{"SpatRaster"} or \pkg{sp} \code{"SpatialGridDataFrame"} object}
@@ -37,22 +39,30 @@ write_RAST(x, vname, zcol = 1, NODATA=NULL, flags=NULL,
 \examples{
 run <- FALSE
 if (nchar(Sys.getenv("GISRC")) > 0 &&
-  read.dcf(Sys.getenv("GISRC"))[1,"LOCATION_NAME"] == "nc_basic_spm_grass7") run <- TRUE
+    read.dcf(Sys.getenv("GISRC"))[1,"LOCATION_NAME"] == "nc_basic_spm_grass7") run <- TRUE
 GV <- Sys.getenv("GRASS_VERBOSE")
 Sys.setenv("GRASS_VERBOSE"=0)
 ois <- get.ignore.stderrOption()
 set.ignore.stderrOption(TRUE)
 if (run) {
-unlist(strsplit(execGRASS("g.mapsets", flags="p", intern=TRUE), " "))
+  meta <- gmeta()
+  location_path <- file.path(meta$GISDBASE, meta$LOCATION_NAME)
+  previous_mapset <- meta$MAPSET
+  example_mapset <- "RGRASS_EXAMPLES"
+  execGRASS("g.mapset", "c", mapset = example_mapset)
+}
+
+if (run) {
+  unlist(strsplit(execGRASS("g.mapsets", flags="p", intern=TRUE), " "))
 }
 if (run) {
-execGRASS("g.list", type="raster", pattern="soils", flags="m", intern=TRUE)
+  execGRASS("g.list", type="raster", pattern="soils", flags="m", intern=TRUE)
 }
 if (run) {
-execGRASS("g.list", type="raster", pattern="soils@PERMANENT", mapset=".", flags="m", intern=TRUE)
+  execGRASS("g.list", type="raster", pattern="soils@PERMANENT", mapset=".", flags="m", intern=TRUE)
 }
 if (run) {
-execGRASS("g.list", type="raster", pattern="soils", mapset="PERMANENT", flags="m", intern=TRUE)
+  execGRASS("g.list", type="raster", pattern="soils", mapset="PERMANENT", flags="m", intern=TRUE)
 }
 run <- run && require("terra", quietly=TRUE)
 if (run) {
@@ -69,7 +79,7 @@ Sys.setenv("_SP_EVOLUTION_STATUS_"="2")
 run <- run && require("sp", quietly=TRUE)
 if (run) {
   nc_basic <- read_RAST(c("geology", "elevation"), cat=c(TRUE, FALSE),
-    return_format="SGDF")
+                        return_format="SGDF")
   print(table(nc_basic$geology))
 }
 if (run) {
@@ -87,7 +97,7 @@ if (run) {
 }
 if (run) {
   print(system.time(sqdemSP <- read_RAST(c("sqdemSP", "elevation"),
-    return_format="SGDF")))
+                                         return_format="SGDF")))
 }
 if (run) {
   print(system.time(sqdem <- read_RAST(c("sqdemSP", "elevation"),
@@ -97,10 +107,10 @@ if (run) {
 names(sqdem)
 }
 if (run) {
-  try(sqdem1 <- read_RAST(c("sqdemSP@rsb", "elevation@PERMANENT")))
+  sqdem1 <- read_RAST(c("sqdemSP@RGRASS_EXAMPLES", "elevation@PERMANENT"))
 }
 if (run) {
-  try(names(sqdem1))
+  names(sqdem1)
 }
 if (run) {
   execGRASS("g.remove", flags="f", name="sqdemSP", type="raster")
@@ -123,6 +133,12 @@ if (run) {
 }
 if (run) {
   execGRASS("g.remove", flags="f", name="test_t", type="raster")
+}
+if (run) {
+  execGRASS("g.mapset", mapset = previous_mapset)
+  if (example_mapset != previous_mapset) {
+    unlink(file.path(location_path, example_mapset), recursive = TRUE)
+  }
 }
 Sys.setenv("GRASS_VERBOSE"=GV)
 set.ignore.stderrOption(ois)
