@@ -1,7 +1,7 @@
 
-R version 4.3.3 (2024-02-29) -- "Angel Food Cake"
+R Under development (unstable) (2024-09-03 r87091) -- "Unsuffered Consequences"
 Copyright (C) 2024 The R Foundation for Statistical Computing
-Platform: x86_64-pc-linux-gnu (64-bit)
+Platform: x86_64-pc-linux-gnu
 
 R is free software and comes with ABSOLUTELY NO WARRANTY.
 You are welcome to redistribute it under certain conditions.
@@ -15,11 +15,9 @@ Type 'demo()' for some demos, 'help()' for on-line help, or
 'help.start()' for an HTML browser interface to help.
 Type 'q()' to quit R.
 
-> library(rgrass)
-GRASS GIS interface loaded with GRASS version: GRASS 8.3.2 (2024)
-and location: nc_basic_spm_grass7
-> if (requireNamespace("terra", quietly=TRUE)) {
-+   f <- system.file("ex/elev.tif", package="terra")
+> suppressPackageStartupMessages(library(rgrass))
+> if (requireNamespace("terra", quietly = TRUE)) {
++   f <- system.file("ex/elev.tif", package = "terra")
 +   SG <- terra::rast(f)
 +   if (packageVersion("terra") < "1.7.46") {
 +     bb <- getMethod("ext", "SpatRaster")(SG)@ptr$vector
@@ -31,4 +29,4 @@ and location: nc_basic_spm_grass7
 > 
 > proc.time()
    user  system elapsed 
-  3.525   0.082   3.615 
+  2.479   0.070   2.551 

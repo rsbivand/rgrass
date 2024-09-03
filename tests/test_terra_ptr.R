@@ -1,4 +1,4 @@
-library(rgrass)
+suppressPackageStartupMessages(library(rgrass))
 if (requireNamespace("terra", quietly = TRUE)) {
   f <- system.file("ex/elev.tif", package = "terra")
   SG <- terra::rast(f)

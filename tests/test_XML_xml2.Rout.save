@@ -1,7 +1,7 @@
 
-R version 4.3.3 (2024-02-29) -- "Angel Food Cake"
+R Under development (unstable) (2024-09-03 r87091) -- "Unsuffered Consequences"
 Copyright (C) 2024 The R Foundation for Statistical Computing
-Platform: x86_64-pc-linux-gnu (64-bit)
+Platform: x86_64-pc-linux-gnu
 
 R is free software and comes with ABSOLUTELY NO WARRANTY.
 You are welcome to redistribute it under certain conditions.
@@ -15,22 +15,20 @@ Type 'demo()' for some demos, 'help()' for on-line help, or
 'help.start()' for an HTML browser interface to help.
 Type 'q()' to quit R.
 
-> library(rgrass)
-GRASS GIS interface loaded with GRASS version: GRASS 8.3.2 (2024)
-and location: nc_basic_spm_grass7
-> old <- readRDS(system.file("etc/XML.r.out.gdal.rds", package="rgrass"))
+> suppressPackageStartupMessages(library(rgrass))
+> ## IGNORE_RDIFF_BEGIN
+> old <- readRDS(system.file("etc/XML.r.out.gdal.rds", package = "rgrass"))
 > if (nchar(Sys.getenv("GISRC")) > 0) {
 +   new <- parseGRASS("r.out.gdal")
 +   all.equal(old, new)
 + }
-[1] TRUE
-> old <- readRDS(system.file("etc/res_r.water.outlet.rds", package="rgrass"))
+> old <- readRDS(system.file("etc/res_r.water.outlet.rds", package = "rgrass"))
 > if (nchar(Sys.getenv("GISRC")) > 0) {
 +   new <- parseGRASS("r.water.outlet")
 +   all.equal(old, new)
 + }
-[1] TRUE
+> ## IGNORE_RDIFF_END
 > 
 > proc.time()
    user  system elapsed 
-  0.338   0.060   0.390 
+  0.169   0.045   0.207 
