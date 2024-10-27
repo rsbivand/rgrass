@@ -2,6 +2,49 @@
 # Copyright (c) 2015-20 Roger S. Bivand
 #
 
+#' Reads GRASS metadata from the current LOCATION
+#'
+#' GRASS LOCATION metadata are read into a list in R; helper function
+#' getLocationProj returns a WKT2 string of projection information. The helper
+#' function `gmeta2grd` creates a GridTopology object from the current
+#' GRASS mapset region definitions.
+#'
+#' @author Roger S. Bivand, e-mail: <Roger.Bivand@nhh.no>
+#' @keywords spatial
+#'
+#' @param ignore.stderr default FALSE, can be set to TRUE to silence
+#'   `system()` output to standard error; does not apply on Windows
+#'   platforms.
+#' @param g.proj_WKT default NULL: return WKT2 representation in GRASS >= 7.6
+#'   and Proj4 in GRASS < 7.6; may be set to FALSE to return Proj4 for GRASS >=
+#'   7.6.
+#'
+#' @return Returns list of g.gisenv, g.region -g3, and g.proj values.
+#' @export
+#' @order 1
+#'
+#' @examples
+#' run <- FALSE
+#' if (nchar(Sys.getenv("GISRC")) > 0 &&
+#'     read.dcf(Sys.getenv("GISRC"))[1, "LOCATION_NAME"] == "nc_basic_spm_grass7") {
+#'   run <- TRUE
+#' }
+#'
+#' if (run) {
+#'   G <- gmeta()
+#'   print(G)
+#'
+#'   cat(getLocationProj(), "\n")
+#'   cat(getLocationProj(g.proj_WKT = FALSE), "\n")
+#'
+#'   grd <- gmeta2grd()
+#'   print(grd)
+#'
+#'   ncells <- prod(slot(grd, "cells.dim"))
+#'   df <- data.frame(k = rep(1, ncells))
+#'   mask_SG <- sp::SpatialGridDataFrame(grd, data = df)
+#'   print(summary(mask_SG))
+#' }
 gmeta <- function(ignore.stderr = FALSE, g.proj_WKT = NULL) {
   if (get.suppressEchoCmdInFuncOption()) {
     inEchoCmd <- get.echoCmdOption()
@@ -75,6 +118,11 @@ gmeta <- function(ignore.stderr = FALSE, g.proj_WKT = NULL) {
   lres
 }
 
+#' @rdname gmeta
+#' @order 4
+#' @param x S3 object returned by gmeta
+#' @param ... arguments passed through print method
+#' @export
 print.gmeta <- function(x, ...) {
   cat("gisdbase   ", x$GISDBASE, "\n")
   cat("location   ", x$LOCATION_NAME, "\n")
@@ -97,6 +145,9 @@ print.gmeta <- function(x, ...) {
   invisible(x)
 }
 
+#' @rdname gmeta
+#' @order 3
+#' @export
 gmeta2grd <- function(ignore.stderr = FALSE) {
   if (!requireNamespace("sp", quietly = TRUE)) {
     stop("sp required to creat a GridTopology object")
@@ -113,8 +164,9 @@ gmeta2grd <- function(ignore.stderr = FALSE) {
   grd
 }
 
-
-
+#' @rdname gmeta
+#' @order 2
+#' @export
 getLocationProj <- function(ignore.stderr = FALSE, g.proj_WKT = NULL) {
   # too strict assumption on g.proj Rohan Sadler 20050928
   if (get.suppressEchoCmdInFuncOption()) {
@@ -205,15 +257,12 @@ getLocationProj <- function(ignore.stderr = FALSE, g.proj_WKT = NULL) {
   mapset
 }
 
-
-
 .addexe <- function() {
   res <- ""
   SYS <- get("SYS", envir = .GRASS_CACHE)
   if (SYS == "WinNat") res <- ".exe"
   res
 }
-
 
 .grassVersion <- function(ignore.stderr = TRUE) {
   Gver <- try(execGRASS(
