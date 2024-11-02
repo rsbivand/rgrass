@@ -1,48 +1,18 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>/404.html</loc>
-  </url>
-  <url>
-    <loc>/CONTRIBUTING.html</loc>
-  </url>
-  <url>
-    <loc>/articles/coerce.html</loc>
-  </url>
-  <url>
-    <loc>/articles/index.html</loc>
-  </url>
-  <url>
-    <loc>/articles/use.html</loc>
-  </url>
-  <url>
-    <loc>/authors.html</loc>
-  </url>
-  <url>
-    <loc>/index.html</loc>
-  </url>
-  <url>
-    <loc>/news/index.html</loc>
-  </url>
-  <url>
-    <loc>/reference/execGRASS.html</loc>
-  </url>
-  <url>
-    <loc>/reference/gmeta.html</loc>
-  </url>
-  <url>
-    <loc>/reference/index.html</loc>
-  </url>
-  <url>
-    <loc>/reference/initGRASS.html</loc>
-  </url>
-  <url>
-    <loc>/reference/readRAST.html</loc>
-  </url>
-  <url>
-    <loc>/reference/readVECT.html</loc>
-  </url>
-  <url>
-    <loc>/reference/rgrass.html</loc>
-  </url>
+<urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
+<url><loc>https://rsbivand.github.io/rgrass/404.html</loc></url>
+<url><loc>https://rsbivand.github.io/rgrass/CONTRIBUTING.html</loc></url>
+<url><loc>https://rsbivand.github.io/rgrass/articles/coerce.html</loc></url>
+<url><loc>https://rsbivand.github.io/rgrass/articles/index.html</loc></url>
+<url><loc>https://rsbivand.github.io/rgrass/articles/use.html</loc></url>
+<url><loc>https://rsbivand.github.io/rgrass/authors.html</loc></url>
+<url><loc>https://rsbivand.github.io/rgrass/index.html</loc></url>
+<url><loc>https://rsbivand.github.io/rgrass/news/index.html</loc></url>
+<url><loc>https://rsbivand.github.io/rgrass/reference/execGRASS.html</loc></url>
+<url><loc>https://rsbivand.github.io/rgrass/reference/gmeta.html</loc></url>
+<url><loc>https://rsbivand.github.io/rgrass/reference/index.html</loc></url>
+<url><loc>https://rsbivand.github.io/rgrass/reference/initGRASS.html</loc></url>
+<url><loc>https://rsbivand.github.io/rgrass/reference/read_RAST.html</loc></url>
+<url><loc>https://rsbivand.github.io/rgrass/reference/read_VECT.html</loc></url>
+<url><loc>https://rsbivand.github.io/rgrass/reference/rgrass.html</loc></url>
 </urlset>
+

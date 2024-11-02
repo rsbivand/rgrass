@@ -1,8 +1,10 @@
-pandoc: 3.1.11
-pkgdown: 2.0.9
+pandoc: 3.1.3
+pkgdown: 2.1.1
 pkgdown_sha: ~
 articles:
   coerce: coerce.html
   use: use.html
-last_built: 2024-06-18T17:32Z
-
+last_built: 2024-11-02T10:31Z
+urls:
+  reference: https://rsbivand.github.io/rgrass/reference
+  article: https://rsbivand.github.io/rgrass/articles

@@ -1,6 +1,7 @@
 oChangeLog
 README.md
 docs
+_pkgdown.yml
 ^.*\.Rproj$
 ^\.Rproj\.user$
 ^\.github$
