@@ -5,7 +5,7 @@ Title: Interface Between 'GRASS' Geographical Information System and 'R'
 Authors@R: c(
 	person("Roger", "Bivand", role = c("cre", "aut"), email = "Roger.Bivand@nhh.no", comment=c(ORCID="0000-0003-2392-6140")),
 	person("Rainer", "Krug", role = "ctb", email="Rainer@krugs.de", comment=c(ORCID="0000-0002-7490-0066")),
-        person("Robin", "Lovelace", role = "ctb", comment=c(ORCID = "0000-0001-5679-6536")),
+  person("Robin", "Lovelace", role = "ctb", comment=c(ORCID = "0000-0001-5679-6536")),
 	person("Markus", "Neteler", role = "ctb", email="neteler@osgeo.org", comment=c(ORCID="0000-0003-1916-1966")),
 	person("Sebastian", "Jeworutzki", role = "ctb", email="Sebastian.Jeworutzki@rub.de", comment=c(ORCID="0000-0002-2671-5253")),
 	person("Floris", "Vanderhaeghe", role = "ctb", email="floris.vanderhaeghe@inbo.be", comment=c(ORCID="0000-0002-6378-6229")))
@@ -18,6 +18,6 @@ SystemRequirements: GRASS (>= 7)
 License: GPL (>= 2)
 URL: https://rsbivand.github.io/rgrass/, https://grass.osgeo.org/, https://github.com/rsbivand/rgrass, https://lists.osgeo.org/mailman/listinfo/grass-stats
 BugReports: https://github.com/rsbivand/rgrass/issues/
-Collate: AAA.R options.R rgrass.R rast_link.R vect_link.R vect_link_ng.R 
-  initGRASS.R xml1.R gdal_grass.R read_helpers.R
-
+RoxygenNote: 7.3.2
+Roxygen: list(markdown = TRUE)
+Encoding: UTF-8

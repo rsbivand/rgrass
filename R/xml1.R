@@ -1,3 +1,6 @@
+#' @rdname execGRASS
+#' @order 4
+#' @export
 parseGRASS <- function(cmd, legacyExec = NULL) {
   cmdCACHE <- get("cmdCACHE", envir = .GRASS_CACHE)
   res <- cmdCACHE[[cmd]]
@@ -186,6 +189,12 @@ parseGRASS <- function(cmd, legacyExec = NULL) {
   res
 }
 
+#' @rdname execGRASS
+#' @param enc character string to replace UTF-8 in header of XML data generated
+#'   by GRASS module –interface-description output when the internationalised
+#'   messages are not in UTF-8 (known to apply to French, which is in latin1)
+#' @order 7
+#' @export
 setXMLencoding <- function(enc) {
   if (!is.character(enc) || length(enc) > 1) {
     stop("enc must be a character string")
@@ -193,9 +202,17 @@ setXMLencoding <- function(enc) {
   invisible(assign("override_encoding", enc, envir = .GRASS_CACHE))
 }
 
+#' @rdname execGRASS
+#' @order 6
+#' @export
 getXMLencoding <- function() {
   get("override_encoding", envir = .GRASS_CACHE)
 }
+
+#' @rdname execGRASS
+#' @param x object to be printed
+#' @order 5
+#' @export
 print.GRASS_interface_desc <- function(x, ...) {
   cat("Command:", x$cmd, "\n")
   if (nchar(x$ext) > 0) cat("Extension:", x$ext, "\n")
@@ -233,6 +250,9 @@ print.GRASS_interface_desc <- function(x, ...) {
   invisible(x)
 }
 
+#' @rdname execGRASS
+#' @order 3
+#' @export
 doGRASS <- function(cmd, flags = NULL, ..., parameters = NULL, echoCmd = NULL, legacyExec = NULL) {
   defFlags <- get.defaultFlagsOption()
   if (!is.null(defFlags)) flags <- unique(c(flags, defFlags))
@@ -441,6 +461,197 @@ insert_required <- function(pcmd, parameters, pt, req, suppress_required) {
   parameters
 }
 
+#' Run GRASS commands
+#'
+#' The functions provide an interface to GRASS commands run through
+#' `system`, based on the values returned by the `--interface description`
+#' flag using XML parsing. If required parameters are omitted, and
+#' have declared defaults, the defaults will be used.
+#'
+#' @details
+#' `parseGRASS` checks to see whether the GRASS command has been parsed
+#' already and cached in this session; if not, it reads the interface
+#' description, parses it and caches it for future use. `doGRASS` assembles
+#' a proposed GRASS command with flags and parameters as a string, wrapping
+#' `parseGRASS`, and `execGRASS` is a wrapper for `doGRASS`,
+#' running the command through `system` (from 0.7-4, the `...`
+#' argument is not used for passing extra arguments for `system`). The
+#' command string is termed proposed, because not all of the particular needs of
+#' commands are provided by the interface description, and no check is made for
+#' the existence of input objects. Support for multiple parameter values added
+#' with help from Patrick Caldon. Support for defaults and for direct use of
+#' GRASS parameters instead of a parameter list suggested by Rainer Krug.
+#'
+#' `stringexecGRASS` is a wrapper around `execGRASS`, and accepts a
+#' single shell statement as a string (following GRASS's command syntax).
+#'
+#' @note
+#' If any package command fails with a UTF-8 error from the XML package, try
+#' using `setXMLencoding` to work around the problem that GRASS modules
+#' declare --interface-description output as UTF-8 without ensuring that it is
+#' (French is of 6.4.0 RC5 latin1).
+#'
+#' @author Roger S. Bivand, e-mail: <Roger.Bivand@nhh.no>
+#' @seealso [base::system()]
+#' @keywords spatial
+#' @order 1
+#'
+#' @param cmd GRASS command name.
+#' @param flags character vector of GRASS command flags.
+#' @param ... for `execGRASS` and `doGRASS`, GRASS module parameters
+#'   given as R named arguments directly. For the `print` method, other
+#'   arguments to print method. The storage modes of values passed must match
+#'   thos required in GRASS, so a single GRASS string must be a character vector
+#'   of length 1, a single GRASS integer must be an integer vector of length 1
+#'   (may be an integer constant such as 10L), and a single GRASS float must be
+#'   a numeric vector of length 1. For multiple values, use vectors of suitable
+#'   length.
+#' @param parameters list of GRASS command parameters, used if GRASS parameters
+#'   are not given as R arguments directly; the two methods for passing GRASS
+#'   parameters may not be mixed. The storage modes of values passed must match
+#'   thos required in GRASS, so a single GRASS string must be a character vector
+#'   of length 1, a single GRASS integer must be an integer vector of length 1
+#'   (may be an integer constant such as 10L), and a single GRASS float must be
+#'   a numeric vector of length 1. For multiple values, use vectors of suitable
+#'   length.
+#' @param intern default NULL, in which case set internally from
+#'   `get.useInternOption`; a logical (not 'NA') which indicates whether to
+#'   make the output of the command an R object. Not available unless 'popen' is
+#'   supported on the platform.
+#' @param ignore.stderr default NULL, taking the value set by
+#'   `set.ignore.stderrOption`, a logical indicating whether error messages
+#'   written to 'stderr' should be ignored.
+#' @param Sys_ignore.stdout,Sys_wait,Sys_input pass extra arguments to
+#'   `system`.
+#' @param Sys_show.output.on.console,Sys_minimized,Sys_invisible pass extra
+#'   arguments to `system` on Windows systems only.
+#' @param echoCmd default NULL, taking the logical value set by
+#'   `set.echoCmdOption`, print GRASS command to be executed to console.
+#' @param redirect default `FALSE`, if `TRUE`, add "2>&1" to
+#'   the command string and set `intern` to `TRUE`; only used in
+#'   legacy mode.
+#' @param legacyExec default NULL, taking the logical value set by
+#'   `set.legacyExecOption` which is initialised to `FALSE` on
+#'   "unix" platforms and `TRUE` otherwise. If `TRUE`, use
+#'   `system`, if `FALSE` use `system2` and divert stderr to
+#'   temporary file to record error messages and warnings from GRASS modules.
+#'
+#' @return `parseGRASS` returns a `GRASS_interface_desc` object,
+#'   `doGRASS` returns a character string with a proposed GRASS command -
+#'   the expanded command name is returned as an attribute, and `execGRASS`
+#'   and  `stringexecGRASS` return what `system` or `system2`
+#'   return, particularly depending on the `intern` argument when the
+#'   character strings output by GRASS modules are returned.
+#'
+#'   If `intern` is `FALSE`, `system` returns the module exit
+#'   code, while `system2` returns the module exit code with
+#'   "resOut" and "resErr" attributes.
+#' @export
+#'
+#' @examples
+#' # Run examples if in an active GRASS session in the nc_basic_spm_grass7
+#' Sys.setenv("_SP_EVOLUTION_STATUS_" = "2")
+#' run <- FALSE
+#' GISRC <- Sys.getenv("GISRC")
+#' if (nchar(GISRC) > 0) {
+#'   location_name <- read.dcf(GISRC)[1, "LOCATION_NAME"]
+#'   if (location_name == "nc_basic_spm_grass7") {
+#'     run <- TRUE
+#'   }
+#' }
+#'
+#' # Save and set echo command option
+#' echoCmdOption <- get.echoCmdOption()
+#' set.echoCmdOption(TRUE)
+#'
+#' if (run) {
+#'   # Read and print GRASS interface description for 'r.slope.aspect'
+#'   print(parseGRASS("r.slope.aspect"))
+#'
+#'   # Assemble the 'r.slope.aspect' command with specified parameters as a string
+#'   doGRASS(
+#'     "r.slope.aspect",
+#'     flags = c("overwrite"),
+#'     elevation = "elevation.dem",
+#'     slope = "slope",
+#'     aspect = "aspect"
+#'   )
+#'
+#'   # Alternatively, specify parameters as a list
+#'   params <- list(elevation = "elevation",
+#'                  slope = "slope",
+#'                  aspect = "aspect")
+#'   doGRASS("r.slope.aspect",
+#'           flags = c("overwrite"),
+#'           parameters = params)
+#'
+#'   # Read and print GRASS interface description for 'r.buffer'
+#'   print(parseGRASS("r.buffer"))
+#'
+#'   # Assemble the 'r.buffer' with specified parameters as as string
+#'   doGRASS(
+#'     "r.buffer",
+#'     flags = c("overwrite"),
+#'     input = "schools",
+#'     output = "bmap",
+#'     distances = seq(1000, 15000, 1000)
+#'   )
+#'
+#'   # Alternatively, specify parameters as a list
+#'   params <- list(
+#'     input = "schools",
+#'     output = "bmap",
+#'     distances = seq(1000, 15000, 1000)
+#'   )
+#'   doGRASS("r.buffer", flags = c("overwrite"), parameters = params)
+#'
+#'   # Restore original echo command option
+#'   set.echoCmdOption(echoCmdOption)
+#'
+#'   # Try executing 'r.stats' command which will fail because "fire_blocksgg"
+#'   # does not exist in the mapset
+#'   try(res <- execGRASS("r.stats", input = "fire_blocksgg", flags = c("C", "n")),
+#'       silent = FALSE)
+#'
+#'   # Execute 'r.stats' with legacyExec and print the result
+#'   res <- execGRASS(
+#'     "r.stats",
+#'     input = "fire_blocksgg",
+#'     flags = c("C", "n"),
+#'     legacyExec = TRUE
+#'   )
+#'   print(res)
+#'
+#'   # If the command failed, retrieve error message
+#'   if (res != 0) {
+#'     resERR <- execGRASS(
+#'       "r.stats",
+#'       input = "fire_blocksgg",
+#'       flags = c("C", "n"),
+#'       redirect = TRUE,
+#'       legacyExec = TRUE
+#'     )
+#'     print(resERR)
+#'   }
+#'
+#'   # Use 'stringexecGRASS' to run a command and print the result
+#'   res <- stringexecGRASS("r.stats -p -l input=geology", intern = TRUE)
+#'   print(res)
+#'
+#'   stringexecGRASS(
+#'     "r.random.cells --overwrite --quiet output=samples distance=1000 ncells=100 seed=1"
+#'   )
+#'
+#'   # Alternatively, run the same command using 'execGRASS'
+#'   execGRASS(
+#'     "r.random.cells",
+#'     flags  = c("overwrite", "quiet"),
+#'     output = "samples",
+#'     distance = 1000,
+#'     ncells = 100L,
+#'     seed = 1L
+#'   )
+#' }
 execGRASS <- function(
     cmd, flags = NULL, ..., parameters = NULL, intern = NULL,
     ignore.stderr = NULL, Sys_ignore.stdout = FALSE, Sys_wait = TRUE,
@@ -546,6 +757,13 @@ execGRASS <- function(
   invisible(res)
 }
 
+#' @rdname execGRASS
+#' @param string a string representing *one* full GRASS statement, using shell
+#'   syntax: command name, optionally followed by flags and parameters, all
+#'   separated by whitespaces. Parameters follow the key=value format; if
+#'   ’value’ contains spaces, then ’value’ must be quoted
+#' @order 2
+#' @export
 stringexecGRASS <- function(string,
                             intern = NULL,
                             ignore.stderr = NULL,

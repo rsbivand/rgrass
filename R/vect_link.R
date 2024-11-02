@@ -2,7 +2,8 @@
 # Copyright (c) 2015-22 Roger S. Bivand
 #
 
-
+#' @rdname read_VECT
+#' @export
 vInfo <- function(vname, layer, ignore.stderr = NULL) {
   if (get.suppressEchoCmdInFuncOption()) {
     inEchoCmd <- get.echoCmdOption()
@@ -33,6 +34,8 @@ vInfo <- function(vname, layer, ignore.stderr = NULL) {
   res
 }
 
+#' @rdname read_VECT
+#' @export
 vColumns <- function(vname, layer, ignore.stderr = NULL) {
   if (get.suppressEchoCmdInFuncOption()) {
     inEchoCmd <- get.echoCmdOption()
@@ -64,6 +67,8 @@ vColumns <- function(vname, layer, ignore.stderr = NULL) {
   res
 }
 
+#' @rdname read_VECT
+#' @export
 vDataCount <- function(vname, layer, ignore.stderr = NULL) {
   if (get.suppressEchoCmdInFuncOption()) {
     inEchoCmd <- get.echoCmdOption()
@@ -159,6 +164,8 @@ vDataCount <- function(vname, layer, ignore.stderr = NULL) {
 ## isn't always that precise ...
 #
 
+#' @rdname read_VECT
+#' @export
 vect2neigh <- function(
     vname, ID = NULL, ignore.stderr = NULL, remove = TRUE,
     vname2 = NULL, units = "k") {
