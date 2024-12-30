@@ -30,13 +30,13 @@ knitr::include_graphics("fig1.png")
 
 GDAL was supplemented for raster data by simply reading and writing uncompressed binary files using `r.in.bin` and `r.out.bin`, with custom functions on the R side. As then written, the R-GRASS interface used **sp** classes for both raster and vector data, supplemented more recently with **sf** classes for vector data only.
 
-The current version of the R-GRASS interface has been simplified to use the **terra** package because it, like **sf** and **rgdal** before it, links to the important external libraries. The workhorse driver is known as `RRASTER`, and has been widely used in **raster** and **terra** (see also (https://rspatial.org)). It uses GDAL but writes a flat uncompressed binary file. Using `terra::rast()` also appears to preserve category names and colour tables, but needs further testing (see (https://github.com/rsbivand/rgrass/issues/42)).
+The current version of the R-GRASS interface has been simplified to use the **terra** package because it, like **sf** and **rgdal** before it, links to the important external libraries. The workhorse driver is known as `RRASTER`, and has been widely used in **raster** and **terra** (see also (https://rspatial.org)). It uses GDAL but writes a flat uncompressed binary file. Using `terra::rast()` also appears to preserve category names and colour tables, but needs further testing (see (https://github.com/osgeo/rgrass/issues/42)).
 
 ```{r, out.width=500, echo=FALSE}
 knitr::include_graphics("fig2_p7_RRASTER_GRASS.png")
 ```
 
-From GDAL 3.5.0, the `RRASTER` driver also supports WKT2_2019 CRS representations; in earlier versions of GDAL, the driver only supported the proj-string representation (https://github.com/rsbivand/rgrass/issues/51).
+From GDAL 3.5.0, the `RRASTER` driver also supports WKT2_2019 CRS representations; in earlier versions of GDAL, the driver only supported the proj-string representation (https://github.com/osgeo/rgrass/issues/51).
 
 These changes mean that users transferring data between R and GRASS will need to coerce between **terra** classes `SpatVector` and `SpatRaster` and the class system of choice. In addition, `SpatRaster` is only read into memory from file when this is required, so requiring some care.
 

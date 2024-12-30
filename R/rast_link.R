@@ -721,7 +721,7 @@ write_RAST <- function(
     if (!(requireNamespace("terra", quietly = TRUE))) {
       stop("terra required for terra output")
     }
-    # Suggestion https://github.com/rsbivand/rgrass/pull/45#discussion_r816113064 Floris Vanderhaeghe
+    # Suggestion https://github.com/osgeo/rgrass/pull/45#discussion_r816113064 Floris Vanderhaeghe
     srcs <- getMethod("sources", "SpatRaster")(x)
     mems <- getMethod("inMemory", "SpatRaster")(x)
     if (length(srcs) == 1L && !mems[1]) {

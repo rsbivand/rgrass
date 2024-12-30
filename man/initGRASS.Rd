@@ -98,13 +98,13 @@ contains "OSGEO4W64/APPS/GRASS" or "OSGEO4W/APPS/GRASS" (and
 after converting "\\" to "/"), but the environment variable
 \code{OSGEO4W_ROOT} is not defined, \code{initGRASS()} will exit with an
 error before confusion leads to further errors. For further details, see
-\url{https://github.com/rsbivand/rgrass/issues/16} and
-\url{https://github.com/rsbivand/rgrass/issues/16}.
+\url{https://github.com/osgeo/rgrass/issues/16} and
+\url{https://github.com/osgeo/rgrass/issues/16}.
 
 The same restriction applies to use of GRASS with QGIS Windows standalone
 installations, which may be used with \code{initGRASS} only if the R session
 is started from the OSGeo4W shell shipped as part of the standalone installer
-(see \url{https://github.com/rsbivand/rgrass/issues/87}). The function will
+(see \url{https://github.com/osgeo/rgrass/issues/87}). The function will
 exit with an error if R was not started from the QGIS OSGeo4W shell before
 confusion leads to further errors.
 

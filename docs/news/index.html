@@ -24,7 +24,7 @@
 <li class="active nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
       </ul><ul class="navbar-nav"><li class="nav-item"><form class="form-inline" role="search">
  <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="../search.json"></form></li>
-<li class="nav-item"><a class="external-link nav-link" href="https://github.com/rsbivand/rgrass/" aria-label="GitHub"><span class="fa fab fa-github fa-lg"></span></a></li>
+<li class="nav-item"><a class="external-link nav-link" href="https://github.com/osgeo/rgrass/" aria-label="GitHub"><span class="fa fab fa-github fa-lg"></span></a></li>
       </ul></div>
 
 
@@ -34,40 +34,40 @@
   <main id="main" class="col-md-9"><div class="page-header">
 
       <h1>Changelog</h1>
-      <small>Source: <a href="https://github.com/rsbivand/rgrass/blob/HEAD/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
+      <small>Source: <a href="https://github.com/osgeo/rgrass/blob/HEAD/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.4-3" id="rgrass-version-04-3-development">
 <strong>rgrass</strong> version 0.4-3 (development)<a class="anchor" aria-label="anchor" href="#rgrass-version-04-3-development"></a></h2><p class="text-muted">CRAN release: 2024-06-19</p>
-<ul><li><p>see <a href="https://github.com/rsbivand/rgrass/issues/87" class="external-link">#87</a> - Windows QGIS standalone installations of GRASS GIS can be used only if R is started in the OSGeo4W shell bundled with the installation</p></li>
-<li><p><code><a href="../reference/read_VECT.html">write_VECT()</a></code>: when the <code>SpatVector</code> object already refers to a source file, an intermediate temporary file is no longer written to get the data into the GRASS GIS database (<a href="https://github.com/rsbivand/rgrass/issues/93" class="external-link">#93</a>). A similar shortcut was already in place for <code><a href="../reference/read_RAST.html">write_RAST()</a></code>.</p></li>
-<li><p><code><a href="../reference/read_VECT.html">read_VECT()</a></code>: provide access to the standalone GDAL-GRASS driver to read vector data, which skips the step of writing a intermediate file (<a href="https://github.com/rsbivand/rgrass/issues/93" class="external-link">#93</a>). Note that this standalone driver needs to be set up separately. More information is in the <a href="https://github.com/OSGeo/gdal-grass/blob/main/README.md" class="external-link">driver’s README</a>.</p></li>
-<li><p><code><a href="../reference/read_VECT.html">read_VECT()</a></code>: support reading as <code>SpatVectorProxy</code> class of <a href="https://rspatial.org/" class="external-link">terra</a>, by providing a <code>proxy</code> argument (<a href="https://github.com/rsbivand/rgrass/issues/93" class="external-link">#93</a>).</p></li>
+<ul><li><p>see <a href="https://github.com/osgeo/rgrass/issues/87" class="external-link">#87</a> - Windows QGIS standalone installations of GRASS GIS can be used only if R is started in the OSGeo4W shell bundled with the installation</p></li>
+<li><p><code><a href="../reference/read_VECT.html">write_VECT()</a></code>: when the <code>SpatVector</code> object already refers to a source file, an intermediate temporary file is no longer written to get the data into the GRASS GIS database (<a href="https://github.com/osgeo/rgrass/issues/93" class="external-link">#93</a>). A similar shortcut was already in place for <code><a href="../reference/read_RAST.html">write_RAST()</a></code>.</p></li>
+<li><p><code><a href="../reference/read_VECT.html">read_VECT()</a></code>: provide access to the standalone GDAL-GRASS driver to read vector data, which skips the step of writing a intermediate file (<a href="https://github.com/osgeo/rgrass/issues/93" class="external-link">#93</a>). Note that this standalone driver needs to be set up separately. More information is in the <a href="https://github.com/OSGeo/gdal-grass/blob/main/README.md" class="external-link">driver’s README</a>.</p></li>
+<li><p><code><a href="../reference/read_VECT.html">read_VECT()</a></code>: support reading as <code>SpatVectorProxy</code> class of <a href="https://rspatial.org/" class="external-link">terra</a>, by providing a <code>proxy</code> argument (<a href="https://github.com/osgeo/rgrass/issues/93" class="external-link">#93</a>).</p></li>
 </ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.4-2" id="rgrass-version-04-2-2024-03-17">
 <strong>rgrass</strong> version 0.4-2 (2024-03-17)<a class="anchor" aria-label="anchor" href="#rgrass-version-04-2-2024-03-17"></a></h2><p class="text-muted">CRAN release: 2024-03-17</p>
-<ul><li>see <a href="https://github.com/rsbivand/rgrass/issues/84" class="external-link">#84</a> - handling fully-qualified map names</li>
+<ul><li>see <a href="https://github.com/osgeo/rgrass/issues/84" class="external-link">#84</a> - handling fully-qualified map names</li>
 </ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.4-1" id="rgrass-version-04-1-2024-01-08">
 <strong>rgrass</strong> version 0.4-1 (2024-01-08)<a class="anchor" aria-label="anchor" href="#rgrass-version-04-1-2024-01-08"></a></h2><p class="text-muted">CRAN release: 2024-01-08</p>
-<ul><li>replace <code>XML</code> with <code>xml2</code> see <a href="https://github.com/rsbivand/rgrass/issues/72" class="external-link">#72</a></li>
+<ul><li>replace <code>XML</code> with <code>xml2</code> see <a href="https://github.com/osgeo/rgrass/issues/72" class="external-link">#72</a></li>
 </ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.3-9" id="rgrass-version-03-9-2023-09-10">
 <strong>rgrass</strong> version 0.3-9 (2023-09-10)<a class="anchor" aria-label="anchor" href="#rgrass-version-03-9-2023-09-10"></a></h2><p class="text-muted">CRAN release: 2023-09-10</p>
 <ul><li><p>reinstate <code>grass-stable</code> <a href="https://github.com/OSGeo/grass-website/issues/357" class="external-link uri">https://github.com/OSGeo/grass-website/issues/357</a></p></li>
-<li><p>fix <a href="https://github.com/rsbivand/rgrass/issues/79" class="external-link">#79</a> thanks to Adam B. Smith, use <code><a href="https://rspatial.github.io/terra/reference/coerce.html" class="external-link">terra::as.vector</a></code> method rather than internal slot name</p></li>
+<li><p>fix <a href="https://github.com/osgeo/rgrass/issues/79" class="external-link">#79</a> thanks to Adam B. Smith, use <code><a href="https://rspatial.github.io/terra/reference/coerce.html" class="external-link">terra::as.vector</a></code> method rather than internal slot name</p></li>
 </ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.3-8" id="rgrass-version-03-8-2023-03-17">
 <strong>rgrass</strong> version 0.3-8 (2023-03-17)<a class="anchor" aria-label="anchor" href="#rgrass-version-03-8-2023-03-17"></a></h2><p class="text-muted">CRAN release: 2023-03-17</p>
-<ul><li><p><a href="https://github.com/rsbivand/rgrass/issues/73" class="external-link">#73</a> guess <code>gisBase=</code> in <code><a href="../reference/initGRASS.html">initGRASS()</a></code></p></li>
+<ul><li><p><a href="https://github.com/osgeo/rgrass/issues/73" class="external-link">#73</a> guess <code>gisBase=</code> in <code><a href="../reference/initGRASS.html">initGRASS()</a></code></p></li>
 <li><p>added <em>SP_EVOLUTION_STATUS</em> 2 to examples</p></li>
-<li><p><a href="https://github.com/rsbivand/rgrass/issues/66" class="external-link">#66</a> re-examining to protect from UInt maxing out; add stop for required manual NODATA</p></li>
-<li><p><a href="https://github.com/rsbivand/rgrass/issues/68" class="external-link">#68</a>, <a href="https://github.com/rsbivand/rgrass/issues/69" class="external-link">#69</a> improvements to vignettes, thanks to Floris Vanderhaeghe and Veronica Andreo</p></li>
+<li><p><a href="https://github.com/osgeo/rgrass/issues/66" class="external-link">#66</a> re-examining to protect from UInt maxing out; add stop for required manual NODATA</p></li>
+<li><p><a href="https://github.com/osgeo/rgrass/issues/68" class="external-link">#68</a>, <a href="https://github.com/osgeo/rgrass/issues/69" class="external-link">#69</a> improvements to vignettes, thanks to Floris Vanderhaeghe and Veronica Andreo</p></li>
 </ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.3-6" id="rgrass-version-03-6-2022-10-11">
@@ -77,8 +77,8 @@
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.3-5" id="rgrass-version-03-5-2022-09-29">
 <strong>rgrass</strong> version 0.3-5 (2022-09-29)<a class="anchor" aria-label="anchor" href="#rgrass-version-03-5-2022-09-29"></a></h2><p class="text-muted">CRAN release: 2022-09-29</p>
-<ul><li><p><a href="https://github.com/rsbivand/rgrass/issues/63" class="external-link">#63</a> and <a href="https://github.com/rsbivand/rgrass/issues/64" class="external-link">#64</a>, detection of GRASS path for <code><a href="../reference/initGRASS.html">initGRASS()</a></code> semi-automated if <code>grass --config path</code> works or if environment variable <code>GRASS_INSTALLATION</code> set to path, thanks to Robin Lovelace</p></li>
-<li><p>correct NODATA logic in <code><a href="../reference/read_RAST.html">read_RAST()</a></code> for unsigned rasters <a href="https://github.com/rsbivand/rgrass/issues/66" class="external-link">#66</a> thanks to Laura Poggio</p></li>
+<ul><li><p><a href="https://github.com/osgeo/rgrass/issues/63" class="external-link">#63</a> and <a href="https://github.com/osgeo/rgrass/issues/64" class="external-link">#64</a>, detection of GRASS path for <code><a href="../reference/initGRASS.html">initGRASS()</a></code> semi-automated if <code>grass --config path</code> works or if environment variable <code>GRASS_INSTALLATION</code> set to path, thanks to Robin Lovelace</p></li>
+<li><p>correct NODATA logic in <code><a href="../reference/read_RAST.html">read_RAST()</a></code> for unsigned rasters <a href="https://github.com/osgeo/rgrass/issues/66" class="external-link">#66</a> thanks to Laura Poggio</p></li>
 </ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.3-3" id="rgrass-version-03-3-2022-08-08">
