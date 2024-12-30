@@ -43,7 +43,7 @@
 <li class="nav-item"><form class="form-inline" role="search">
  <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="../search.json">
 </form></li>
-<li class="nav-item"><a class="external-link nav-link" href="https://github.com/rsbivand/rgrass/" aria-label="GitHub"><span class="fa fab fa-github fa-lg"></span></a></li>
+<li class="nav-item"><a class="external-link nav-link" href="https://github.com/osgeo/rgrass/" aria-label="GitHub"><span class="fa fab fa-github fa-lg"></span></a></li>
       </ul>
 </div>
 
@@ -62,7 +62,7 @@
 Bivand</h4>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/rsbivand/rgrass/blob/HEAD/vignettes/coerce.Rmd" class="external-link"><code>vignettes/coerce.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/osgeo/rgrass/blob/HEAD/vignettes/coerce.Rmd" class="external-link"><code>vignettes/coerce.Rmd</code></a></small>
       <div class="d-none name"><code>coerce.Rmd</code></div>
     </div>
 
@@ -95,11 +95,11 @@ important external libraries. The workhorse driver is known as
 <strong>raster</strong> and <strong>terra</strong> (see also (<a href="https://rspatial.org" class="external-link uri">https://rspatial.org</a>)). It
 uses GDAL but writes a flat uncompressed binary file. Using
 <code><a href="https://rspatial.github.io/terra/reference/rast.html" class="external-link">terra::rast()</a></code> also appears to preserve category names and
-colour tables, but needs further testing (see (<a href="https://github.com/rsbivand/rgrass/issues/42" class="external-link uri">https://github.com/rsbivand/rgrass/issues/42</a>)).</p>
+colour tables, but needs further testing (see (<a href="https://github.com/osgeo/rgrass/issues/42" class="external-link uri">https://github.com/osgeo/rgrass/issues/42</a>)).</p>
 <p><img src="fig2_p7_RRASTER_GRASS.png" width="500"></p>
 <p>From GDAL 3.5.0, the <code>RRASTER</code> driver also supports
 WKT2_2019 CRS representations; in earlier versions of GDAL, the driver
-only supported the proj-string representation (<a href="https://github.com/rsbivand/rgrass/issues/51" class="external-link uri">https://github.com/rsbivand/rgrass/issues/51</a>).</p>
+only supported the proj-string representation (<a href="https://github.com/osgeo/rgrass/issues/51" class="external-link uri">https://github.com/osgeo/rgrass/issues/51</a>).</p>
 <p>These changes mean that users transferring data between R and GRASS
 will need to coerce between <strong>terra</strong> classes
 <code>SpatVector</code> and <code>SpatRaster</code> and the class system

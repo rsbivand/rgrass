@@ -35,11 +35,11 @@ Note that the examples now use the smaller subset North Carolina location:
 \seealso{
 Useful links:
 \itemize{
-  \item \url{https://rsbivand.github.io/rgrass/}
+  \item \url{https://osgeo.github.io/rgrass/}
   \item \url{https://grass.osgeo.org/}
-  \item \url{https://github.com/rsbivand/rgrass}
+  \item \url{https://github.com/osgeo/rgrass}
   \item \url{https://lists.osgeo.org/mailman/listinfo/grass-stats}
-  \item Report bugs at \url{https://github.com/rsbivand/rgrass/issues/}
+  \item Report bugs at \url{https://github.com/osgeo/rgrass/issues/}
 }
 
 }

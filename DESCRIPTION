@@ -17,8 +17,8 @@ Suggests: terra (>= 1.6-16), sp (>= 0.9), knitr, rmarkdown, sf, stars, raster (>
 VignetteBuilder: knitr
 SystemRequirements: GRASS (>= 7)
 License: GPL (>= 2)
-URL: https://rsbivand.github.io/rgrass/, https://grass.osgeo.org/, https://github.com/rsbivand/rgrass, https://lists.osgeo.org/mailman/listinfo/grass-stats
-BugReports: https://github.com/rsbivand/rgrass/issues/
+URL: https://osgeo.github.io/rgrass/, https://grass.osgeo.org/, https://github.com/osgeo/rgrass, https://lists.osgeo.org/mailman/listinfo/grass-stats
+BugReports: https://github.com/osgeo/rgrass/issues/
 RoxygenNote: 7.3.2
 Roxygen: list(markdown = TRUE)
 Encoding: UTF-8

@@ -19,13 +19,13 @@
 #' after converting "\\" to "/"), but the environment variable
 #' `OSGEO4W_ROOT` is not defined, `initGRASS()` will exit with an
 #' error before confusion leads to further errors. For further details, see
-#' <https://github.com/rsbivand/rgrass/issues/16> and
-#' <https://github.com/rsbivand/rgrass/issues/16>.
+#' <https://github.com/osgeo/rgrass/issues/16> and
+#' <https://github.com/osgeo/rgrass/issues/16>.
 #'
 #' The same restriction applies to use of GRASS with QGIS Windows standalone
 #' installations, which may be used with `initGRASS` only if the R session
 #' is started from the OSGeo4W shell shipped as part of the standalone installer
-#' (see <https://github.com/rsbivand/rgrass/issues/87>). The function will
+#' (see <https://github.com/osgeo/rgrass/issues/87>). The function will
 #' exit with an error if R was not started from the QGIS OSGeo4W shell before
 #' confusion leads to further errors.
 #'
