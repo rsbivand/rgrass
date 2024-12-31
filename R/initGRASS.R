@@ -92,6 +92,8 @@
 #' @return The function runs `gmeta6` before returning the current values
 #'   of the running GRASS session that it provides.
 #' @export
+#' @importFrom stats runif
+#' @importFrom methods getMethod
 #'
 #' @examples
 #' # Run only if GRASS installation is found and 'terra' package is installed

@@ -1,6 +1,8 @@
 #' @rdname execGRASS
 #' @order 4
 #' @export
+#' @importFrom xml2 xml_name xml_text
+#' @importFrom stats na.omit
 parseGRASS <- function(cmd, legacyExec = NULL) {
   cmdCACHE <- get("cmdCACHE", envir = .GRASS_CACHE)
   res <- cmdCACHE[[cmd]]

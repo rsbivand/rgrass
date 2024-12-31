@@ -8,8 +8,8 @@
 <title>Coercion between object formats • rgrass</title>
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
-<script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.4.2/css/all.min.css" rel="stylesheet">
-<link href="../deps/font-awesome-6.4.2/css/v4-shims.min.css" rel="stylesheet">
+<script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
+<link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
 <script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Coercion between object formats">
 </head>
 <body>
@@ -116,10 +116,10 @@ package building, some code blocks will not be displayed.</p>
 version:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st"><a href="https://rspatial.org/" class="external-link">"terra"</a></span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## terra 1.7.83</span></span></code></pre>
+<pre><code><span><span class="co">## terra 1.8.5</span></span></code></pre>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st"><a href="https://r-spatial.github.io/sf/" class="external-link">"sf"</a></span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## Linking to GEOS 3.13.0, GDAL 3.10.0, PROJ 9.5.0; sf_use_s2() is TRUE</span></span></code></pre>
+<pre><code><span><span class="co">## Linking to GEOS 3.13.0, GDAL 3.10.0, PROJ 9.5.1; sf_use_s2() is TRUE</span></span></code></pre>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st"><a href="https://github.com/edzer/sp/" class="external-link">"sp"</a></span><span class="op">)</span></span></code></pre></div>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
@@ -132,7 +132,7 @@ libraries being used by <strong>terra</strong>:</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rspatial.github.io/terra/reference/gdal.html" class="external-link">gdal</a></span><span class="op">(</span>lib <span class="op">=</span> <span class="st">"all"</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##     gdal     proj     geos </span></span>
-<span><span class="co">## "3.10.0"  "9.5.0" "3.13.0"</span></span></code></pre>
+<span><span class="co">## "3.10.0"  "9.5.1" "3.13.0"</span></span></code></pre>
 <p>When using CRAN binary packages built static for Windows and macOS,
 the R packages will use the same versions of the external libraries, but
 not necessarily the same versions as those against which GRASS was
@@ -156,11 +156,11 @@ object is needed for <code><a href="../reference/read_VECT.html">write_VECT()</a
 <span><span class="co">##  extent      : 5.74414, 6.528252, 49.44781, 50.18162  (xmin, xmax, ymin, ymax)</span></span>
 <span><span class="co">##  source      : lux.shp</span></span>
 <span><span class="co">##  coord. ref. : lon/lat WGS 84 (EPSG:4326) </span></span>
-<span><span class="co">##  names       :  ID_1   NAME_1  ID_2   NAME_2  AREA   POP</span></span>
-<span><span class="co">##  type        : &lt;num&gt;    &lt;chr&gt; &lt;num&gt;    &lt;chr&gt; &lt;num&gt; &lt;int&gt;</span></span>
-<span><span class="co">##  values      :     1 Diekirch     1 Clervaux   312 18081</span></span>
-<span><span class="co">##                    1 Diekirch     2 Diekirch   218 32543</span></span>
-<span><span class="co">##                    1 Diekirch     3  Redange   259 18664</span></span></code></pre>
+<span><span class="co">##  names       :  ID_1   NAME_1  ID_2   NAME_2  AREA       POP</span></span>
+<span><span class="co">##  type        : &lt;num&gt;    &lt;chr&gt; &lt;num&gt;    &lt;chr&gt; &lt;num&gt;     &lt;num&gt;</span></span>
+<span><span class="co">##  values      :     1 Diekirch     1 Clervaux   312 1.808e+04</span></span>
+<span><span class="co">##                    1 Diekirch     2 Diekirch   218 3.254e+04</span></span>
+<span><span class="co">##                    1 Diekirch     3  Redange   259 1.866e+04</span></span></code></pre>
 <p>These objects are always held in memory, so there is no
 <code><a href="https://rspatial.github.io/terra/reference/sources.html" class="external-link">inMemory()</a></code> method:</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
@@ -231,11 +231,11 @@ object is needed for <code><a href="../reference/read_VECT.html">write_VECT()</a
 <span><span class="co">##  dimensions  : 12, 6  (geometries, attributes)</span></span>
 <span><span class="co">##  extent      : 5.74414, 6.528252, 49.44781, 50.18162  (xmin, xmax, ymin, ymax)</span></span>
 <span><span class="co">##  coord. ref. : lon/lat WGS 84 (EPSG:4326) </span></span>
-<span><span class="co">##  names       :  ID_1   NAME_1  ID_2   NAME_2  AREA   POP</span></span>
-<span><span class="co">##  type        : &lt;num&gt;    &lt;chr&gt; &lt;num&gt;    &lt;chr&gt; &lt;num&gt; &lt;int&gt;</span></span>
-<span><span class="co">##  values      :     1 Diekirch     1 Clervaux   312 18081</span></span>
-<span><span class="co">##                    1 Diekirch     2 Diekirch   218 32543</span></span>
-<span><span class="co">##                    1 Diekirch     3  Redange   259 18664</span></span></code></pre>
+<span><span class="co">##  names       :  ID_1   NAME_1  ID_2   NAME_2  AREA       POP</span></span>
+<span><span class="co">##  type        : &lt;num&gt;    &lt;chr&gt; &lt;num&gt;    &lt;chr&gt; &lt;num&gt;     &lt;num&gt;</span></span>
+<span><span class="co">##  values      :     1 Diekirch     1 Clervaux   312 1.808e+04</span></span>
+<span><span class="co">##                    1 Diekirch     2 Diekirch   218 3.254e+04</span></span>
+<span><span class="co">##                    1 Diekirch     3  Redange   259 1.866e+04</span></span></code></pre>
 <div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rspatial.github.io/terra/reference/all.equal.html" class="external-link">all.equal</a></span><span class="op">(</span><span class="va">v_sf_rt</span>, <span class="va">v</span>, check.attributes <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## [1] TRUE</span></span></code></pre>
@@ -623,7 +623,7 @@ forefronts the Proj.4 string CRS representation:</p>
 <div class="section level2 unnumbered">
 <h2 class="unnumbered" id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
 </h2>
-<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="refs" class="references csl-bib-body hanging-indent" entry-spacing="0">
 <div id="ref-bivand:00" class="csl-entry">
 Bivand, R. S. 2000. <span>“Using the <span>R</span> Statistical Data
 Analysis Language on <span>GRASS</span> 5.0 <span>GIS</span> Data Base
@@ -670,7 +670,7 @@ Raster and Vector Data Cubes</em>. <a href="https://CRAN.R-project.org/package=s
 
 
     <footer><div class="pkgdown-footer-left">
-  <p>Developed by Roger Bivand.</p>
+  <p>Developed by Roger Bivand, Steven Pawley.</p>
 </div>
 
 <div class="pkgdown-footer-right">
