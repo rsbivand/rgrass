@@ -64,6 +64,7 @@
 #'   giving the length of shared boundary between each polygon and the external
 #'   area, and total giving each polygon's total boundary length.
 #' @export
+#' @importFrom methods getMethod
 #'
 #' @examples
 #' # Run example if in active GRASS nc_basic_spm_grass7 location

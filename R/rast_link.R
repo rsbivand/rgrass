@@ -46,6 +46,10 @@
 #'   SpatialGridDataFrame object if `return_format="SGDF"`.
 #'   `write_RAST` silently returns the object being written to GRASS.
 #' @export
+#' @importFrom stats runif
+#' @importFrom methods getMethod slot as
+#' @importFrom utils write.table 
+#' @importFrom grDevices rgb
 #'
 #' @examples
 #' # Run example only if GRASS settings file indicates that the

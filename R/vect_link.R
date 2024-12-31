@@ -166,6 +166,8 @@ vDataCount <- function(vname, layer, ignore.stderr = NULL) {
 
 #' @rdname read_VECT
 #' @export
+#' @importFrom stats runif
+#' @importFrom utils read.table
 vect2neigh <- function(
     vname, ID = NULL, ignore.stderr = NULL, remove = TRUE,
     vname2 = NULL, units = "k") {

@@ -44,7 +44,12 @@ Useful links:
 
 }
 \author{
-\strong{Maintainer}: Roger Bivand \email{Roger.Bivand@nhh.no} (\href{https://orcid.org/0000-0003-2392-6140}{ORCID})
+\strong{Maintainer}: Steven Pawley \email{dr.stevenpawley@gmail.com} (\href{https://orcid.org/0000-0002-5524-3320}{ORCID})
+
+Authors:
+\itemize{
+  \item Roger Bivand \email{Roger.Bivand@nhh.no} (\href{https://orcid.org/0000-0003-2392-6140}{ORCID})
+}
 
 Other contributors:
 \itemize{
@@ -52,7 +57,6 @@ Other contributors:
   \item Rainer Krug \email{Rainer@krugs.de} (\href{https://orcid.org/0000-0002-7490-0066}{ORCID}) [contributor]
   \item Robin Lovelace (\href{https://orcid.org/0000-0001-5679-6536}{ORCID}) [contributor]
   \item Markus Neteler \email{neteler@osgeo.org} (\href{https://orcid.org/0000-0003-1916-1966}{ORCID}) [contributor]
-  \item Steven Pawley \email{dr.stevenpawley@gmail.com} (\href{https://orcid.org/0000-0002-5524-3320}{ORCID}) [contributor]
   \item Floris Vanderhaeghe \email{floris.vanderhaeghe@inbo.be} (\href{https://orcid.org/0000-0002-6378-6229}{ORCID}) [contributor]
 }
 
