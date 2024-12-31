@@ -6,7 +6,7 @@ Authors@R: c(
 	person("Roger", "Bivand", role = c("aut"), email = "Roger.Bivand@nhh.no", comment=c(ORCID="0000-0003-2392-6140")),
 	person("Sebastian", "Jeworutzki", role = "ctb", email="Sebastian.Jeworutzki@rub.de", comment=c(ORCID="0000-0002-2671-5253")),
 	person("Rainer", "Krug", role = "ctb", email="Rainer@krugs.de", comment=c(ORCID="0000-0002-7490-0066")),
-  person("Robin", "Lovelace", role = "ctb", comment=c(ORCID = "0000-0001-5679-6536")),
+  	person("Robin", "Lovelace", role = "ctb", comment=c(ORCID = "0000-0001-5679-6536")),
 	person("Markus", "Neteler", role = "ctb", email="neteler@osgeo.org", comment=c(ORCID="0000-0003-1916-1966")),
 	person("Steven", "Pawley", role = c("cre", "aut"), email="dr.stevenpawley@gmail.com", comment=c(ORCID="0000-0002-5524-3320")),
 	person("Floris", "Vanderhaeghe", role = "ctb", email="floris.vanderhaeghe@inbo.be", comment=c(ORCID="0000-0002-6378-6229")))
