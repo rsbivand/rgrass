@@ -222,16 +222,21 @@ write_VECT <- function(x, vname, flags = "overwrite",
   if (!(requireNamespace("terra", quietly = TRUE))) {
     stop("terra required for SpatVector input")
   }
+
   stopifnot(is.logical(ignore.stderr), !is.na(ignore.stderr))
+
   if (get.suppressEchoCmdInFuncOption()) {
     inEchoCmd <- set.echoCmdOption(FALSE)
   }
+
   srcs <- getMethod("sources", "SpatVector")(x)
+
   if (length(srcs) == 1L) {
     tf <- srcs
   } else {
     tf <- ""
   }
+
   # exit when the source is a GRASS database layer already:
   if (grepl("[/\\\\]head::[^/\\\\]+$", tf)) {
     grass_layername <- regmatches(
@@ -254,7 +259,7 @@ write_VECT <- function(x, vname, flags = "overwrite",
   if (!file.exists(tf)) {
     tf <- tempfile(fileext = ".gpkg")
     getMethod("writeVector", c("SpatVector", "character"))(x, filename = tf,
-    filetype = "GPKG", overwrite = TRUE)
+      filetype = "GPKG", options = NULL, overwrite = TRUE)
   }
 
   type <- NULL
@@ -267,6 +272,7 @@ write_VECT <- function(x, vname, flags = "overwrite",
     flags = flags, input = tf, output = vname, type = type,
     ignore.stderr = ignore.stderr
   )
+
   if (get.suppressEchoCmdInFuncOption()) {
     tull <- set.echoCmdOption(inEchoCmd)
   }
