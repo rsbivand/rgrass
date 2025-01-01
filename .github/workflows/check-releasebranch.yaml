@@ -1,0 +1,74 @@
+# Workflow derived from https://github.com/r-lib/actions/tree/v2/examples
+# Need help debugging build failures? Start at https://github.com/r-lib/actions#where-to-find-help
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+
+name: releasebranch_8_4-ubuntu
+
+permissions: read-all
+
+jobs:
+  R-CMD-check-releasebranch:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix: 
+        container: [
+          "osgeo/grass-gis:releasebranch_8_4-ubuntu",
+          "osgeo/grass-gis:main-ubuntu"
+        ]
+    
+    container:
+      image: ${{ matrix.container }}
+      options: --privileged
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Install system deps
+      run: |
+        apt-get update
+        apt-get install -y \
+          libudunits2-dev \
+          libharfbuzz-dev \
+          libfribidi-dev \
+          gdal-bin \
+          libmysqlclient-dev \
+          libfontconfig1-dev \
+          qpdf \
+          pandoc \
+          pandoc-citeproc
+
+    - name: Install R
+      run: |
+        wget -qO- https://cloud.r-project.org/bin/linux/ubuntu/marutter_pubkey.asc | tee -a /etc/apt/trusted.gpg.d/cran_ubuntu_key.asc
+        echo "deb https://cloud.r-project.org/bin/linux/ubuntu jammy-cran40/" | tee -a /etc/apt/sources.list
+        apt-get update
+        apt-get install -y r-base-dev
+
+    - name: Configure RSPM in .Renviron
+      run: |
+        echo 'options(repos = c(CRAN = "https://packagemanager.posit.co/cran/__linux__/jammy/latest"))' >> ~/.Rprofile
+        echo 'options(HTTPUserAgent = sprintf("R/%s R (%s)", getRversion(), paste(getRversion(), R.version["platform"], R.version["arch"], R.version["os"])))' >> ~/.Rprofile
+        echo 'options(Ncpus=parallel::detectCores())' >> ~/.Rprofile
+
+    - name: Install R dependencies
+      run: |
+        R -e "install.packages(c('remotes', 'rcmdcheck'))"
+        R -e "remotes::install_deps(dependencies = TRUE)"
+        R -e "install.packages('terra', repos = 'https://cloud.r-project.org/', type = 'source')"
+
+    - name: Download test dataset
+      run: |
+        wget https://grass.osgeo.org/sampledata/north_carolina/nc_basic_spm_grass7.zip -O /tmp/nc_basic_spm_grass7.zip
+        unzip /tmp/nc_basic_spm_grass7.zip -d /tmp/grassdb
+        rm /tmp/nc_basic_spm_grass7.zip
+      
+    # - name: Run R CMD check
+    #   run: |
+    #     R -e "rcmdcheck::rcmdcheck(args = c('--no-manual', '--no-build-vignettes'), error_on = 'error', check_dir = 'check')"
+    
+    - uses: r-lib/actions/check-r-package@v2
+      with:
+        upload-snapshots: true
