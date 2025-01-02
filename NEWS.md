@@ -1,4 +1,18 @@
-# **rgrass** version 0.4-3 (development)
+# **rgrass** version 0.5-1 (development)
+
+- transfer maintainership to Steven Pawley
+
+- transfer repo to `osgeo/rgrass` - thanks to Markus Neteler
+
+- convert help pages to `roxygen2` - thanks to Steven Pawley
+
+- add and enable Github Actions CI/CD - thanks to Steven Pawley
+
+# **rgrass** version 0.4-4 (2024-09-03)
+
+- use `## IGNORE_RDIFF_BEGIN` and `## IGNORE_RDIFF_END` in regular test output
+
+# **rgrass** version 0.4-3 (2024-06-19)
 
 - see #87 - Windows QGIS standalone installations of GRASS GIS can be used only if R is started in the OSGeo4W shell bundled with the installation
 
