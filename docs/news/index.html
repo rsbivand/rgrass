@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">rgrass</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4-5</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.5-1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -38,8 +38,21 @@
     </div>
 
     <div class="section level2">
-<h2 class="pkg-version" data-toc-text="0.4-3" id="rgrass-version-04-3-development">
-<strong>rgrass</strong> version 0.4-3 (development)<a class="anchor" aria-label="anchor" href="#rgrass-version-04-3-development"></a></h2><p class="text-muted">CRAN release: 2024-06-19</p>
+<h2 class="pkg-version" data-toc-text="0.5-1" id="rgrass-version-05-1-development">
+<strong>rgrass</strong> version 0.5-1 (development)<a class="anchor" aria-label="anchor" href="#rgrass-version-05-1-development"></a></h2>
+<ul><li><p>see <a href="https://github.com/osgeo/rgrass/issues/96" class="external-link">#96</a>, transfer maintainership to Steven Pawley</p></li>
+<li><p>transfer repo to <code>osgeo/rgrass</code> - thanks to Markus Neteler</p></li>
+<li><p>convert help pages to <code>roxygen2</code> - thanks to Steven Pawley</p></li>
+<li><p>add and enable Github Actions CI/CD - thanks to Steven Pawley</p></li>
+</ul></div>
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="0.4-4" id="rgrass-version-04-4-2024-09-03">
+<strong>rgrass</strong> version 0.4-4 (2024-09-03)<a class="anchor" aria-label="anchor" href="#rgrass-version-04-4-2024-09-03"></a></h2><p class="text-muted">CRAN release: 2024-09-03</p>
+<ul><li>use <code>## IGNORE_RDIFF_BEGIN</code> and <code>## IGNORE_RDIFF_END</code> in regular test output</li>
+</ul></div>
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="0.4-3" id="rgrass-version-04-3-2024-06-19">
+<strong>rgrass</strong> version 0.4-3 (2024-06-19)<a class="anchor" aria-label="anchor" href="#rgrass-version-04-3-2024-06-19"></a></h2><p class="text-muted">CRAN release: 2024-06-19</p>
 <ul><li><p>see <a href="https://github.com/osgeo/rgrass/issues/87" class="external-link">#87</a> - Windows QGIS standalone installations of GRASS GIS can be used only if R is started in the OSGeo4W shell bundled with the installation</p></li>
 <li><p><code><a href="../reference/read_VECT.html">write_VECT()</a></code>: when the <code>SpatVector</code> object already refers to a source file, an intermediate temporary file is no longer written to get the data into the GRASS GIS database (<a href="https://github.com/osgeo/rgrass/issues/93" class="external-link">#93</a>). A similar shortcut was already in place for <code><a href="../reference/read_RAST.html">write_RAST()</a></code>.</p></li>
 <li><p><code><a href="../reference/read_VECT.html">read_VECT()</a></code>: provide access to the standalone GDAL-GRASS driver to read vector data, which skips the step of writing a intermediate file (<a href="https://github.com/osgeo/rgrass/issues/93" class="external-link">#93</a>). Note that this standalone driver needs to be set up separately. More information is in the <a href="https://github.com/OSGeo/gdal-grass/blob/main/README.md" class="external-link">driver’s README</a>.</p></li>
