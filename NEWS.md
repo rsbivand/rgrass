@@ -1,6 +1,6 @@
 # **rgrass** version 0.5-1 (development)
 
-- transfer maintainership to Steven Pawley
+- see #96, transfer maintainership to Steven Pawley
 
 - transfer repo to `osgeo/rgrass` - thanks to Markus Neteler
 
