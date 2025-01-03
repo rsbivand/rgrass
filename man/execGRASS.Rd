@@ -182,7 +182,8 @@ set.echoCmdOption(TRUE)
 if (run) {
   # Read and print GRASS interface description for 'r.slope.aspect'
   print(parseGRASS("r.slope.aspect"))
-
+}
+if (run) {
   # Assemble the 'r.slope.aspect' command with specified parameters as a string
   doGRASS(
     "r.slope.aspect",
@@ -191,7 +192,8 @@ if (run) {
     slope = "slope",
     aspect = "aspect"
   )
-
+}
+if (run) {
   # Alternatively, specify parameters as a list
   params <- list(elevation = "elevation",
                  slope = "slope",
@@ -199,10 +201,12 @@ if (run) {
   doGRASS("r.slope.aspect",
           flags = c("overwrite"),
           parameters = params)
-
+}
+if (run) {
   # Read and print GRASS interface description for 'r.buffer'
   print(parseGRASS("r.buffer"))
-
+}
+if (run) {
   # Assemble the 'r.buffer' with specified parameters as as string
   doGRASS(
     "r.buffer",
@@ -211,7 +215,8 @@ if (run) {
     output = "bmap",
     distances = seq(1000, 15000, 1000)
   )
-
+}
+if (run) {
   # Alternatively, specify parameters as a list
   params <- list(
     input = "schools",
@@ -219,7 +224,8 @@ if (run) {
     distances = seq(1000, 15000, 1000)
   )
   doGRASS("r.buffer", flags = c("overwrite"), parameters = params)
-
+}
+if (run) {
   # Restore original echo command option
   set.echoCmdOption(echoCmdOption)
 
@@ -227,7 +233,8 @@ if (run) {
   # does not exist in the mapset
   try(res <- execGRASS("r.stats", input = "fire_blocksgg", flags = c("C", "n")),
       silent = FALSE)
-
+}
+if (run) {
   # Execute 'r.stats' with legacyExec and print the result
   res <- execGRASS(
     "r.stats",
@@ -236,7 +243,8 @@ if (run) {
     legacyExec = TRUE
   )
   print(res)
-
+}
+if (run) {
   # If the command failed, retrieve error message
   if (res != 0) {
     resERR <- execGRASS(
@@ -248,6 +256,8 @@ if (run) {
     )
     print(resERR)
   }
+}
+if (run) {
 
   # Use 'stringexecGRASS' to run a command and print the result
   res <- stringexecGRASS("r.stats -p -l input=geology", intern = TRUE)
@@ -256,7 +266,8 @@ if (run) {
   stringexecGRASS(
     "r.random.cells --overwrite --quiet output=samples distance=1000 ncells=100 seed=1"
   )
-
+}
+if (run) {
   # Alternatively, run the same command using 'execGRASS'
   execGRASS(
     "r.random.cells",

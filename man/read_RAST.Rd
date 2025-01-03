@@ -113,79 +113,113 @@ if (run) {
   previous_mapset <- meta$MAPSET
   example_mapset <- "RGRASS_EXAMPLES"
   execGRASS("g.mapset", flags = "c", mapset = example_mapset)
+}
 
+if (run) {
   # List available mapsets and raster maps
   mapsets <- unlist(
     strsplit(execGRASS("g.mapsets", flags = "p", intern = TRUE), " ")
   )
   print(mapsets)
+}
 
+if (run) {
   execGRASS("g.list", type = "raster", pattern = "soils", flags = "m",
             intern = TRUE)
+}
+
+if (run) {
   execGRASS("g.list", type = "raster", pattern = "soils@PERMANENT",
             mapset = ".", flags = "m", intern = TRUE)
+}
+
+if (run) {
   execGRASS("g.list", type = "raster", pattern = "soils",
             mapset = "PERMANENT", flags = "m", intern = TRUE)
+}
+# Read/write the GRASS "landuse" dataset as a SpatRaster
+if (require("terra", quietly = TRUE)) {
+ if (run) {
+  v1 <- read_RAST("landuse", cat = TRUE, return_format = "terra")
+  print(v1)
+  print(inMemory(v1))
+ }
 
-  # Read/write the GRASS "landuse" dataset as a SpatRaster
-  if (require("terra", quietly = TRUE)) {
-    v1 <- read_RAST("landuse", cat = TRUE, return_format = "terra")
-    print(v1)
-    print(inMemory(v1))
+ if (run) {
+  write_RAST(v1, "landuse1", flags = c("o", "overwrite"))
+  execGRASS("r.stats", flags = "c", input = "landuse1")
+  execGRASS("g.remove", flags = "f", name = "landuse1", type = "raster")
+ }
+}
 
-    write_RAST(v1, "landuse1", flags = c("o", "overwrite"))
-    execGRASS("r.stats", flags = "c", input = "landuse1")
-    execGRASS("g.remove", flags = "f", name = "landuse1", type = "raster")
-  }
+# read the geology and elevation GRASS datasets as SpatialGridDataFrames
+if (require("sp", quietly = TRUE)) {
+ if (run) {
+  nc_basic <- read_RAST(c("geology", "elevation"), cat = c(TRUE, FALSE),
+                        return_format = "SGDF")
+  print(table(nc_basic$geology))
+ }
 
-  Sys.setenv("_SP_EVOLUTION_STATUS_" = "2")
+ if (run) {
+  execGRASS("r.stats", flags = c("c", "l", "quiet"), input = "geology")
+  boxplot(nc_basic$elevation ~ nc_basic$geology)
+ }
+ if (run) {
+ # Compute square root of elevation and write back to GRASS
+  nc_basic$sqdem <- sqrt(nc_basic$elevation)
+  write_RAST(nc_basic, "sqdemSP", zcol = "sqdem",
+             flags = c("quiet", "overwrite"))
+  execGRASS("r.info", map = "sqdemSP")
+ }
 
-  # read the geology and elevation GRASS datasets as SpatialGridDataFrames
-  if (require("sp", quietly = TRUE)) {
-    nc_basic <- read_RAST(c("geology", "elevation"), cat = c(TRUE, FALSE),
-                          return_format = "SGDF")
-    print(table(nc_basic$geology))
+ if (run) {
+  # Read the new raster data and measure read times
+  print(system.time(
+    sqdemSP <- read_RAST(c("sqdemSP", "elevation"), return_format = "SGDF")
+  ))
+ }
 
-    execGRASS("r.stats", flags = c("c", "l", "quiet"), input = "geology")
-    boxplot(nc_basic$elevation ~ nc_basic$geology)
+ if (run) {
+  print(system.time(
+    sqdem <- read_RAST(c("sqdemSP", "elevation"), return_format = "terra"))
+  )
+ }
 
-    # Compute square root of elevation and write back to GRASS
-    nc_basic$sqdem <- sqrt(nc_basic$elevation)
-    write_RAST(nc_basic, "sqdemSP", zcol = "sqdem",
-               flags = c("quiet", "overwrite"))
-    execGRASS("r.info", map = "sqdemSP")
+ if (run) {
+  print(names(sqdem))
+ }
 
-    # Read the new raster data and measure read times
-    print(system.time(
-      sqdemSP <- read_RAST(c("sqdemSP", "elevation"), return_format = "SGDF")
-    ))
-    print(system.time(
-      sqdem <- read_RAST(c("sqdemSP", "elevation"), return_format = "terra"))
-    )
-    print(names(sqdem))
+ if (run) {
+  sqdem1 <- read_RAST(c("sqdemSP@RGRASS_EXAMPLES", "elevation@PERMANENT"))
+  print(names(sqdem1))
+ }
 
-    sqdem1 <- read_RAST(c("sqdemSP@RGRASS_EXAMPLES", "elevation@PERMANENT"))
-    print(names(sqdem1))
+ if (run) {
+  execGRASS("g.remove", flags = "f", name = "sqdemSP", type = "raster")
 
-    execGRASS("g.remove", flags = "f", name = "sqdemSP", type = "raster")
+  # GRASS r.mapcalc example
+  execGRASS("r.mapcalc", expression = "basins0 = basins - 1",
+            flags = "overwrite")
+  execGRASS("r.stats", flags = "c", input = "basins0")
+ }
 
-    # GRASS r.mapcalc example
-    execGRASS("r.mapcalc", expression = "basins0 = basins - 1",
-              flags = "overwrite")
-    execGRASS("r.stats", flags = "c", input = "basins0")
+ if (run) {
+  basins0 <- read_RAST("basins0", return_format = "SGDF")
+  print(table(basins0$basins0))
+  execGRASS("g.remove", flags = "f", name = "basins0", type = "raster")
+ }
 
-    basins0 <- read_RAST("basins0", return_format = "SGDF")
-    print(table(basins0$basins0))
-    execGRASS("g.remove", flags = "f", name = "basins0", type = "raster")
+ if (run) {
+  # Create and read a test raster
+  execGRASS("r.mapcalc", expression = "test_t = 66000",
+            flags = "overwrite")
+  execGRASS("r.info", flags = "r", map = "test_t", intern = TRUE)
+  tt <- read_RAST("test_t")
+  execGRASS("g.remove", flags = "f", name = "test_t", type = "raster")
+ }
+}
 
-    # Create and read a test raster
-    execGRASS("r.mapcalc", expression = "test_t = 66000",
-              flags = "overwrite")
-    execGRASS("r.info", flags = "r", map = "test_t", intern = TRUE)
-    tt <- read_RAST("test_t")
-    execGRASS("g.remove", flags = "f", name = "test_t", type = "raster")
-  }
-
+if (run) {
   # Restore the previous mapset and clean up
   execGRASS("g.mapset", mapset = previous_mapset)
   if (example_mapset != previous_mapset) {

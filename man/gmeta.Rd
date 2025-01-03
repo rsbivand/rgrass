@@ -99,13 +99,19 @@ if (nchar(Sys.getenv("GISRC")) > 0 &&
 if (run) {
   G <- gmeta()
   print(G)
+}
 
+if (run) {
   cat(getLocationProj(), "\n")
   cat(getLocationProj(g.proj_WKT = FALSE), "\n")
+}
 
+if (run) {
   grd <- gmeta2grd()
   print(grd)
+}
 
+if (run) {
   ncells <- prod(slot(grd, "cells.dim"))
   df <- data.frame(k = rep(1, ncells))
   mask_SG <- sp::SpatialGridDataFrame(grd, data = df)

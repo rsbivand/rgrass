@@ -71,7 +71,7 @@
 #' run <- FALSE
 #' if (nchar(Sys.getenv("GISRC")) > 0 &&
 #'     read.dcf(Sys.getenv("GISRC"))[1, "LOCATION_NAME"] == "nc_basic_spm_grass7") {
-#'   run <- TRUE
+#'   run <- require(terra, quietly = TRUE)
 #' }
 #'
 #' # Store original environment variable settings
@@ -87,30 +87,47 @@
 #'   previous_mapset <- meta$MAPSET
 #'   example_mapset <- "RGRASS_EXAMPLES"
 #'   execGRASS("g.mapset", "c", mapset = example_mapset)
+#'  }
 #'
+#' if (run) {
 #'   # Report basic metadata about the schools dataset
 #'   execGRASS("v.info", map = "schools", layer = "1")
 #'   print(vInfo("schools"))
+#'  }
 #'
+#' if (run) {
 #'   # Read/write as a SpatVector
 #'   schs <- read_VECT("schools")
 #'   print(summary(schs))
+#'  }
 #'
+#' if (run) {
 #'   try({
 #'     write_VECT(schs, "newsch", flags = c("o", "overwrite"))
 #'   })
 #'   schs <- read_VECT("schools", use_gdal_grass_driver = FALSE)
+#'  }
 #'
+#' if (run) {
 #'   write_VECT(schs, "newsch", flags = c("o", "overwrite"))
 #'   execGRASS("v.info", map = "newsch", layer = "1")
+#'  }
 #'
+#' if (run) {
 #'   nschs <- read_VECT("newsch")
 #'   print(summary(nschs))
+#'  }
 #'
+#' if (run) {
 #'   print(all.equal(names(nschs), as.character(vColumns("newsch")[, 2])))
+#'  }
 #'
+#' if (run) {
 #'   # Show metadata for the roadsmajor dataset and read as spatVector
 #'   print(vInfo("roadsmajor"))
+#'  }
+#'
+#' if (run) {
 #'   roads <- read_VECT("roadsmajor")
 #'   print(summary(roads))
 #' }

@@ -108,7 +108,9 @@
 #'   f <- system.file("ex/elev.tif", package="terra")
 #'   r <- rast(f)
 #'   plot(r, col = terrain.colors(50))
+#' }
 #'
+#' if (run) {
 #'   # Initialize a temporary GRASS project using the example data
 #'   loc <- initGRASS(
 #'     GRASS_INSTALLATION,
@@ -116,11 +118,15 @@
 #'     SG = r,
 #'     override = TRUE
 #'   )
+#' }
 #'
+#' if (run) {
 #'   # Write the example data to the GRASS database
 #'   write_RAST(r, "elev", flags = "overwrite")
 #'   execGRASS("r.info", map = "elev")
+#' }
 #'
+#' if (run) {
 #'   # Calculate slope and aspect raster
 #'   execGRASS(
 #'     "r.slope.aspect",
@@ -129,7 +135,9 @@
 #'     slope    = "slope",
 #'     aspect   = "aspect"
 #'   )
+#' }
 #'
+#' if (run) {
 #'   # Read the results back into R and plot
 #'   u1 <- read_RAST(c("elev", "slope", "aspect"), return_format = "terra")
 #'   plot(u1[["elev"]], col = terrain.colors(50))
